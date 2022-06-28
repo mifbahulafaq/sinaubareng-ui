@@ -1,7 +1,13 @@
 .container{
 	height: 100vh;
-	background-color:red;
+	padding:10px 200px;
+	background-size:50%;
+	background-repeat:no-repeat;
+	background-position: 100% 10%;
 }
-.header, .footer{
+.header{
 	height:10%;
+}
+.content{
+	padding-top:150px;
 }
