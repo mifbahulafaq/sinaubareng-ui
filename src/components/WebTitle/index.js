@@ -2,7 +2,7 @@ import React from 'react';
 import style from './WebTitle.module.css';
 import { Link } from 'react-router-dom';
 
-import { config } from '../../config';
+import config from '../../config';
 
 export default function WebTitle({size}){
 	return (

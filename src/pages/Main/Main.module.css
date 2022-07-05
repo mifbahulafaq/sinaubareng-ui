@@ -1,13 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&display=swap');
 .container{
 	height: 100vh;
-	padding:10px 200px;
-	background-size:50%;
+	padding:10px 100px;
+	background-size:47%;
 	background-repeat:no-repeat;
-	background-position: 100% 10%;
+	background-position: 40% 10%;
 }
 .header{
 	height:10%;
 }
 .content{
-	padding-top:150px;
+	padding-top:120px;
 }
