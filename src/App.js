@@ -1,23 +1,27 @@
 import React from 'react';
 import style from './App.module.css';
-import { Route, HashRouter, Routes} from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
+import Routes from './Routes';
+import Context from './Context';
 
-//pages
-import Main from './pages/Main';
-import Login from './pages/Main';
-import Home from './pages/Main';
+//icons
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faCircleExclamation, faBan, faCheck } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faCircleExclamation, faBan, faCheck);
 
 function App() {
+	
 	return (
-		<div className={style.app}>
-			<HashRouter>
-				<Routes>
-					<Route exact path='/' element={<Main />} />
-					<Route exact path='/home' element={<Home />} />
-					<Route exact path='/login' element={<Login />} />
-				</Routes>
-			</HashRouter>
-		</div>
+		<React.Suspense fallback={<div>loading...</div>}>
+			<Context>
+				<div className={style.app}>
+					<HashRouter>
+						<Routes />
+					</HashRouter>
+				</div>
+			</Context>
+		</React.Suspense>
 	);
 }
 

@@ -2,8 +2,9 @@ import style from './MainContent.module.css';
 
 //components
 import LoginForm from '../LoginForm';
+import RegisterForm from '../RegisterForm';
 
-export default function MainContent(){
+export default function MainContent({loginForm: login}){
 	return (
 		<div className={style.container}>
 			<div className={style.text}>
@@ -11,7 +12,13 @@ export default function MainContent(){
 				<h3>Buat materi pembelajaranmu atau masuk kelas yang ingin kamu ikuti</h3>
 			</div>
 			<div className={style.form}>
-				<LoginForm />
+				{
+					login?
+					<LoginForm />
+					:
+					<RegisterForm />
+				}
+				
 			</div>
 		</div>
 	)

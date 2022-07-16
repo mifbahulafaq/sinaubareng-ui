@@ -1,0 +1,27 @@
+.container {
+	position:relative;
+	margin-bottom:10px;
+	width:100%;
+	padding:10px 10px 10px 37px;
+	border-radius:3px;
+	background-color:#FFCCBA;
+	color:#454545;
+	word-wrap:break-word;
+}
+.container .icon{
+	position:absolute;
+	left:4%;
+	top:0;
+	bottom:0;
+	display:flex;
+	align-items:center;
+}
+.container svg{
+	font-size:1.2em;
+}
+.container span{
+	font-size:0.9em;
+}
+.container span a{
+	color:#454545;
+}

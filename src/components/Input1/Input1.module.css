@@ -1,14 +1,26 @@
-.input{
+.container{
 	width:100%;
 	padding:13px 20px;
-	font-weight:bold;
-	font-family: 'Open Sans', Arial;
-	outline:none;
-	border:none;
 	border-radius:5px;
 	background-color:rgba(245, 245, 245, 1);
 	box-shadow:0px 1px 3px -1px rgba(121, 121, 121, 0.5);
+	display:flex;
+	justify-content:space-between;
+	align-items:center;
 }
-.input::placeholder{
+.container input{
+	width:100%;
+	font-weight:bold;
+	font-family: 'Open Sans', Arial;
+	background-color:rgba(245, 245, 245, 1);
+	outline:none;
+	border:none;
+}
+.container svg{
+	font-size:1.3em;
+	color:#cc3300;
+	margin-left:10px;
+}
+.container input::placeholder{
 	color:#a9a9a9;
 }

@@ -1,24 +1,29 @@
 import style from './MainHeader.module.css';
-import { Link } from 'react-router-dom';
 
 //components
 import WebTitle from '../WebTitle';
 
-export default function MainHeader(){
+export default function MainHeader({loginForm, setLoginForm}){
+	
 	return (
 		<div className={style.container}>
 			<WebTitle />
 			<ul className={style.auth}>
-				<li className={style.login}>
-					<Link to="/login">
-							Log In
-					</Link>
+			
+				<li 
+					onClick={e=>setLoginForm('1')}
+					className={`${style.login} ${loginForm && style.active}`}
+				>
+					Log In
 				</li>
-				<li className={style.signup}>
-					<Link to="/login">
-							Sign Up
-					</Link>
+				
+				<li 
+					onClick={e=>setLoginForm('')}
+					className={`${style.signup} ${!loginForm && style.active}`}
+				>
+					Sign Up
 				</li>
+				
 			</ul>
 		</div>
 	)

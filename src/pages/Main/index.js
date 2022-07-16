@@ -8,11 +8,22 @@ import MainFooter from '../../components/MainHeader';
 
 
 export default function Main() {
-  const backgroundImage = "url('images/main.png')";
-  return (
-	<div style={{backgroundImage}} className={style.container}>
-		<div className={style.header}><MainHeader /></div>
-		<div className={style.content}><MainContent /></div>
-	</div>
-  )
+	
+	let [ loginForm, setLoginForm ] = React.useState('')
+	
+	const backgroundImage = "url('images/main.png')";
+	
+	return (
+		<div style={{backgroundImage}} className={style.container}>
+		
+			<div className={style.header}>
+				<MainHeader loginForm={loginForm} setLoginForm={setLoginForm}/>
+			</div>
+			
+			<div className={style.content}>
+				<MainContent loginForm={loginForm}/>
+			</div>
+			
+		</div>
+	)
 }
