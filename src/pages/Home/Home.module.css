@@ -1,9 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
+/*font-family: 'Open Sans', sans-serif;*/
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
+/*font-family: 'Fira Code', monospace;*/
 .container{
-	background-color:green;
-	height: 100vh;
-	padding:10px 100px;
-	background-size:47%;
-	background-repeat:no-repeat;
-	background-position: 40% 10%;
+	position: relative;
+	display: flex;
+	justify-content:space-between;
+	font-family: 'Open Sans', sans-serif;
+	
+}
+.container .right{
+	width:100%;
+	transition: all 0.4s ease;
+}
+.container .right .content{
+	width:100%;
+	min-height:90%;
 }

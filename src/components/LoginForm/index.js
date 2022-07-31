@@ -60,7 +60,7 @@ export default function LoginForm(){
 			dispatch(userAction.add(meData.data));
 			setLoginStatus(reqStatus.success)
 			
-			navigate('home');
+			navigate('class');
 			
 		}catch(err){
 			setLoginStatus(reqStatus.error)

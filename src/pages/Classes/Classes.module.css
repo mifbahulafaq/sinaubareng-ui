@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&display=swap');
+.container{
+	padding:20px;
+}
+.container .menu{
+	position: relative;
+	margin-bottom: 40px;
+	width:400px;
+	padding:10px 100px 10px 10px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	list-style: none;
+	border-radius: 5px;
+	background: #fff;
+	font-weight: 500;
+	box-shadow: 0 6px 20px rgba(206, 206, 206, 0.4);
+}
+.menu a{
+	text-decoration: none;
+	font-size:13px;
+	color: #073763;
+	font-weight:600;
+}
+.menu a svg{
+	font-size:16px;
+	margin-right: 5px;
+}
+.menu .btnClass{
+	position: absolute;
+	right: 10px;
+	padding:5px 10px;
+	border-radius: 3px;
+	color: #fff;
+	background: #098DDF ;
+	cursor: pointer;
+}
+.menu .addClass{
+	display: none;
+	padding: 5px 0;
+	background: #fff;
+	position: absolute;
+	right: 10px;
+	bottom: -80px;
+	box-shadow: 0 0 10px rgba(206, 206, 206, 0.6);
+	list-style: none;
+	border-radius: 4px;
+	z-index:10;
+}
+.menu .btnClass.active ~ .addClass{
+	display: block;
+}
+.menu .addClass li{
+	font-size: 15px;
+	padding: 5px 10px;
+	color: #073763;
+	cursor: pointer;
+}
+.menu .addClass li:hover{
+	background: rgba(232, 232, 232, 0.5);
+}
+.container .content{
+	display:grid;
+	justify-content: start;
+	gap: 30px;
+	
+}

@@ -1,0 +1,50 @@
+.container{
+	height:200px;
+	width: 300px;
+	border-radius: 5px 5px 8px 8px;
+	overflow: hidden;
+	box-shadow:0 3px 8px -3px #999;
+	background: #fff;
+	border-top: 3px solid salmon;
+}
+.detail{
+	position: relative;
+	padding:25px;
+	height: 80%;
+	width: 100%;
+}
+.detail h3{
+	text-align: center;
+	color: #5b5b5b;
+}
+.detail p{
+	text-align: justify;
+	color: #999;
+	font-size: 13px;
+	font-weight: 600;
+}
+.detail svg{
+	position: absolute;
+	top: 10px;
+	left: 15px;
+	font-size:19px;
+	color: #5b5b5b;
+	cursor: pointer;
+}
+.btn{
+	padding-right: 20px;
+	height: 20%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	border-top: 1px solid #eaeaea;
+}
+.btn svg{
+	margin-left: 20px;
+	font-size:20px;
+	color:#999;
+}
+.btn svg:hover{
+	color: #000;
+}
+
