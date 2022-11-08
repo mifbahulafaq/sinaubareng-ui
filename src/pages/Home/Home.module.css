@@ -9,11 +9,24 @@
 	font-family: 'Open Sans', sans-serif;
 	
 }
+.container .hideSidebar{
+	display:none;
+	position:fixed;
+	height:100vh;
+	left:0;
+	top:0;
+	right:0;
+	bottom:0;
+	z-index:102;
+}
+.container .hideSidebar.active{
+	display:block;
+}
 .container .right{
 	width:100%;
+	min-height:100vh;
 	transition: all 0.4s ease;
 }
 .container .right .content{
 	width:100%;
-	min-height:90%;
 }

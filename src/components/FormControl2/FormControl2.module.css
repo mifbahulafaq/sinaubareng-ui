@@ -1,0 +1,16 @@
+.container{
+	display:flex;
+	flex-direction:column;
+	justify-content:space-between;
+}
+.container .err{
+	padding:5px;
+	background-color:#ffe5db;
+	font-size:0.9em;
+	font-weight:600;
+	color:#cc3300;
+}
+.container .err svg{
+	font-size: 15px;
+	margin-right: 7px;
+}

@@ -1,0 +1,50 @@
+.container {
+	margin-bottom: 10px;
+	padding:10px 20px;
+	border-radius: 10px;
+	border:1px solid #098DDF;
+	width: 280px;
+	height: 140px;
+	box-shadow:1px 1px 5px -2px #999;
+	background: #fff;
+}
+.container h5{
+	color: #999;
+	font-weight:600;
+	font-size: 12px;
+	font-family: 'Open Sans', sans-serif;
+}
+.container h3{
+	font-size:15px;
+}
+.container .detail{
+	margin-top:5px;
+	display:flex;
+	justify-content: space-between;
+	align-items: flex-end;
+}
+.detail .icon{
+	list-style: none;
+	font-size:12px;
+}
+.detail .icon li{
+	margin-top: 7px;
+}
+.detail .icon li svg{
+	margin-right: 8px;
+	font-size:14px;
+}
+.detail .getin{
+	padding:7px 10px;
+	border-radius: 10px;
+	border: 1px solid #000;
+	font-weight:700;
+	text-decoration: none;
+	color: #000;
+	cursor: pointer;
+}
+.detail .getin:hover{
+	background: #098DDF;
+	color: #fff;
+	border: 1px solid #098DDF;
+}

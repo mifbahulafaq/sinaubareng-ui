@@ -6,7 +6,13 @@ import { useContext } from './Context';
 import Main from './pages/Main';
 import User from './pages/User';
 import Home from './pages/Home';
+import ContainerClass from './pages/ContainerClass';
 import Classes from './pages/Classes';
+import SingleClass from './pages/SingleClass';
+import Matter from './pages/Matter';
+import Exam from './pages/Exam';
+import SingleMatter from './pages/SingleMatter';
+import SingleExam from './pages/SingleExam';
 
 //components
 import Guard from './components/GuardRoute';
@@ -22,8 +28,21 @@ function Element() {
 			path: '/',
 			element: e,
 			children: [
-				{ path: '/', element: <Navigate to="class" replace />},
-				{ path: 'class/*', element: <Classes classData={classData} iconBar={iconBar} />},
+				{ index:true, element: <Navigate to="c" replace />},
+				{ 
+					path: 'c', 
+					element: <ContainerClass />,
+					children: [
+						{index:true, element: <Classes classData={classData} /> },
+						{path:':code_class', element: <SingleClass /> },
+						{path:':code_class/m', element: <Matter /> },
+						{path:':code_class/e', element: <Exam /> },
+						{path:':code_class/m/:id_matt', element: <SingleMatter /> },
+						{path:':code_class/e/:id_exm', element: <SingleExam /> },
+						{path:':code_class', element: <SingleClass /> },
+						{path:'*', element: <>not found</> },
+					]
+				},
 				{ path: 'unread-assignment', element: <>unread-assignment</>},
 				{ path: 'assignment', element: <>assignment</>},
 			]

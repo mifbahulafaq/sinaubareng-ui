@@ -1,0 +1,233 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
+.container{
+	position: relative;
+	padding:60px 0 0;
+	display: flex;
+	min-height: calc(100vh - 65px);
+	justify-content: center;
+	align-items: flex-start;
+	background: rgba(199, 217, 237, 0.3);
+}
+.container .calendarContainer{
+	position: relative;
+}
+.container .calendarContainer .previousLink{
+	position: absolute;
+	top: -43px;
+}
+.container .calendarContainer .repeat{
+	background: #fff;
+	width: 100%;
+	height: 30px;
+	padding-right: 25px;
+}
+.container .calendarContainer .repeat .icon{
+	display: inline-block;
+	float: right;
+	height: 100%;
+	width: 30px;
+	border-radius: 50%;
+	font-size: 1.2em;
+	text-align: center;
+	line-height: 30px;
+	cursor: pointer;
+}
+.container .calendarContainer .repeat .icon:hover{
+	background: #f1f2f4;
+}
+.container .matterContainer{
+	margin-left:12px;
+	padding: 20px 30px 30px;
+	width: 680px;
+	box-shadow:0 0 8px rgba(224, 224, 224, 0.8);
+	border-radius: 5px;
+	background: #fff;
+}
+.matterContainer .top{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+}
+.top .label{
+	display: flex;
+	align-items: center;
+}
+.top .label .icon{
+	margin-right: 10px;
+	background: #fff0e1;
+	width: 34px;
+	height: 34px;
+	text-align: center;
+	line-height: 34px;
+	border-radius: 10px;
+}
+.top .label span{
+	font-weight: 500;
+}
+.top .label .icon svg{
+	color: #ffb971;
+	font-size: 17px;
+}
+.top .add{
+	display: flex;
+	align-items: center;
+	padding: 3px 10px;
+	border-radius: 10px;
+	font-size: 0.94em;
+	color: #2986cc;
+	font-weight: 600;
+	cursor: pointer;
+}
+.top .add:hover{
+	background: #f1f2f4;
+}
+.top .add span:first-child{
+	margin-right: 5px;
+	font-size: 1.5em;
+}
+.matterContainer .matters{
+	width: 100%;
+}
+.matterContainer .matters .emptyData{
+	margin-top: 30px;
+	text-align: center;
+	font-size: 0.9em;
+	font-weight: 600;
+	color: #3c4043;
+}
+.matterContainer .matters .singleMatter{
+	position: relative;
+	display: flex;
+	padding: 15px;
+	justify-content: space-between;
+	align-items:center;
+	border-bottom: 2px solid #bcbcbc;
+}
+.matterContainer .matters .singleMatter .cover{
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	height: 100%;
+	width: 100%;
+	display: table;
+	content: "";
+}
+.matterContainer .matters .singleMatter .cover:hover{
+	background: rgba(226, 228, 231, 0.3);
+}
+.matters .singleMatter .detail{
+	width: 60%;
+}
+.matters .singleMatter .detail h2{
+	color: #393939;
+	font-weight: 600;
+}
+.matters .singleMatter .detail .date{
+	font-size: 0.87em;
+	color: #999;
+	font-weight: 600;
+}
+.matters .singleMatter .detail .desc{
+	margin-top: 10px;
+	color: #393939;
+	font-size: 0.9em;
+	font-weight: 500;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.matters .singleMatter .detail .comm{
+	margin-top: 20px;
+	font-size: 0.87em;
+	color: #999;
+	font-weight: 600;
+}
+.matters .singleMatter a{
+	width: 30px;
+	height: 27px;
+	line-height: 30px;
+	text-align: center;
+	background: #0772c2;
+	color: #fff;
+	font-size: 0.95em;
+}
+.matters .singleMatter a:hover{
+	background: #7aa7c9;
+}
+.matters .singleMatter a svg{
+	transform: rotate(45deg);
+}
+.matterContainer .matters .singleMatter:first-child{
+	margin-top: 30px;
+}
+.hideAdd{
+	
+}
+.addMatter{
+	position: fixed;
+	top: 0;
+	right: -710px;
+	bottom: 0;
+	width: 700px;
+	height: 100vh;
+	overflow-y: auto;
+	z-index: 101;
+	background: #fff;
+	box-shadow:-1px 0 15px rgba(210, 210, 210, 0.8);
+	transition: all 0.8s ease ;
+}
+.addMatter.open{
+	right: 0;
+}
+.addMatter .header{
+	position: sticky;
+	top: 0;
+	background: #fff;
+	height: 70px;
+	padding: 0 40px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid #bcbcbc;
+	z-index: 1;
+}
+.addMatter .header .left {
+	display: flex;
+	align-items: center;
+}
+.addMatter .header .left svg{
+	margin-right: 10px;
+	font-size: 2em;
+	color: #098DDF;
+}
+.addMatter .header .left h2{
+	font-weight: 600;
+	color: #434343;
+}
+.addMatter .header .right{
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 45px;
+	cursor: pointer;
+}
+.addMatter .header .right:hover{
+	background: rgba(222, 222, 222, 0.5);
+}
+.addMatter .header .right svg{
+	color: #434343;
+	transform: rotate(45deg);
+	font-size: 1.6em;
+	font-weight: normal;
+}
+.addMatter .formContainer {
+	position: relative;
+	background: #fff;
+	min-height: calc(100vh - 70px);
+	padding: 20px 50px 70px;
+}
+

@@ -1,0 +1,296 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
+.container{
+	position: relative;
+	padding:55px 170px 0;
+	background: #eee;
+	min-height: calc(100vh - 65px);
+}
+.container .class{
+	position: absolute ;
+	top: 15px;
+}
+.container .mainContent{
+	min-height: calc(100vh - 120px);
+	display: flex;
+	justify-content: space-between;
+	padding: 10px 15px 5px;
+	background: #fff;
+	border-radius: 5px 5px 0 0;
+}
+.mainContent .matter{
+	width: 68.6%;
+}
+.matter .detail{
+	padding: 10px;
+	background: rgba(201, 209, 255, 0.3);
+	border-radius: 10px;
+}
+.detail h3{
+	font-weight: 700;
+	font-size: 18px;
+}
+.detail .duration{
+	margin-top: 5px;
+	font-weight: 600;
+	color: #999;
+}
+.detail .duration span{
+	font-size: 12px;
+	margin-left: 5px;
+}
+.detail p{
+	margin-top: 15px;
+	font-size: 0.96em;
+}
+.detail .attachContainer{
+	margin-top: 20px;
+	padding:15px 10px;
+	border: 2px solid rgba(220, 220, 220, 0.5);
+	border-radius: 5px;
+}
+.attachContainer .attach:first-child ~ .attach{
+	margin-top: 20px;
+}
+.attach .file{
+	display: flex;
+	align-items: center;
+}
+.file .fileIcon{
+	height:40px;
+	width: 40px;
+	border-radius: 50%;
+	background: rgba(201, 209, 255, 1);
+	text-align: center;
+	line-height: 40px;
+	font-size: 20px;
+}
+.file span{
+	margin-left: 8px;
+	color: #098DDF;
+	font-weight: 500;
+	font-size: 17px;
+}
+.attach .act{
+	margin-top:-5px;
+	padding-left: 49px;
+	color: #7e7e7e;
+}
+.attach .act svg{
+	font-size: 13px;
+}
+.attach .act span{
+	margin: 0 40px 0 5px;
+	font-size: 13px;
+}
+.attach .act span:hover{
+	text-decoration: underline;
+	cursor: pointer;
+}
+.mainContent .matter .commentContainer{
+	margin-top: 10px;
+}
+.commentContainer .label{
+	padding: 5px 10px;
+	border-bottom: 2px solid rgba(196, 196, 196, 0.5);
+	color: #505050;
+}
+.commentContainer .label svg{
+	margin-right: 10px;
+	font-size: 18px;
+}
+.commentContainer .label span{
+	font-weight: 600;
+	font-size: 13px;
+}
+.commentContainer .comments{
+	margin-top: 20px;
+}
+.commentContainer .comments .singleComment{
+	display: flex;
+	align-items: center;
+}
+.commentContainer .comments .singleComment:first-child ~ .singleComment{
+	margin-top: 20px;
+}
+.commentContainer .comments .singleComment .photo{
+	margin-right: 10px;
+	min-width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	overflow: hidden;
+}
+.commentContainer .comments .singleComment .rightSide h5{
+	font-size: 13px;
+	color: #505050;
+}
+.commentContainer .comments .singleComment .rightSide h5 span{
+	margin-left: 5px;
+	font-size: 0.9em;
+	font-weight: 500;
+	color: #999;
+}
+.commentContainer .comments .singleComment .rightSide .text{
+	width: 400px;
+	margin-top: 5px;
+	font-size: 0.96em;
+	font-weight: 500;
+}
+.commentContainer .send{
+	margin-top: 20px;
+	position: sticky;
+	bottom: 5px;
+	width: 100%;
+}
+.commentContainer .send form{
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+.commentContainer .send form [contenteditable="true"]{
+	width: calc(100% - 50px);
+	min-height: 35px;
+	padding: 5px 5px 5px 10px;
+	border: 2px solid #dfdfdf;
+	border-radius: 4px 0 0 4px;
+	overflow: hidden;
+	background: #fff;
+	/*white-space: pre-wrap;*/
+}
+.commentContainer .send form [contenteditable="true"]:focus{
+	outline: none;
+}
+.commentContainer .send form [contenteditable="true"]:empty ~ .shadowText{
+	display: initial;
+}
+.commentContainer .send form [contenteditable="true"]::placeholder{
+	font-weight: 500;
+	color: #999;
+}
+.commentContainer .send form .shadowText{
+	display: none;
+	position: absolute;
+	top: 50%;
+	transform: translate(0, -50%);
+	left: 10px;
+	pointer-events: none;
+}
+.commentContainer .send form .icon{
+	display: block;
+	padding: 8px 5px;
+	height: 35px;
+	width: 50px;
+	border-radius: 0 4px 4px 0;
+	border: 2px solid #dfdfdf;
+	border-left: none;
+	text-align: center;
+	background: rgba(196, 196, 196, 0.3);
+	cursor: pointer;
+}
+.commentContainer .send form [disabled]{
+	cursor: default;
+}
+.commentContainer .send .icon svg{
+	font-size: 14px;
+}
+.mainContent .assignContainer{
+	width: 30%;
+}
+.assignContainer h1{
+	font-size: 18px;
+	color: #505050;
+}
+.assignContainer .menu{
+	margin-top: 10px;
+	display: flex;
+	align-items: center;
+	list-style: none;
+} 
+.assignContainer .menu li{
+	margin-right: 10px;
+	padding: 5px 10px;
+	border: 1px solid #999;
+	border-radius: 10px;
+	font-weight: 700;
+	font-size: 13px;
+	color: #999;
+}
+.assignContainer .menu li:first-child{
+	background: #c6e978;
+	border: 1px solid #c6e978;
+	color: #000;
+}
+.assignContainer .assigns{
+	margin-top: 20px;
+}
+
+.assignContainer .assigns .singleAssign{
+	padding: 10px 15px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	border-radius: 10px;
+	box-shadow: 0 1px 2px 1px rgba(207, 207, 207, 0.8);
+	transition: all 0.3s ease;
+}
+.assignContainer .assigns .singleAssign:first-child ~ .singleAssign{
+	margin-top: 15px;
+}
+.assignContainer .assigns .singleAssign h4{
+	color: #505050;
+}
+.assignContainer .assigns .singleAssign .duration{
+	margin-top: 5px;
+	margin-bottom: 10px;
+	font-size: 12px;
+	font-weight: 600;
+	color: #999;
+}
+.assignContainer .assigns .singleAssign .duration span.deadline{
+	font-weight: 700;
+	color: red;
+}
+.assignContainer .assigns .singleAssign input{
+	padding: 7px 12px;
+	border: 1px solid #999;
+	border-radius: 15px;
+	outline: none;
+}
+.assignContainer .assigns .singleAssign input::placeholder{
+}
+.assignContainer .assigns .singleAssign input:focus{
+	border: 2px solid #098DDF;
+	padding: 6px 11px;
+}
+.assignContainer .assigns .singleAssign .answered{
+	padding: 3px 8px;
+	border-radius: 10px;
+	font-weight: 600;
+	font-size: 0.95em;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+.assignContainer .assigns .singleAssign .answered:hover{
+	background: rgba(201, 209, 255, 0.3);
+}
+.assignContainer .assigns .singleAssign .answered span{
+	margin-left: 5px;
+	font-weight: bolder;
+	color: green;
+	font-size: 1.2em;
+	line-height: 100%;
+}
+.assignContainer .assigns .singleAssign .answered svg{
+	margin-left: 5px;
+	display: none;
+	font-size: 12px;
+}
+.assignContainer .assigns .singleAssign .answered:hover span{
+	display: none;
+}
+.assignContainer .assigns .singleAssign .answered:hover svg{
+	display: initial;
+}

@@ -17,7 +17,7 @@ function HomeSidebar({ classData, iconBar }){
 		>
 			<ul className={style.nav}>
 				<li>
-					<NavLink to="class" className={classActive}>
+					<NavLink to="c" className={classActive}>
 						<FontAwesomeIcon icon="landmark" />
 						<div className={style.navName}>Kelas</div>
 					</NavLink>
@@ -73,7 +73,7 @@ function TypeContainer({name, data}){
 						const [...a] = e.class_name;
 						
 						return <li key={i} >
-								<NavLink to={`class/${e.code_class}`} className={classActive}>
+								<NavLink to={`c/${e.code_class}`} className={classActive}>
 									<div 
 										style={{background: circleColor[rdm]}}
 										className={style.circle}

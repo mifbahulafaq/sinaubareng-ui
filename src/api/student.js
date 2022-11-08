@@ -12,3 +12,14 @@ export function getAll(){
 	});
 	
 }
+export function joinClass(codeCLass){
+	
+	const { token } = JSON.parse(localStorage.getItem('auth'));
+	
+	return axios.post(`${config.api_host}/api/students/join-class`,{class:codeCLass},{
+		headers: {
+			authorization: `Bearer ${token}`,
+		}
+	});
+	
+}

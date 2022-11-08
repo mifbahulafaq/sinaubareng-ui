@@ -1,0 +1,20 @@
+.container{
+	padding: 8px 15px;
+	width: 160px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: #fff;
+	border-radius: 5px;
+}
+.container .arrow{
+	height: 10px;
+	width: 10px;
+	border-left: 2px solid #098DDF;
+	border-bottom: 2px solid #098DDF;
+	transform: rotate(45deg);
+}
+.container h4 span{
+	color: #999;
+	font-weight: 600;
+}

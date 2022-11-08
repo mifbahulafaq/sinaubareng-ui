@@ -37,11 +37,11 @@ export default function LoginForm(){
 			
 			if(loginData.error){
 				
-				if(loginData.error.field){
+				if(loginData.field){
 					
-					const key = Object.keys(loginData.error.field)[0];
+					const key = Object.keys(loginData.field)[0];
 					
-					setError(key,{type: 'manual', message: loginData.error.field[key].msg});
+					setError(key,{type: 'manual', message: loginData.field[key].msg});
 					setLoginStatus(reqStatus.error)
 					
 					return;
@@ -60,7 +60,7 @@ export default function LoginForm(){
 			dispatch(userAction.add(meData.data));
 			setLoginStatus(reqStatus.success)
 			
-			navigate('class');
+			navigate('c');
 			
 		}catch(err){
 			setLoginStatus(reqStatus.error)
@@ -85,7 +85,7 @@ export default function LoginForm(){
 			
 				<div className={style.inputContainer}>
 				
-					<FormControl error={errors.email?.message} >
+					<FormControl width="100%" error={errors.email?.message} >
 						<Input1 
 							error={Boolean(errors.email)} 
 							type="text" 
@@ -94,7 +94,7 @@ export default function LoginForm(){
 						/>
 					</FormControl>
 					
-					<FormControl error={errors.password?.message} >
+					<FormControl width="100%" error={errors.password?.message} >
 						<Input1 
 							error={Boolean(errors.password)} 
 							type="password" placeholder="Password"  

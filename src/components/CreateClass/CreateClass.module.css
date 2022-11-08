@@ -39,15 +39,20 @@
 }
 .form{
 	margin-top: 30px;
+}
+.form .hiding{
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
-.form > *:not(.btnContainer){
+.form .hiding > *{
 	width:85%;
 }
+.form .hiding.hiden{
+	display: none;
+}
 .form .input{
-	margin-bottom: 20px;
+	width: 100%;
 	padding: 10px;
 	font-weight:600;
 	font-family: 'Open Sans', Arial;
@@ -60,6 +65,9 @@
 }
 .form .input:focus{
 	border:2px solid #098DDF ;
+}
+.form .input.error{
+	border:2px solid #cc3300;
 }
 .form .des{	
 	color: #098DDF;
@@ -76,86 +84,6 @@
 	padding: 0 35px;
 	overflow-y: auto;
 	
-}
-.form .schedule{
-	display: flex;
-	align-items: flex-end;
-	margin-top: 20px;
-}
-.form .schedule .input2{
-	margin-right: 20px;
-	width:40%;
-	height: 25px;
-	padding: 0 5px 5px;
-	color: #404040;
-	outline: none;
-	border: none;
-	border-bottom: 2px solid #616161;
-}
-.form .schedule .input2.dropdown{
-	position: relative;
-}
-.form .schedule .input2.dropdown::after{
-	position: absolute;
-	top: 0;
-	right: 0;
-	margin-right: 10px;
-	content: "";
-	border-right: 1px solid #616161;
-	border-bottom: 1px solid #616161;
-	padding:4px;
-    transform: translate(0,30%) rotate(45deg);
-}
-.form .schedule .input2.dropdown.active::after{
-	border-right: 1px solid #098DDF;
-	border-bottom: 1px solid #098DDF;
-}
-.form .schedule .input2.dropdown.active{
-	border-bottom: 2px solid #098DDF;
-}
-.form .schedule .input2.dropdown .value{
-	color: #b4b4b4;
-}
-.form .schedule .select{
-	display: none;
-	position: absolute;
-	width:160px;
-	left: 25px;
-	top:40px;
-	list-style: none;
-	background: #fff;
-	border: 1px solid #098DDF;
-	box-shadow: 0 0 2px rgba(117, 117, 117, 0.8);
-	z-index: 200;
-}
-.form .schedule .input2.dropdown.active ~ .select{
-	display: block;
-}
-.form .schedule .select li{
-	width:100%;
-	padding: 8px 20px;
-	font-size: 13px;
-	font-weight: 600;
-	cursor: pointer;
-}
-.form .schedule .select li:hover{
-	background: #098DDF;
-	color: #fff;
-}
-.form .schedule .input2[type="time"]{
-	width:30%;
-	margin-right: 10px;
-}
-.form .schedule .removeTime{
-	padding: 4px 4px;
-	color: #fff;
-	background: #ff8781;
-	border-radius: 3px;
-	box-shadow: 0 0 3px #bcbcbc;
-	cursor: pointer;
-}
-.form .schedule .removeTime:hover{
-	background: red;
 }
 .form .scheduleScroll .addTime{
 	position: absolute;
@@ -189,4 +117,7 @@
 	font-weight: 600;
 	box-shadow: 0 2px 8px #bcbcbc;
 	cursor: pointer;
+}
+.form .btnContainer .btn:disabled{
+	background:#9fc5e8;
 }

@@ -1,45 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import style from './Home.module.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { useContext } from '../../Context';
-
-//APIs
-import { getAll as getClass } from '../../api/class';
-import { getAll as getStudent } from '../../api/student';
 
 //components
 import HomeHeader from '../../components/HomeHeader';
 import HomeSidebar from '../../components/HomeSidebar';
 
+//hooks
+import useRefreshClass from '../../hooks/useRefreshClass';
+
 export default function Home() {
 	
-	const { classData, setClassData, iconBar } = useContext();
+	const { classData, iconBar, setIconBar } = useContext();
+	const setClasses = useRefreshClass();
 	
 	useEffect(()=>{
 		
-		Promise.all([getClass(), getStudent()])
-		.then(([{data : dataClasses }, { data : dataStudents }])=>{
-			
-			if(dataClasses.error || dataStudents.error){
-				return console.log(dataClasses.message || dataStudents.message)
-			}
-			
-			setClassData({
-				classes: dataClasses.data,
-				students: dataStudents.data
-			})
-			
-		})
+		setClasses();
 		
-	},[])
+	},[setClasses])
 	
 	return (
 		<div className={style.container}>
+			<div onClick={()=>setIconBar(false)}  className={`${style.hideSidebar} ${iconBar?style.active:''}`} />
 			<HomeSidebar iconBar={iconBar} classData={classData} />
 			
 			<div
-				style={{ width: iconBar? "calc(100% - 303px)": "100%" }}
 				className={style.right}
 			>
 				<HomeHeader />

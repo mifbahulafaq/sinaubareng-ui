@@ -1,0 +1,85 @@
+
+.container{
+	display: flex;
+	align-items: flex-end;
+	margin-top: 20px;
+}
+.container .input2{
+	margin-right: 20px;
+	width:40%;
+	height: 25px;
+	padding: 0 5px 5px;
+	color: #404040;
+	outline: none;
+	border: none;
+	border-bottom: 2px solid #616161;
+}
+.container .input2.dropdown{
+	position: relative;
+}
+.container .input2.dropdown::after{
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin-right: 10px;
+	content: "";
+	border-right: 1px solid #616161;
+	border-bottom: 1px solid #616161;
+	padding:4px;
+    transform: translate(0,30%) rotate(45deg);
+}
+.container .input2.dropdown.active::after{
+	border-right: 1px solid #098DDF;
+	border-bottom: 1px solid #098DDF;
+}
+.container .input2.dropdown.active{
+	border-bottom: 2px solid #098DDF;
+}
+.container .input2.dropdown .value{
+	color: #b4b4b4;
+}
+.container .select{
+	display: none;
+	position: absolute;
+	width:160px;
+	left: 25px;
+	top:40px;
+	list-style: none;
+	background: #fff;
+	border: 1px solid #098DDF;
+	box-shadow: 0 0 2px rgba(117, 117, 117, 0.8);
+	z-index: 200;
+}
+.container .input2.dropdown.active ~ .select{
+	display: block;
+}
+.container .select li{
+	width:100%;
+	padding: 8px 20px;
+	font-size: 13px;
+	font-weight: 600;
+	cursor: pointer;
+}
+.container .select li:hover{
+	background: #098DDF;
+	color: #fff;
+}
+.container.select li.active{
+	background: rgba(194, 194, 194, 0.8);
+	color: #fff;
+}
+.container .input2[type="time"]{
+	width:30%;
+	margin-right: 10px;
+}
+.container .removeTime{
+	padding: 4px 4px;
+	color: #fff;
+	background: #ff8781;
+	border-radius: 3px;
+	box-shadow: 0 0 3px #bcbcbc;
+	cursor: pointer;
+}
+.container .removeTime:hover{
+	background: red;
+}

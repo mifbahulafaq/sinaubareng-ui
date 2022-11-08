@@ -10,8 +10,8 @@ export default memo(function ClassCard2({classData}){
 	return (
 		<div className={style.container}>
 			<div className={style.detail}>
-				<h3>{classData.class_name}</h3>
-				<p>{classData.description}</p>
+				<div className={style.className} >{classData.class_name}</div>
+				<div className={style.desc} >{strLimit(classData.description,0,120)}</div>
 				<FontAwesomeIcon icon="ellipsis-vertical" />
 			</div>
 			<div className={style.btn}>

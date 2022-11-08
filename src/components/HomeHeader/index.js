@@ -17,7 +17,7 @@ export default memo(function HomeHeader(){
 	}
 	
 	return (
-		<div className={style.container}>
+		<div id="home-header" className={style.container}>
 			<div className={style.left}>
 				<FontAwesomeIcon icon="bars" onClick={clickIcon} />
 				<WebTitle size="25px" />

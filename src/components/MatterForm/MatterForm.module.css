@@ -1,0 +1,289 @@
+form.container .input:first-child ~ div{
+	margin-top: 20px;
+}
+form.container input.input, form.container div.input [contenteditable="true"]{
+	padding: 15px;
+	width: 100%;
+	border: none;
+	outline: none;
+	border-radius: 3px;
+	background: rgba(217, 217, 217, 0.3);
+	color: #434343;
+	font-size: 14px;
+	font-weight: 500;
+	border-bottom: 1px solid #999;
+}
+form.container input.input:focus, form.container div.input [contenteditable="true"]:focus{
+	padding: 15px 15px 14px;
+	border-bottom: 2px solid #098DDF;
+}
+form.container div.input{
+	position: relative;
+}
+form.container input.input::placeholder{
+	font-weight: 500;
+	font-size: 15px;
+	color: #969494;
+}
+form.container div.input span{
+	display: none;
+	position: absolute;
+	left: 15px;
+	top: 15px;
+	font-weight: 500;
+	font-size: 15px;
+	color: #969494;
+	pointer-events: none;
+}
+form.container div.input [contenteditable="true"]{
+	min-height: 120px;
+}
+form.container div.input [contenteditable="true"]:empty ~ span{
+	display: initial;
+}
+form.container .inputDate h4{
+	margin-left: 10px;
+	color: #5f6368;
+}
+form.container .inputDate .select{
+	position: relative;
+	margin-top: 10px;
+	width: 350px;
+	padding: 12px 15px;
+	border-radius: 3px;
+	background: rgba(217, 217, 217, 0.3);
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+}
+form.container .inputDate .select:hover{
+	background: rgba(217, 217, 217, 0.6);
+}
+form.container .inputDate .select.disabled:hover{
+	background: rgba(217, 217, 217, 0.3);
+}
+form.container .inputDate .select .value{
+	color: #5f6368;
+	font-weight: 500;
+}
+form.container .inputDate .select span{
+	pointer-events: none;
+}
+form.container .inputDate .select span:after{
+	position: absolute;
+	top: 50%;
+	right: 15px;
+	transform: translate(0, -50%);
+	display: table;
+	content: "";
+	border-top: 5px solid #5f6368;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+}
+form.container .inputDate .select .opt{
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 270px;
+	padding-bottom: 20px;
+	border-radius: 3px;
+	box-shadow: 0 0 7px #999;
+	background: #fff;
+	z-index: 2;
+}
+form.container .inputDate .select .opt .desc{
+	color: #5f6368;
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	border-bottom: 1px solid #ededed;
+}
+form.container .inputDate .select .opt .formOpt{
+	padding-top: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+form.container .inputDate .select .opt .formOpt .date{
+	position: relative;
+	height: 45px;
+	width: 220px;
+}
+form.container .inputDate .select .opt .formOpt .time{
+	position: relative;
+	margin-top: 20px;
+	height: 45px;
+	width: 220px;
+}
+form.container .inputDate .select .opt .formOpt .time.hidden{
+	display: none;
+}
+form.container .inputDate .select .opt .formOpt .date svg,
+form.container .inputDate .select .opt .formOpt .time svg
+{
+	color: #5f6368;
+	position: absolute;
+	top: 50%;
+	transform: translate(0, -50%);
+	left: 10px;
+	font-size: 1.2em;
+	z-index: 2;
+}
+form.container .inputDate .select .opt .formOpt .time .content,
+form.container .inputDate .select .opt .formOpt .date .content
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background: #eee;
+	font-size: 13px;
+	font-weight: 500;
+	color: #5f6368;
+	cursor: pointer;
+	text-align: center;
+	line-height: 45px;
+	z-index: 1;
+	pointer-events: none; 
+}
+form.container .inputDate .select .opt .formOpt .time .content:after,
+form.container .inputDate .select .opt .formOpt .date .content:after
+{
+	position: absolute;
+	top: 50%;
+	transform: translate(0, -50%);
+	right: 10px;
+	content: "";
+	display: table;
+	border-top: 5px solid #5f6368;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+}
+form.container .inputDate .select .opt .formOpt .date input,
+form.container .inputDate .select .opt .formOpt .time input
+{
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	bottom: 2px;
+	right: 5px;
+}
+form.container .fileUpload{
+	position: relative;
+	display: flex;
+	align-items: center;
+	height: 50px;
+	width: 100%;
+	border: 1px solid #dcdcdc;
+	border-radius: 5px;
+}
+form.container .fileUpload .icon{
+	margin-right: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0 20px;
+	height: 100%;
+	color: #098DDF;
+	font-size: 1.4em;
+	border-right:1px solid #dcdcdc ;
+	float: left;
+}
+form.container .fileUpload .icon .img{
+	height: 70%;
+	width: 100%;
+}
+form.container .fileUpload .fileName{
+	max-width: 430px;
+}
+form.container .fileUpload .fileName span{
+	color: #5f6368;
+	font-weight: 500;
+}
+form.container .fileUpload .removeFile{
+	position: absolute;
+	right: 10px;
+	height: 37px;
+	width: 37px;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 42px;
+}
+form.container .fileUpload .removeFile:hover{
+	background: rgba(249, 249, 249, 1);
+	cursor: pointer;
+}
+form.container .fileUpload .removeFile svg{
+	font-size: 1.4em;
+	transform: rotate(45deg);
+	color: #5f6368;
+}
+form.container div.inputFile{
+	position: relative;
+	height: 40px;
+	width: 120px;
+	border: 1px solid #dddddd;
+	border-radius: 5px;
+	overflow: hidden;
+}
+form.container div.inputFile:hover .icon{
+	background: #f3faff;
+}
+form.container .inputFile .icon{
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	text-align: center;
+	line-height: 40px;
+	z-index: 1;
+	background: #fff;
+	pointer-events: none;
+}
+form.container .inputFile .icon svg{
+	margin-right: 10px;
+	font-size: 1.2em;
+	color: #098DDF;
+}
+form.container .inputFile .icon span{
+	font-weight: 600;
+	color: #5f6368;
+}
+form.container .inputFile input{
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	height: 100%;
+	padding: 5px 15px;
+	color: #098DDF;
+	border: 1px solid #bcbcbc;
+}
+form.container .btn{
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 43px;
+	width: 100%;
+	border: none;
+	color: #fff;
+	font-size: 1.2em;
+	font-weight: 700;
+	background-color: #3280c5;
+	cursor: pointer;
+}
+form.container .btn.disabled{
+	background: #c7c7c7;
+	color: #5f6368;
+}
+form.container .btn.disabled:hover{
+	background: #c7c7c7;
+}
+form.container .btn:hover{
+	background-color: #60a8e7;
+}

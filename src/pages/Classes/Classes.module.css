@@ -35,9 +35,9 @@
 	background: #098DDF ;
 	cursor: pointer;
 }
-.menu .addClass{
+.menu .btnClass .addClass{
 	display: none;
-	padding: 5px 0;
+	padding: 15px 5px;
 	background: #fff;
 	position: absolute;
 	right: 10px;
@@ -47,16 +47,14 @@
 	border-radius: 4px;
 	z-index:10;
 }
-.menu .btnClass.active ~ .addClass{
-	display: block;
-}
-.menu .addClass li{
+.menu .btnClass .addClass li{
 	font-size: 15px;
 	padding: 5px 10px;
+	width: 130px;
 	color: #073763;
 	cursor: pointer;
 }
-.menu .addClass li:hover{
+.menu .btnClass .addClass li:hover{
 	background: rgba(232, 232, 232, 0.5);
 }
 .container .content{

@@ -9,19 +9,26 @@
 }
 .detail{
 	position: relative;
-	padding:25px;
+	padding:25px 25px 25px 35px;
 	height: 80%;
 	width: 100%;
 }
-.detail h3{
+.detail .className{
+	font-size: 16px;
+	font-weight: 700;
 	text-align: center;
 	color: #5b5b5b;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
-.detail p{
-	text-align: justify;
+.detail .desc{
+	height: 90px;
+	margin-top: 5px;
 	color: #999;
 	font-size: 13px;
 	font-weight: 600;
+	overflow: hidden;
 }
 .detail svg{
 	position: absolute;

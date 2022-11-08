@@ -73,7 +73,7 @@ export default function RegisterForm(){
 			
 				<div className={style.inputContainer}>
 				
-					<FormControl error={errors.name?.message} >
+					<FormControl width="100%" error={errors.name?.message} >
 						<Input1 
 							error={Boolean(errors.name)} 
 							type="text" 
@@ -82,7 +82,7 @@ export default function RegisterForm(){
 						/>
 					</FormControl>
 					
-					<FormControl error={errors.gender?.message} >
+					<FormControl width="100%" error={errors.gender?.message} >
 						<div className={style.gender}>
 						
 							<input {...register('gender', val.gender)} id='male' type='radio' value='Male' name='gender'/>
@@ -94,7 +94,7 @@ export default function RegisterForm(){
 						</div>
 					</FormControl>
 					
-					<FormControl error={errors.email?.message} >
+					<FormControl width="100%" error={errors.email?.message} >
 						<Input1 
 							error={Boolean(errors.email)} 
 							type="text" 
@@ -103,7 +103,7 @@ export default function RegisterForm(){
 						/>
 					</FormControl>
 					
-					<FormControl error={errors.password?.message} >
+					<FormControl width="100%" error={errors.password?.message} >
 						<Input1 
 							error={Boolean(errors.password)} 
 							type="password" placeholder="Password"  
@@ -111,7 +111,7 @@ export default function RegisterForm(){
 						/>
 					</FormControl>
 					
-					<FormControl error={errors.newpassword?.message} >
+					<FormControl width="100%" error={errors.newpassword?.message} >
 						<Input1 
 							error={Boolean(errors.newpassword)} 
 							type="password" placeholder="Retype Password"  
