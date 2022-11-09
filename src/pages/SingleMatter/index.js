@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios'
 import style from './SingleMatter.module.css';
 import { useParams } from 'react-router-dom';
+import config from '../../config';
 
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,7 +20,8 @@ import formatDate from '../../utils/id-format-date';
 export default React.memo(function SingleMatter() {
 	const [matt, setMatt] = React.useState({});
 	const [ commentText, setCommentText ] = React.useState("");
-	//const [comments, setComments] = React.useState({});
+	const [comments, setComments] = React.useState([]);
+	const customInput = React.useRef(null);
 	//const [assignment, setAssignment] = React.useState({});
 	const params = useParams()
 	
@@ -29,19 +31,20 @@ export default React.memo(function SingleMatter() {
 		matterApi.getSingle(params.id_matt).
 		then(res=>{
 			const { data: matter } = res;
-			if(matter.error) return console.log(matter.message);
+			if(matter.error) return console.log(matter);
 			setMatt(matter.data[0])
 		})
 	}, [params.id_matt])
-	/*const getComments = React.useCallback(()=>{
-		matterApi.getSingle(params.id_matt).
+	const getComments = React.useCallback(()=>{
+		console.log(params.id_matt)
+		discussionApi.getAll(params.id_matt).
 		then(res=>{
-			const { data: matter } = res;
-			if(matter.error) return console.log(matter.message);
-			setMatt(matter.data[0])
+			const { data: discussions } = res;
+			if(discussions.error) return console.log(discussions);
+			setComments(discussions.data)
 		})
 	}, [params.id_matt])
-	const getAssignments = React.useCallback(()=>{
+	/*const getAssignments = React.useCallback(()=>{
 		matterApi.getSingle(params.id_matt).
 		then(res=>{
 			const { data: matter } = res;
@@ -52,6 +55,7 @@ export default React.memo(function SingleMatter() {
 	
 	React.useEffect(()=>{
 		getSingleMatt();
+		getComments();
 	}, [getSingleMatt])
 	
 	function getFile(idMatt, filename, donwload = false){
@@ -103,7 +107,8 @@ export default React.memo(function SingleMatter() {
 			if(addingResult.error){
 				return console.log(addingResult)
 			}
-			console.log(addingResult)
+			getComments();
+			customInput.current.innerHTML = "";
 		}catch(err){
 			console.log(err)
 		}
@@ -166,27 +171,20 @@ export default React.memo(function SingleMatter() {
 						<span>Comments</span>
 					</div>
 					<div className={style.comments} >
-						
-						<div className={style.singleComment}>
-							<div className={style.photo}>
-								<Image src="images/user.png" />
-							</div>
-							<div className={style.rightSide}>
-								<h5>Mifbahul Afaq <span>07:34 AM</span></h5>
-								<div className={style.text} >adsdasasddsaasd asdasdasdasdasdasd asdasdasdasdaskjd[okaj asdkaosjdaopsdopasjdioas adsajiodaospdjaois</div>
-							</div>
-						</div>
-						<div className={style.singleComment}>
-							<div className={style.photo}>
-								<Image src="images/user.png" />
-							</div>
-							<div className={style.rightSide}>
-								<h5>Mifbahul Afaq <span>07:34 AM</span></h5>
-								<div className={style.text} >asdasdasdasdaskjd[okaj asdkaosjdaopsdopasjdioas adsajiodaospdjaois</div>
-							</div>
-						</div>
-						
-						
+						{
+							comments?.map((e,i)=>{
+								
+								return <div key={i} className={style.singleComment}>
+									<div className={style.photo}>
+										<Image src={e.photo?`${config.api_host}/public/photo/${e.photo}`:"images/user.png"} />
+									</div>
+									<div className={style.rightSide}>
+										<h5>{e.name} <span>07:34 AM</span></h5>
+										<div className={style.text} >{e.text}</div>
+									</div>
+								</div>
+							})
+						}
 					</div>
 					<div className={style.send}>
 						<form onSubmit={submitComment} >
@@ -197,6 +195,7 @@ export default React.memo(function SingleMatter() {
 								onInput={inputCommentText} 
 								contentEditable="true" 
 								spellCheck="false"
+								ref={customInput	}
 							/>
 							<span className={style.shadowText}>Tulis komentar..</span>
 							<button disabled={!Boolean(commentText)} type="submit" className={style.icon}>

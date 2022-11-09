@@ -31,7 +31,7 @@ export default function ClassCard({ data, matter }){
 						<span>{attachment} Files</span>
 					</li>
 				</ul>
-				<Link to={`${matter?'m':'e'}/2112`} className={style.getin} >Get In</Link>
+				<Link to={`${matter?'m':'e'}/${matter?data.id_matter:data.id_exm}`} className={style.getin} >Get In</Link>
 			</div>
 		</div>
 	)

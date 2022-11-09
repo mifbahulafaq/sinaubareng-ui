@@ -175,6 +175,9 @@
 	top: 50%;
 	transform: translate(0, -50%);
 	left: 10px;
+	font-size: 13px;
+	font-weight: 500;
+	color: #505050;
 	pointer-events: none;
 }
 .commentContainer .send form .icon{

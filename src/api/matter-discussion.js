@@ -5,7 +5,7 @@ export function getAll(id_matter){
 	
 	const { token } = JSON.parse(localStorage.getItem('auth'));
 	
-	return axios.get(`${config.api_host}/api/class-discussions/${id_matter}`,{
+	return axios.get(`${config.api_host}/api/matter-discussions/${id_matter}`,{
 		headers: {
 			authorization: `Bearer ${token}`,
 		}
