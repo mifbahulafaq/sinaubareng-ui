@@ -14,6 +14,8 @@ import * as discussionApi from '../../api/matter-discussion';
 //components
 import Image from '../../components/Image';
 import PreviousLink from '../../components/PreviousLink';
+import ModalContainer from '../../components/ModalContainer';
+import AssignmentForm from '../../components/AssignmentForm';
 //utils
 import formatDate from '../../utils/id-format-date';
 
@@ -21,6 +23,7 @@ export default React.memo(function SingleMatter() {
 	const [matt, setMatt] = React.useState({});
 	const [ commentText, setCommentText ] = React.useState("");
 	const [comments, setComments] = React.useState([]);
+	const [ displayModal, setDisplayModal ] = React.useState(true)
 	const customInput = React.useRef(null);
 	//const [assignment, setAssignment] = React.useState({});
 	const params = useParams()
@@ -124,6 +127,9 @@ export default React.memo(function SingleMatter() {
 	
   return (
 	<div className={style.container}>
+		<ModalContainer displayed={displayModal} setDisplayed={setDisplayModal}>
+			<AssignmentForm />
+		</ ModalContainer>
 		<div className={style.class}>
 		<PreviousLink to={`../${matt.class}`} name={matt.class_name} />
 		</div>
@@ -208,7 +214,10 @@ export default React.memo(function SingleMatter() {
 			</div>
 			
 			<div className={style.assignContainer}>
-				<h1>Tugas</h1>
+				<div className={style.top}>
+					<h1 className={style.title} >Tugas</h1>
+					<div className={style.btn} onClick={()=>setDisplayModal(true)} > <FontAwesomeIcon icon="plus" /> Buat</div>
+				</div>
 				<ul className={style.menu}>
 					<li>Perlu Dikerjakan</li>
 					<li>Semua</li>

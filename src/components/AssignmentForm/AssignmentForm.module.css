@@ -1,0 +1,89 @@
+.formContainer{
+	height: 100%;
+	width: 940px;
+	background: #fafafa;
+}
+.formContainer .header{
+	width: 100%;
+	display: flex;
+	align-items: center;
+	border-bottom: 1px solid #e4e4e4;
+	padding: 10px 20px;
+	background: #fff;
+}
+.formContainer .header .icon{
+	margin-right: 10px;
+	width: 45px;
+	height: 45px;
+	background: rgba(39, 161, 245, 0.1);
+	border-radius: 50%;
+	text-align: center;
+	line-height: 53px;
+}
+.formContainer .header .icon svg{
+	color: #098DDF;
+	font-size: 1.8em;
+}
+.formContainer .header span{
+	font-size: 1.4em;
+	font-weight: 600;
+	color: #505050;
+}
+.formContainer form{
+	height: 100%;
+	padding: 20px;
+}
+.formContainer form .formSection1, .formContainer form .formSection2{
+	width: 100%;
+	padding: 20px;
+	border: 1px solid #e4e4e4;
+	border-radius: 10px;
+	background: #fff;
+}
+.formContainer form .formSection2{
+	margin-top: 20px;
+}
+.formContainer form .formSection1 > .inputMargin:not(:first-child){
+	margin-top: 20px;
+}
+.formContainer form input, .formContainer form [contenteditable="true"]{
+	width: 100%;
+	background: #fafafa;
+	padding: 20px;
+	outline: none;
+	border:none;
+	border-bottom: 1px solid #999;
+	border-radius: 5px 5px 0 0;
+	font-size: 1.1em;
+}
+.formContainer form input:focus, .formContainer form [contenteditable="true"]:focus{
+	border-bottom: 2px solid #098DDF;
+	padding: 20px 20px 19px;
+}
+.formContainer form input::placeholder{
+	color: #797979;
+	font-weight: 500;
+}
+.formContainer form .customInputContainer{
+	position: relative;
+}
+.formContainer form .customInputContainer [contenteditable="true"]{
+	margin-top: 20px;
+	min-height: 100px;
+}
+.formContainer form .customInputContainer p{
+	display: none;
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	color: #797979;
+	font-size: 1.1em;
+}
+.formContainer form .customInputContainer [contenteditable="true"]:empty ~ p{
+	display: initial;
+}
+.formContainer form .inputDateContainer .inputDate{
+	padding: 10px;
+	width: 300px;
+	background: #fafafa;
+}

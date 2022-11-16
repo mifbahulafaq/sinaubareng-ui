@@ -200,13 +200,37 @@
 }
 .mainContent .assignContainer{
 	width: 30%;
+	padding-top: 10px;
 }
-.assignContainer h1{
+.assignContainer .top{
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.assignContainer .top .title{
 	font-size: 18px;
 	color: #505050;
 }
+.assignContainer .top .btn{
+	padding: 8px 15px;
+	text-align: center;
+	background: #098DDF;
+	border-radius: 100px;
+	font-weight: 600;
+	color: #fff;
+	cursor: pointer;
+	box-shadow: 0 0 5px rgba(63, 63, 63, 0.3);
+}
+.assignContainer .top .btn:hover{
+	background: #0e7abd;
+}
+.assignContainer .top .btn svg{
+	margin-right: 5px;
+	font-size: 1.2em;
+}
 .assignContainer .menu{
-	margin-top: 10px;
+	margin-top: 20px;
 	display: flex;
 	align-items: center;
 	list-style: none;
