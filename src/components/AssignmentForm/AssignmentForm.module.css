@@ -46,7 +46,7 @@
 .formContainer form .formSection1 > .inputMargin:not(:first-child){
 	margin-top: 20px;
 }
-.formContainer form input, .formContainer form [contenteditable="true"]{
+.formContainer form .inputMargin.text{
 	width: 100%;
 	background: #fafafa;
 	padding: 20px;
@@ -56,7 +56,7 @@
 	border-radius: 5px 5px 0 0;
 	font-size: 1.1em;
 }
-.formContainer form input:focus, .formContainer form [contenteditable="true"]:focus{
+.formContainer form .inputMargin.text:focus{
 	border-bottom: 2px solid #098DDF;
 	padding: 20px 20px 19px;
 }
@@ -82,8 +82,124 @@
 .formContainer form .customInputContainer [contenteditable="true"]:empty ~ p{
 	display: initial;
 }
+.formContainer form .inputDateContainer h4{
+	color: #505050;
+}
 .formContainer form .inputDateContainer .inputDate{
-	padding: 10px;
+	position: relative;
+	margin-top: 10px;
+	padding: 10px 20px;
 	width: 300px;
 	background: #fafafa;
+	border-radius: 3px;
+	cursor: pointer;
+}
+.formContainer form .inputDateContainer .inputDate:hover{
+	background: #f0f0f0;
+}
+.formContainer form .inputDateContainer .inputDate p{
+	pointer-events: none;
+}
+.formContainer form .inputDateContainer .inputDate .triangle{
+	position: absolute;
+	top: 50%;
+	right: 20px;
+	transform: translate(0, -50%);
+	border-top: 6px solid #505050;
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	pointer-events: none;
+}
+.formContainer form .inputDateContainer .inputDate .selectContainer{
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 270px;
+	padding-bottom: 20px;
+	border-radius: 3px;
+	box-shadow: 0 0 7px #999;
+	background: #fff;
+	z-index: 2;
+	cursor: default;
+}
+.selectContainer .desc{
+	color: #5f6368;
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	border-bottom: 1px solid #ededed;
+}
+.selectContainer .formOpt{
+	padding-top: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.selectContainer .formOpt .date{
+	position: relative;
+	height: 45px;
+	width: 220px;
+}
+.selectContainer .formOpt .time{
+	position: relative;
+	margin-top: 20px;
+	height: 45px;
+	width: 220px;
+}
+.selectContainer .formOpt .time.hidden{
+	display: none;
+}
+.selectContainer .formOpt .date svg,
+.selectContainer .formOpt .time svg
+{
+	color: #5f6368;
+	position: absolute;
+	top: 50%;
+	transform: translate(0, -50%);
+	left: 10px;
+	font-size: 1.2em;
+	z-index: 2;
+}
+.selectContainer .formOpt .time .content,
+.selectContainer .formOpt .date .content
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background: #eee;
+	font-size: 13px;
+	font-weight: 500;
+	color: #5f6368;
+	cursor: pointer;
+	text-align: center;
+	line-height: 45px;
+	z-index: 1;
+	pointer-events: none; 
+}
+.selectContainer .formOpt .time .content:after,
+.selectContainer .formOpt .date .content:after
+{
+	position: absolute;
+	top: 50%;
+	transform: translate(0, -50%);
+	right: 20px;
+	content: "";
+	display: table;
+	border-top: 5px solid #5f6368;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	cursor: pointer;
+}
+.selectContainer .formOpt .date input,
+.selectContainer .formOpt .time input
+{
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	bottom: 2px;
+	right: 5px;
 }

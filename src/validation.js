@@ -25,7 +25,7 @@ const description = { minLength: password.minLength, maxLength: password.maxLeng
 const description2 = { 
 	maxLength: { value: 255, message: 'Must be less than 255 characters long'} 
 }
-
+const title = { required: { value: true, message: 'This field must be filled' }, ...description2 }
 const gender = {
 		required: { value: true, message: 'Choose the gender' }
 	}
@@ -98,5 +98,6 @@ export {
 	codeClass, 
 	userId, 
 	description2,
-	multipleUpload
+	multipleUpload,
+	title
 }
