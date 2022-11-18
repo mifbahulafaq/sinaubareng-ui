@@ -2,16 +2,22 @@
 	height: 100%;
 	width: 940px;
 	background: #fafafa;
+	overflow-y: auto;
 }
 .formContainer .header{
 	width: 100%;
 	display: flex;
+	justify-content: space-between;
 	align-items: center;
 	border-bottom: 1px solid #e4e4e4;
 	padding: 10px 20px;
 	background: #fff;
 }
-.formContainer .header .icon{
+.formContainer .header .about{
+	display: flex;
+	align-items: center;
+}
+.formContainer .header .about .icon{
 	margin-right: 10px;
 	width: 45px;
 	height: 45px;
@@ -20,14 +26,27 @@
 	text-align: center;
 	line-height: 53px;
 }
-.formContainer .header .icon svg{
+.formContainer .header .about .icon svg{
 	color: #098DDF;
 	font-size: 1.8em;
 }
-.formContainer .header span{
+.formContainer .header .about span{
 	font-size: 1.4em;
 	font-weight: 600;
 	color: #505050;
+}
+.formContainer .header .submit{
+	float: right;
+	background: #0e77b9;
+	padding: 8px 13px;
+	border-radius: 5px;
+	font-weight: 500;
+	font-size: 0.95em;
+	color: #fff;
+}
+.formContainer .header .submit.disabled{
+	background: #cfcfcf;
+	color: #999;
 }
 .formContainer form{
 	height: 100%;
@@ -39,9 +58,6 @@
 	border: 1px solid #e4e4e4;
 	border-radius: 10px;
 	background: #fff;
-}
-.formContainer form .formSection2{
-	margin-top: 20px;
 }
 .formContainer form .formSection1 > .inputMargin:not(:first-child){
 	margin-top: 20px;
@@ -202,4 +218,86 @@
 	left: 2px;
 	bottom: 2px;
 	right: 5px;
+}
+.formContainer form .formSection2{
+	margin-top: 20px;
+}
+.formContainer form .formSection2 h4{
+	color: #505050;
+} 
+.formContainer form .formSection2 .fileUpload{
+	margin-top: 20px;
+	position: relative;
+	display: flex;
+	align-items: center;
+	height: 50px;
+	width: 100%;
+	border: 1px solid #dcdcdc;
+	border-radius: 5px;
+}
+.formContainer form .formSection2 .fileUpload .icon{
+	margin-right: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0 20px;
+	height: 100%;
+	color: #098DDF;
+	font-size: 1.4em;
+	border-right:1px solid #dcdcdc ;
+	float: left;
+}
+.formContainer form .formSection2 .fileUpload .icon .img{
+	height: 70%;
+	width: 100%;
+}
+.formContainer form .formSection2 .fileUpload .fileName{
+	max-width: 430px;
+}
+.formContainer form .formSection2 .fileUpload .fileName span{
+	color: #5f6368;
+	font-weight: 500;
+}
+.formContainer form .formSection2 .fileUpload .removeFile{
+	position: absolute;
+	right: 10px;
+	height: 37px;
+	width: 37px;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 42px;
+}
+.formContainer form .formSection2 .fileUpload .removeFile:hover{
+	background: rgba(249, 249, 249, 1);
+	cursor: pointer;
+}
+.formContainer form .formSection2 .fileUpload .removeFile svg{
+	font-size: 1.4em;
+	transform: rotate(45deg);
+	color: #5f6368;
+}
+.formContainer form .formSection2 .insertAttachment{
+	margin-top: 20px;
+	display: inline-block;
+}
+.formContainer form .formSection2 .insertAttachment .icon{
+	margin: auto;
+	width: 45px;
+	height: 45px;
+	background: rgba(39, 161, 245, 0.1);
+	color: #098DDF;
+	text-align: center;
+	line-height: 45px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.formContainer form .formSection2 .insertAttachment .icon:hover{
+	background: rgba(39, 161, 245, 0.15);
+}
+.formContainer form .formSection2 .insertAttachment p{
+	margin-top: 7px;
+	color: #505050;
+	font-size: 0.95em;
+	font-weight: 600;
+	text-align: center;
 }

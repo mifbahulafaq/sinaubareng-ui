@@ -17,19 +17,22 @@ import formatDate from '../../utils/id-format-date';
 	 
 	const customInput = useRef(null)
 	const { register, setValue, watch, formState: { isSubmitSuccessful, isValid} } = useForm({
-		mode: "onChange"
+		mode: "onChange",
+		defaultValues: {
+			time: "00:00:00"
+		}
 	})
 	
 	function funcInputDate(e, field){
 		
 		const value = e.target.value;
-		
-		if(!value.length) {
-			setValue("schedule.time", "00:00", {shouldValidate: true});
-		}
 			
-		setValue("schedule.date", value, {shouldValidate: true});
+		setValue("date", value);
 		
+	}
+	
+	function clickInsertAttachment(e){
+		e.currentTarget.querySelector('input').click()
 	}
 	
 	console.log(watch())
@@ -38,10 +41,13 @@ import formatDate from '../../utils/id-format-date';
 	return (
 		<div className={style.formContainer}>
 			<div className={style.header}>
-				<div className={style.icon}>
-					<FontAwesomeIcon icon={["far","file-lines"]} />
+				<div className={style.about}>
+					<div className={style.icon}>
+						<FontAwesomeIcon icon={["far","file-lines"]} />
+					</div>
+					<span>Tugas</span>
 				</div>
-				<span>Tugas</span>
+				<div className={`${style.submit} ${!isValid? style.disabled: ""}`}>Tugaskan</div>
 			</div>
 			<form>
 				<div className={style.formSection1}>
@@ -63,7 +69,18 @@ import formatDate from '../../utils/id-format-date';
 						<h4>Tenggat</h4>
 						<div className={style.inputDate}>
 						
-							<p>-</p>
+							<p>
+							{
+								watch('date')?
+								formatDate(
+									watch('date')+" "+watch('time'),
+									"id-ID",
+									{weekday:"long",  month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit"}
+								)
+								:
+								"-"
+							}
+							</p>
 							<div className={style.triangle} />
 							
 							<div onClick={e=>e.stopPropagation()} className={`${style.selectContainer} option`}>
@@ -72,17 +89,16 @@ import formatDate from '../../utils/id-format-date';
 									<div className={style.date}>
 										<FontAwesomeIcon icon={['far','calendar-alt']} />
 										<div className={style.content} >
-											{/* dateOfSchedule && dateOfSchedule.length ? formatDate(dateOfSchedule,"id-ID", {dateStyle:"medium"}) : "Masukkan tanggal"*/}
+											{ watch('date') && watch('date').length ? formatDate(watch('date'),"id-ID", {dateStyle:"medium"}) : "Masukkan tanggal"}
 										</div>
-										<input style={{display:"none"}} {...register('schedule.date')} />
-										<input type="date" onChange={funcInputDate}  />
+										<input type="date" {...register('date')} />
 									</div>
-									<div className={`${style.time}`}>
+									<div className={`${style.time} ${watch('date') && watch('date').length? "": style.hidden}`}>
 										<FontAwesomeIcon icon={['far','clock']} />
 										<div className={style.content} >
-											{/* timeOfSchedule && timeOfSchedule.length ? formatDate(dateOfSchedule+" "+timeOfSchedule,"id-ID", {timeStyle:"short"}) : ""*/}
+											{ watch('date') && watch('date').length ? formatDate(watch('date')+" "+watch('time'),"id-ID", {timeStyle:"short"}) : ""}
 										</div>
-										<input type="time" {...register('schedule.time')} />
+										<input type="time" {...register('time')} />
 									</div>
 								</div>
 							</div>
@@ -93,7 +109,47 @@ import formatDate from '../../utils/id-format-date';
 					
 				</div>
 				<div className={style.formSection2}>
-					<input type="file" className={style.inputMargin} />
+					<h4>Lampiran</h4>
+					{
+						watch('attachment')?.["0"]?
+							<div className={style.fileUpload}>
+								<div className={style.icon}>
+									<div className={style.img}>
+										<Image src="images/attachment.png" />
+									</div>
+								</div>
+								<div className={style.fileName}>{watch('attachment')?.["0"]?.name}</div>
+								<div 
+									onClick={()=>{
+										/*setAttachment(attachment=>{
+											return attachment.filter((e,index)=>{
+												return index !== i
+											})
+										})*/
+									}} 
+									className={style.removeFile}
+								>
+									<FontAwesomeIcon icon="plus" />
+								</div>
+							</div>
+						:""
+					}
+					<div className={style.insertAttachment}>
+						<div
+							onClick={clickInsertAttachment}
+							className={style.icon}
+						>
+							<FontAwesomeIcon icon="arrow-up-from-bracket" />
+							<input 
+								style={{display: "none"}} 
+								type="file" {...register('attachment')} 
+								className={style.inputMargin}
+								accept=".pdf,.docx,.doc,.PDF,.DOCX,.DOC" 
+							/>
+						</div>
+						<p>Upload</p>
+					</div>
+					
 				</div>
 			</form>
 		</div>
