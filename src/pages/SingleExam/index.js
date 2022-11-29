@@ -34,8 +34,14 @@ export default React.memo(function SingleMatter() {
 						
 						jawab pertanyaan diatas... `}
 					</div>
-					<h5 className={style.deadline} >Tenggat: 13 July 2022 20.45</h5>
-					<div className={style.btnAnsw}>Answer It</div>
+					<div className={style.attachment}>
+						<div className={style.download} >Download file</div>
+						<p>xxxx.pdf</p>
+					</div>
+					<div className={style.bottomSide}>
+						<div className={style.btnAnsw}>Answer It</div>
+						<h5 className={style.deadline} >Tenggat: 13 July 2022 20.45</h5>
+					</div>
 				</div>
 				<div className={style.answContainer}>
 					<div className={style.aboutAnsw}>

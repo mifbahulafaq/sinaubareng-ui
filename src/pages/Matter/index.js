@@ -41,7 +41,7 @@ export default React.memo(function Matter() {
 	function displayMatterForm(bool){
 		setMatterForm(bool)
 	}
-	console.log(date)
+	
   return (
 	<>
 		<div className={style.container}>
@@ -124,7 +124,7 @@ export default React.memo(function Matter() {
 				</div>
 			</div>
 			<div className={style.formContainer}>
-				<MatterForm displayMatters={getMatters} display={displayMatterForm} />
+				<MatterForm displayMatters={getMatters} display={displayMatterForm} codeClass={params.code_class}/>
 			</div>
 		</div>
 	</>

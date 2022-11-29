@@ -13,14 +13,14 @@ import * as apiMatter from '../../api/matter';
 //utils
 import formatDate from '../../utils/id-format-date';
 
- const MatterForm = memo(function ({displayMatters, display}){
+ const MatterForm = memo(function ({displayMatters, display, codeClass}){
 	
 	const [attachment, setAttachment] = useState(undefined);
 	const customInput = useRef(null);
 	const { reset, setValue, watch, register, setError, handleSubmit, formState: { isSubmitSuccessful, isValid } } = useForm({
 		mode: "onChange",
 		defaultValues: {
-			code_class: 119,
+			code_class: codeClass,
 			status: "active",
 			schedule: {
 				time : '00:00:00'

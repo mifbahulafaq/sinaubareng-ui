@@ -43,6 +43,9 @@
 	color: #000;
 	cursor: pointer;
 }
+.detail .getin.disabled{
+	pointer-events: none;
+}
 .detail .getin:hover{
 	background: #098DDF;
 	color: #fff;

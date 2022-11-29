@@ -1,0 +1,73 @@
+.container{
+	padding: 20px 30px 0;
+	height: 100%;
+	width: 100%;
+}
+.container .created {
+	margin-bottom: 10px;
+	padding-left: 18px;
+	display: flex;
+	align-items: center;
+}
+.container .created h5{
+	font-size: 12px;
+	margin-right: 10px;
+	color: #767676;
+}
+.container .created p{
+	font-size: 12px;
+	color: #999;
+	font-weight: 500;
+}
+
+.container .quest{
+	margin: 20px 0;
+	display: flex;
+	padding: 0 10px 0 15px;
+	font-size: 22px;
+	font-weight: 600;
+	white-space: pre-line;
+	color: #434343;
+}
+.container .quest .questIcon{
+	margin-right: 10px;
+	min-width: 40px;
+    height: 40px;
+    border-radius: 50%;
+	background: rgba(39, 131, 245, 0.4);
+    text-align: center;
+    line-height: 37px;
+}
+.container .bottomSide{
+	margin: 30px 0 0 65px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.container .bottomSide .attachment{
+	display: flex;
+	align-items: center;
+}
+.container .bottomSide .attachment .download{
+	margin: 0 10px 0 0;
+	padding: 4px 10px;
+	color: #000;
+	border: 2px solid #000;
+	font-weight: 600;
+	font-size: 0.95em;
+	border-radius: 50px;
+	cursor: pointer;
+}
+.container .bottomSide .attachment .download:hover{
+	background: #000;
+	color: #fff;
+}
+.container .bottomSide .deadline{
+	float: right;
+	font-size: 12px;
+	padding-left: 18px;
+	color: #999;
+}
+.container .bottomSide .btnAnsw:hover{
+	background: #e77676;
+}

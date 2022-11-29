@@ -10,6 +10,7 @@
 	top: 15px;
 }
 .container .mainContent{
+	position: relative;
 	min-height: calc(100vh - 120px);
 	display: flex;
 	justify-content: space-between;
@@ -252,7 +253,6 @@
 .assignContainer .assigns{
 	margin-top: 20px;
 }
-
 .assignContainer .assigns .singleAssign{
 	padding: 10px 15px;
 	display: flex;
@@ -265,8 +265,12 @@
 .assignContainer .assigns .singleAssign:first-child ~ .singleAssign{
 	margin-top: 15px;
 }
-.assignContainer .assigns .singleAssign h4{
+.assignContainer .assigns .singleAssign a{
 	color: #505050;
+	text-decoration: none;
+}
+.assignContainer .assigns .singleAssign a:hover{
+	text-decoration: underline;
 }
 .assignContainer .assigns .singleAssign .duration{
 	margin-top: 5px;

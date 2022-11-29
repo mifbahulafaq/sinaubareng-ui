@@ -1,16 +1,15 @@
 import React from 'react';
-import axios from 'axios'
 import style from './SingleMatter.module.css';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import config from '../../config';
 
-import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 //APIs
 import * as matterApi from '../../api/matter';
 import * as fileApi from '../../api/file';
 import * as discussionApi from '../../api/matter-discussion';
+import * as mattAss from '../../api/matt-ass';
 //components
 import Image from '../../components/Image';
 import PreviousLink from '../../components/PreviousLink';
@@ -21,9 +20,10 @@ import formatDate from '../../utils/id-format-date';
 
 export default React.memo(function SingleMatter() {
 	const [matt, setMatt] = React.useState({});
-	const [ commentText, setCommentText ] = React.useState("");
 	const [comments, setComments] = React.useState([]);
-	const [ displayModal, setDisplayModal ] = React.useState(true)
+	const [mattAssignments, setMattAssignments] = React.useState([]);
+	const [ commentText, setCommentText ] = React.useState("");
+	const [ displayModal, setDisplayModal ] = React.useState(false)
 	const customInput = React.useRef(null);
 	//const [assignment, setAssignment] = React.useState({});
 	const params = useParams()
@@ -31,35 +31,38 @@ export default React.memo(function SingleMatter() {
 	const scheduleMatt = matt.schedule? formatDate(new Date(matt.schedule), "id-ID", {timeStyle:"short"}) : ""
 	
 	const getSingleMatt = React.useCallback(()=>{
-		matterApi.getSingle(params.id_matt).
-		then(res=>{
+		matterApi.getSingle(params.id_matt)
+		.then(res=>{
 			const { data: matter } = res;
 			if(matter.error) return console.log(matter);
 			setMatt(matter.data[0])
 		})
 	}, [params.id_matt])
+	
 	const getComments = React.useCallback(()=>{
-		console.log(params.id_matt)
-		discussionApi.getAll(params.id_matt).
-		then(res=>{
+		
+		discussionApi.getAll(params.id_matt)
+		.then(res=>{
 			const { data: discussions } = res;
 			if(discussions.error) return console.log(discussions);
 			setComments(discussions.data)
 		})
 	}, [params.id_matt])
-	/*const getAssignments = React.useCallback(()=>{
-		matterApi.getSingle(params.id_matt).
-		then(res=>{
-			const { data: matter } = res;
-			if(matter.error) return console.log(matter.message);
-			setMatt(matter.data[0])
+	
+	const getAssignments = React.useCallback(()=>{
+		mattAss.getAll(params.id_matt)
+		.then(res=>{
+			const { data: ass } = res;
+			if(ass.error) return console.log(ass.message);
+			setMattAssignments(ass.data)
 		})
-	}, [params.id_matt])*/
+	}, [params.id_matt])
 	
 	React.useEffect(()=>{
 		getSingleMatt();
 		getComments();
-	}, [getSingleMatt])
+		getAssignments()
+	}, [getSingleMatt, getAssignments, getComments])
 	
 	function getFile(idMatt, filename, donwload = false){
 		matterApi.getaDocument(idMatt,filename[0]).then(({ data })=>{
@@ -128,10 +131,17 @@ export default React.memo(function SingleMatter() {
   return (
 	<div className={style.container}>
 		<ModalContainer displayed={displayModal} setDisplayed={setDisplayModal}>
-			<AssignmentForm />
+			<AssignmentForm
+				refreshAssignment={()=>{
+					getAssignments()
+					setDisplayModal(false)
+				}} 
+				idMatter={parseInt(params.id_matt)}
+			/>
 		</ ModalContainer>
+		
 		<div className={style.class}>
-		<PreviousLink to={`../${matt.class}`} name={matt.class_name} />
+			<PreviousLink to={`../../${matt.class}`} name={matt.class_name} />
 		</div>
 		
 		<div className={style.mainContent}>
@@ -223,18 +233,29 @@ export default React.memo(function SingleMatter() {
 					<li>Semua</li>
 				</ul>
 				<div className={style.assigns}>
+					{
+						mattAssignments.map((e,i)=>{
+							let tenggat
+							if(e.duration){
+								
+								const date = new Date(Date.now() + e.duration)
+								tenggat = formatDate(date, "id-ID",{dateStyle:"medium", timeStyle: 'short'})
+							}
+							
+							return <div key={i} className={style.singleAssign}>
+								<Link to="assignment/1221" ><h4>{e.title}</h4></Link>
+								<span className={style.duration} >
+									Tenggat: <span>{tenggat? tenggat : "-"}</span>
+								</span>
+							</div>
+						})
+					}
 					<div className={style.singleAssign}>
-						<h4>tugas membuat function pada php...</h4>
+						<Link to="assignment/1221" ><h4>tugas membuat function pada php...</h4></Link>
 						<span className={style.duration} >Tenggat: <span>6 Jul 2020 20.45</span></span>
-						<input placeholder="Answer" />
 					</div>
 					<div className={style.singleAssign}>
-						<h4>tugas membuat function pada php...</h4>
-						<span className={style.duration} >Tenggat: <span>6 Jul 2020 20.45</span></span>
-						<input placeholder="Answer" disabled />
-					</div>
-					<div className={style.singleAssign}>
-						<h4>tugas membuat function pada php...</h4>
+						<Link to="assignment/1221" ><h4>tugas membuat function pada php...</h4></Link>
 						<span className={style.duration} >Tenggat: <span className={style.deadline} >6 Jul 2020 20.45</span></span>
 						<span className={style.answered}>
 							Answered 

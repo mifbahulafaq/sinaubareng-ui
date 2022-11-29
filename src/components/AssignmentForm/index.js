@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, memo } from 'react';
+import { useRef, memo } from 'react';
 import style from './AssignmentForm.module.css';
 import { useForm } from 'react-hook-form';
 import * as val from '../../validation';
@@ -9,25 +9,50 @@ import PropTypes from 'prop-types'
 import Image from '../Image'
 
 //apis
-import * as apiMatter from '../../api/matter';
+import * as mattAssApi from '../../api/matt-ass';
 //utils
 import formatDate from '../../utils/id-format-date';
 
- const AssignmentForm = memo(function ({displayMatters, display}){
+ const AssignmentForm = memo(function ({ refreshAssignment, idMatter }){
 	 
 	const customInput = useRef(null)
-	const { register, setValue, watch, formState: { isSubmitSuccessful, isValid} } = useForm({
+	const { reset, register, setValue, watch, handleSubmit, resetField, formState: { isValid} } = useForm({
 		mode: "onChange",
 		defaultValues: {
 			time: "00:00:00"
 		}
 	})
 	
-	function funcInputDate(e, field){
+	async function submit(input){
+		const payload = input;
 		
-		const value = e.target.value;
+		if(payload.date.length){
 			
-		setValue("date", value);
+			const date = (new Date(payload.date+" "+payload.time)).getTime()
+			
+			payload.duration = date - Date.now()
+			
+		}
+		
+		delete payload.date
+		delete payload.time
+		payload.id_matt = idMatter
+		payload.attachment = payload.attachment?.["0"]
+		
+		let formData = new FormData()
+		
+		for(let key in payload){
+			formData.append(key, payload[key])
+		}
+		
+		const { data } = await mattAssApi.add(formData)
+		
+		if(data.error) return console.log(data)
+		
+		refreshAssignment()
+		reset()
+		customInput.current.textContent = ""
+		
 		
 	}
 	
@@ -35,8 +60,11 @@ import formatDate from '../../utils/id-format-date';
 		e.currentTarget.querySelector('input').click()
 	}
 	
-	console.log(watch())
-	console.log(isValid)
+	function tugaskan(e){
+		if(!isValid) return;
+		const btn = e.currentTarget.parentElement.parentElement.querySelector('[type="submit"]')
+		btn.click();
+	}
 	
 	return (
 		<div className={style.formContainer}>
@@ -47,12 +75,12 @@ import formatDate from '../../utils/id-format-date';
 					</div>
 					<span>Tugas</span>
 				</div>
-				<div className={`${style.submit} ${!isValid? style.disabled: ""}`}>Tugaskan</div>
+				<div onClick={tugaskan} className={`${style.submit} ${!isValid? style.disabled: ""}`}>Tugaskan</div>
 			</div>
-			<form>
+			<form onSubmit={handleSubmit(submit)} >
 				<div className={style.formSection1}>
 				
-					<input className={`${style.inputMargin} ${style.text}`} placeholder="Judul" {...register('title', val.title)}/>
+					<input className={`${style.inputMargin} ${style.text}`} maxLength={255} placeholder="Judul" {...register('title', val.title)}/>
 					
 					<div className={style.customInputContainer}>
 						<input style={{display: "none"}} {...register('text')} />
@@ -108,6 +136,7 @@ import formatDate from '../../utils/id-format-date';
 					
 					
 				</div>
+				
 				<div className={style.formSection2}>
 					<h4>Lampiran</h4>
 					{
@@ -120,13 +149,7 @@ import formatDate from '../../utils/id-format-date';
 								</div>
 								<div className={style.fileName}>{watch('attachment')?.["0"]?.name}</div>
 								<div 
-									onClick={()=>{
-										/*setAttachment(attachment=>{
-											return attachment.filter((e,index)=>{
-												return index !== i
-											})
-										})*/
-									}} 
+									onClick={()=>resetField('attachment')} 
 									className={style.removeFile}
 								>
 									<FontAwesomeIcon icon="plus" />
@@ -151,14 +174,15 @@ import formatDate from '../../utils/id-format-date';
 					</div>
 					
 				</div>
+				<button style={{display: "none"}} type="submit" />
 			</form>
 		</div>
 	)
 })
 
 AssignmentForm.propTypes = {
-	display: PropTypes.func,
-	displayMatters: PropTypes.func
+	 refreshAssignment: PropTypes.func, 
+	 idMatter: PropTypes.number
 }
 
 export default AssignmentForm;

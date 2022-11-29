@@ -43,13 +43,16 @@
 	font-weight: 500;
 	font-size: 0.95em;
 	color: #fff;
+	cursor: pointer;
+}
+.formContainer .header .submit:hover{
+	background: #57a1cf;
 }
 .formContainer .header .submit.disabled{
 	background: #cfcfcf;
 	color: #999;
 }
 .formContainer form{
-	height: 100%;
 	padding: 20px;
 }
 .formContainer form .formSection1, .formContainer form .formSection2{

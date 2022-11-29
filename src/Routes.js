@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRoutes, Navigate } from 'react-router-dom';
+import { useRoutes, Navigate, Outlet } from 'react-router-dom';
 import { useContext } from './Context';
 
 //pages
@@ -12,6 +12,7 @@ import SingleClass from './pages/SingleClass';
 import Matter from './pages/Matter';
 import Exam from './pages/Exam';
 import SingleMatter from './pages/SingleMatter';
+import SingleAssignment from './pages/SingleAssignment';
 import SingleExam from './pages/SingleExam';
 
 //components
@@ -37,7 +38,14 @@ function Element() {
 						{path:':code_class', element: <SingleClass /> },
 						{path:':code_class/m', element: <Matter /> },
 						{path:':code_class/e', element: <Exam /> },
-						{path:':code_class/m/:id_matt', element: <SingleMatter /> },
+						{
+							path:':code_class/m/:id_matt', 
+							element: <Outlet />,
+							children: [
+								{index: true, element: <SingleMatter />},
+								{path: 'assignment/:id_matt_ass/*', element: <SingleAssignment />}
+							]
+						},
 						{path:':code_class/e/:id_exm', element: <SingleExam /> },
 						{path:':code_class', element: <SingleClass /> },
 						{path:'*', element: <>not found</> },
