@@ -66,7 +66,7 @@
 	flex-direction: column;
 }
 .examContainer .exams .singleExam{
-	padding: 15px 20px 15px 10px;
+	padding: 15px 10px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -105,12 +105,17 @@
 	color: #ffb971;
 	font-size: 22px;
 }
-.exams .singleExam .quest h3{
+.exams .singleExam .quest a{
+	text-decoration: none;
 	font-weight: 600;
+	font-size: 1.18em;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	color: #2986cc;
+}
+.exams .singleExam .quest a:hover{
+	text-decoration: underline;
 }
 .exams .singleExam .quest .detail{
 	margin-top: 5px;
@@ -122,9 +127,17 @@
 .exams .singleExam .quest .detail span:last-child{
 	margin-left: 20px;
 }
-.exams .singleExam .opt{
+.exams .singleExam .menu{
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	border-radius: 50%;
+	text-align: center;
 	font-size: 1.5em;
 	cursor: pointer;
 	color: #393939;
+}
+.exams .singleExam .menu:hover{
+	background: rgba(231, 231, 231, 0.6);
 }
 

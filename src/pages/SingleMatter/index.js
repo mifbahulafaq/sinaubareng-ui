@@ -141,7 +141,7 @@ export default React.memo(function SingleMatter() {
 		</ ModalContainer>
 		
 		<div className={style.class}>
-			<PreviousLink to={`../../${matt.class}`} name={matt.class_name} />
+			<PreviousLink to="../../.." name={matt.class_name} />
 		</div>
 		
 		<div className={style.mainContent}>

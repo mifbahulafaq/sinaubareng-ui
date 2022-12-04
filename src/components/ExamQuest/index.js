@@ -1,8 +1,8 @@
 import React from 'react';
-import style from './AssignmentQuest.module.css';
+import style from './ExamQuest.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-export default function AssignmentQuest(){
+export default function ExamQuest(){
 	return (
 		<div className={style.container}>
 			<div className={style.created}>

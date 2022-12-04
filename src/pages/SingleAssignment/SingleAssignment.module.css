@@ -1,103 +1,173 @@
-@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
 .container{
 	position: relative;
-	background: #eee;
-	min-height: calc(100vh - 65px);
+    padding: 0 110px;
+    background: #eee;
+    min-height: calc(100vh - 65px);
 }
 .container .mainContent{
-	margin: auto;
-	width: 900px;
 	min-height: calc(100vh - 65px);
-	background: #fff;
+    background: #fff;
 }
-.mainContent .topNav{
-	position: relative;
-	height: 120px;
-	border-bottom: 1px solid rgba(224, 224, 224, 0.8);
-	display: flex;
-	justify-content: center;
-	align-items: center;
+.container .mainContent .about{
+	padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 1px solid rgba(224, 224, 224, 0.8);
 }
-.mainContent .topNav .about{
-	position: absolute;
-	left: 80px;
-	top: 0;
-	bottom: 0;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-}
-.mainContent .topNav .about .className{
+.container .mainContent .about .className{
 	position: relative;
 }
-.mainContent .topNav .about .className  a{
+.container .mainContent .about .className a{
 	text-decoration: none;
-	font-weight: 600;
-	color: #737373;
+    font-weight: 600;
+    color: #737373;
 }
-.mainContent .topNav .about .className a::before{
+.container .mainContent .about .className a:before{
 	position: absolute;
-	top: 50%;
-	left: -50px;
-	content: "";
-	display: block;
-	border-left: 2px solid #098DDF;
-	border-bottom: 2px solid #098DDF;
-	height: 10px;
-	width: 10px;
-	transform: rotate(45deg) translate(0,-50%);
+    top: 50%;
+    left: -50px;
+    content: "";
+    display: block;
+    border-left: 2px solid #098DDF;
+    border-bottom: 2px solid #098DDF;
+    height: 10px;
+    width: 10px;
+    transform: rotate(45deg) translate(0,-50%);
 }
-.mainContent .topNav .about .icon{
-	margin-top: 5px;
-	padding: 3px 10px;
-	border: 1px solid rgba(196, 196, 196, 0.5);
-	border-radius: 10px;
-	font-size: 2em;
-	color: #098DDF;
+.container .mainContent .about .icon{
+	margin-top: 15px;
+    padding: 3px 10px;
+    border: 1px solid rgba(196, 196, 196, 0.5);
+    border-radius: 10px;
+    font-size: 2.5em;
+    color: #098DDF;
 }
-.mainContent .topNav .about  h3{
-	font-size: 0.98em;
-	margin-top: 5px;
+.container .mainContent .about h3{
+	margin-top: 15px;
 }
-.mainContent .topNav .contentNav{
-	height: 70%;
-	width: 220px;
-	display: flex;
-	justify-content: space-between;
-	list-style: none;
+.container .mainContent .assignment{
+	padding: 20px 20px 0 0;
+    display: flex;
+    justify-content: space-between;
 }
-.mainContent .topNav .contentNav li{
-	position: relative;
-	height: 100%;
-	width: 100px;
+.container .mainContent .assignment .qna{
+	width: 760px;
 }
-.mainContent .topNav .contentNav li a{
-	height: 100%;
+.container .mainContent .assignment .qna .created{
+	margin-bottom: 10px;
+    padding-left: 18px;
+    display: flex;
+    align-items: center;
+}
+.container .mainContent .assignment .qna .created h5{
+	font-size: 12px;
+    margin-right: 10px;
+    color: #767676;
+}
+.container .mainContent .assignment .qna .created p{
+	font-size: 12px;
+    color: #999;
+    font-weight: 500;
+}
+.container .mainContent .assignment .qna .quest{
+	margin-bottom: 10px;
+    padding: 0 10px 0 15px;
+    border-left: 3px solid orange;
+    font-size: 22px;
+    font-weight: 600;
+    white-space: pre-line;
+    color: #434343;
+}
+.container .mainContent .assignment .qna .bottomSide{
+	margin: 30px 0 0 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.container .mainContent .assignment .qna .bottomSide .attachment{
+    display: flex;
+    align-items: center;
+}
+.container .mainContent .assignment .qna .bottomSide .attachment .download{
+	margin-right: 10px;
+    padding: 4px 10px;
+    color: #000;
+    border: 2px solid #000;
+    font-weight: 600;
+    font-size: 0.95em;
+    border-radius: 50px;
+    cursor: pointer;
+}
+.container .mainContent .assignment .qna .bottomSide .attachment .download:hover{
+	background: #000;
+	color: #fff;
+}
+.container .mainContent .assignment .qna .bottomSide .deadline{
+	float: right;
+    font-size: 12px;
+    padding-left: 18px;
+    color: #999;
+}
+.container .mainContent .assignment .answContainer{
+	padding: 0 15px 15px;
+    width: 335px;
+    border-radius: 5px 5px 0 0;
+    box-shadow: 0 0 8px rgb(196 196 196 / 50%);
+}
+.container .mainContent .assignment .answContainer .aboutAnsw{
 	width: 100%;
-	text-decoration: none;
-	color: #767676;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    border-bottom: 1px solid rgba(224, 224, 224, 0.8);
+}
+.container .mainContent .assignment .answContainer .answs{
+	width: 100%;
+    margin-top: 10px;
+}
+.container .mainContent .assignment .answContainer .answs .singleAnsw{
+	padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 90px;
+    border-radius: 10px;
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+.container .mainContent .assignment .answContainer .answs .singleAnsw:hover{
+	box-shadow: 0 0 8px rgb(196 196 196 / 50%);
+}
+.container .mainContent .assignment .answContainer .answs .singleAnsw .detail{
 	display: flex;
-	justify-content: center;
-	font-weight: 600;
-	align-items: center;
+    align-items: center;
 }
-.mainContent .topNav .contentNav li a:hover{
-	background: rgba(39, 131, 245, 0.1);
+.container .mainContent .assignment .answContainer .answs .singleAnsw .detail .photo{
+	margin-right: 10px;
+    height: 45px;
+    width: 45px;
+    border-radius: 5px;
+    overflow: hidden;
 }
-.mainContent .topNav .contentNav li a:after{
-	display: block;
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	content: "";
-	height: 4px;
-	border-radius: 4px;
-	background: transparent;
+.container .mainContent .assignment .answContainer .answs .singleAnsw .detail .status{
+	width: 150px;
 }
-.mainContent .topNav .contentNav li a.active:after{
-	background: #098DDF;
+.container .mainContent .assignment .answContainer .answs .singleAnsw .detail .status h5{
+	margin-bottom: 10px;
 }
-
+.container .mainContent .assignment .answContainer .answs .singleAnsw .detail .status p{
+	font-size: 0.88em;
+}
+.container .mainContent .assignment .answContainer .answs .singleAnsw .score{
+	height: 30px;
+    width: 50px;
+    background: #026fb2;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 30px;
+    text-align: center;
+    color: #fff;
+}
+    

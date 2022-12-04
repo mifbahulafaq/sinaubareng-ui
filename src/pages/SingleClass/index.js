@@ -114,7 +114,6 @@ export default React.memo(function SingleClass() {
 	
   return (
 	<div className={style.container}>
-	
 		<div className={style.detail} >
 			<div className={style.title}>
 				<h1>{classData.class_name}</h1>

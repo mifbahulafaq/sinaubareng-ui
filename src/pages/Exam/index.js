@@ -1,22 +1,42 @@
 import React from 'react';
 import style from './Exam.module.css';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+
+//APIs
+import * as examApi from '../../api/exam'
 
 //components
 import PreviousLink from '../../components/PreviousLink';
 import Calendar from 'react-calendar';
 
+//utils
+import formatDate from '../../utils/id-format-date'
+
 export default React.memo(function Matter() {
 	
+	const params = useParams()
+	const [ examDatas, setExamDatas ] = React.useState([])
 	
+	const getExams = React.useCallback(()=>{
+		
+		examApi.getAll(params.code_class)
+		.then(({ data })=>{
+			if(data.error) return console.log(data)
+			setExamDatas(data.data)
+		})
+		
+	},[params.code_class])
 	
+	React.useEffect(()=>{
+		getExams();
+	},[getExams])
+	console.log(examDatas)
   return (
 	<div className={style.container}>
 		
 		<div className={style.previousLink} >
-			<PreviousLink to="../119" name="PHP Dasar" />
+			<PreviousLink to="../.." name="PHP Dasar" />
 		</div>
 		
 		<div className={style.examContainer}>
@@ -33,60 +53,31 @@ export default React.memo(function Matter() {
 			</div>
 			
 			<div className={style.exams}>
-			
-				<div className={style.singleExam} to="1221" >
-					<div className={style.answer}>
-						<h2>1</h2>
-						<p>answer</p>
-					</div>
-					<div className={style.quest} >
-						<div className={style.icon}> <FontAwesomeIcon icon="clipboard-question" /> </div>
-						<h3>
-						Mifbahul Afaq memposting ujian baru:
-						{`
-							Lorem ips
-
-							1.dsaasdasd?
-							2.asddasads
-							3.saddasads?
-
-							jawab pertanyaan diatas... asasdasdadsas
-						`}
-						</h3>
-						<div className={style.detail}>
-							<span>2 files</span>
-							<span>10/10/2021, 10:10</span>
+				{
+					examDatas.map((e,i)=>{
+						return <div className={style.singleExam} key={i} >
+							<div className={style.answer}>
+								<h2>{e.total_answers}</h2>
+								<p>answer</p>
+							</div>
+							<div className={style.quest} >
+								<div className={style.icon}> <FontAwesomeIcon icon="clipboard-question" /> </div>
+								<Link to={e.id_exm+""} >
+									{e.teacher_name} memposting ujian baru:
+									{e.text}
+								</Link>
+								<div className={style.detail}>
+									<span>
+										{formatDate(new Date(e.schedule), "en-GB",{dateStyle: "short", timeStyle: "short"})}
+									</span>
+								</div>
+							</div>
+							<div className={style.menu}>
+								<FontAwesomeIcon icon="ellipsis-vertical" />
+							</div>
 						</div>
-					</div>
-					<FontAwesomeIcon className={style.opt} icon="ellipsis-vertical" />
-				</div>
-				
-				<div className={style.singleExam} to="1221" >
-					<div className={style.answer}>
-						<h2>1</h2>
-						<p>answer</p>
-					</div>
-					<div className={style.quest} >
-						<div className={style.icon}> <FontAwesomeIcon icon="clipboard-question" /> </div>
-						<h3>
-						Mifbahul Afaq memposting ujian baru:
-						{`
-							Lorem ips
-
-							1.dsaasdasd?
-							2.asddasads
-							3.saddasads?
-
-							jawab pertanyaan diatas... asasdasdadsas
-						`}
-						</h3>
-						<div className={style.detail}>
-							<span>2 files</span>
-							<span>10/10/2021, 10:10</span>
-						</div>
-					</div>
-					<FontAwesomeIcon className={style.opt} icon="ellipsis-vertical" />
-				</div>
+					})
+				}
 				
 			</div>
 			

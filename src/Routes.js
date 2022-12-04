@@ -35,19 +35,36 @@ function Element() {
 					element: <ContainerClass />,
 					children: [
 						{index:true, element: <Classes classData={classData} /> },
-						{path:':code_class', element: <SingleClass /> },
-						{path:':code_class/m', element: <Matter /> },
-						{path:':code_class/e', element: <Exam /> },
 						{
-							path:':code_class/m/:id_matt', 
-							element: <Outlet />,
+							path:':code_class', 
+							element: <Outlet /> ,
 							children: [
-								{index: true, element: <SingleMatter />},
-								{path: 'assignment/:id_matt_ass/*', element: <SingleAssignment />}
+								{index:true, element: <SingleClass /> },
+								{
+									path:'m', 
+									element: <Outlet />,
+									children: [
+										{index:true, element: <Matter /> },
+										{
+											path:':id_matt', 
+											element: <Outlet />,
+											children: [
+												{index: true, element: <SingleMatter />},
+												{path: 'assignment/:id_matt_ass', element: <SingleAssignment />}
+											]
+										}
+									]
+								},
+								{
+									path:'e', 
+									element: <Outlet />,
+									children: [
+										{index:true, element: <Exam /> },
+										{path:':id_exm/*', element: <SingleExam /> },
+									]
+								},
 							]
 						},
-						{path:':code_class/e/:id_exm', element: <SingleExam /> },
-						{path:':code_class', element: <SingleClass /> },
 						{path:'*', element: <>not found</> },
 					]
 				},
