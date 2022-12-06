@@ -5,7 +5,6 @@ import { NavLink, Link, Routes, Route } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 //components
-import Image from '../../components/Image';
 import ExamQuest from '../../components/ExamQuest';
 import ExamAnswers from '../../components/ExamAnswers';
 

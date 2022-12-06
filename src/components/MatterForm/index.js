@@ -80,7 +80,7 @@ import formatDate from '../../utils/id-format-date';
 				return;
 				
 			}
-			
+			console.log(data)
 			displayMatters()
 			display(false)
 			

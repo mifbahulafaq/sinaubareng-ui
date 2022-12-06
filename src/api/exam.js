@@ -24,11 +24,11 @@ export function getAll(code_class, params){
 	});
 	
 }
-export function joinClass(codeCLass){
+export function add(payload){
 	
 	const { token } = JSON.parse(localStorage.getItem('auth'));
 	
-	return axios.post(`${config.api_host}/api/students/join-class`,{class:codeCLass},{
+	return axios.post(`${config.api_host}/api/exams`,payload,{
 		headers: {
 			authorization: `Bearer ${token}`,
 		}

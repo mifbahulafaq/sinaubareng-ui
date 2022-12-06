@@ -8,7 +8,8 @@ import * as examApi from '../../api/exam'
 
 //components
 import PreviousLink from '../../components/PreviousLink';
-import Calendar from 'react-calendar';
+import ModalContainer from '../../components/ModalContainer';
+import ExamForm from '../../components/ExamForm';
 
 //utils
 import formatDate from '../../utils/id-format-date'
@@ -17,6 +18,7 @@ export default React.memo(function Matter() {
 	
 	const params = useParams()
 	const [ examDatas, setExamDatas ] = React.useState([])
+	const [ displayModal, setDisplayModal ] = React.useState(false)
 	
 	const getExams = React.useCallback(()=>{
 		
@@ -31,9 +33,20 @@ export default React.memo(function Matter() {
 	React.useEffect(()=>{
 		getExams();
 	},[getExams])
-	console.log(examDatas)
+	
   return (
 	<div className={style.container}>
+		
+		<ModalContainer displayed={displayModal} setDisplayed={setDisplayModal}>
+			<ExamForm
+				display={displayModal}
+				refreshExam={()=>{
+					getExams()
+					setDisplayModal(false)
+				}} 
+				codeClass={parseInt(params.code_class)}
+			/>
+		</ ModalContainer>
 		
 		<div className={style.previousLink} >
 			<PreviousLink to="../.." name="PHP Dasar" />
@@ -46,7 +59,7 @@ export default React.memo(function Matter() {
 					<FontAwesomeIcon icon="clipboard-question" />
 					<span>Semua Ujian</span>
 				</div>
-				<div className={style.add}>
+				<div onClick={()=>setDisplayModal(true)} className={style.add}>
 					<span>+</span>
 					<span>Tambah Ujian</span>
 				</div>

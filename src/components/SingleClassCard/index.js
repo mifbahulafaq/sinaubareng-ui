@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import timeFormat from '../../utils/times';
 
-export default function ClassCard({ data, matter }){
+export default function SingleClassCard({ data, matter }){
 	
 	const locale = 'en-GB';
 	const option = { dateStyle:'short', timeStyle: 'short'};
@@ -14,32 +14,39 @@ export default function ClassCard({ data, matter }){
 	
 	return (
 		<div className={style.container} >
-			<h5>{matter?'Materi Mendatang':'Ujian Mendatang'}</h5>
-			<h3>{data?.name}</h3>
-			<div className={style.detail}>
-				<ul className={style.icon}>
-					<li>
-						<FontAwesomeIcon icon={['far', 'calendar']} />
-						<span>{schedule}</span>
-					</li>
-					<li>
-						<FontAwesomeIcon icon={['far', 'clock']} />
-						<span>{timeFormat(data?.duration)}</span>
-					</li>
-					<li>
-						<FontAwesomeIcon icon={['far', 'file-lines']} />
-						<span>{attachment} Files</span>
-					</li>
-				</ul>
-				<Link 
-					to={`${matter?'m':'e'}/${matter?data.id_matter:data.id_exm}`} 
-					className={`${style.getin} ${data.id_matter || data.id_exm? "": style.disabled}`} 
-				>Get In</Link>
-			</div>
+			<h4>{matter?'Materi Mendatang':'Ujian Mendatang'}</h4>
+			{
+				data?.id_matter || data?.id_exm?
+				<>
+					<h3>{data?.name}</h3>
+					<div className={style.detail}>
+						<ul className={style.icon}>
+							<li>
+								<FontAwesomeIcon icon={['far', 'calendar']} />
+								<span>{schedule}</span>
+							</li>
+							<li>
+								<FontAwesomeIcon icon={['far', 'clock']} />
+								<span>{timeFormat(data?.duration)}</span>
+							</li>
+							<li>
+								<FontAwesomeIcon icon={['far', 'file-lines']} />
+								<span>{attachment} Files</span>
+							</li>
+						</ul>
+						<Link 
+							to={`${matter?'m':'e'}/${matter?data.id_matter:data.id_exm}`} 
+							className={`${style.getin} ${data.id_matter || data.id_exm? "": style.disabled}`} 
+						>Get In</Link>
+					</div>
+				</>
+				:
+				<p className={style.nodata}>Tidak ada {matter?"materi":"ujian"} mendatang</p>
+			}
 		</div>
 	)
 }
 
-ClassCard.defaultProps = {
+SingleClassCard.defaultProps = {
 	matter: false
 }

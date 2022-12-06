@@ -1,0 +1,301 @@
+.formContainer{
+	height: 100%;
+	width: 940px;
+	background: #fafafa;
+	overflow-y: auto;
+}
+.formContainer .header{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid #e4e4e4;
+	padding: 10px 20px;
+	background: #fff;
+}
+.formContainer .header .about{
+	display: flex;
+	align-items: center;
+}
+.formContainer .header .about .icon{
+	margin-right: 10px;
+	width: 45px;
+	height: 45px;
+	background: rgba(39, 161, 245, 0.1);
+	border-radius: 50%;
+	text-align: center;
+	line-height: 53px;
+}
+.formContainer .header .about .icon svg{
+	color: #098DDF;
+	font-size: 1.8em;
+}
+.formContainer .header .about span{
+	font-size: 1.4em;
+	font-weight: 600;
+	color: #505050;
+}
+.formContainer .header .submit{
+	float: right;
+	background: #0e77b9;
+	padding: 8px 13px;
+	border-radius: 5px;
+	font-weight: 500;
+	font-size: 0.95em;
+	color: #fff;
+	cursor: pointer;
+}
+.formContainer .header .submit:hover{
+	background: #57a1cf;
+}
+.formContainer .header .submit.disabled{
+	background: #cfcfcf;
+	color: #999;
+}
+.formContainer form{
+	padding: 20px;
+}
+.formContainer form .formSection1, .formContainer form .formSection2{
+	width: 100%;
+	padding: 20px;
+	border: 1px solid #e4e4e4;
+	border-radius: 10px;
+	background: #fff;
+}
+.formContainer form .formSection1 > .inputMargin:not(:first-child){
+	margin-top: 20px;
+}
+.formContainer form .inputMargin.text{
+	width: 100%;
+	background: #fafafa;
+	padding: 20px;
+	outline: none;
+	border:none;
+	border-bottom: 1px solid #999;
+	border-radius: 5px 5px 0 0;
+	font-size: 1.1em;
+}
+.formContainer form .inputMargin.text:focus{
+	border-bottom: 2px solid #098DDF;
+	padding: 20px 20px 19px;
+}
+.formContainer form .customInputContainer{
+	position: relative;
+}
+.formContainer form .customInputContainer [contenteditable="true"]{
+	min-height: 100px;
+}
+.formContainer form .customInputContainer p{
+	display: none;
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	color: #797979;
+	font-size: 1.1em;
+}
+.formContainer form .customInputContainer [contenteditable="true"]:empty ~ p{
+	display: initial;
+}
+.formContainer form .inputDateContainer h4{
+	color: #505050;
+}
+.formContainer form .inputDateContainer .inputDate{
+	position: relative;
+	margin-top: 10px;
+	padding: 10px 20px;
+	width: 300px;
+	background: #fafafa;
+	border-radius: 3px;
+	cursor: pointer;
+}
+.formContainer form .inputDateContainer .inputDate:hover{
+	background: #f0f0f0;
+}
+.formContainer form .inputDateContainer .inputDate p{
+	pointer-events: none;
+}
+.formContainer form .inputDateContainer .inputDate .triangle{
+	position: absolute;
+	top: 50%;
+	right: 20px;
+	transform: translate(0, -50%);
+	border-top: 6px solid #505050;
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	pointer-events: none;
+}
+.formContainer form .inputDateContainer .inputDate .selectContainer{
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 270px;
+	padding-bottom: 20px;
+	border-radius: 3px;
+	box-shadow: 0 0 7px #999;
+	background: #fff;
+	z-index: 2;
+	cursor: default;
+}
+.selectContainer .desc{
+	color: #5f6368;
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	border-bottom: 1px solid #ededed;
+}
+.selectContainer .formOpt{
+	padding-top: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.selectContainer .formOpt .date{
+	position: relative;
+	height: 45px;
+	width: 220px;
+}
+.selectContainer .formOpt .time{
+	position: relative;
+	margin-top: 20px;
+	height: 45px;
+	width: 220px;
+}
+.selectContainer .formOpt .time.hidden{
+	display: none;
+}
+.selectContainer .formOpt .date svg,
+.selectContainer .formOpt .time svg
+{
+	color: #5f6368;
+	position: absolute;
+	top: 50%;
+	transform: translate(0, -50%);
+	left: 10px;
+	font-size: 1.2em;
+	z-index: 2;
+}
+.selectContainer .formOpt .time .content,
+.selectContainer .formOpt .date .content
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background: #eee;
+	font-size: 13px;
+	font-weight: 500;
+	color: #5f6368;
+	cursor: pointer;
+	text-align: center;
+	line-height: 45px;
+	z-index: 1;
+	pointer-events: none; 
+}
+.selectContainer .formOpt .time .content:after,
+.selectContainer .formOpt .date .content:after
+{
+	position: absolute;
+	top: 50%;
+	transform: translate(0, -50%);
+	right: 20px;
+	content: "";
+	display: table;
+	border-top: 5px solid #5f6368;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	cursor: pointer;
+}
+.selectContainer .formOpt .date input,
+.selectContainer .formOpt .time input
+{
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	bottom: 2px;
+	right: 5px;
+}
+.formContainer form .formSection2{
+	margin-top: 20px;
+}
+.formContainer form .formSection2 h4{
+	color: #505050;
+} 
+.formContainer form .formSection2 .fileUpload{
+	margin-top: 20px;
+	position: relative;
+	display: flex;
+	align-items: center;
+	height: 50px;
+	width: 100%;
+	border: 1px solid #dcdcdc;
+	border-radius: 5px;
+}
+.formContainer form .formSection2 .fileUpload .icon{
+	margin-right: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0 20px;
+	height: 100%;
+	color: #098DDF;
+	font-size: 1.4em;
+	border-right:1px solid #dcdcdc ;
+	float: left;
+}
+.formContainer form .formSection2 .fileUpload .icon .img{
+	height: 70%;
+	width: 100%;
+}
+.formContainer form .formSection2 .fileUpload .fileName{
+	max-width: 430px;
+}
+.formContainer form .formSection2 .fileUpload .fileName span{
+	color: #5f6368;
+	font-weight: 500;
+}
+.formContainer form .formSection2 .fileUpload .removeFile{
+	position: absolute;
+	right: 10px;
+	height: 37px;
+	width: 37px;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 42px;
+}
+.formContainer form .formSection2 .fileUpload .removeFile:hover{
+	background: rgba(249, 249, 249, 1);
+	cursor: pointer;
+}
+.formContainer form .formSection2 .fileUpload .removeFile svg{
+	font-size: 1.4em;
+	transform: rotate(45deg);
+	color: #5f6368;
+}
+.formContainer form .formSection2 .insertAttachment{
+	margin-top: 20px;
+	display: inline-block;
+}
+.formContainer form .formSection2 .insertAttachment .icon{
+	margin: auto;
+	width: 45px;
+	height: 45px;
+	background: rgba(39, 161, 245, 0.1);
+	color: #098DDF;
+	text-align: center;
+	line-height: 45px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.formContainer form .formSection2 .insertAttachment .icon:hover{
+	background: rgba(39, 161, 245, 0.15);
+}
+.formContainer form .formSection2 .insertAttachment p{
+	margin-top: 7px;
+	color: #505050;
+	font-size: 0.95em;
+	font-weight: 600;
+	text-align: center;
+}
