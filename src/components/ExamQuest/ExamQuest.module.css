@@ -1,21 +1,20 @@
 .container{
-	padding: 20px 30px 0;
+	padding: 20px 50px 0 30px;
 	height: 100%;
 	width: 100%;
 }
 .container .created {
 	margin-bottom: 10px;
-	padding-left: 18px;
 	display: flex;
 	align-items: center;
 }
 .container .created h5{
-	font-size: 12px;
+	font-size: 13px;
 	margin-right: 10px;
 	color: #767676;
 }
 .container .created p{
-	font-size: 12px;
+	font-size: 13px;
 	color: #999;
 	font-weight: 500;
 }
@@ -23,7 +22,6 @@
 .container .quest{
 	margin: 20px 0;
 	display: flex;
-	padding: 0 10px 0 15px;
 	font-size: 22px;
 	font-weight: 600;
 	white-space: pre-line;
@@ -39,35 +37,237 @@
     line-height: 37px;
 }
 .container .bottomSide{
-	margin: 30px 0 0 65px;
+	margin-top: 30px;
 	display: flex;
+	padding-bottom: 20px;
 	align-items: center;
 	justify-content: space-between;
+	border-bottom: 2px solid #098DDF;
 }
-.container .bottomSide .attachment{
+.container .bottomSide .fileUpload{
+	margin-top: 20px;
+	position: relative;
 	display: flex;
 	align-items: center;
+	height: 60px;
+	width: 320px;
+	border: 1px solid #dcdcdc;
+	border-radius: 5px;
 }
-.container .bottomSide .attachment .download{
-	margin: 0 10px 0 0;
-	padding: 4px 10px;
-	color: #000;
-	border: 2px solid #000;
+.container .bottomSide .fileUpload .icon{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 20%;
+	color: #098DDF;
+	font-size: 1.4em;
+	border-right:1px solid #dcdcdc ;
+	float: left;
+}
+.container .bottomSide .fileUpload .icon .img{
+	height: 70%;
+}
+.container .bottomSide .fileUpload .fileName{
+	height: 100%;
+	width: 80%;
+	padding: 10px;
+}
+.container .bottomSide .fileUpload .fileName h3{
+	color: #3c4043;
 	font-weight: 600;
-	font-size: 0.95em;
-	border-radius: 50px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
 	cursor: pointer;
 }
-.container .bottomSide .attachment .download:hover{
-	background: #000;
-	color: #fff;
+.container .bottomSide .fileUpload .fileName h3:hover{
+	color: #2986cc;
+}
+.container .bottomSide .fileUpload .fileName p{
+	font-size: 0.94em;
+	font-weight: 600;
+	color: #5f6368;
 }
 .container .bottomSide .deadline{
 	float: right;
-	font-size: 12px;
+	font-weight: 600;
+	font-size: 13px;
 	padding-left: 18px;
-	color: #999;
+	color: #3c4043;
 }
 .container .bottomSide .btnAnsw:hover{
 	background: #e77676;
+}
+.container .answerContainer{
+	margin-top: 20px;
+	padding: 25px;
+	width: 100%;
+	border-radius: 5px;
+	box-shadow: 0 0 4px rgba(184, 184, 184, 1);
+}
+.container .answerContainer::after{
+	content: "";
+	display: block;
+	clear: left;
+}
+.container .answerContainer .exp{
+	display: flex;
+	justify-content: space-between; 
+	font-weight: 600;
+}
+.container .answerContainer .exp span:first-child{
+	color: #434343;
+}
+.container .answerContainer .exp span:nth-child(2){
+	color: #d50000;
+}
+.container .answerContainer .answers{
+	margin-top: 20px;
+	width: 100%;
+	padding: 20px 10px;
+	display: grid;
+	justify-content: start;
+	grid-template-columns: auto auto auto auto;
+	gap: 10px;
+	border-top: 0.10rem solid rgba(224, 224, 224, 1);
+	border-bottom: 0.06999rem solid rgba(224, 224, 224, 1);
+}
+.container .answerContainer .answers .answer{
+	width: 180px;
+	padding: 5px 10px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+.container .answerContainer .answers .answer:hover{
+    background: rgba(39, 131, 245, 0.1);
+}
+.container .answerContainer .answers .answer svg{
+	margin-right: 10px;
+	font-size: 1.3em;
+}
+.container .answerContainer .answers .answer .icon{
+	margin-right: 10px;
+	width: 17px;
+	height: 17px;
+	text-align: center;
+	color: #fff;
+	line-height: 17px;
+	font-size: 0.9em;
+	font-weight: 700;
+	border-radius: 2px;
+}
+.container .answerContainer .answers .answer .icon.word{
+	background: #098DDF;
+}
+.container .answerContainer .answers .answer .icon.pdf{
+	background: #ff5858;
+}
+.container .answerContainer .answers .answer span{
+	font-size: 0.99em;
+	font-weight: 600;
+	color: #434343;
+}
+.container .answerContainer .addFile{
+	margin-top: 20px;
+	color: #434343;
+}
+.container .answerContainer .addFile .title{
+	margin-top: 30px;
+	font-size: 13px;
+	font-weight: 500;
+	color: #434343;
+}
+.container .answerContainer .addFile .input{
+	margin-top: 30px;
+	display: flex;
+	align-items: center;
+}
+.container .answerContainer .addFile .input .select{
+	position: relative;
+	margin-right: 30px;
+	padding: 7px 13px;
+	box-shadow: 0 0 3px #999;
+	border-radius: 3px;
+	cursor: pointer;
+}
+.container .answerContainer .addFile .input .select:hover{
+	background: rgba(217, 217, 217, 0.2);
+}
+.container .answerContainer .addFile .input .select input{
+	display: none;
+}
+.container .answerContainer .addFile .input .select svg{
+	margin-right: 10px;
+	
+}
+.container .answerContainer .addFile .input .select span{
+	font-weight: 600;
+	font-size: 0.89em;
+}
+.container .answerContainer .addFile .input .answer{
+	margin-right: 10px;
+	border-radius: 3px;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+.container .answerContainer .addFile .input .answer .icon{
+	margin-right: 10px;
+	width: 17px;
+	height: 17px;
+	text-align: center;
+	color: #fff;
+	line-height: 17px;
+	font-size: 0.9em;
+	font-weight: 700;
+	border-radius: 2px;
+}
+.container .answerContainer .addFile .input .answer .icon.word{
+	background: #098DDF;
+}
+.container .answerContainer .addFile .input .answer .icon.pdf{
+	background: #ff5858;
+}
+.container .answerContainer .addFile .input .answer span{
+	font-size: 0.99em;
+	font-weight: 600;
+	color: #434343;
+}
+.container .answerContainer .addFile .input .delete{
+	height: 19px;
+	width: 19px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.container .answerContainer .addFile .input .delete:hover{
+	background: rgba(218, 218, 218, 0.6);
+}
+.container .answerContainer .addFile .input .delete svg{
+	transform: rotate(45deg);
+	font-size: 1.1em;
+}
+.container .answerContainer .addFile .input .delete:hover{
+}
+.container .answerContainer .submit{
+	margin-top: 30px;
+	float: left;
+	padding: 7px 13px;
+	text-align: center;
+	background: #0e77b9;
+	color: #fff;
+	font-weight: 600;
+	border-radius: 3px;
+	cursor: pointer;
+}
+.container .answerContainer .submit.disabled{
+	background: rgba(0,0,0,.12);
+	color: rgba(0,0,0,.38);
 }

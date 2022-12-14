@@ -7,6 +7,9 @@ import style from './ExamAnswers.module.css'
 import Image from '../Image'
 import ModalContainer from '../ModalContainer'
 
+//APIs
+import * as examApi from "../../api/exam"
+
 export default function ExamAnswers(){
 	
 	const [ displayModal, setDisplayModal ] = React.useState(true)

@@ -6,6 +6,7 @@
 }
 .container .mainContent{
 	margin: auto;
+	padding-bottom: 30px;
 	width: 900px;
 	min-height: calc(100vh - 65px);
 	background: #fff;

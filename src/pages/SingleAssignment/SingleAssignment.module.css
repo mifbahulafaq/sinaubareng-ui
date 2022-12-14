@@ -1,6 +1,8 @@
 .container{
 	position: relative;
     padding: 0 110px;
+	display: flex;
+	justify-content: center;
     background: #eee;
     min-height: calc(100vh - 65px);
 }
@@ -80,36 +82,69 @@
     color: #434343;
 }
 .container .mainContent .assignment .qna .bottomSide{
-	margin: 30px 0 0 18px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+	margin: 30px 0 0 20px;
+	display: flex;
+	padding-bottom: 20px;
+	align-items: center;
+	justify-content: space-between;
 }
-.container .mainContent .assignment .qna .bottomSide .attachment{
-    display: flex;
-    align-items: center;
+.container .mainContent .assignment .qna .bottomSide .fileUpload{
+	margin-top: 20px;
+	position: relative;
+	display: flex;
+	align-items: center;
+	height: 60px;
+	width: 320px;
+	border: 1px solid #dcdcdc;
+	border-radius: 5px;
 }
-.container .mainContent .assignment .qna .bottomSide .attachment .download{
-	margin-right: 10px;
-    padding: 4px 10px;
-    color: #000;
-    border: 2px solid #000;
-    font-weight: 600;
-    font-size: 0.95em;
-    border-radius: 50px;
-    cursor: pointer;
+.container .mainContent .assignment .qna .bottomSide .fileUpload .icon{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 20%;
+	color: #098DDF;
+	font-size: 1.4em;
+	border-right:1px solid #dcdcdc ;
+	float: left;
 }
-.container .mainContent .assignment .qna .bottomSide .attachment .download:hover{
-	background: #000;
-	color: #fff;
+.container .mainContent .assignment .qna .bottomSide .fileUpload .icon .img{
+	height: 70%;
+}
+.container .mainContent .assignment .qna .bottomSide .fileUpload .fileName{
+	height: 100%;
+	width: 80%;
+	padding: 10px;
+}
+.container .mainContent .assignment .qna .bottomSide .fileUpload .fileName h3{
+	color: #3c4043;
+	font-weight: 600;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	cursor: pointer;
+}
+.container .mainContent .assignment .qna .bottomSide .fileUpload .fileName h3:hover{
+	color: #2986cc;
+}
+.container .mainContent .assignment .qna .bottomSide .fileUpload .fileName p{
+	font-size: 0.94em;
+	font-weight: 600;
+	color: #5f6368;
 }
 .container .mainContent .assignment .qna .bottomSide .deadline{
 	float: right;
-    font-size: 12px;
-    padding-left: 18px;
-    color: #999;
+	font-weight: 600;
+	font-size: 13px;
+	padding-left: 18px;
+	color: #3c4043;
+}
+.container .mainContent .assignment .qna .bottomSide .btnAnsw:hover{
+	background: #e77676;
 }
 .container .mainContent .assignment .answContainer{
+	margin-left: 30px;
 	padding: 0 15px 15px;
     width: 335px;
     border-radius: 5px 5px 0 0;
@@ -169,5 +204,176 @@
     line-height: 30px;
     text-align: center;
     color: #fff;
+}
+.container .mainContent .answerContainer{
+	padding: 0 25px 25px;
+	width: 850px;
+}
+.container .mainContent .answerContainer::after{
+	content: "";
+	display: block;
+	clear: left;
+}
+.container .mainContent .answerContainer .exp{
+	padding-top: 25px;
+	display: flex;
+	justify-content: space-between; 
+	font-weight: 600;
+	border-top: 2px solid #098DDF;
+}
+.container .mainContent .answerContainer .exp span:first-child{
+	color: #434343;
+}
+.container .mainContent .answerContainer .exp span:nth-child(2){
+	color: #d50000;
+}
+.container .mainContent .answerContainer .answers{
+	margin-top: 20px;
+	width: 100%;
+	padding: 20px 10px;
+	display: grid;
+	justify-content: start;
+	grid-template-columns: auto auto auto auto;
+	gap: 10px;
+	border-top: 0.10rem solid rgba(224, 224, 224, 1);
+	border-bottom: 0.06999rem solid rgba(224, 224, 224, 1);
+}
+.container .mainContent .answerContainer .answers .answer{
+	width: 180px;
+	padding: 5px 10px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+.container .mainContent .answerContainer .answers .answer:hover{
+    background: rgba(39, 131, 245, 0.1);
+}
+.container .mainContent .answerContainer .answers .answer svg{
+	margin-right: 10px;
+	font-size: 1.3em;
+}
+.container .mainContent .answerContainer .answers .answer .icon{
+	margin-right: 10px;
+	width: 17px;
+	height: 17px;
+	text-align: center;
+	color: #fff;
+	line-height: 17px;
+	font-size: 0.9em;
+	font-weight: 700;
+	border-radius: 2px;
+}
+.container .mainContent .answerContainer .answers .answer .icon.word{
+	background: #098DDF;
+}
+.container .mainContent .answerContainer .answers .answer .icon.pdf{
+	background: #ff5858;
+}
+.container .mainContent .answerContainer .answers .answer span{
+	font-size: 0.99em;
+	font-weight: 600;
+	color: #434343;
+}
+.container .mainContent .answerContainer .addFile{
+	margin-top: 20px;
+	color: #434343;
+}
+.container .mainContent .answerContainer .addFile .title{
+	margin-top: 30px;
+	font-size: 13px;
+	font-weight: 500;
+	color: #434343;
+}
+.container .mainContent .answerContainer .addFile .input{
+	margin-top: 30px;
+	display: flex;
+	align-items: center;
+}
+.container .mainContent .answerContainer .addFile .input .select{
+	position: relative;
+	margin-right: 30px;
+	padding: 7px 13px;
+	box-shadow: 0 0 3px #999;
+	border-radius: 3px;
+	cursor: pointer;
+}
+.container .mainContent .answerContainer .addFile .input .select:hover{
+	background: rgba(217, 217, 217, 0.2);
+}
+.container .mainContent .answerContainer .addFile .input .select input{
+	display: none;
+}
+.container .mainContent .answerContainer .addFile .input .select svg{
+	margin-right: 10px;
+	
+}
+.container .mainContent .answerContainer .addFile .input .select span{
+	font-weight: 600;
+	font-size: 0.89em;
+}
+.container .mainContent .answerContainer .addFile .input .answer{
+	margin-right: 10px;
+	border-radius: 3px;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+.container .mainContent .answerContainer .addFile .input .answer .icon{
+	margin-right: 10px;
+	width: 17px;
+	height: 17px;
+	text-align: center;
+	color: #fff;
+	line-height: 17px;
+	font-size: 0.9em;
+	font-weight: 700;
+	border-radius: 2px;
+}
+.container .mainContent .answerContainer .addFile .input .answer .icon.word{
+	background: #098DDF;
+}
+.container .mainContent .answerContainer .addFile .input .answer .icon.pdf{
+	background: #ff5858;
+}
+.container .mainContent .answerContainer .addFile .input .answer span{
+	font-size: 0.99em;
+	font-weight: 600;
+	color: #434343;
+}
+.container .mainContent .answerContainer .addFile .input .delete{
+	height: 19px;
+	width: 19px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.container .mainContent .answerContainer .addFile .input .delete:hover{
+	background: rgba(218, 218, 218, 0.6);
+}
+.container .mainContent .answerContainer .addFile .input .delete svg{
+	transform: rotate(45deg);
+	font-size: 1.1em;
+}
+.container .mainContent .answerContainer .addFile .input .delete:hover{
+}
+.container .mainContent .answerContainer .submit{
+	margin-top: 30px;
+	float: left;
+	padding: 7px 13px;
+	text-align: center;
+	background: #0e77b9;
+	color: #fff;
+	font-weight: 600;
+	border-radius: 3px;
+	cursor: pointer;
+}
+.container .mainContent .answerContainer .submit.disabled{
+	background: rgba(0,0,0,.12);
+	color: rgba(0,0,0,.38);
 }
     
