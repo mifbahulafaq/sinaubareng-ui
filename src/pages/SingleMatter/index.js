@@ -127,7 +127,7 @@ export default React.memo(function SingleMatter() {
 			.replace(/(^\s*)|(\s*$)/g, "")
 		)
 	}
-	
+	const a = "á á á á á á whitespcace"
   return (
 	<div className={style.container}>
 		<ModalContainer displayed={displayModal} setDisplayed={setDisplayModal}>
@@ -153,7 +153,7 @@ export default React.memo(function SingleMatter() {
 						<FontAwesomeIcon icon={['far', 'clock']} />
 						<span>{`${scheduleMatt} ${matt.duration?"- 12:12":""}`}</span>
 					</div>
-					<p>{matt.description}</p>
+					<p className={style.desc}>{matt.description}</p>
 					<div className={style.attachContainer} >
 						{
 							matt.attachment?.map((e,i)=>{
@@ -243,7 +243,7 @@ export default React.memo(function SingleMatter() {
 							}
 							
 							return <div key={i} className={style.singleAssign}>
-								<Link to="assignment/1221" ><h4>{e.title}</h4></Link>
+								<Link to={`assignment/${e.id_matt_ass}`} ><h4>{e.title}</h4></Link>
 								<span className={style.duration} >
 									Tenggat: <span>{tenggat? tenggat : "-"}</span>
 								</span>

@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Image from '../Image'
 //APIs
 import * as examApi from "../../api/exam"
+import * as ansApi from "../../api/exam-answer"
 
 //utils
 import formatDate from '../../utils/id-format-date'
@@ -17,21 +18,31 @@ export default React.memo(function ExamQuest(){
 	const [ examData, setExamData ] = React.useState(null)
 	const customInput = React.useRef(null)
 	const [ answerText, setAnswerText ] = React.useState("")
+	const [ ansData, setAnsData ] = React.useState({})
 	
 	const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
 	const extAttachment = {pdf: "document", doc: "word", docx: "word"}
 	const schedule = examData? new Date(examData.schedule) : new Date()
 	const tenggat = examData && examData.duration? (new Date(examData.schedule)).getTime() + examData.duration : ""
 	
+	const getAns = React.useCallback(()=>{
+		ansApi.getByExm(params.id_exm)
+		.then(({ data })=>{
+			if(data.error) return console.log(data)
+			setAnsData(data.data[0])
+		})
+		.catch(err=>console.log(err))
+	}, [params.id_exm])
 	React.useEffect(()=>{
 		
 		examApi.getSingle(params.id_exm)
 		.then(({ data })=>{
 			if(data.error) return console.log(data)
 			setExamData(data.data?.[0])
+			getAns()
 		})
 		
-	},[params.id_exm])
+	},[params.id_exm, getAns])
 	
 	function inputAnswer(e){
 		setAnswerText(e.currentTarget.textContent)
@@ -40,7 +51,7 @@ export default React.memo(function ExamQuest(){
 		if(!answerText.length) return
 		console.log(answerText)
 	}
-	console.log(answerText)
+	console.log(ansData)
 	return (
 		<div className={style.container}>
 			<div className={style.created}>

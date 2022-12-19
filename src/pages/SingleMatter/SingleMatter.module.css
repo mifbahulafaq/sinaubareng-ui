@@ -39,7 +39,8 @@
 	font-size: 12px;
 	margin-left: 5px;
 }
-.detail p{
+.detail p.desc{
+	background: red;
 	margin-top: 15px;
 	font-size: 0.96em;
 }

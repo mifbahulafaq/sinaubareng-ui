@@ -24,3 +24,14 @@ export function add(payload){
 	});
 	
 }
+export function readSingle(id_matt_ass){
+	
+	const { token } = JSON.parse(localStorage.getItem('auth'));
+	
+	return axios.get(`${config.api_host}/api/matter-assignments/${id_matt_ass}`,{
+		headers: {
+			authorization: `Bearer ${token}`,
+		}
+	});
+	
+}

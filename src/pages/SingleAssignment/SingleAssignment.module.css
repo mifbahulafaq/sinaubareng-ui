@@ -49,12 +49,11 @@
 	margin-top: 15px;
 }
 .container .mainContent .assignment{
-	padding: 20px 20px 0 0;
+	padding: 20px 25px 0 0;
     display: flex;
-    justify-content: space-between;
+	flex-direction: column;
 }
 .container .mainContent .assignment .qna{
-	width: 760px;
 }
 .container .mainContent .assignment .qna .created{
 	margin-bottom: 10px;
@@ -85,7 +84,7 @@
 	margin: 30px 0 0 20px;
 	display: flex;
 	padding-bottom: 20px;
-	align-items: center;
+	align-items: flex-end;
 	justify-content: space-between;
 }
 .container .mainContent .assignment .qna .bottomSide .fileUpload{
@@ -216,8 +215,6 @@
 }
 .container .mainContent .answerContainer .exp{
 	padding-top: 25px;
-	display: flex;
-	justify-content: space-between; 
 	font-weight: 600;
 	border-top: 2px solid #098DDF;
 }
@@ -256,7 +253,7 @@
 }
 .container .mainContent .answerContainer .answers .answer .icon{
 	margin-right: 10px;
-	width: 17px;
+	min-width: 17px;
 	height: 17px;
 	text-align: center;
 	color: #fff;
@@ -265,7 +262,10 @@
 	font-weight: 700;
 	border-radius: 2px;
 }
-.container .mainContent .answerContainer .answers .answer .icon.word{
+.container .mainContent .answerContainer .answers .answer .icon.docx{
+	background: #098DDF;
+}
+.container .mainContent .answerContainer .answers .answer .icon.doc{
 	background: #098DDF;
 }
 .container .mainContent .answerContainer .answers .answer .icon.pdf{
@@ -275,6 +275,15 @@
 	font-size: 0.99em;
 	font-weight: 600;
 	color: #434343;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.container .mainContent .answerContainer .answers .noAnsw{
+	margin: auto;
+	width: 100%;
+	text-align: center;
+	font-size: 12px;
 }
 .container .mainContent .answerContainer .addFile{
 	margin-top: 20px;
@@ -322,7 +331,7 @@
 }
 .container .mainContent .answerContainer .addFile .input .answer .icon{
 	margin-right: 10px;
-	width: 17px;
+	min-width: 17px;
 	height: 17px;
 	text-align: center;
 	color: #fff;
@@ -331,16 +340,20 @@
 	font-weight: 700;
 	border-radius: 2px;
 }
-.container .mainContent .answerContainer .addFile .input .answer .icon.word{
+.container .mainContent .answerContainer .addFile .icon.docx, .addFile .icon.doc{
 	background: #098DDF;
 }
 .container .mainContent .answerContainer .addFile .input .answer .icon.pdf{
 	background: #ff5858;
 }
 .container .mainContent .answerContainer .addFile .input .answer span{
+	width: 150px;
 	font-size: 0.99em;
 	font-weight: 600;
 	color: #434343;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 .container .mainContent .answerContainer .addFile .input .delete{
 	height: 19px;
