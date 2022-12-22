@@ -16,8 +16,8 @@ export default React.memo(function ExamQuest(){
 	
 	const params = useParams()
 	const [ examData, setExamData ] = React.useState(null)
-	const customInput = React.useRef(null)
-	const [ answerText, setAnswerText ] = React.useState("")
+	const fileInput = React.useRef(null)
+	const [ fileAns, setFileAns ] = React.useState(null)
 	const [ ansData, setAnsData ] = React.useState({})
 	
 	const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
@@ -33,6 +33,7 @@ export default React.memo(function ExamQuest(){
 		})
 		.catch(err=>console.log(err))
 	}, [params.id_exm])
+	
 	React.useEffect(()=>{
 		
 		examApi.getSingle(params.id_exm)
@@ -44,14 +45,22 @@ export default React.memo(function ExamQuest(){
 		
 	},[params.id_exm, getAns])
 	
-	function inputAnswer(e){
-		setAnswerText(e.currentTarget.textContent)
-	}
 	function submitAnswer(){
-		if(!answerText.length) return
-		console.log(answerText)
+		if(!fileAns) return
+		
+		const payload = new FormData()
+		payload.append('id_exm', params.id_exm)
+		payload.append('content', fileAns)
+		
+		ansApi.add(payload)
+		.then(({ data })=>{
+			if(data.error) console.log(data)
+			setFileAns(null)
+			getAns()
+		})
+		.catch(err=>console.log(err))
 	}
-	console.log(ansData)
+	
 	return (
 		<div className={style.container}>
 			<div className={style.created}>
@@ -87,54 +96,68 @@ export default React.memo(function ExamQuest(){
 			<div className={style.answerContainer}>
 				<div className={style.exp}>
 					<span>Jawaban Anda</span>
-					<span>Tidak Ada</span>
+					<span className={parseInt(ansData.score)? style.score: ""}>{parseInt(ansData.score)? `Nilai: ${parseInt(ansData.score)}`:"Tidak Ada"}</span>
 				</div>
 				<div className={style.answers}>
-					<div className={style.answer}>
-						<div className={`${style.icon} ${style.pdf}`}>P</div>
-						<span>sdadsads.pdf</span>
-					</div>
-					<div className={style.answer}>
-						<div className={`${style.icon} ${style.word}`}>W</div>
-						<span>sdadsads.pdf</span>
-					</div>
-					<div className={style.answer}>
-						<div className={`${style.icon} ${style.pdf}`}>P</div>
-						<span>sdadsads.pdf</span>
-					</div>
-					<div className={style.answer}>
-						<div className={`${style.icon} ${style.word}`}>W</div>
-						<span>sdadsads.pdf</span>
-					</div>
-					<div className={style.answer}>
-						<div className={`${style.icon} ${style.pdf}`}>P</div>
-						<span>sdadsads.pdf</span>
-					</div>
-					<div className={style.answer}>
-						<div className={`${style.icon} ${style.word}`}>W</div>
-						<span>sdadsads.pdf</span>
-					</div>
+					{
+						ansData.content && ansData.content.length?
+							ansData.content.map((e,i)=>{
+								
+								const ext = e[1].split('.')[e[1].split('.').length - 1].toLowerCase()
+								return <div key={i} className={style.answer}>
+									<div className={`${style.icon} ${style[ext]}`}>{ext === "pdf"?'P':'W'}</div>
+									<span>{e[1]}</span>
+								</div>
+						})
+						:
+						<div className={style.noAnsw}>Belum ada jawaban</div>
+					}
 				</div>
 				
 				<div className={style.addFile}>
 					<p className={style.title} >Tambahkan Jawaban</p>
 					<div className={style.input}>
 						<div onClick={e=>e.currentTarget.querySelector("input").click()} className={style.select} >
-							<input type="file" accept=".pdf, .docx, doc, .PDF, .DOCX, DOC" />
+							<input 
+								type="file" 
+								ref={fileInput}
+								onChange={e=>setFileAns(e.target.files[0])}
+								onClick={e=>e.target.value = null} 
+								accept=".pdf, .docx, doc, .PDF, .DOCX, DOC" 
+							/>
 							<FontAwesomeIcon icon='arrow-up-from-bracket' />
 							<span>Upload</span>
 						</div>
 						<div className={style.answer}>
-							<div className={`${style.icon} ${style.word}`}>W</div>
-							<span>sdadsads.pdf</span>
+							{
+								fileAns?
+								<>
+									<div 
+										className={`${style.icon} ${style[fileAns.name.split('.')[fileAns.name.split('.').length - 1].toLowerCase()]}`}
+									>
+										{fileAns.name.split('.')[fileAns.name.split('.').length - 1].toLowerCase() === 'pdf'?"P":"W"}
+									</div>
+									<span>{fileAns.name}</span>
+								</>
+								:""
+							}
 						</div>
-						<div className={style.delete}>
-							<FontAwesomeIcon icon='plus' />
-						</div>
+						{
+							fileAns?
+							
+							<div
+								onClick={()=>{
+									setFileAns(null)
+								}}
+								className={style.delete}>
+								<FontAwesomeIcon icon='plus' />
+							</div>
+							:""
+						}
 					</div>
 				</div>
 				
-				<div onClick={submitAnswer} className={`${style.submit} ${answerText.length?"":style.disabled}`}>Serahkan</div>
+				<div onClick={submitAnswer} className={`${style.submit} ${fileAns?"":style.disabled}`}>Serahkan</div>
 				
 			</div>
 		</div>

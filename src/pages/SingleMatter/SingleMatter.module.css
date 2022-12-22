@@ -22,7 +22,7 @@
 	width: 68.6%;
 }
 .matter .detail{
-	padding: 10px;
+	padding: 10px 10px 15px;
 	background: rgba(201, 209, 255, 0.3);
 	border-radius: 10px;
 }
@@ -40,7 +40,6 @@
 	margin-left: 5px;
 }
 .detail p.desc{
-	background: red;
 	margin-top: 15px;
 	font-size: 0.96em;
 }
@@ -245,8 +244,13 @@
 	font-weight: 700;
 	font-size: 13px;
 	color: #999;
+	cursor: pointer;
+	transition: all ease 0.3s;
 }
-.assignContainer .menu li:first-child{
+.assignContainer .menu li:hover{
+	background: rgba(173, 225, 82, 0.3);
+}
+.assignContainer .menu li.active{
 	background: #c6e978;
 	border: 1px solid #c6e978;
 	color: #000;

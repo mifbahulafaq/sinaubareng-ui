@@ -12,6 +12,17 @@ export function getAll(){
 	});
 	
 }
+export function getByClass(code_class){
+	
+	const { token } = JSON.parse(localStorage.getItem('auth'));
+	
+	return axios.get(`${config.api_host}/api/students/by-class/${code_class}`,{
+		headers: {
+			authorization: `Bearer ${token}`,
+		}
+	});
+	
+}
 export function joinClass(codeCLass){
 	
 	const { token } = JSON.parse(localStorage.getItem('auth'));

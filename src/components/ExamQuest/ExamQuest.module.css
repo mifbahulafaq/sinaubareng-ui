@@ -122,6 +122,9 @@
 .container .answerContainer .exp span:nth-child(2){
 	color: #d50000;
 }
+.container .answerContainer .exp span:nth-child(2).score{
+	color: #434343;
+}
 .container .answerContainer .answers{
 	margin-top: 20px;
 	width: 100%;
@@ -151,7 +154,7 @@
 }
 .container .answerContainer .answers .answer .icon{
 	margin-right: 10px;
-	width: 17px;
+	min-width: 17px;
 	height: 17px;
 	text-align: center;
 	color: #fff;
@@ -160,7 +163,10 @@
 	font-weight: 700;
 	border-radius: 2px;
 }
-.container .answerContainer .answers .answer .icon.word{
+.container .answerContainer .answers .answer .icon.doc{
+	background: #098DDF;
+}
+.container .answerContainer .answers .answer .icon.docx{
 	background: #098DDF;
 }
 .container .answerContainer .answers .answer .icon.pdf{
@@ -170,6 +176,9 @@
 	font-size: 0.99em;
 	font-weight: 600;
 	color: #434343;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 .container .answerContainer .addFile{
 	margin-top: 20px;
@@ -226,16 +235,23 @@
 	font-weight: 700;
 	border-radius: 2px;
 }
-.container .answerContainer .addFile .input .answer .icon.word{
+.container .answerContainer .addFile .input .answer .icon.doc{
+	background: #098DDF;
+}
+.container .answerContainer .addFile .input .answer .icon.docx{
 	background: #098DDF;
 }
 .container .answerContainer .addFile .input .answer .icon.pdf{
 	background: #ff5858;
 }
 .container .answerContainer .addFile .input .answer span{
+	width: 150px;
 	font-size: 0.99em;
 	font-weight: 600;
 	color: #434343;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 .container .answerContainer .addFile .input .delete{
 	height: 19px;

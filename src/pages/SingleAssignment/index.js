@@ -1,8 +1,8 @@
 import React from 'react';
 import style from './SingleAssignment.module.css';
-
 import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import config from '../../config'
 
 //components
 import Image from '../../components/Image';
@@ -15,6 +15,7 @@ import uppercase from '../../utils/uppercase'
 import * as assignmentApi from '../../api/matt-ass' 
 import * as answerApi from '../../api/ass-answer' 
 import * as file from '../../api/file' 
+import * as studentApi from '../../api/student' 
 
 export default React.memo(function SingleAssignment() {
 	
@@ -22,7 +23,8 @@ export default React.memo(function SingleAssignment() {
 	const [ answerText, setAnswerText ] = React.useState("")
 	const [ ansFile, setAnsFile ] = React.useState(null)
 	const [ assData, setAssData ] = React.useState({})
-	const [ ansData, setAnsData ] = React.useState({})
+	const [ ansData, setAnsData ] = React.useState([])
+	const [ teacherAuth, setTeacherAuth ] = React.useState(true)
 	const fileAnsw = React.useRef(null)
 	
 	const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
@@ -34,7 +36,7 @@ export default React.memo(function SingleAssignment() {
 		answerApi.getByAss(params.id_matt_ass)
 		.then(({ data })=>{
 			if(data.error) return console.log(data)
-			setAnsData(data.data[0])	
+			setAnsData(data.data)	
 		})
 		.catch(err=>console.log(err))
 		
@@ -67,7 +69,7 @@ export default React.memo(function SingleAssignment() {
 		})
 		.catch(err=>console.log(err))
 	}
-	//console.log(ansFile)
+	
   return (
 	<div className={style.container}>
 		<div className={style.mainContent}>
@@ -78,7 +80,7 @@ export default React.memo(function SingleAssignment() {
 				<h3>Tugas</h3>
 			</div>
 			
-			<div className={style.assignment}>
+			<div className={`${style.assignment} ${teacherAuth? style.teacherAuth: ""}`}>
 				<div className={style.qna}>
 					<div className={style.created}>
 						<h5 className={style.teacher}>{assData.teacher?uppercase(assData.teacher.name, 0):""}</h5>
@@ -112,64 +114,44 @@ export default React.memo(function SingleAssignment() {
 					</div>
 				</div>
 				{
-				/*	<div className={style.answContainer}>
+					teacherAuth?
+					<div className={style.answContainer}>
 						<div className={style.aboutAnsw}>
-							<h4>Answers(20) of 30 Students </h4>
+							<h4>20 Jawaban dari 30 Siswa </h4>
 						</div>
 						<div className={style.answs}>
+							{
+								ansData.map((e,i)=>{
+									return <div key={i} className={style.singleAnsw}>
+											<div className={style.detail}>
+												<div className={style.photo } >
+													<Image src={e.user.photo?`${config.api_host}/public/photo/${e.user.photo}`:"images/user.png"} />
+												</div>
+												<div className={style.status}>
+													<h5>{uppercase(e.user.name, 0)}</h5>
+													<p>24hrs ago</p>
+												</div>
+											</div>
+										</div>
+								})
+							}
 						
-							<div className={style.singleAnsw}>
-								<div className={style.detail}>
-									<div className={style.photo } >
-										<Image src="images/user.png" />
-									</div>
-									<div className={style.status}>
-										<h5>Mifbahul Afaq</h5>
-										<p>24hrs ago</p>
-									</div>
-								</div>
-								<div title="score" className={style.score}>90</div>
-							</div>
-						
-							<div className={style.singleAnsw}>
-								<div className={style.detail}>
-									<div className={style.photo } >
-										<Image src="images/user.png" />
-									</div>
-									<div className={style.status}>
-										<h5>Mifbahul Afaq</h5>
-										<p>24hrs ago</p>
-									</div>
-								</div>
-								<div title="score" className={style.score}>90</div>
-							</div>
-						
-							<div className={style.singleAnsw}>
-								<div className={style.detail}>
-									<div className={style.photo } >
-										<Image src="images/user.png" />
-									</div>
-									<div className={style.status}>
-										<h5>Mifbahul Afaq</h5>
-										<p>24hrs ago</p>
-									</div>
-								</div>
-								<div title="score" className={`${style.score} ${style.null}`}>0</div>
-							</div>
-							
 						</div>
-					</div>*/
+					</div>
+					:""
 				}
 			</div>
 			{
+				teacherAuth?""
+				:
 			<div className={style.answerContainer}>
 				<div className={style.exp}>
 					<span>Jawaban Anda</span>
 				</div>
-				<div style={{display: ansData.content && ansData.content.length? "grid": "block	"}} className={style.answers}>
+				<div style={{display: ansData[0]?.content && ansData[0]?.content.length? "grid": "block	"}} className={style.answers}>
 					{
-						ansData.content && ansData.content.length?
-							ansData.content.map((e,i)=>{
+						ansData[0]?.content && ansData[0].content.length?
+							ansData[0].content.map((e,i)=>{
 								
 								const ext = e[1].split('.')[1].toLowerCase()
 								return <div key={i} className={style.answer}>

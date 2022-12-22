@@ -25,6 +25,7 @@ export default React.memo(function SingleMatter() {
 	const [ commentText, setCommentText ] = React.useState("");
 	const [ displayModal, setDisplayModal ] = React.useState(false)
 	const customInput = React.useRef(null);
+	const [ allAss, setAllAss ] = React.useState(false)
 	//const [assignment, setAssignment] = React.useState({});
 	const params = useParams()
 	
@@ -49,20 +50,30 @@ export default React.memo(function SingleMatter() {
 		})
 	}, [params.id_matt])
 	
-	const getAssignments = React.useCallback(()=>{
-		mattAss.getAll(params.id_matt)
+	const getAss = React.useCallback(()=>{
+		
+		let filter = {}
+		if(!allAss) filter.no_answer = 1
+		
+		mattAss.getAll(params.id_matt, filter)
 		.then(res=>{
 			const { data: ass } = res;
 			if(ass.error) return console.log(ass.message);
 			setMattAssignments(ass.data)
 		})
-	}, [params.id_matt])
+		
+	}, [params.id_matt, allAss])
+	
+	React.useEffect(()=>{
+		
+		getAss()
+		
+	}, [ getAss ])
 	
 	React.useEffect(()=>{
 		getSingleMatt();
 		getComments();
-		getAssignments()
-	}, [getSingleMatt, getAssignments, getComments])
+	}, [getSingleMatt, getComments])
 	
 	function getFile(idMatt, filename, donwload = false){
 		matterApi.getaDocument(idMatt,filename[0]).then(({ data })=>{
@@ -127,13 +138,13 @@ export default React.memo(function SingleMatter() {
 			.replace(/(^\s*)|(\s*$)/g, "")
 		)
 	}
-	const a = "á á á á á á whitespcace"
+	
   return (
 	<div className={style.container}>
 		<ModalContainer displayed={displayModal} setDisplayed={setDisplayModal}>
 			<AssignmentForm
 				refreshAssignment={()=>{
-					getAssignments()
+					setAllAss(true)
 					setDisplayModal(false)
 				}} 
 				idMatter={parseInt(params.id_matt)}
@@ -153,7 +164,9 @@ export default React.memo(function SingleMatter() {
 						<FontAwesomeIcon icon={['far', 'clock']} />
 						<span>{`${scheduleMatt} ${matt.duration?"- 12:12":""}`}</span>
 					</div>
-					<p className={style.desc}>{matt.description}</p>
+					<p className={style.desc}>{matt.description?.trim()}</p>
+					{
+					matt.attachment?
 					<div className={style.attachContainer} >
 						{
 							matt.attachment?.map((e,i)=>{
@@ -179,6 +192,8 @@ export default React.memo(function SingleMatter() {
 						}
 						
 					</div>
+					:""
+					}
 				</div>
 				
 				<div className={style.commentContainer}>
@@ -229,8 +244,8 @@ export default React.memo(function SingleMatter() {
 					<div className={style.btn} onClick={()=>setDisplayModal(true)} > <FontAwesomeIcon icon="plus" /> Buat</div>
 				</div>
 				<ul className={style.menu}>
-					<li>Perlu Dikerjakan</li>
-					<li>Semua</li>
+					<li onClick={()=>setAllAss(false)} className={`${!allAss? style.active: ""}`}>Perlu Dikerjakan</li>
+					<li onClick={()=>setAllAss(true)} className={`${allAss? style.active: ""}`}>Semua</li>
 				</ul>
 				<div className={style.assigns}>
 					{

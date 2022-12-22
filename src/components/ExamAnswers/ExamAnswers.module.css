@@ -110,6 +110,14 @@
 	color: #767676;
 	cursor: pointer;
 }
+.container .singleAns .detail .desc .comment.none{
+	padding: 5px 15px;
+	border-radius: 100px;
+	color: #767676;
+	font-weight: normal;
+	font-size: 0.95em;
+	cursor: pointer;
+}
 .container .singleAns .detail .desc .comment:hover{
 	background: rgba(231, 231, 231, 0.3);
 }
@@ -117,7 +125,7 @@
 	color: #767676;
 }
 .container .singleAns .detail .desc .score.none{
-	color: #ff0000;
+	color: #d50000;
 }
 .container .singleAns .detail .ansNav{
 	display: flex;
