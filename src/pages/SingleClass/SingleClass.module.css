@@ -27,12 +27,6 @@
 	font-family: 'Kanit', sans-serif;
 	color: #bcbcbc;
 }
-.container .detail .userImage{
-	width:60px;
-	height: 60px;
-	border-radius:15px 5px;
-	overflow: hidden;
-}
 .container .detail .menu{
 	position:absolute;
 	list-style: none;
@@ -58,14 +52,25 @@
 	line-height:35px;
 	box-shadow:0px 2px 5px rgba(98, 98, 98, 0.8);
 }
+.detail .menu .icon.user{
+	background: #fff;
+	border: 2px solid #098DDF;
+}
 .detail .menu svg{
 	color: #fff;
+	font-size:18px;
+}
+.detail .menu .icon.user svg{
+	color: #098DDF;
 	font-size:18px;
 }
 .detail .menu a{
 	text-decoration: none;
 	color: #fff;
 	text-align: center;
+}
+.detail .menu a:hover{
+	text-shadow: 0 0 4px #fff;
 }
 .task{
 	display: flex;
@@ -75,15 +80,14 @@
 .chatting{
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
-	padding: 20px 20px 0;
-	justify-content: space-between;
+	align-items: center;
 	background: rgba(126, 200, 243, 0.15);
 	min-height: 470px;
 	border-radius: 5px;
 	box-shadow: 0 1px 3px rgba(162, 162, 162, 0.3);
 }
 .chatting .words{
+	padding: 20px 20px 0;
 	width: 100%;
 }
 .chatting .words::after{
@@ -130,6 +134,7 @@
 .chatting .words .chat2 .name{
 	font-size: 11px;
 	font-weight: 600;
+	text-align: right;
 }
 .chatting .words .chat2 .text{
 	margin-top: 5px;
@@ -141,6 +146,7 @@
 	background: #555580;
 	color: #fff;
 	box-shadow: 0 1px 3px rgba(162, 162, 162, 0.47);
+	word-break: break-all;
 }
 .chatting .words .sortDate{
 	clear: right;
@@ -162,33 +168,47 @@
 .chatting .sender{
 	margin-bottom: 5px;
 	position: sticky;
+	width: 680px;
 	bottom: 5px;
-	padding:10px;
 	border-radius: 5px;
 	box-shadow: 0 0 2px #999;
 	background: #fff;
 }
 .chatting .sender form{
+	position: relative;
 	display: flex;
-	align-items: center;
+	width: 100%;
+	padding:10px;
+	align-items: flex-start;
+	justify-content: space-between;
 }
 .chatting .sender .addFile{
 	margin-right: 10px;
 	color: #999;
 	font-size: 24px;
 }
-.chatting .sender input{
-	width: 82%;
+.chatting .sender .customInput{
+	width: 87%;
 	padding:8px 13px;
 	outline: none;
 	border-radius:5px;
 	border: 2px solid #e5e5e5;
 }
-.chatting .sender input::placeholder{
+.chatting .sender .placeHolder{
+	display: none;
+	position: absolute;
+	top: 50%;
+	transform: translate(0, -50%);
+	left: 25px;
 	color: #999;
+	pointer-events: none;
+}
+.chatting .sender .customInput:empty + .placeHolder{
+	display: initial;
 }
 .chatting .sender button{
 	display: flex;
+	width: 11%;
 	align-items: center;
 	margin-left: 10px;
 	padding: 10px 13px;
@@ -196,6 +216,10 @@
 	border-radius: 5px;
 	color: #fff;
 	border: none;
+	cursor: pointer;
+}
+.chatting .sender button:hover{
+	background: #58aadd;
 }
 .chatting .sender button span{
 	margin-right: 5px;

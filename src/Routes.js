@@ -14,6 +14,7 @@ import Exam from './pages/Exam';
 import SingleMatter from './pages/SingleMatter';
 import SingleAssignment from './pages/SingleAssignment';
 import SingleExam from './pages/SingleExam';
+import People from './pages/People';
 
 //components
 import Guard from './components/GuardRoute';
@@ -63,6 +64,10 @@ function Element() {
 										{path:':id_exm/*', element: <SingleExam /> },
 									]
 								},
+								{
+									path: 'u',
+									element: <People />
+								}
 							]
 						},
 						{path:'*', element: <>not found</> },

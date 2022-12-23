@@ -1,4 +1,5 @@
-export default function uppercase([...letter], index){
-	letter[index] = letter[index].toUpperCase()
-	return letter.join('')
+export default function uppercase(letter, index){
+	const [...arrayLetter] = letter? letter: ""
+	arrayLetter[index] = arrayLetter[index]?.toUpperCase()
+	return arrayLetter.join('')
 }

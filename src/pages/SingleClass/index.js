@@ -2,6 +2,7 @@ import React from 'react';
 import style from './SingleClass.module.css';
 import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import config from '../../config'
 
 //APIs
 import * as classDiscuss from '../../api/class-discussion';
@@ -24,6 +25,7 @@ export default React.memo(function SingleClass() {
 	});
 	
 	const [ textInput, setTextInput ] = React.useState('');
+	const textInputElement = React.useRef(null)
 	
 	const fetchDiscuss = React.useCallback( async ()=>{
 		
@@ -103,6 +105,7 @@ export default React.memo(function SingleClass() {
 			return console.log(data);
 		}
 		fetchDiscuss();
+		textInputElement.current.innerHTML = ""
 	}	
 	
 	function textValid(value){
@@ -111,16 +114,13 @@ export default React.memo(function SingleClass() {
 		}
 		return false;
 	}
-	
+	console.log(classData)
   return (
 	<div className={style.container}>
 		<div className={style.detail} >
 			<div className={style.title}>
 				<h1>{classData.class_name}</h1>
 				<p>{classData.description}</p>
-			</div>
-			<div className={style.userImage}>
-				<Image src="images/user.png" />
 			</div>
 			<ul className={style.menu} >
 				<li>
@@ -133,6 +133,12 @@ export default React.memo(function SingleClass() {
 					<div className={style.icon}><FontAwesomeIcon icon="book-reader" title="Matter" /></div>
 					<Link to="e">
 						<h4>Ujian</h4>
+					</Link>
+				</li>
+				<li>
+					<div className={`${style.icon} ${style.user}`}><FontAwesomeIcon icon={['far', 'user']} title="Orang" /></div>
+					<Link to="u">
+						<h4>Orang</h4>
 					</Link>
 				</li>
 			</ul>
@@ -182,7 +188,7 @@ export default React.memo(function SingleClass() {
 											sortDateElement
 										}
 										<div className={style.chat2} >
-											<span className={style.name}>You, {formatDate}</span>
+											<p className={style.name}>You, {formatDate}</p>
 											<div className={style.text} >
 												{data.text}
 											</div>
@@ -213,12 +219,15 @@ export default React.memo(function SingleClass() {
 			
 			<div className={style.sender}>
 				<form onSubmit={discussSubmit} >
-					<FontAwesomeIcon className={style.addFile} icon="circle-plus" />
-					<input 
-						onChange={(e)=>setTextInput(e.target.value.replace(/(^\s*)|(\s*$)/g, ""))}
-						type="text" 
-						placeholder="Enter your message here"
+					<div 
+						className={style.customInput}
+						contentEditable="true"
+						onPaste={e=>e.preventDefault()}
+						onKeyPress={e=>{if(e.target.textContent.length > 255 ) return e.preventDefault()}}
+						onInput={(e)=>setTextInput(e.target.innerText.replace(/(^\s*)|(\s*$)/g, ""))}
+						ref={textInputElement}
 					/>
+					<span className={style.placeHolder}>Enter your message here</span>
 					<button disabled={textValid(textInput)} >
 						<span>Send</span>
 						<FontAwesomeIcon className={style.sendIcon} icon="paper-plane" />

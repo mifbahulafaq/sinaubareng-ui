@@ -9,8 +9,9 @@ import Image from '../../components/Image';
 
 //utils
 import formatDate from '../../utils/id-format-date'
-//utils
 import uppercase from '../../utils/uppercase'
+import plural from '../../utils/plural'
+
 //APIs
 import * as assignmentApi from '../../api/matt-ass' 
 import * as answerApi from '../../api/ass-answer' 
@@ -69,7 +70,7 @@ export default React.memo(function SingleAssignment() {
 		})
 		.catch(err=>console.log(err))
 	}
-	
+	console.log(ansData)
   return (
 	<div className={style.container}>
 		<div className={style.mainContent}>
@@ -122,6 +123,21 @@ export default React.memo(function SingleAssignment() {
 						<div className={style.answs}>
 							{
 								ansData.map((e,i)=>{
+									
+									let created = Date.now() - (new Date(e.date)).getTime()
+									const days = created / 86400000
+									
+									if(days > 1 && days < 2){
+										created = "Yesterday"
+									}else if( days < 1){
+										const hours = created / 3600000
+										created = `${hours}hr${plural(hours)} ago `
+									}else{
+										created = formatDate(e.date, "id-ID", {dateStyle: "medium", timeStyle: "short"})
+									}
+									
+									console.log(created)
+									
 									return <div key={i} className={style.singleAnsw}>
 											<div className={style.detail}>
 												<div className={style.photo } >
@@ -129,7 +145,7 @@ export default React.memo(function SingleAssignment() {
 												</div>
 												<div className={style.status}>
 													<h5>{uppercase(e.user.name, 0)}</h5>
-													<p>24hrs ago</p>
+													<p>{created}</p>
 												</div>
 											</div>
 										</div>

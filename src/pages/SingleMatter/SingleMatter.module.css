@@ -108,7 +108,7 @@
 }
 .commentContainer .comments .singleComment{
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 }
 .commentContainer .comments .singleComment:first-child ~ .singleComment{
 	margin-top: 20px;
@@ -116,6 +116,7 @@
 .commentContainer .comments .singleComment .photo{
 	margin-right: 10px;
 	min-width: 40px;
+	max-width: 40px;
 	height: 40px;
 	border-radius: 50%;
 	overflow: hidden;
@@ -132,9 +133,9 @@
 }
 .commentContainer .comments .singleComment .rightSide .text{
 	width: 400px;
-	margin-top: 5px;
 	font-size: 0.96em;
 	font-weight: 500;
+    word-break:break-all;
 }
 .commentContainer .send{
 	margin-top: 20px;
@@ -163,7 +164,7 @@
 .commentContainer .send form [contenteditable="true"]:focus{
 	outline: none;
 }
-.commentContainer .send form [contenteditable="true"]:empty ~ .shadowText{
+.commentContainer .send form [contenteditable="true"]:empty + .shadowText{
 	display: initial;
 }
 .commentContainer .send form [contenteditable="true"]::placeholder{

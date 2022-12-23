@@ -17,6 +17,7 @@ import ModalContainer from '../../components/ModalContainer';
 import AssignmentForm from '../../components/AssignmentForm';
 //utils
 import formatDate from '../../utils/id-format-date';
+import uppercase from '../../utils/uppercase';
 
 export default React.memo(function SingleMatter() {
 	const [matt, setMatt] = React.useState({});
@@ -159,7 +160,7 @@ export default React.memo(function SingleMatter() {
 		
 			<div className={style.matter}>
 				<div className={style.detail}>
-					<h3>{matt.name}</h3>
+					<h3>{uppercase(matt.name,0)}</h3>
 					<div className={style.duration} >
 						<FontAwesomeIcon icon={['far', 'clock']} />
 						<span>{`${scheduleMatt} ${matt.duration?"- 12:12":""}`}</span>
@@ -210,7 +211,7 @@ export default React.memo(function SingleMatter() {
 										<Image src={e.photo?`${config.api_host}/public/photo/${e.photo}`:"images/user.png"} />
 									</div>
 									<div className={style.rightSide}>
-										<h5>{e.name} <span>07:34 AM</span></h5>
+										<h5>{uppercase(e.name, 0)} <span>07:34 AM</span></h5>
 										<div className={style.text} >{e.text}</div>
 									</div>
 								</div>
