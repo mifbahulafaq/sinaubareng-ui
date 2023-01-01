@@ -72,7 +72,9 @@ const codeClass = {
 const userId = {
 	required: { value: true},
 	maxLength: { value: 6, message: 'Must be less than 6 characters long' },
-	validate: v=>Number.isInteger(Number(v)) || "Must be number"
+	validate: v=>{
+		return Number.isInteger(Number(v)) || "Must be number"
+	}
 }
 const multipleUpload = (files)=>{
 	return {

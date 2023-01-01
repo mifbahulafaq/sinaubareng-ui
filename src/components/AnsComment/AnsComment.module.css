@@ -1,0 +1,146 @@
+.container{
+	position: relative;
+	height: 95%;
+	width: 600px;
+	border-radius: 10px;
+	background: #fff;
+}
+.container .desc{
+	height: 60px; 
+	padding: 0 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid #E0E0E0;
+}
+.container .desc .main{
+	text-align: left;
+}
+.container .desc .main h4{
+	font-size: 1.1em;
+	color: #3c4043;
+	font-weight: 600;
+}
+.container .desc .main p{
+	font-size: 0.8em;
+	color: #3c4043;
+}
+.container .desc .close{
+	height: 35px;
+	width: 35px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.container .desc .close:hover{
+	background: #f1f2f4;
+}
+.container .desc .close .closeIcon{
+	font-size: 1.2em;
+	transform: rotate(45deg);
+}
+.container .singleCommentContainer{
+	height: calc(100% - 60px);
+	overflow-y: auto;
+}
+/*single comment start*/
+.container .singleCommentContainer .singleComment{
+	margin: 20px 20px 0;
+	display: flex;
+	align-items: flex-start;
+}
+.container .singleCommentContainer .singleComment .photo{
+	margin-right: 10px;
+	min-width: 36px;
+	max-width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	overflow: hidden;
+}
+.container .singleCommentContainer .singleComment .rightSide{
+	text-align: left;
+}
+.container .singleCommentContainer .singleComment .rightSide h5{
+	font-size: 13px;
+	color: #505050;
+}
+.container .singleCommentContainer .singleComment .rightSide h5 span{
+	margin-left: 5px;
+	font-size: 0.9em;
+	font-weight: 500;
+	color: #999;
+}
+.container .singleCommentContainer .singleComment .rightSide .text{
+	width: 400px;
+	font-size: 0.96em;
+	font-weight: 500;
+    word-break:break-all;
+}
+/*single start end*/
+/*send start*/
+.send{
+	position: sticky;
+	top: calc(100% - 40px);
+	margin: 20px 0 10px 0;
+	width: 100%;
+}
+.send form{
+	margin: auto;
+	position: relative;
+	width: 95%;
+	height: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+.send form [contenteditable="true"]{
+	width: calc(100% - 50px);
+	min-height: 35px;
+	padding: 5px 5px 5px 10px;
+	border: 2px solid #dfdfdf;
+	border-radius: 4px 0 0 4px;
+	overflow: hidden;
+	background: #fff;
+	text-align: left;
+	/*white-space: pre-wrap;*/
+}
+.send form [contenteditable="true"]:focus{
+	outline: none;
+}
+.send form [contenteditable="true"]:empty + .shadowText{
+	display: initial;
+}
+.send form [contenteditable="true"]::placeholder{
+	font-weight: 500;
+	color: #999;
+}
+.send form .shadowText{
+	display: none;
+	position: absolute;
+	top: 50%;
+	transform: translate(0, -50%);
+	left: 10px;
+	font-size: 13px;
+	font-weight: 500;
+	color: #505050;
+	pointer-events: none;
+}
+.send form .icon{
+	display: block;
+	padding: 8px 5px;
+	height: 35px;
+	width: 50px;
+	border-radius: 0 4px 4px 0;
+	border: 2px solid #dfdfdf;
+	border-left: none;
+	text-align: center;
+	font-size: 14px;
+	background: rgba(196, 196, 196, 0.3);
+	cursor: pointer;
+}
+.send form [disabled]{
+	cursor: default;
+}
+/*send end*/

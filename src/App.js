@@ -8,10 +8,13 @@ import Context from './Context';
 
 //icons
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faRepeat, faArrowUpFromBracket, faArrowUp, faMessage, faClipboardQuestion, faComments, faPencil, faPaperPlane, faCirclePlus, faWarning, faXmark, faPlus, faUsers, faCircleExclamation, faBan, faCheck, faBars, faLandmark, faClipboardList, faTableList, faEllipsisVertical, faBookReader, faFileDownload, faExternalLink } from '@fortawesome/free-solid-svg-icons';
+import { faExclamation, faUserFriends, faUserPlus, faRepeat, faArrowUpFromBracket, faArrowUp, faMessage, faClipboardQuestion, faComments, faPencil, faPaperPlane, faCirclePlus, faWarning, faXmark, faPlus, faUsers, faCircleExclamation, faBan, faCheck, faBars, faLandmark, faClipboardList, faTableList, faEllipsisVertical, faBookReader, faFileDownload, faExternalLink } from '@fortawesome/free-solid-svg-icons';
 import { faUser, faCommentAlt, faCalendarDays, faFile, faFolderOpen, faFileAlt, faCalendar, faClock, faFileLines, faFileWord, faFilePdf } from '@fortawesome/free-regular-svg-icons'
 
 library.add(
+	faExclamation,
+	faUserFriends,
+	faUserPlus,
 	faUser,
 	faCommentAlt,
 	faRepeat,
@@ -51,19 +54,22 @@ library.add(
 
 function App() {
 	
-	function hideElement(e){
+	function hideElement(clickedE){
 		
-		const optionClasses = document.querySelectorAll('.option');
-		const clickElement = e.target;
+		//const setOptionE = document.querySelectorAll('.setOption');
+		const optionE = document.querySelectorAll('.option');
 		
-		optionClasses.forEach((e)=>{
+		optionE.forEach((e)=>{
 			
-			if(e.parentElement === clickElement) {
+			const setOptionE = e.parentElement.querySelector('.setOption')
+			
+			if(clickedE.target === setOptionE) {
 				
 				if(e.style.display === "none") return e.style.display = "block";
 			}
 			
-			e.style.display = 'none';
+			if(clickedE.target !== e) e.style.display = 'none';
+			
 			
 		})
 		

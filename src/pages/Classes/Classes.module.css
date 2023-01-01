@@ -29,11 +29,16 @@
 .menu .btnClass{
 	position: absolute;
 	right: 10px;
-	padding:5px 10px;
 	border-radius: 3px;
 	color: #fff;
-	background: #098DDF ;
 	cursor: pointer;
+}
+.menu .btnClass .plus{
+	padding:5px 10px;
+	background: #098DDF ;
+}
+.menu .btnClass .plus:hover{
+	background: #6fb8e5 ;
 }
 .menu .btnClass .addClass{
 	display: none;

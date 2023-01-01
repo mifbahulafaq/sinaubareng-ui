@@ -34,3 +34,13 @@ export function joinClass(codeCLass){
 	});
 	
 }
+export function add(payload){
+	
+	const { token } = JSON.parse(localStorage.getItem('auth'))
+	
+	return axios.post(`${config.api_host}/api/students/add`, payload, {
+		headers: {
+			authorization: `Bearer ${token}`
+		}
+	})
+}

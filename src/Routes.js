@@ -18,6 +18,7 @@ import People from './pages/People';
 
 //components
 import Guard from './components/GuardRoute';
+import GetSingleClass from './components/GetSingleClass';
 
 function Element() {
 	
@@ -38,7 +39,7 @@ function Element() {
 						{index:true, element: <Classes classData={classData} /> },
 						{
 							path:':code_class', 
-							element: <Outlet /> ,
+							element: <GetSingleClass />,
 							children: [
 								{index:true, element: <SingleClass /> },
 								{

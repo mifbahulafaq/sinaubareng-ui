@@ -2,12 +2,16 @@ import React from 'react';
 import { useParams } from 'react-router-dom'
 import style from './ExamQuest.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useForm } from 'react-hook-form'
 
 //components
 import Image from '../Image'
+import ModalContainer from '../ModalContainer'
+import AnsComment from '../AnsComment'
 //APIs
 import * as examApi from "../../api/exam"
 import * as ansApi from "../../api/exam-answer"
+import * as commentApi from "../../api/ans-comment"
 
 //utils
 import formatDate from '../../utils/id-format-date'
@@ -19,20 +23,39 @@ export default React.memo(function ExamQuest(){
 	const fileInput = React.useRef(null)
 	const [ fileAns, setFileAns ] = React.useState(null)
 	const [ ansData, setAnsData ] = React.useState({})
+	const [ commentDatas, setCommentDatas ] = React.useState([])
+	const [ modal, setModal ] = React.useState(false)
+	const { register } = useForm()
 	
 	const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
 	const extAttachment = {pdf: "document", doc: "word", docx: "word"}
 	const schedule = examData? new Date(examData.schedule) : new Date()
 	const tenggat = examData && examData.duration? (new Date(examData.schedule)).getTime() + examData.duration : ""
 	
-	const getAns = React.useCallback(()=>{
-		ansApi.getByExm(params.id_exm)
+	const getComments = React.useCallback((id_exm_ans)=>{
+		commentApi.getByAns(id_exm_ans)
 		.then(({ data })=>{
 			if(data.error) return console.log(data)
-			setAnsData(data.data[0])
+			setCommentDatas(data.data)
 		})
 		.catch(err=>console.log(err))
-	}, [params.id_exm])
+	}, [])
+	
+	const get_ans_and_comments = React.useCallback(()=>{
+		ansApi.getByExm(params.id_exm)
+		.then(({ data })=>{
+			
+			if(data.error) return console.log(data)
+			setAnsData(data.data[0])
+			
+			if(data.data[0] && data.data[0].id_exm_ans){
+				
+				getComments(data.data[0].id_exm_ans)
+			}
+			
+		})
+		.catch(err=>console.log(err))
+	}, [params.id_exm, getComments])
 	
 	React.useEffect(()=>{
 		
@@ -40,10 +63,10 @@ export default React.memo(function ExamQuest(){
 		.then(({ data })=>{
 			if(data.error) return console.log(data)
 			setExamData(data.data?.[0])
-			getAns()
+			get_ans_and_comments()
 		})
 		
-	},[params.id_exm, getAns])
+	},[params.id_exm, get_ans_and_comments])
 	
 	function submitAnswer(){
 		if(!fileAns) return
@@ -56,7 +79,7 @@ export default React.memo(function ExamQuest(){
 		.then(({ data })=>{
 			if(data.error) console.log(data)
 			setFileAns(null)
-			getAns()
+			get_ans_and_comments()
 		})
 		.catch(err=>console.log(err))
 	}
@@ -96,7 +119,9 @@ export default React.memo(function ExamQuest(){
 			<div className={style.answerContainer}>
 				<div className={style.exp}>
 					<span>Jawaban Anda</span>
-					<span className={parseInt(ansData.score)? style.score: ""}>{parseInt(ansData.score)? `Nilai: ${parseInt(ansData.score)}`:"Tidak Ada"}</span>
+					<span className={parseInt(ansData.score)? style.score: ""}>
+						{parseInt(ansData.score)? <>Nilai: <span className={style.num}>{parseInt(ansData.score)}/100</span></>:"Belum dinilai"}
+					</span>
 				</div>
 				<div className={style.answers}>
 					{
@@ -113,7 +138,19 @@ export default React.memo(function ExamQuest(){
 						<div className={style.noAnsw}>Belum ada jawaban</div>
 					}
 				</div>
-				
+				<div className={style.commentContainer}>
+					<FontAwesomeIcon className={style.commentIcon} icon="user-friends" />
+					<span onClick={()=>setModal(true)}>{commentDatas.length} Komentar Jawaban</span>
+					
+					<ModalContainer displayed={modal} setDisplayed={function(){}}>
+						{
+							ansData.id_exm_ans && examData.teacher?
+								<AnsComment idAns={ansData.id_exm_ans} idTeacher={examData.teacher} setModal={setModal} />
+							:""
+						}
+					</ModalContainer>
+					
+				</div>
 				<div className={style.addFile}>
 					<p className={style.title} >Tambahkan Jawaban</p>
 					<div className={style.input}>
@@ -125,7 +162,7 @@ export default React.memo(function ExamQuest(){
 								onClick={e=>e.target.value = null} 
 								accept=".pdf, .docx, doc, .PDF, .DOCX, DOC" 
 							/>
-							<FontAwesomeIcon icon='arrow-up-from-bracket' />
+							<FontAwesomeIcon className={style.selectIcon} icon='arrow-up-from-bracket' />
 							<span>Upload</span>
 						</div>
 						<div className={style.answer}>
@@ -150,7 +187,7 @@ export default React.memo(function ExamQuest(){
 									setFileAns(null)
 								}}
 								className={style.delete}>
-								<FontAwesomeIcon icon='plus' />
+								<FontAwesomeIcon className={style.deleteIcon} icon='plus' />
 							</div>
 							:""
 						}

@@ -1,0 +1,150 @@
+.container{
+	position: relative;
+	display: flex;
+	justify-content: center;
+}
+.container .previousLink{
+	position: absolute;
+	left: 20px;
+	top: 10px;
+}
+.container .addStudentContainer{
+	position: relative;
+	width:480px;
+	height:320px;
+	border-radius: 5px;
+	background: #fff;
+}
+.container .addStudentContainer h2{
+	height:20%;
+	padding: 20px;
+	color:#616161;
+	border-bottom: 1px solid #E0E0E0;
+}
+.container .addStudentContainer p, .container .addStudentContainer h3{
+	color: #616161;
+	font-weight: 500;
+}
+.container .addStudentContainer .content{
+	height:80%;
+	width:100%;
+	padding: 30px;
+}
+.addStudentContainer .content .form{
+	margin-top: 15px;
+}
+.addStudentContainer .content .form input{
+	width: 100%;
+	padding: 10px;
+	font-weight:600;
+	font-family: 'Open Sans', Arial;
+	border-radius: 5px;
+	outline: none;
+	border: 2px solid #5b5b5b;
+}
+.addStudentContainer .form input::placeholder{
+	color: #b4b4b4;
+}
+.addStudentContainer .form input:focus{
+	border:2px solid #098DDF ;
+}
+.addStudentContainer .form input.error{
+	border:2px solid #cc3300;
+}
+.addStudentContainer .btnContainer{
+	position: absolute;
+	width: 100%;
+	left:0;
+	right: 0;
+	bottom: 0;
+	padding: 10px 20px;
+	border-top: 1px solid #e4e4e4;
+}
+.addStudentContainer .form .btnContainer .btn{
+	float: right;
+	padding: 10px 30px;
+	border-radius: 3px;
+	border: none;
+	background: #098DDF;
+	color: #fff;
+	font-weight: 600;
+	box-shadow: 0 2px 8px #bcbcbc;
+	cursor: pointer;
+}
+.addStudentContainer .form .btnContainer .btn:disabled{
+	background:#9fc5e8;
+}
+.container .people{
+	padding: 40px 0 0;
+	width: 750px;
+}
+.container .people .teacher{
+	padding: 0 10px;
+	margin-bottom: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.container .people .teacher .photo{
+	margin-right: 20px;
+	height: 70px;
+	width: 70px;
+	box-shadow: 0 0 24px rgba(218, 218, 218, 0.7);
+}
+.container .people .teacher .detail p:first-child{
+	margin-bottom: 5px;
+	font-size: 1.1em;
+	color: #3c4043;	
+	font-weight: bolder;
+}
+.container .people .teacher .detail p:last-child{
+	font-size: 0.9em;
+	font-weight: 500;
+	color: #999;	
+}
+.container .people .studentContainer{
+	padding: 20px;
+	border-top: 2px solid #098DDF;
+	font-size: 0.9em;
+	font-weight: 500;
+	color: #999;	
+}
+.container .people .studentContainer .studentTitle{
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 20px;	
+}
+.container .people .studentContainer .studentTitle p{
+	color: #3c4043;
+	font-size: 1.7em;
+}
+.container .people .studentContainer .studentTitle .addIcon{
+	height: 45px;
+	width: 45px;
+	font-size: 1.3em;
+	color: #3c4043;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.container .people .studentContainer .studentTitle .addIcon:hover{
+	background: #f1f2f4;
+}
+.container .people .studentContainer .singleStudent{
+	margin-bottom: 20px;
+	display: flex;
+	align-items: center;
+}
+.container .people .studentContainer .singleStudent .photo{
+	margin-right: 20px;
+	height: 45px;	
+	width: 45px;
+	border-radius: 50%;
+	overflow: hidden;
+}
+.container .people .studentContainer .singleStudent p{
+	color: #3c4043;
+	font-weight: 600;
+}

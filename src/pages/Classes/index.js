@@ -44,9 +44,9 @@ function Classes({ classData, iconBar }) {
 					<span>Semua Tugas</span>
 				</Link>
 			</li>
-			<div title="Add" className={`${style.btnClass} select`} >
-				+
-				<ul onClick={e=>e.stopPropagation()} className={`${style.addClass} option`} >
+			<div title="Add" className={`${style.btnClass}`} >
+				<div className={`${style.plus} setOption`}> +</div>
+				<ul className={`${style.addClass} option`} >
 					<li onClick={()=>clickContent(0)} >Buat Kelas</li>
 					<li onClick={()=>clickContent(1)}>Gabung Kelas</li>
 				</ul>

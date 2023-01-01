@@ -3,21 +3,27 @@ import { Link, useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import style from './ExamAnswers.module.css'
 import config from '../../config'
+import PropTypes from 'prop-types'
+import { useContext } from '../../Context'
 
 //components
 import Image from '../Image'
 import ModalContainer from '../ModalContainer'
+import AnsComment from '../AnsComment'
 //APIs
 import * as ansApi from "../../api/exam-answer"
 //utils
 import uppercase from '../../utils/uppercase'
 import formatDate from '../../utils/id-format-date'
 
-export default function ExamAnswers(){
+const ExamAnswers = function (){
 	
 	const [ displayModal, setDisplayModal ] = React.useState(false)
 	const [ ansData, setAnsData ] = React.useState([])
+	const [ singleAns, setSingleAns ] = React.useState({})
+	const [ idAns, setIdAns ] = React.useState(null)
 	const params = useParams()
+	const { singleClass } = useContext()
 	
 	const getFile = React.useCallback(()=>{
 		
@@ -35,11 +41,28 @@ export default function ExamAnswers(){
 	return (
 		<div className={style.container}>
 			
-			<ModalContainer displayed={displayModal} setDisplayed={setDisplayModal}>
+			<ModalContainer 
+				displayed={displayModal} 
+				setDisplayed={(bool)=>{
+					if(idAns) return 
+					setDisplayModal(bool)
+			}}>
+				{
+					idAns?
+						<AnsComment 
+							idAns={idAns} 
+							idTeacher={singleClass.teacher} 
+							setModal={(bool)=>{
+								setIdAns(null)
+								setDisplayModal(bool)
+							}}
+						/>
+					:""
+				}
 			</ ModalContainer>
 			{
 				ansData.map((e,i)=>{
-					return <div className={style.singleAns} >
+					return <div key={i} className={style.singleAns} >
 						<div 
 							onClick={e=>{
 								e.currentTarget.parentElement.classList.toggle(style.active)
@@ -62,7 +85,15 @@ export default function ExamAnswers(){
 						</div>
 						<div className={style.detail}>
 							<div className={style.desc}>
-								<p className={`${style.comment} ${e.total_comments?"": style.none}`}> {e.total_comments? `${e.total_comments} Komentar`: "Tidak ada komentar"}</p>
+								<p 
+									onClick={()=>{
+										setDisplayModal(true)
+										setIdAns(e.id_exm_ans)
+									}} 
+									className={`${style.comment} ${e.total_comments?"": style.none}`}
+								> 
+									{e.total_comments? `${e.total_comments} Komentar`: "Tidak ada komentar"}
+								</p>
 								<p className={style.score}>Nilai: 70</p>
 							</div>
 							<div className={style.ansNav}>
@@ -82,3 +113,5 @@ export default function ExamAnswers(){
 		</div>
 	)
 }
+
+export default ExamAnswers

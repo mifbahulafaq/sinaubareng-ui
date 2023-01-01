@@ -3,6 +3,7 @@ import style from './SingleClass.module.css';
 import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import config from '../../config'
+import { useContext } from '../../Context'
 
 //APIs
 import * as classDiscuss from '../../api/class-discussion';
@@ -17,7 +18,7 @@ import SingleClassCard from '../../components/SingleClassCard';
 export default React.memo(function SingleClass() {
 	
 	const params = useParams();
-	const [ classData, setClassData ] = React.useState({});
+	const { singleClass } = useContext()
 	const [ discussData, setDiscussData ] = React.useState([]);
 	const [ examMatter, setExamMatter ] = React.useState({
 		matter: {},
@@ -37,42 +38,26 @@ export default React.memo(function SingleClass() {
 	
 	React.useEffect(()=>{
 		
-		classes.getSingle(params.code_class)
-		.then( async ({data})=>{
-			
-			if(data.error){
-				console.log(data)
+		fetchDiscuss();
+		Promise.all([
+			fetchExam.getAll(params.code_class, {latest:1}),
+			fetchMatter.getAll(params.code_class, {latest:1})
+		])
+		.then(([{ data: examResult }, { data: matterResult } ])=>{
+			if(examResult.error){
+				console.log(examResult)
 				return ;
 			}
-			
-			setClassData(data.data[0]);
-			
-			try{
-				
-				await fetchDiscuss();
-				const [{ data: examResult }, { data: matterResult } ] = await Promise.all([
-					fetchExam.getAll(params.code_class, {latest:1}),
-					fetchMatter.getAll(params.code_class, {latest:1})
-				])
-				
-				if(examResult.error){
-					console.log(data)
-					return ;
-				}
-				if(matterResult.error){
-					console.log(data)
-					return ;
-				}
-				setExamMatter({
-					exam: examResult.data[0],
-					matter: matterResult.data[0]
-				})
-				
-				
-			}catch(err){
-				console.log(err)
+			if(matterResult.error){
+				console.log(matterResult)
+				return ;
 			}
+			setExamMatter({
+				exam: examResult.data[0],
+				matter: matterResult.data[0]
+			})
 		})
+		.catch(err=>console.log(err))
 		
 	},[params.code_class, fetchDiscuss])
 	
@@ -114,13 +99,13 @@ export default React.memo(function SingleClass() {
 		}
 		return false;
 	}
-	console.log(classData)
+	
   return (
 	<div className={style.container}>
 		<div className={style.detail} >
 			<div className={style.title}>
-				<h1>{classData.class_name}</h1>
-				<p>{classData.description}</p>
+				<h1>{singleClass.class_name}</h1>
+				<p>{singleClass.description}</p>
 			</div>
 			<ul className={style.menu} >
 				<li>
@@ -182,7 +167,7 @@ export default React.memo(function SingleClass() {
 							<div className={`${style.sortDate} ${hiddenDiv? style.hidden: ""}`} ><span>{sortDate}</span></div>:
 							"";
 						
-						if(data.user === classData.teacher){
+						if(data.user === singleClass.teacher){
 							return <React.Fragment key={i}>
 										{
 											sortDateElement

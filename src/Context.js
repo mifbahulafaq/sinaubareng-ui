@@ -10,8 +10,18 @@ export default function ContextProvider({children}){
 	const [ iconBar, setIconBar ] = useState(false);
 	const [ classData, setClassData ] = useState({})
 	const [ user, dispatch ] = useReducer(userReducer, {});
+	const [ singleClass, setSingleClass ] = useState({});
 	
-	return <ContextData.Provider value={{user, dispatch, classData, setClassData, iconBar, setIconBar}}>
+	return <ContextData.Provider value={{
+			singleClass,
+			setSingleClass,
+			user, 
+			dispatch, 
+			classData, 
+			setClassData, 
+			iconBar, 
+			setIconBar}
+		}>
 		{children}
 	</ContextData.Provider>
 }
