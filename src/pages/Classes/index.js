@@ -35,13 +35,13 @@ function Classes({ classData, iconBar }) {
 			<li>
 				<Link to="../../unread-assignment" >
 					<FontAwesomeIcon icon="clipboard-list" />
-					<span>Perlu Diperiksa</span>
+					<span>Tugas Diberikan</span>
 				</Link>
 			</li>
 			<li>
 				<Link to="../../assignment" >
 					<FontAwesomeIcon icon="table-list" />
-					<span>Semua Tugas</span>
+					<span>Tugas Diterima</span>
 				</Link>
 			</li>
 			<div title="Add" className={`${style.btnClass}`} >
@@ -55,10 +55,10 @@ function Classes({ classData, iconBar }) {
 		
 		<div style={styleContent} className={style.content}>
 			{
-				classData.classes?.map((e,i)=><React.Fragment key={i}><ClassCard2 classData={e} /></React.Fragment>)
+				classData.created_classes?.map((e,i)=><React.Fragment key={i}><ClassCard2 classData={e} /></React.Fragment>)
 			}
 			{
-				classData.students?.map((e,i)=><React.Fragment key={i}><ClassCard studentData={e} /></React.Fragment>)
+				classData.joined_classes?.map((e,i)=><React.Fragment key={i}><ClassCard studentData={e} /></React.Fragment>)
 			}
 		</div>
 		

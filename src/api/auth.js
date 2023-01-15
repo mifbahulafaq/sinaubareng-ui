@@ -16,7 +16,7 @@ export function signup(input){
 }
 export function me(){
 	
-	const { token } = JSON.parse(localStorage.getItem('auth'));
+	const { token } = localStorage.getItem('auth')? JSON.parse(localStorage.getItem('auth')): {};
 	
 	return axios.get(`${config.api_host}/auth/me`,{
 		headers: {

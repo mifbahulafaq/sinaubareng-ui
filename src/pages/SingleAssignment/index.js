@@ -16,7 +16,7 @@ import plural from '../../utils/plural'
 import * as assignmentApi from '../../api/matt-ass' 
 import * as answerApi from '../../api/ass-answer' 
 import * as file from '../../api/file' 
-import * as studentApi from '../../api/student' 
+import * as studentApi from '../../api/class-student' 
 
 export default React.memo(function SingleAssignment() {
 	

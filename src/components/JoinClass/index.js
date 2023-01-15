@@ -9,7 +9,7 @@ import { useContext } from '../../Context';
 import FormControl2 from '../FormControl2';
 
 //APIs
-import { joinClass } from '../../api/student';
+import { joinClass } from '../../api/class-student';
 
 //utils 
 import reqStatus from '../../utils/req-status';

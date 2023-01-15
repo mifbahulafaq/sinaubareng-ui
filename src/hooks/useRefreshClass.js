@@ -3,7 +3,7 @@ import { useContext } from '../Context';
 
 //APIs
 import { getAll as getClass } from '../api/class';
-import { getAll as getStudent } from '..//api/student';
+import { getAll as getClassStudent } from '../api/class-student';
 
 export default function useRefreshClass(){
 	
@@ -11,16 +11,19 @@ export default function useRefreshClass(){
 	
 	return React.useCallback(()=>{
 		
-		Promise.all([getClass(), getStudent()])
-		.then(([{data : dataClasses }, { data : dataStudents }])=>{
+		Promise.all([ getClass(), getClassStudent()])
+		.then(([{data : dataClasses }, {data: dataClassStudents}])=>{
 			
-			if(dataClasses.error || dataStudents.error){
-				return console.log(dataClasses.message || dataStudents.message)
+			if(dataClasses.error){
+				return console.log(dataClasses)
+			}
+			if(dataClassStudents.error){
+				return console.log(dataClassStudents)
 			}
 			
 			setClassData({
-				classes: dataClasses.data,
-				students: dataStudents.data
+				created_classes: dataClasses.data,
+				joined_classes: dataClassStudents.data
 			})
 			
 		})

@@ -46,7 +46,7 @@ export default React.memo(function ExamQuest(){
 		.then(({ data })=>{
 			
 			if(data.error) return console.log(data)
-			setAnsData(data.data[0])
+			setAnsData(data.data[0]? data.data[0]: {})
 			
 			if(data.data[0] && data.data[0].id_exm_ans){
 				

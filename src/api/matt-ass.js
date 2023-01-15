@@ -1,9 +1,9 @@
 import axios from 'axios';
 import config from '../config';
 
-export function getAll(id_matter, params){
+export function getByMatter(id_matter, params){
 	
-	const { token } = JSON.parse(localStorage.getItem('auth'));
+	const { token } = localStorage.getItem('auth')? JSON.parse(localStorage.getItem('auth')): {};
 	
 	return axios.get(`${config.api_host}/api/matter-assignments/by-matter/${id_matter}`,{
 		params,
@@ -14,9 +14,22 @@ export function getAll(id_matter, params){
 	
 }
 
+export function getAll(params){
+	
+	const { token } = localStorage.getItem('auth')? JSON.parse(localStorage.getItem('auth')): {};
+	
+	return axios.get(`${config.api_host}/api/matter-assignments`,{
+		params,
+		headers: {
+			authorization: `Bearer ${token}`,
+		}
+	});
+	
+}
+
 export function add(payload){
 	
-	const { token } = JSON.parse(localStorage.getItem('auth'));
+	const { token } = localStorage.getItem('auth')? JSON.parse(localStorage.getItem('auth')): {};
 	
 	return axios.post(`${config.api_host}/api/matter-assignments`,payload,{
 		headers: {

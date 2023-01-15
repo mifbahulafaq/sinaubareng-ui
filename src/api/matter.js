@@ -5,7 +5,7 @@ import config from '../config';
 
 export function getAll(codeCLass, params){
 	
-	const { token } = JSON.parse(localStorage.getItem('auth'));
+	const { token } = localStorage.getItem('auth')? JSON.parse(localStorage.getItem('auth')): {};
 	
 	return axios.get(`${config.api_host}/api/matters/by-class/${codeCLass}`,{
 		params,
@@ -17,7 +17,7 @@ export function getAll(codeCLass, params){
 }
 export function add(payload){
 	
-	const { token } = JSON.parse(localStorage.getItem('auth'));
+	const { token } = localStorage.getItem('auth')? JSON.parse(localStorage.getItem('auth')): {};
 	
 	return axios.post(`${config.api_host}/api/matters`,payload,{
 		headers: {
@@ -29,7 +29,7 @@ export function add(payload){
 }
 export function getSingle(id_matt){
 	
-	const { token } = JSON.parse(localStorage.getItem('auth'))
+	const { token } = localStorage.getItem('auth')? JSON.parse(localStorage.getItem('auth')): {};
 	
 	return axios.get(`${config.api_host}/api/matters/${id_matt}`,{
 		headers: {
@@ -39,7 +39,7 @@ export function getSingle(id_matt){
 }
 export function getaDocument(id_matt, filename){
 	
-	const { token } = JSON.parse(localStorage.getItem('auth'))
+	const { token } = localStorage.getItem('auth')? JSON.parse(localStorage.getItem('auth')): {};
 	
 	return axios.get(`${config.api_host}/api/matters/${id_matt}/${filename}`,{
 		headers: {

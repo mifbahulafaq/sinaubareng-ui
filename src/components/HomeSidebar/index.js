@@ -37,8 +37,8 @@ function HomeSidebar({ classData, iconBar }){
 			</ul>
 			
 			<div className={style.classContainer}>
-				<TypeContainer name="Mengajar" data={classData.classes} />
-				<TypeContainer name="Mengikuti" data={classData.students} />
+				<TypeContainer name="Mengajar" data={classData.created_classes} />
+				<TypeContainer name="Mengikuti" data={classData.joined_classes} />
 				
 			</div>
 		</div>

@@ -30,7 +30,7 @@
 .container .right .content{
 	width:100%;
 	margin-top: 65px;
-	max-height: calc(100vh - 65px);
+	height: calc(100vh - 65px);
 	overflow-x: hidden;
 	overflow-y: auto;
 }

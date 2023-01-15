@@ -9,9 +9,10 @@ import Context from './Context';
 //icons
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faExclamation, faUserFriends, faUserPlus, faRepeat, faArrowUpFromBracket, faArrowUp, faMessage, faClipboardQuestion, faComments, faPencil, faPaperPlane, faCirclePlus, faWarning, faXmark, faPlus, faUsers, faCircleExclamation, faBan, faCheck, faBars, faLandmark, faClipboardList, faTableList, faEllipsisVertical, faBookReader, faFileDownload, faExternalLink } from '@fortawesome/free-solid-svg-icons';
-import { faUser, faCommentAlt, faCalendarDays, faFile, faFolderOpen, faFileAlt, faCalendar, faClock, faFileLines, faFileWord, faFilePdf } from '@fortawesome/free-regular-svg-icons'
+import { faPaperPlane as faPaperPlane2, faUser, faCommentAlt, faCalendarDays, faFile, faFolderOpen, faFileAlt, faCalendar, faClock, faFileLines, faFileWord, faFilePdf } from '@fortawesome/free-regular-svg-icons'
 
 library.add(
+	faPaperPlane2,
 	faExclamation,
 	faUserFriends,
 	faUserPlus,
@@ -65,7 +66,7 @@ function App() {
 			
 			if(clickedE.target === setOptionE) {
 				
-				if(e.style.display === "none") return e.style.display = "block";
+				if(e.style.display === "none" || e.style.display === "") return e.style.display = "block";
 			}
 			
 			if(clickedE.target !== e) e.style.display = 'none';

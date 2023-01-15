@@ -1,0 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap');
+.container{
+	font-family: Roboto, Arial, sans-serif;
+	background: rgba(199, 217, 237, 0.3);
+	min-height: 100%;
+	padding: 20px 0;
+}
+.container .menuContainer{
+	margin: auto;
+	padding: 0 30px 0 20px;
+	margin-bottom: 5px;
+	height: 50px;
+	width: 800px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background: #fff;
+	border-radius: 10px 10px 0 0;
+}
+.container .menuContainer ul{
+	list-style: none;
+	display: flex;
+	align-items: center;
+}
+.container .menuContainer li{
+	margin-right: 20px;
+	padding: 8px 0;
+	font-weight: 500;
+	color: #999;
+	border-bottom: 2px solid transparent;
+	transition: all ease 0.3s;
+	cursor: pointer;
+}
+.container .menuContainer li.active{
+	color: #098DDF;
+	border-bottom: 2px solid #098DDF;
+}
+.container .menuContainer ul :not(.active):hover{
+	border-bottom: 2px solid #999;
+}
+.container .menuContainer .title{
+	color: #3c4043;
+}
+.container .content{
+	position: relative;
+	margin: auto;
+	height: 503px;
+	width: 800px;
+	background: #fff;
+	border-radius: 0 0 10px 10px;
+}
+.container .content .header{
+	display: flex;
+	align-items: center;
+	height: 50px;
+	padding-left: 20px;
+	border-bottom: 1px solid rgba(224, 224, 224, 0.8);
+}
+.container .content .header .filter{
+	position: relative;
+}
+.container .content .header .filter .setOption{
+	height: 30px;
+	padding: 0 40px 0 10px;
+	background: rgba(205, 205, 205, 0.3);
+	font-weight: 500;
+	color: #3c4043;
+	line-height: 30px;
+	border-radius: 5px;
+	font-size: 15px;
+	cursor: pointer;
+}
+.container .content .header .filter .setOption:hover{
+	background: #dddddd;
+}
+.container .content .header .filter .setOption:before{
+	content: "";
+	padding: 3px;
+	position: absolute;
+	right: 10px;
+	top: 45%;
+	transform: translate(0, -50%) rotate(45deg);
+	border-right: 2px solid #000;
+	border-bottom: 2px solid #000;
+}
+.container .content .header .filter .option{
+	display: none;
+	position: absolute;
+	padding: 10px 0;
+	left: 0;
+	top: 100%;
+	width: 300px;
+	max-height: 500px;
+	border-radius: 5px;
+	background: #fff;
+	box-shadow: 0 5px 10px rgb(0 0 0 / 30%);
+	list-style: none;
+	overflow-y: auto;
+}
+.container .content .header .filter .option li{
+	width: 100%;
+	padding: 15px;
+	color: #3c4043;
+	font-size: 15px;
+	font-weight: 500;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	cursor: pointer;
+}
+.container .content .header .filter .option li:hover{
+	background: #999;
+}
+.container .content .assignments{
+}
+.container .content .assignments .singleAssignment{
+	display:flex;
+	padding: 15px;
+	border-left: 2px solid rgba(156, 245, 0, 1);
+	cursor: pointer;
+	transition: all ease 0.3s;
+	border-bottom: 1px solid rgba(224, 224, 224, 0.8);
+}
+.container .content .assignments .singleAssignment:hover{
+	background: rgba(205, 205, 205, 0.2);
+}
+.container .content .assignments .singleAssignment.isOver{
+	border-left: 2px solid rgba(245, 39, 118, 1);
+}
+.container .content .assignments .singleAssignment.done{
+	border-left: 2px solid #999;
+}
+.container .content .assignments .singleAssignment .created{
+	margin-right: 30px;
+	font-size: 13px;
+	color: rgba(0,0,0,.549);
+}
+.container .content .assignments .singleAssignment .created span{
+	color: rgba(0,0,0,.7);
+	font-weight: 500;
+}
+.container .content .assignments .singleAssignment .detail{
+	font-size: 13px;
+}
+.container .content .assignments .singleAssignment .detail .title{
+	margin-bottom: 10px;
+	font-size: 14px;
+	font-weight: 500;
+	color: #3c4043;
+	width: 400px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.container .content .assignments .singleAssignment .detail .className{
+	margin-bottom: 10px;
+	color: rgba(0,0,0,.549);
+	font-weight: 400;
+	width: 400px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.container .content .assignments .singleAssignment .detail .deadline{
+	color: rgba(0,0,0,.549);
+}
+.container .content .assignments .singleAssignment.isOver .detail .deadline{
+	padding: 5px 10px;
+	width: 230px;
+	color: rgba(245, 39, 118, 1);
+	font-weight: 500;
+	background: rgba(245, 39, 118, 0.1);
+}
+.container .content .assignments .singleAssignment.done .detail .deadline{
+	font-size: 14px;
+	font-weight: 500;
+}
+.container .content .paginContainer{
+	position: absolute;
+	bottom: 20px;
+	left: 50%;
+	transform: translate(-50%, 0);
+	font-size: 14px;
+	box-shadow: 0 0 8px -2px rgba(205, 205, 205, 1);
+	padding: 0.6em 0.9em;
+	border-radius: 5px;
+}

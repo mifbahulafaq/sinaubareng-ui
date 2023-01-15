@@ -3,7 +3,7 @@ import config from '../config';
 
 export function getSchedules(code_class){
 	
-	const { token } = JSON.parse(localStorage.getItem('auth'));
+	const { token } = localStorage.getItem('auth')? JSON.parse(localStorage.getItem('auth')): {};
 	
 	return axios.get(`${config.api_host}/api/schedules/${code_class}`,{
 		headers: {
@@ -14,7 +14,7 @@ export function getSchedules(code_class){
 }
 export function insertSchedules(payload){
 	
-	const { token } = JSON.parse(localStorage.getItem('auth'));
+	const { token } = localStorage.getItem('auth')? JSON.parse(localStorage.getItem('auth')): {};
 	
 	return axios.post(`${config.api_host}/api/schedules`,payload,{
 		headers: {

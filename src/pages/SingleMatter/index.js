@@ -56,7 +56,7 @@ export default React.memo(function SingleMatter() {
 		let filter = {}
 		if(!allAss) filter.no_answer = 1
 		
-		mattAss.getAll(params.id_matt, filter)
+		mattAss.getByMatter(params.id_matt, filter)
 		.then(res=>{
 			const { data: ass } = res;
 			if(ass.error) return console.log(ass.message);

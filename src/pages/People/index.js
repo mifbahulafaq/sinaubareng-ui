@@ -11,7 +11,7 @@ import FormControl2 from '../../components/FormControl2'
 import PreviousLink from '../../components/PreviousLink'
 //APIs
 import * as classApi from '../../api/class'
-import * as studentApi from '../../api/student'
+import * as studentApi from '../../api/class-student'
 //utils
 import uppercase from '../../utils/uppercase'
 import reqStatus from '../../utils/req-status'
