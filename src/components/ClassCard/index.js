@@ -9,20 +9,21 @@ import Image from '../Image';
 //utils
 import strLimit from '../../utils/strLimit';
 
-export default memo(function ClassCard({studentData}){
+export default memo(function ClassCard({classStudentData}){
+	
 	return (
 		<div className={style.container}>
-			<div className={style.user}>
+			<div style={{background: classStudentData.color}} className={style.user}>
 				<div className={style.image}>
 					<Image src="images/user.png" />
 				</div>
-				<span>{strLimit(studentData.tname,0,15)}</span>
+				<span>{strLimit(classStudentData.tname,0,15)}</span>
 				<FontAwesomeIcon icon="ellipsis-vertical" />
 			</div>
 			<div className={style.class}>
 				<div className={style.detail}>
-					<h3>{strLimit(studentData.class_name,0,13)}</h3>
-					<p>{studentData.description}</p>
+					<Link to={"c/"+classStudentData.code_class}><h3>{classStudentData.class_name}</h3></Link>
+					<p>{strLimit(classStudentData.description,0,120)}</p>
 				</div>
 				<div className={style.btn}>
 					<FontAwesomeIcon icon={['far','file']} title="Document" />

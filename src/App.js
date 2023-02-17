@@ -1,17 +1,18 @@
 import React from 'react';
 import style from './App.module.css';
 import './Additional.css';
-import headerStyle from './components/HomeHeader/HomeHeader.module.css';
 import { HashRouter } from 'react-router-dom';
 import Routes from './Routes';
 import Context from './Context';
 
 //icons
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faExclamation, faUserFriends, faUserPlus, faRepeat, faArrowUpFromBracket, faArrowUp, faMessage, faClipboardQuestion, faComments, faPencil, faPaperPlane, faCirclePlus, faWarning, faXmark, faPlus, faUsers, faCircleExclamation, faBan, faCheck, faBars, faLandmark, faClipboardList, faTableList, faEllipsisVertical, faBookReader, faFileDownload, faExternalLink } from '@fortawesome/free-solid-svg-icons';
+import { faSignOut, faExclamation, faUserFriends, faUserPlus, faRepeat, faArrowUpFromBracket, faArrowUp, faMessage, faClipboardQuestion, faComments, faPencil, faPaperPlane, faCirclePlus, faWarning, faXmark, faPlus, faUsers, faCircleExclamation, faBan, faCheck, faBars, faLandmark, faClipboardList, faTableList, faEllipsisVertical, faBookReader, faFileDownload, faExternalLink, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { faPaperPlane as faPaperPlane2, faUser, faCommentAlt, faCalendarDays, faFile, faFolderOpen, faFileAlt, faCalendar, faClock, faFileLines, faFileWord, faFilePdf } from '@fortawesome/free-regular-svg-icons'
 
 library.add(
+	faSignOut,
+	faEnvelope,
 	faPaperPlane2,
 	faExclamation,
 	faUserFriends,
@@ -76,31 +77,11 @@ function App() {
 		
 	}
 	
-	function scrollOn(e){
-		const homeHeader = document.getElementById('home-header');
-		const classList = Array.from(homeHeader.classList);
-		const scrollValue = e.currentTarget.scrollTop;
-		
-		if(scrollValue > 0 ){
-			
-			if(!classList.includes(headerStyle.scroll)){
-				homeHeader.classList.add(headerStyle.scroll);
-			}
-			
-			return;
-		}
-		
-		if(classList.includes(headerStyle.scroll)){
-			homeHeader.classList.remove(headerStyle.scroll);
-		}
-	}
-	
 	return (
 		<React.Suspense fallback={<div>loading...</div>}>
 			<Context>
 				<div 
 					onClick={hideElement}
-					onScroll={scrollOn}
 					className={style.app}
 				>
 					<HashRouter>

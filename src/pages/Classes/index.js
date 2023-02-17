@@ -16,7 +16,7 @@ function Classes({ classData, iconBar }) {
 	const [modal, setModal] = React.useState(false); 
 	const [indexContent, setIndexContent] = React.useState(0);
 	
-	const content = [<CreateClass setModal={setModal} />, <JoinClass setModal={setModal} />];
+	const content = [<CreateClass setModal={setModal} modal={modal} />, <JoinClass setModal={setModal} />];
 	const styleContent = {
 		gridTemplateColumns: iconBar? "auto auto auto": "auto auto auto auto"
 	}
@@ -33,7 +33,7 @@ function Classes({ classData, iconBar }) {
 		</ModalContainer>
 		<ul className={style.menu}>
 			<li>
-				<Link to="../../unread-assignment" >
+				<Link to="../../assign" >
 					<FontAwesomeIcon icon="clipboard-list" />
 					<span>Tugas Diberikan</span>
 				</Link>
@@ -55,10 +55,10 @@ function Classes({ classData, iconBar }) {
 		
 		<div style={styleContent} className={style.content}>
 			{
-				classData.created_classes?.map((e,i)=><React.Fragment key={i}><ClassCard2 classData={e} /></React.Fragment>)
+				classData.data.created_classes?.map((e,i)=><React.Fragment key={i}><ClassCard2 classData={e} /></React.Fragment>)
 			}
 			{
-				classData.joined_classes?.map((e,i)=><React.Fragment key={i}><ClassCard studentData={e} /></React.Fragment>)
+				classData.data.joined_classes?.map((e,i)=><React.Fragment key={i}><ClassCard classStudentData={e} /></React.Fragment>)
 			}
 		</div>
 		

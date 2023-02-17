@@ -1,10 +1,20 @@
+import React from 'react'
+import { useSearchParams } from 'react-router-dom';
 import style from './MainContent.module.css';
 
 //components
 import LoginForm from '../LoginForm';
 import RegisterForm from '../RegisterForm';
 
-export default function MainContent({loginForm: login}){
+export default function MainContent({loginForm: login, setLoginForm}){
+	
+	const [ searchParams ] = useSearchParams()
+	const nextRoute = searchParams.get('next')
+	
+	React.useEffect(()=>{
+		if(nextRoute) setLoginForm('1')
+	}, [ nextRoute, setLoginForm])
+	
 	return (
 		<div className={style.container}>
 			<div className={style.text}>
@@ -14,7 +24,7 @@ export default function MainContent({loginForm: login}){
 			<div className={style.form}>
 				{
 					login?
-					<LoginForm />
+					<LoginForm nextRoute={nextRoute}/>
 					:
 					<RegisterForm />
 				}

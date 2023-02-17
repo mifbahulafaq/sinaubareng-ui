@@ -1,8 +1,42 @@
-import { ADD } from './constants';
+import { REQ_ERROR, REQ_SUCCESS, REMOVE } from './constants';
 
-export function addUser(user){
+//APIs
+import { getSingle } from '../../api/user'
+
+export function add(user_id){
+	
+	
+	return async function(dispatch, getState){
+		
+		try{
+			const { data } = await getSingle(user_id)
+			
+			if(data.error) return dispatch(reqError())
+				
+			dispatch(reqSuccess(data))
+			
+		}catch(err){
+			
+			dispatch(reqError())
+		}
+	}
+	
+}
+export function remove(user_id){
+	
 	return {
-		type: ADD,
-		user
+		type: REMOVE
+	}
+	
+}
+export function reqError(){
+	return {
+		type: REQ_ERROR
+	}
+}
+export function reqSuccess(data){
+	return {
+		type: REQ_SUCCESS,
+		data
 	}
 }

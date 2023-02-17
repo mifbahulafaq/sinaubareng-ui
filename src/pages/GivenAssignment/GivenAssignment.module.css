@@ -17,49 +17,10 @@
 	background: #fff;
 	border-radius: 10px 10px 0 0;
 }
-.container .menuContainer ul{
-	list-style: none;
-	display: flex;
-	align-items: center;
-}
-.container .menuContainer li{
-	margin-right: 20px;
-	padding: 8px 0;
-	font-weight: 500;
-	color: #999;
-	border-bottom: 2px solid transparent;
-	transition: all ease 0.3s;
-	cursor: pointer;
-}
-.container .menuContainer li.active{
-	color: #098DDF;
-	border-bottom: 2px solid #098DDF;
-}
-.container .menuContainer ul :not(.active):hover{
-	border-bottom: 2px solid #999;
-}
-.container .menuContainer .title{
-	color: #3c4043;
-}
-.container .content{
-	position: relative;
-	margin: auto;
-	height: 503px;
-	width: 800px;
-	background: #fff;
-	border-radius: 0 0 10px 10px;
-}
-.container .content .header{
-	display: flex;
-	align-items: center;
-	height: 50px;
-	padding-left: 20px;
-	border-bottom: 1px solid rgba(224, 224, 224, 0.8);
-}
-.container .content .header .filter{
+.container .menuContainer .filter{
 	position: relative;
 }
-.container .content .header .filter .setOption{
+.container .menuContainer .filter .setOption{
 	height: 30px;
 	padding: 0 40px 0 10px;
 	background: rgba(205, 205, 205, 0.3);
@@ -70,10 +31,10 @@
 	font-size: 15px;
 	cursor: pointer;
 }
-.container .content .header .filter .setOption:hover{
+.container .menuContainer .filter .setOption:hover{
 	background: #dddddd;
 }
-.container .content .header .filter .setOption:before{
+.container .menuContainer .filter .setOption:before{
 	content: "";
 	padding: 3px;
 	position: absolute;
@@ -83,7 +44,7 @@
 	border-right: 2px solid #000;
 	border-bottom: 2px solid #000;
 }
-.container .content .header .filter .option{
+.container .menuContainer .filter .option{
 	display: none;
 	position: absolute;
 	padding: 10px 0;
@@ -96,8 +57,9 @@
 	box-shadow: 0 5px 10px rgb(0 0 0 / 30%);
 	list-style: none;
 	overflow-y: auto;
+	z-index: 10;
 }
-.container .content .header .filter .option li{
+.container .menuContainer .filter .option li{
 	width: 100%;
 	padding: 15px;
 	color: #3c4043;
@@ -108,9 +70,21 @@
 	white-space: nowrap;
 	cursor: pointer;
 }
-.container .content .header .filter .option li:hover{
+.container .menuContainer .filter .option li:hover{
 	background: rgba(205, 205, 205, 0.2);
 }
+.container .menuContainer .title{
+	color: #3c4043;
+}
+.container .content{
+	position: relative;
+	margin: auto;
+	height: 503px;
+	width: 800px;
+	background: #fff;
+	border-radius: 0 0 10px 10px;
+}
+
 .container .content .assignments{
 	overflow: hidden;
 	height: calc(100% - 50px);
@@ -118,65 +92,63 @@
 .container .content .assignments .singleAssignment{
 	display:flex;
 	padding: 15px;
-	border-left: 2px solid rgba(156, 245, 0, 1);
-	cursor: pointer;
 	transition: all ease 0.3s;
 	border-bottom: 1px solid rgba(224, 224, 224, 0.8);
-	text-decoration: none;
+	font-size: 13px;
+	font-weight: 500;
+	color: rgba(0,0,0,.549);
 }
 .container .content .assignments .singleAssignment:hover{
 	background: rgba(205, 205, 205, 0.2);
 }
-.container .content .assignments .singleAssignment.expired{
-	border-left: 2px solid rgba(245, 39, 118, 1);
-}
-.container .content .assignments .singleAssignment.done{
-	border-left: 2px solid #999;
-}
 .container .content .assignments .singleAssignment .created{
 	margin-right: 30px;
-	font-size: 13px;
-	color: rgba(0,0,0,.549);
 }
 .container .content .assignments .singleAssignment .created span{
 	color: rgba(0,0,0,.7);
-	font-weight: 500;
+	font-weight: 600;
 }
-.container .content .assignments .singleAssignment .detail{
-	font-size: 13px;
+.container .content .assignments .singleAssignment .leftDetail{
+	display: flex;
+	text-decoration: none;
+	color: rgba(0,0,0,.549);
 }
-.container .content .assignments .singleAssignment .detail .title{
+.container .content .assignments .singleAssignment .midDetail{
+	width: 290px;
+}
+.container .content .assignments .singleAssignment .midDetail .title{
 	margin-bottom: 10px;
-	font-size: 14px;
-	font-weight: 500;
-	color: #3c4043;
+	font-weight: 600;
+	color: rgba(0,0,0,.7);
+	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.container .content .assignments .singleAssignment .midDetail .className{
 	width: 400px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-.container .content .assignments .singleAssignment .detail .className{
-	margin-bottom: 10px;
-	color: rgba(0,0,0,.549);
-	font-weight: 400;
-	width: 400px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+.container .content .assignments .singleAssignment .rightDetail{
+	margin-left: 10px;
+	display: flex;
+	align-items: flex-end;
 }
-.container .content .assignments .singleAssignment .detail .deadline{
-	color: rgba(0,0,0,.549);
+.container .content .assignments .singleAssignment .rightDetail .ansAmount{
+	color: inherit;
+	text-decoration: none;
 }
-.container .content .assignments .singleAssignment.expired .detail .deadline{
-	padding: 5px 10px;
-	width: 230px;
-	color: rgba(245, 39, 118, 1);
-	font-weight: 500;
-	background: rgba(245, 39, 118, 0.1);
+.container .content .assignments .singleAssignment .rightDetail .ansAmount:hover{
+	color: #2962ff;
 }
-.container .content .assignments .singleAssignment.done .detail .deadline{
-	font-size: 14px;
-	font-weight: 500;
+.container .content .assignments .singleAssignment .rightDetail .ansAmount span{
+	font-weight: 600;
+	font-size: 1.1em;
+}
+.container .content .assignments .singleAssignment .rightDetail .deadline{
+	margin-left: 20px;
 }
 .container .content .paginContainer{
 	position: absolute;

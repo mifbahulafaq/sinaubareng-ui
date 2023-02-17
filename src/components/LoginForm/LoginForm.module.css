@@ -53,4 +53,5 @@
 }
 .form .submitLogin:disabled{
 	background-color:#78bae2;
+	cursor: default;
 }

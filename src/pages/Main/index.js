@@ -4,7 +4,6 @@ import style from './Main.module.css';
 //components
 import MainHeader from '../../components/MainHeader';
 import MainContent from '../../components/MainContent';
-import MainFooter from '../../components/MainHeader';
 
 
 export default function Main() {
@@ -21,7 +20,7 @@ export default function Main() {
 			</div>
 			
 			<div className={style.content}>
-				<MainContent loginForm={loginForm}/>
+				<MainContent setLoginForm={setLoginForm} loginForm={loginForm}/>
 			</div>
 			
 		</div>

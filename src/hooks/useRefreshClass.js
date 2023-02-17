@@ -1,5 +1,6 @@
 import React from 'react';
 import { useContext } from '../Context';
+import statusList from '../utils/req-status'
 
 //APIs
 import { getAll as getClass } from '../api/class';
@@ -15,15 +16,18 @@ export default function useRefreshClass(){
 		.then(([{data : dataClasses }, {data: dataClassStudents}])=>{
 			
 			if(dataClasses.error){
-				return console.log(dataClasses)
+				return setClassData({status: statusList.error})
 			}
 			if(dataClassStudents.error){
-				return console.log(dataClassStudents)
+				return setClassData({status: statusList.error})
 			}
 			
 			setClassData({
-				created_classes: dataClasses.data,
-				joined_classes: dataClassStudents.data
+				status: statusList.success,
+				data: {
+					created_classes: dataClasses.data,
+					joined_classes: dataClassStudents.data
+				}
 			})
 			
 		})

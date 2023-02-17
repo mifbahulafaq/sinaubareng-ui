@@ -33,13 +33,7 @@ const day = {
 	required: { value: true, message: 'Choose the gender' }
 }
 const time = {
-	required: { value: true, message: 'Choose the time' },
-	validate: v=> {
-		if(v){
-			return moment.parseZone(v, "HH:mm:ssZ", true).isValid() || `The format of ${v} isn't time`
-		}
-	},
-	setValueAs: v=>v+':00+07:00'
+	required: { value: true, message: 'Choose the time' }
 }
 const timeNoTimezone = {
 	required: { value: true, message: 'Choose the time' },

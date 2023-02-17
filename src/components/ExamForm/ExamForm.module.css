@@ -101,20 +101,23 @@
 }
 .formContainer form .inputDateContainer .inputDate{
 	position: relative;
+}
+.formContainer form .inputDateContainer .inputDate .setOption{
+	position: relative;
 	margin-top: 10px;
 	padding: 10px 20px;
 	width: 300px;
-	background: #fafafa;
 	border-radius: 3px;
+	background: #fafafa;
 	cursor: pointer;
 }
-.formContainer form .inputDateContainer .inputDate:hover{
+.formContainer form .inputDateContainer .inputDate .setOption:hover{
 	background: #f0f0f0;
 }
-.formContainer form .inputDateContainer .inputDate p{
+.formContainer form .inputDateContainer .inputDate .setOption p{
 	pointer-events: none;
 }
-.formContainer form .inputDateContainer .inputDate .triangle{
+.formContainer form .inputDateContainer .inputDate .setOption .triangle{
 	position: absolute;
 	top: 50%;
 	right: 20px;

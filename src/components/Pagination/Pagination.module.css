@@ -2,13 +2,16 @@
 	list-style: none;
 	display: flex;
 	justify-content: center;
+	background: #fff; 
 }
 .container li{
 	height: 2em;
-	cursor: pointer;
 	border-radius: 3px;
 	display: flex;
 	align-items:center; 
+}
+.container li:not(.dots){
+	cursor: pointer; 
 }
 .container :not(li:first-child){
 	margin-left: 0.5em;
@@ -51,6 +54,6 @@
 	background: #098DDF;
 	color: #fff;
 }
-.container :not(.active):hover{
+.container :not(.active, .dots):hover{
 	background: rgba(205, 205, 205, 0.3);
 }

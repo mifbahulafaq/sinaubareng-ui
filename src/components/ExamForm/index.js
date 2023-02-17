@@ -101,20 +101,21 @@ import formatDate from '../../utils/id-format-date';
 					<div className={`${style.inputDateContainer} ${style.inputMargin}`}>
 						<h4>Jadwal</h4>
 						<div className={style.inputDate}>
-						
-							<p>
-							{
-								watch('schedule.date')?
-								formatDate(
-									watch('schedule.date')+" "+watch('schedule.time'),
-									"id-ID",
-									{weekday:"long",  month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit"}
-								)
-								:
-								"-"
-							}
-							</p>
-							<div className={style.triangle} />
+							<div className={`${style.setOption} setOption`}>
+								<p>
+								{
+									watch('schedule.date')?
+									formatDate(
+										watch('schedule.date')+" "+watch('schedule.time'),
+										"id-ID",
+										{weekday:"long",  month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit"}
+									)
+									:
+									"-"
+								}
+								</p>
+								<div className={style.triangle} />
+							</div>
 							
 							<div onClick={e=>e.stopPropagation()} className={`${style.selectContainer} option`}>
 								<div className={style.desc} > Tanggal & Waktu</div>
@@ -122,7 +123,7 @@ import formatDate from '../../utils/id-format-date';
 									<div className={style.date}>
 										<FontAwesomeIcon icon={['far','calendar-alt']} />
 										<div className={style.content} >
-											{ watch('date') && watch('schedule.date').length ? formatDate(watch('schedule.date'),"id-ID", {dateStyle:"medium"}) : "Masukkan tanggal"}
+											{ watch('schedule.date') && watch('schedule.date').length ? formatDate(watch('schedule.date'),"id-ID", {dateStyle:"medium"}) : "Masukkan tanggal"}
 										</div>
 										<input 
 											type="date" 
@@ -146,19 +147,21 @@ import formatDate from '../../utils/id-format-date';
 						<h4>Tenggat</h4>
 						<div className={style.inputDate}>
 						
-							<p>
-							{
-								watch('duration.date')?
-								formatDate(
-									watch('duration.date')+" "+watch('duration.time'),
-									"id-ID",
-									{weekday:"long",  month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit"}
-								)
-								:
-								"-"
-							}
-							</p>
-							<div className={style.triangle} />
+							<div className={`${style.setOption} setOption`}>
+								<p>
+								{
+									watch('duration.date')?
+									formatDate(
+										watch('duration.date')+" "+watch('duration.time'),
+										"id-ID",
+										{weekday:"long",  month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit"}
+									)
+									:
+									"-"
+								}
+								</p>
+								<div className={style.triangle} />
+							</div>
 							
 							<div onClick={e=>e.stopPropagation()} className={`${style.selectContainer} option`}>
 								<div className={style.desc} > Tanggal & Waktu</div>

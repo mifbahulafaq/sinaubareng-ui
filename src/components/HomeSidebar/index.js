@@ -69,13 +69,12 @@ function TypeContainer({name, data}){
 				{
 					data?.map((e,i)=>{
 						
-						const rdm = Math.ceil(Math.floor((Math.random() * 10 + 1)) * 5 / 10)
 						const [...a] = e.class_name;
 						
 						return <li key={i} >
 								<NavLink to={`c/${e.code_class}`} className={classActive}>
 									<div 
-										style={{background: circleColor[rdm]}}
+										style={{background: e.color}}
 										className={style.circle}
 									>
 									{a[0].toUpperCase()}

@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import config from '../../config'
 import { useContext } from '../../Context'
+import { useSelector } from 'react-redux'
 
 //APIs
 import * as classDiscuss from '../../api/class-discussion';
@@ -18,6 +19,8 @@ import SingleClassCard from '../../components/SingleClassCard';
 export default React.memo(function SingleClass() {
 	
 	const params = useParams();
+	const user = useSelector(s=>s.user)
+	const [ error, setError ] = React.useState(false)
 	const { singleClass } = useContext()
 	const [ discussData, setDiscussData ] = React.useState([]);
 	const [ examMatter, setExamMatter ] = React.useState({
@@ -99,10 +102,10 @@ export default React.memo(function SingleClass() {
 		}
 		return false;
 	}
-	
+	console.log(user)
   return (
 	<div className={style.container}>
-		<div className={style.detail} >
+		<div className={style.detail} style={{ background: singleClass.color }} >
 			<div className={style.title}>
 				<h1>{singleClass.class_name}</h1>
 				<p>{singleClass.description}</p>
@@ -140,6 +143,7 @@ export default React.memo(function SingleClass() {
 				{
 					discussData.map((data,i)=>{
 						
+						console.log(data)
 						const previousData = discussData[i-1];
 						const previousDate = new Date(previousData?.date);
 						
@@ -167,7 +171,7 @@ export default React.memo(function SingleClass() {
 							<div className={`${style.sortDate} ${hiddenDiv? style.hidden: ""}`} ><span>{sortDate}</span></div>:
 							"";
 						
-						if(data.user === singleClass.teacher){
+						if(data.user === user.data?.user_id){
 							return <React.Fragment key={i}>
 										{
 											sortDateElement
@@ -190,7 +194,7 @@ export default React.memo(function SingleClass() {
 									<Image src="images/user.png" />
 								</div>
 								<div className={style.post} >
-									<span className={style.name}>Mifbhaul afaq, {formatDate}</span>
+									<span className={style.name}>{data.name} {data.user === singleClass.teacher? "(Pengajar)": ""}, {formatDate}</span>
 									<div className={style.text} >
 										{data.text}
 									</div>

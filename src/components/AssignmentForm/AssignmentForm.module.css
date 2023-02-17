@@ -97,6 +97,7 @@
 	left: 20px;
 	color: #797979;
 	font-size: 1.1em;
+	pointer-events: none;
 }
 .formContainer form .customInputContainer [contenteditable="true"]:empty ~ p{
 	display: initial;
@@ -106,6 +107,9 @@
 }
 .formContainer form .inputDateContainer .inputDate{
 	position: relative;
+}
+.formContainer form .inputDateContainer .inputDate .setOption{
+	position: relative;
 	margin-top: 10px;
 	padding: 10px 20px;
 	width: 300px;
@@ -113,13 +117,13 @@
 	border-radius: 3px;
 	cursor: pointer;
 }
-.formContainer form .inputDateContainer .inputDate:hover{
+.formContainer form .inputDateContainer .inputDate .setOption:hover{
 	background: #f0f0f0;
 }
-.formContainer form .inputDateContainer .inputDate p{
+.formContainer form .inputDateContainer .inputDate .setOption p{
 	pointer-events: none;
 }
-.formContainer form .inputDateContainer .inputDate .triangle{
+.formContainer form .inputDateContainer .inputDate .setOption .triangle{
 	position: absolute;
 	top: 50%;
 	right: 20px;

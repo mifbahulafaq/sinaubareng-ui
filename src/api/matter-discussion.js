@@ -3,7 +3,7 @@ import config from '../config';
 
 export function getAll(id_matter){
 	
-	const { token } = localStorage.getItem('auth')? JSON.parse(localStorage.getItem('auth')): {};
+	const token = JSON.parse(localStorage.getItem('token'));
 	
 	return axios.get(`${config.api_host}/api/matter-discussions/${id_matter}`,{
 		headers: {
@@ -14,7 +14,7 @@ export function getAll(id_matter){
 }
 export function add(payload){
 	
-	const { token } = localStorage.getItem('auth')? JSON.parse(localStorage.getItem('auth')): {};
+	const token = JSON.parse(localStorage.getItem('token'));
 	
 	return axios.post(`${config.api_host}/api/matter-discussions`,payload,{
 		headers: {

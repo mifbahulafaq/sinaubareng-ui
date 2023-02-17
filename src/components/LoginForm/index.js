@@ -1,35 +1,32 @@
+import { useState } from 'react';
 import style from './LoginForm.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { email, password } from '../../validation';
-//import { useDispatch, useSelector } from 'react-redux';
-//import { addUser } from '../../features/User/actions';
-import { useContext } from '../../Context';
-import { user as userAction } from '../../actions';
+import { useDispatch } from 'react-redux';
+import { add as addToken, reqError as errorToken } from '../../features/Token/actions';
+
+//pages
+import ErrorPage from '../../pages/ServerError'
 
 //components
-import { useState } from 'react';
 import Input1 from '../Input1';
 import FormControl from '../FormControl';
 import ErrorAlert from '../ErrorAlert';
 
 //apis
-import { login, me } from '../../api/auth';
+import { login } from '../../api/auth';
 
-//utils
-import reqStatus from '../../utils/req-status';
-
-export default function LoginForm(){
+export default function LoginForm({ nextRoute }){
 	
 	const navigate = useNavigate();
-	const [ loginStatus, setLoginStatus] = useState(reqStatus.idle);
-	const { register, setError, handleSubmit, formState: { errors } } = useForm();
-	const { dispatch } = useContext();
-	
+	const [ customError, setCustomError] = useState("")
+	const dispatch = useDispatch()
+	const { register, setError, handleSubmit, formState } = useForm();
+	const { errors, isValid, isSubmitted, isSubmitting } = formState
+	let otherLoignError = errors.email && errors.password
 	
 	async function submit(input){
-		
-		setLoginStatus(reqStatus.processing);
 		
 		try{
 			
@@ -42,39 +39,53 @@ export default function LoginForm(){
 					const key = Object.keys(loginData.field)[0];
 					
 					setError(key,{type: 'manual', message: loginData.field[key].msg});
-					setLoginStatus(reqStatus.error)
 					
 					return;
 					
 				}
 				
-				setError('login',{type: 'manual', message: loginData.message});
-				setLoginStatus(reqStatus.error)
+				setError('email',{type: 'unknown', message: loginData.message});
+				setError('password',{type: 'unknown', message: loginData.message});
+				dispatch(errorToken())
 				return;
 			}
 			
-			const { data: meData } = await me();
+			dispatch(addToken(loginData.token))
 			
-			if(meData.error) return console.log(meData);
-			
-			dispatch(userAction.add(meData.data));
-			setLoginStatus(reqStatus.success)
-			
-			navigate('c');
+			if(nextRoute) return navigate(nextRoute, { replace: true})
+			navigate('/', { replace: true})
 			
 		}catch(err){
-			setLoginStatus(reqStatus.error)
-			throw err;
+			setCustomError('SERVER ERROR')
+			dispatch(errorToken())
 		}
 	}
+	
+	function fieldErrorFunc(objErr = {}){
+		if(objErr.type === "unknown") return null
+		return objErr.message
+	}
+	
+	function disabled(){
+		
+		if(isSubmitting) return true
+		
+		return isSubmitted? !isValid: false
+	}
+	
+	/*useEffect(()=>{
+		clearErrors('login')
+	}, [])*/
+	
+	if(customError) return <ErrorPage />
 	
 	return (
 		<div className={style.container}>
 			{
-				errors.login?
+				otherLoignError?.type === "unknown"?
 				<ErrorAlert
 					message={
-						<>{errors.login?.message}. <Link to="/"> Forget password </Link></>
+						<>{otherLoignError?.message}. <Link to="/"> Forget password </Link></>
 					}
 				/>
 				:
@@ -85,18 +96,18 @@ export default function LoginForm(){
 			
 				<div className={style.inputContainer}>
 				
-					<FormControl width="100%" error={errors.email?.message} >
+					<FormControl width="100%" error={fieldErrorFunc(errors.email)} >
 						<Input1 
-							error={Boolean(errors.email)} 
+							error={Boolean(fieldErrorFunc(errors.email))} 
 							type="text" 
 							placeholder="Enter your email address" 
 							{...register('email', email)}
 						/>
 					</FormControl>
 					
-					<FormControl width="100%" error={errors.password?.message} >
+					<FormControl width="100%" error={fieldErrorFunc(errors.password)} >
 						<Input1 
-							error={Boolean(errors.password)} 
+							error={Boolean(fieldErrorFunc(errors.password))} 
 							type="password" placeholder="Password"  
 							{...register('password', password)}
 						/>
@@ -114,7 +125,7 @@ export default function LoginForm(){
 				
 				<button 
 					className={style.submitLogin} 
-					disabled={loginStatus === reqStatus.processing} 
+					disabled={disabled()}
 					type="submit"
 				>Log In</button>
 				

@@ -45,3 +45,32 @@ export function inputExamAnswer( state, actions){
 			return state
 	}
 }
+export function assignmentFilter(state, actions){
+	
+	let tempSkip = 0
+	
+	switch(actions.type){
+		case 'status':
+		
+			return {...state, status: actions.value}
+			
+		case 'class':
+		
+			return {...state, class: actions.code_class}
+			
+		case 'change_page':
+		
+			return { ...state, skip: actions.page * state.limit - state.limit}
+			
+		case 'next_page':
+			
+			tempSkip = state.skip + state.limit
+			return tempSkip >= actions.rowCount? state: { ...state, skip: tempSkip}
+			
+		case 'previous_page':
+		
+			tempSkip = state.skip - state.limit
+			return tempSkip < 0? state: { ...state, skip: tempSkip}
+	}
+	
+}

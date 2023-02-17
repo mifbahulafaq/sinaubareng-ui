@@ -8,7 +8,8 @@ import { useContext } from '../../Context';
 //components
 import FormSchedule from '../FormSchedule';
 import FormControl2 from '../FormControl2';
-
+//pages
+import ServerError from '../../pages/ServerError'
 //APIs
 import { createClass } from '../../api/class';
 import { insertSchedules } from '../../api/schedule';
@@ -20,51 +21,61 @@ import reqStatus from '../../utils/req-status';
 import useRefreshClass from '../../hooks/useRefreshClass';
 
 
-export default React.memo(function CreateClass({ setModal }){
+export default React.memo(function CreateClass({ setModal, modal }){
 	
 	const [ formClass, setFormClass ] = React.useState(true);
-	const { reset, register, getValues, watch, setValue, setError, handleSubmit, formState: { errors } } = useForm();
+	const { reset, register, unregister, getValues, watch, setValue, setError, clearErrors, handleSubmit, formState } = useForm({
+		mode: "onChange",
+		defaultValues: {
+			color: '#83d0c9'
+		}
+	});
+	const {isValid, errors } = formState
+	const errArray = Object.keys(errors);
 	const [ formStatus, setFormStatus ] = React.useState(reqStatus.idle);
 	const setClasses = useRefreshClass();
+	const arrColors = ["#83d0c9",  "#851e3e", "#fe4a49", "#f6cd61", "#009688", "#ee4035",  "#f37736", "#7bc043", "#4b3832", "#854442", "#be9b7b", "#008744", "#f6abb6", "#d62d20", "#ffa700", "#ff3377"]
 	
 	async function submit(input){
-		
-		const { class_name, description, schedules } = input;
 		setFormStatus(reqStatus.processing);
 		
+		let { class_name, description, color, schedules } = input;
+		schedules = schedules.map(e=>({...e, time: e.time+':00+07:00'}))
+		
+		
 		function funcErr(result){
-			
-			if(result.error){
-				setFormStatus(reqStatus.error)
-				if(result.field){
-					const key = Object.keys(result.field)[0];
-					setError(key, {type: 'manual', message: result.field[key].msg});
-					
-				}
-				console.log(result)
-				return ;
+			setFormStatus(reqStatus.error)
+			if(result.field){
+				const key = Object.keys(result.field)[0];
+				setError(key, {type: 'manual', message: result.field[key].msg});
+				
 			}
 		}
 		
 		try{
 			
-			const { data : resultClass} = await createClass({class_name, description: description || undefined});
-			funcErr(resultClass);
+			const { data : resultClass} = await createClass({class_name, color, description: description || undefined});
+			if(resultClass.error){
+				funcErr(resultClass)
+				return
+			}
 			
 			const code_class = resultClass.data[0].code_class;
 			let schedulePayload = {schedules, code_class }
 			
 			const { data: resultSchedule } = await insertSchedules(schedulePayload);
-			funcErr(resultSchedule)
+			if(resultSchedule.error){
+				funcErr(resultSchedule)
+				return
+			}
 			
 			setFormStatus(reqStatus.success)
 			setFormClass(true)
-			reset();
 			setClasses();
 			setModal(false)
 		}catch(err){
-			setFormStatus(reqStatus.error)
 			console.log(err)
+			setFormStatus(reqStatus.error)
 		}
 	}
 	function addSchedule(){
@@ -72,8 +83,6 @@ export default React.memo(function CreateClass({ setModal }){
 	}
 	
 	function navClick(value){
-		
-		const errArray = Object.keys(errors);
 		
 		if(errArray.length){
 			
@@ -88,8 +97,10 @@ export default React.memo(function CreateClass({ setModal }){
 	}
 	
 	React.useEffect(()=>{
-		
-		const errArray = Object.keys(errors);
+		reset()
+	}, [modal])
+	
+	React.useEffect(()=>{
 		
 		if(formClass === false && errArray.length){
 			
@@ -98,8 +109,9 @@ export default React.memo(function CreateClass({ setModal }){
 			
 		}
 		
-	},[Object.keys(errors).length, errors, formClass])
+	},[errArray.length, formClass])
 	
+	if(!errArray.length && formStatus === reqStatus.error) return <ServerError />
 	return (
 		<div className={style.container}>
 		
@@ -119,6 +131,19 @@ export default React.memo(function CreateClass({ setModal }){
 					<FormControl2 error={errors.description?.message} margin="0 0 20px 0" width="85%" >  
 						<textarea rows="5" className={`${style.input} ${errors.description?style.error:''}`} placeholder="Keterangan" {...register('description', val.description)}/>
 					</FormControl2> 
+					<div className={style.inputColor}>
+						<p>Tema Kelas</p>
+						<div className={style.colorLists}>
+							{
+								arrColors.map((e,i)=>{
+									return <React.Fragment key={i}>
+										<input {...register("color")} id={i} type="radio" name="color" value={e} />
+										<label htmlFor={i} style={{background: e}} className={style.color} ><p>&#10003;</p></label>
+									</React.Fragment>
+								})
+							}
+						</div>
+					</div>
 				</div>
 				
 				<div className={`${style.hiding} ${formClass?style.hiden:''}`}>
@@ -130,10 +155,10 @@ export default React.memo(function CreateClass({ setModal }){
 									watch('schedules')?.map((current_e,current_i)=>{
 										
 										return <React.Fragment key={current_i}>
-											<FormSchedule register={register} day={current_e.day} schedule={current_e} schedules={getValues('schedules')} iSchedule={current_i} setValue={setValue} />
+											<FormSchedule clearErrors={clearErrors} unregister={unregister} register={register} schedule={current_e} schedules={getValues('schedules')} iSchedule={current_i} setValue={setValue} />
 										</React.Fragment>
 									})
-								: <FormSchedule day={''} register={register} schedule={{day: '', time: ''}} schedules={[]} iSchedule={0} setValue={setValue} />
+								: <FormSchedule clearErrors={clearErrors} unregister={unregister} register={register} schedule={{day: '', time: ''}} schedules={[]} iSchedule={0} setValue={setValue} />
 							}
 							
 							<FontAwesomeIcon onClick={addSchedule} className={style.addTime} icon="plus" />
@@ -149,7 +174,7 @@ export default React.memo(function CreateClass({ setModal }){
 					<button 
 						type="submit" 
 						className={style.btn} 
-						disabled={formStatus === reqStatus.processing || Boolean(Object.keys(errors).length)} 
+						disabled={formStatus === reqStatus.processing || !isValid} 
 					>
 						Submit
 					</button>

@@ -3,7 +3,7 @@ import config from '../config';
 
 export function getAll(){
 	
-	const { token } = JSON.parse(localStorage.getItem('auth'));
+	const token = localStorage.getItem('token')? JSON.parse(localStorage.getItem('token')): null;
 	
 	return axios.get(`${config.api_host}/api/class-students`,{
 		headers: {
@@ -14,7 +14,7 @@ export function getAll(){
 }
 export function getByClass(code_class){
 	
-	const { token } = JSON.parse(localStorage.getItem('auth'));
+	const token = localStorage.getItem('token')? JSON.parse(localStorage.getItem('token')): null;
 	
 	return axios.get(`${config.api_host}/api/class-students/by-class/${code_class}`,{
 		headers: {
@@ -25,7 +25,7 @@ export function getByClass(code_class){
 }
 export function joinClass(codeCLass){
 	
-	const { token } = JSON.parse(localStorage.getItem('auth'));
+	const token = JSON.parse(localStorage.getItem('token'));
 	
 	return axios.post(`${config.api_host}/api/class-students/join-class`,{class:codeCLass},{
 		headers: {
@@ -36,7 +36,7 @@ export function joinClass(codeCLass){
 }
 export function add(payload){
 	
-	const { token } = JSON.parse(localStorage.getItem('auth'))
+	const token = JSON.parse(localStorage.getItem('token'));
 	
 	return axios.post(`${config.api_host}/api/class-students/add`, payload, {
 		headers: {

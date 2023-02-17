@@ -33,20 +33,106 @@
 	background: rgba(198, 223, 255, 0.5);
 }
 .user{
+	position: relative;
 	display: flex;
 	align-items: center;
-	border-left: 2px solid #f4f4f4;
 	padding-left: 18px;
 }
 .user .userImage{
 	margin-right: 10px;
-	width: 40px;
-	height: 40px;
+	width: 35px;
+	height: 35px;
+	border-radius:50%;
+	overflow: hidden;
+	cursor: pointer;
+}
+.user .userImage img{
+	pointer-events: none;
+}
+.user .profilDropdown{
+	display: none;
+	position: absolute;
+	right: -20px;
+	bottom: -160px;
+	z-index: 10;
+	width: 295px;
+	box-shadow: 0 0 25px rgba(152, 152, 152, 0.4);
+	border-radius: 3px;
+	background: #fafafa;
+	font-size: 12px;
+	font-weight: 600;
+}
+.user .profilDropdown .detail{
+	position: relative;
+	padding: 20px;
+	display: flex;
+	align-items: flex-start;
+	border-bottom: 2px solid #ececec;
+}
+.user .profilDropdown .detail:after{
+	position: absolute;
+	right: 38px;
+	top: -8px;
+	content: "";
+	border-left: 8px solid transparent;
+	border-right: 8px solid transparent;
+	border-bottom: 8px solid #fafafa;
+}
+.user .profilDropdown .detail .userImage2{
+	margin-right: 15px;
+	min-width: 70px;
+	max-width: 70px;
+	height: 70px;
 	border-radius:50%;
 	overflow: hidden;
 }
-.user span{
-	color: #073763;
-	font-size:0.9em;
-	font-weight:600;
+.user .profilDropdown .detail .text .name{
+	font-size: 16px;
+	margin-bottom: 5px;
+	font-weight: 500;
+}
+.user .profilDropdown .detail .text .email{
+	display: flex;
+	align-items: flex-start;
+}
+.user .profilDropdown .detail .text .email svg{
+	margin-right: 5px;
+	margin-top: 3px;
+}
+.user .profilDropdown .detail .text .email .emailText{
+	word-break: break-all;
+}
+.user .profilDropdown .menu{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.user .profilDropdown .menu .edit{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 50%;
+	padding: 7px;
+	cursor: pointer;
+}
+.user .profilDropdown .menu .edit:hover{
+	background: rgba(198, 223, 255, 0.2);
+}
+.user .profilDropdown .menu .edit p{
+	margin-left: 10px;
+}
+.user .profilDropdown .menu .logout{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 50%;
+	padding: 7px;
+	border-left: 2px solid #ececec;
+	cursor: pointer;
+}
+.user .profilDropdown .menu .logout:hover{
+	background: rgba(198, 223, 255, 0.2);
+}
+.user .profilDropdown .menu .logout p{
+	margin-left: 10px;
 }

@@ -1,7 +1,7 @@
 .container{
 	position: relative;
 	width:480px;
-	height:450px;
+	height:550px;
 	border-radius: 5px;
 	background: #fff;
 }
@@ -68,6 +68,44 @@
 }
 .form .input.error{
 	border:2px solid #cc3300;
+}
+.form .inputColor{
+}
+.form .inputColor p{
+	font-weight: 700;
+	color: #393939;
+}
+.form .inputColor .colorLists{
+	margin-top: 10px;
+}
+.form .inputColor .colorLists{
+	display: flex;
+	flex-wrap: wrap;
+	height: 70px;
+}
+.form .inputColor .colorLists input{
+	display: none;
+}
+.form .inputColor .colorLists .color{
+	position: relative;
+	margin-right: 5px;
+	border-radius: 50%;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	line-height: 30px;
+	font-size: 16px;
+	cursor: pointer;
+}
+.form .inputColor .colorLists input:checked + .color{
+	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+.form .inputColor .colorLists .color p{
+	display: none;
+	color: #fff;
+}
+.form .inputColor .colorLists input:checked + .color p{
+	display: initial;
 }
 .form .des{	
 	color: #098DDF;

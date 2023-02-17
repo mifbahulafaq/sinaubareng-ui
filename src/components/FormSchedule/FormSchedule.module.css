@@ -50,9 +50,6 @@
 	box-shadow: 0 0 2px rgba(117, 117, 117, 0.8);
 	z-index: 200;
 }
-.container .input2.dropdown.active ~ .select{
-	display: block;
-}
 .container .select li{
 	width:100%;
 	padding: 8px 20px;
@@ -64,7 +61,7 @@
 	background: #098DDF;
 	color: #fff;
 }
-.container.select li.active{
+.container .select li.active{
 	background: rgba(194, 194, 194, 0.8);
 	color: #fff;
 }

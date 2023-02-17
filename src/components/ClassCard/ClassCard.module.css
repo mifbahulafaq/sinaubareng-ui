@@ -12,7 +12,6 @@
 	position: relative;
 	height: 100%;
 	width: 40%;
-	background: #FF5733;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -49,16 +48,23 @@
 .class .detail{
 	position: relative;
 	height: 80%;
-	padding:25px;
+	padding:25px 10px;
 }
-.detail h3{
+.detail a{
+	text-decoration: none;
 	text-align: center;
 	color: #5b5b5b;
-	
+}
+.detail a h3{
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.detail a:hover{
+	text-decoration: underline 2px;
 }
 .detail p{
 	margin-top:10px;
-	text-align: justify;
 	font-size: 13px;
 	font-weight: 600;
 	color: #999;

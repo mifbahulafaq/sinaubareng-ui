@@ -96,20 +96,22 @@ import formatDate from '../../utils/id-format-date';
 					<div className={`${style.inputDateContainer} ${style.inputMargin}`}>
 						<h4>Tenggat</h4>
 						<div className={style.inputDate}>
-						
-							<p>
-							{
-								watch('date')?
-								formatDate(
-									watch('date')+" "+watch('time'),
-									"id-ID",
-									{weekday:"long",  month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit"}
-								)
-								:
-								"-"
-							}
-							</p>
-							<div className={style.triangle} />
+							
+							<div className={`${style.setOption} setOption`}>
+								<p>
+								{
+									watch('date')?
+									formatDate(
+										watch('date')+" "+watch('time'),
+										"id-ID",
+										{weekday:"long",  month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit"}
+									)
+									:
+									"-"
+								}
+								</p>
+								<div className={style.triangle} />
+							</div>
 							
 							<div onClick={e=>e.stopPropagation()} className={`${style.selectContainer} option`}>
 								<div className={style.desc} > Tanggal & Waktu</div>

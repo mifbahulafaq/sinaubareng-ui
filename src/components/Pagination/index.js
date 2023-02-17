@@ -2,24 +2,43 @@ import React from 'react';
 import style from './Pagination.module.css';
 import PropTypes from 'prop-types';
 
-const Pagination =  React.memo(({error, ...rest})=>{
+const Pagination =  React.memo(({ rowCount, dispatch, limit, skip, hidden_total })=>{
+	
+	const pages = Math.ceil(rowCount/limit)
+	
 	return (
 		<ul className={style.container}>
-			<li></li>
-			<li className={style.active}>1</li>
-			<li>20</li>
-			<li>...</li>
-			<li>200</li>
-			<li></li>
+			<li onClick={()=>dispatch({type: 'previous_page'})} ></li>
+			{
+				(function(){
+					
+					let elementArr = []
+					
+					for( let i = 1; i <= pages; i++){
+						
+						elementArr.push(<li className={skip === (i*limit-limit)? style.active: ""} onClick={()=>dispatch({type: 'change_page', page: i})} key={i}>{i}</li>)
+					}
+					
+					return elementArr
+				})()
+			}
+			
+			<li onClick={()=>dispatch({type: 'next_page', rowCount})} ></li>
 		</ul>
 	)
 })
 
 Pagination.defaultProps = {
-	error: false
+	rowCount: 0,
+	limit: 0,
+	skip: 0,
+	hidden_total: 0
 }
 Pagination.propTypes = {
-	error: PropTypes.bool
+	rowCount: PropTypes.number,
+	limit: PropTypes.number,
+	skip: PropTypes.number,
+	hidden_total: PropTypes.number
 }
 
 export default Pagination;

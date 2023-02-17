@@ -5,7 +5,6 @@
 	overflow: hidden;
 	box-shadow:0 3px 8px -3px #999;
 	background: #fff;
-	border-top: 3px solid salmon;
 }
 .detail{
 	position: relative;
@@ -13,14 +12,25 @@
 	height: 80%;
 	width: 100%;
 }
-.detail .className{
-	font-size: 16px;
-	font-weight: 700;
+.detail a{
+	text-decoration: none;
 	text-align: center;
 	color: #5b5b5b;
-	white-space: nowrap;
+}
+.detail a h3{
 	text-overflow: ellipsis;
 	overflow: hidden;
+	white-space: nowrap;
+}
+.detail a:hover{
+	text-decoration: underline 2px;
+}
+.detail p{
+	margin-top:10px;
+	text-align: justify;
+	font-size: 13px;
+	font-weight: 600;
+	color: #999;
 }
 .detail .desc{
 	height: 90px;

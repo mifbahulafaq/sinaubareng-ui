@@ -3,7 +3,7 @@ import style from './FormSchedule.module.css';
 import * as val from '../../validation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export default React.memo(function FormSchedule({ register, schedule, day, schedules, setValue, iSchedule }){
+export default function FormSchedule({ register, unregister, schedule, schedules, setValue, iSchedule,  clearErrors}){
 	
 	const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
 	
@@ -12,17 +12,15 @@ export default React.memo(function FormSchedule({ register, schedule, day, sched
 	}
 	
 	function removeSchedule(){
-		setValue('schedules',schedules.filter((e,i)=>i!==iSchedule))
+		unregister(`schedules.${iSchedule}`)
+		//setValue('schedules',schedules.filter((e,i)=>i!==iSchedule))
+		//clearErrors(`schedules.${iSchedule}`)
 	}
 	
 	return <div className={style.container}>
 									
 				<div 
-					className={`toggle ${style.input2} ${style.dropdown}`}
-					onClick={(e)=>{
-						e.currentTarget.classList.toggle(style.active);
-						e.stopPropagation();
-					}}
+					className={`toggle ${style.input2} ${style.dropdown} setOption`}
 				>
 				
 				<span className={style.value}>{schedule.day||'Pilih hari'}</span>
@@ -42,7 +40,7 @@ export default React.memo(function FormSchedule({ register, schedule, day, sched
 									
 				<FontAwesomeIcon onClick={removeSchedule} className={style.removeTime} icon="xmark" />
 									
-				<ul style={{top:`${(iSchedule+1)*40}px`}} className={style.select}>
+				<ul style={{top:`${(iSchedule+1)*40}px`}} className={`${style.select} option`}>
 					{
 						days.map((e,i)=>{
 							return <li key={i} 
@@ -56,4 +54,4 @@ export default React.memo(function FormSchedule({ register, schedule, day, sched
 				</ul>
 									
 			</div>
-})
+}

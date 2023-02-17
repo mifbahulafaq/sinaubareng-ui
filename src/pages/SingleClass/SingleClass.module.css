@@ -13,7 +13,6 @@
 	display:flex;
 	justify-content: space-between;
 	align-items:flex-start;
-	background: #573703;
 	border-radius: 10px;
 }
 .container .detail .title h1{

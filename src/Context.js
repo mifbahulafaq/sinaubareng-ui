@@ -1,5 +1,6 @@
 import { createContext, useContext as context, useReducer, useState } from 'react';
 import { user as userReducer } from './reducers';
+import statusList from './utils/req-status'
 
 let ContextData = createContext();
 
@@ -8,7 +9,10 @@ export let useContext = ()=>context(ContextData);
 export default function ContextProvider({children}){
 	
 	const [ iconBar, setIconBar ] = useState(false);
-	const [ classData, setClassData ] = useState({})
+	const [ classData, setClassData ] = useState({
+		data: {},
+		status: statusList.idle
+	})
 	const [ user, dispatch ] = useReducer(userReducer, {});
 	const [ singleClass, setSingleClass ] = useState({});
 	

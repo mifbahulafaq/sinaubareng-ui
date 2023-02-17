@@ -4,11 +4,14 @@ import { useContext } from '../../Context'
 
 //API
 import * as classes from '../../api/class';
+//PAGES
+import ServerError from '../../pages/ServerError'
 
 export default function GetSingleClass(){
 	
 	const { setSingleClass } = useContext()
 	const params = useParams()
+	const [ error, setError ] = React.useState(false)
 	
 	React.useEffect(()=>{
 		
@@ -16,15 +19,16 @@ export default function GetSingleClass(){
 		.then( async ({data})=>{
 			
 			if(data.error){
-				console.log(data)
+				setError(true)
 				return ;
 			}
 			
-			setSingleClass(data.data[0]);
+			setSingleClass(data.data);
 			
 		})
+		.catch(()=>setError(true))
 		
 	},[params.code_class])
 	
-	return <Outlet />
+	return error? <ServerError />: <Outlet />
 }
