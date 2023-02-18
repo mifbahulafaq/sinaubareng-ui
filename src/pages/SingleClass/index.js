@@ -2,19 +2,20 @@ import React from 'react';
 import style from './SingleClass.module.css';
 import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import config from '../../config'
 import { useContext } from '../../Context'
 import { useSelector } from 'react-redux'
 
 //APIs
 import * as classDiscuss from '../../api/class-discussion';
-import * as classes from '../../api/class';
 import * as fetchMatter from '../../api/matter';
 import * as fetchExam from '../../api/exam';
 
 //components
 import Image from '../../components/Image';
 import SingleClassCard from '../../components/SingleClassCard';
+
+//pages
+import ServerError from '../../pages/ServerError'
 
 export default React.memo(function SingleClass() {
 	
@@ -34,7 +35,7 @@ export default React.memo(function SingleClass() {
 	const fetchDiscuss = React.useCallback( async ()=>{
 		
 		const { data } = await classDiscuss.getAll(params.code_class);
-		if(data.error) return console.log(data)
+		if(data.error) return setError(true)
 		setDiscussData(data.data);
 	
 	},[params.code_class])
@@ -48,11 +49,11 @@ export default React.memo(function SingleClass() {
 		])
 		.then(([{ data: examResult }, { data: matterResult } ])=>{
 			if(examResult.error){
-				console.log(examResult)
+				setError(true)
 				return ;
 			}
 			if(matterResult.error){
-				console.log(matterResult)
+				setError(true)
 				return ;
 			}
 			setExamMatter({
@@ -60,7 +61,7 @@ export default React.memo(function SingleClass() {
 				matter: matterResult.data[0]
 			})
 		})
-		.catch(err=>console.log(err))
+		.catch(err=>setError(true))
 		
 	},[params.code_class, fetchDiscuss])
 	
@@ -90,7 +91,7 @@ export default React.memo(function SingleClass() {
 		const { data } = await classDiscuss.add(payload);
 		
 		if(data.error) {
-			return console.log(data);
+			return setError(true);
 		}
 		fetchDiscuss();
 		textInputElement.current.innerHTML = ""
@@ -102,7 +103,8 @@ export default React.memo(function SingleClass() {
 		}
 		return false;
 	}
-	console.log(user)
+	
+	if(error) return <ServerError />
   return (
 	<div className={style.container}>
 		<div className={style.detail} style={{ background: singleClass.color }} >
@@ -143,7 +145,6 @@ export default React.memo(function SingleClass() {
 				{
 					discussData.map((data,i)=>{
 						
-						console.log(data)
 						const previousData = discussData[i-1];
 						const previousDate = new Date(previousData?.date);
 						
@@ -165,6 +166,8 @@ export default React.memo(function SingleClass() {
 								break;
 							case yesterday:
 								sortDate = "yesterday"
+								break;
+							default:
 						}
 						
 						let sortDateElement =  date.getDate() !== previousDate?.getDate() ?

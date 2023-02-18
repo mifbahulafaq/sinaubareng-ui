@@ -112,7 +112,7 @@
 .container .people .studentContainer .studentTitle{
 	display: flex;
 	justify-content: space-between;
-	margin-bottom: 20px;	
+	margin-bottom: 30px;	
 }
 .container .people .studentContainer .studentTitle p{
 	color: #3c4043;

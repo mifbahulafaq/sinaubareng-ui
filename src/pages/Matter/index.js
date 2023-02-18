@@ -1,6 +1,6 @@
 import React from 'react';
 import style from './Matter.module.css';
-import 'react-calendar/dist/Calendar.css';
+import { useContext } from '../../Context'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useParams } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { Link, useParams } from 'react-router-dom';
 import PreviousLink from '../../components/PreviousLink';
 import MatterForm from '../../components/MatterForm'
 import Calendar from 'react-calendar';
+import GuardComponent from '../../components/GuardComponent'
 //utils
 import formatDate from '../../utils/id-format-date'
 
@@ -22,6 +23,7 @@ export default React.memo(function Matter() {
 	const [comments, setComments] = React.useState([]);
 	const [ matterForm, setMatterForm ] = React.useState(false)
 	const [ date, setDate ] = React.useState(null)
+	const { singleClass } = useContext()
 	
 	const params = useParams();
 	
@@ -65,10 +67,12 @@ export default React.memo(function Matter() {
 						<div className={style.icon}> <FontAwesomeIcon icon={['far', 'calendar-days']} /> </div>
 						<span>Materi</span>
 					</div>
-					<div onClick={()=>displayMatterForm(true)} className={style.add}>
-						<span>+</span>
-						<span>Tambah Materi</span>
-					</div>
+					<GuardComponent teacherId={singleClass.teacher} >
+						<div onClick={()=>displayMatterForm(true)} className={style.add}>
+							<span>+</span>
+							<span>Tambah Materi</span>
+						</div>
+					</GuardComponent>
 				</div>
 				
 				<div className={style.matters}>
@@ -95,7 +99,7 @@ export default React.memo(function Matter() {
 									<p className={style.date} >
 										{formatDate(e.schedule, "id-ID",{weekday:"long",  month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit"})}
 									</p>
-									<p className={style.desc} > {e?.description}</p>
+									<p className={style.desc} > {e?.description?.trim()}</p>
 									<div className={style.comm}>{e.total_comments} Comments</div>
 								</div>
 								<div className={style.cover} />

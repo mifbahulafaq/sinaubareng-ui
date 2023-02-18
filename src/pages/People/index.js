@@ -2,6 +2,7 @@ import React from 'react'
 import style from './People.module.css'
 import { useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useSelector } from 'react-redux'
 import config from '../../config'
 
 //components
@@ -9,6 +10,7 @@ import Image from '../../components/Image'
 import ModalContainer from '../../components/ModalContainer'
 import FormControl2 from '../../components/FormControl2'
 import PreviousLink from '../../components/PreviousLink'
+import GuardComponent from '../../components/GuardComponent'
 //APIs
 import * as classApi from '../../api/class'
 import * as studentApi from '../../api/class-student'
@@ -25,6 +27,7 @@ export default React.memo(function People(){
 	const [ modal, setModal ] = React.useState(false)
 	const [ inputUserId, setInputUserId ] = React.useState("")
 	const [ errInputUser, setErrInputUser ] = React.useState("") 
+	const user = useSelector(s=>s.user)
 	const params = useParams()
 	
 	const getStudents = React.useCallback(()=>{
@@ -42,7 +45,7 @@ export default React.memo(function People(){
 		classApi.getSingle(params.code_class)
 		.then(({ data })=>{
 			if(data.error) return console.log(data)
-			setTeacherData(data.data[0])
+			setTeacherData(data.data)
 			getStudents()
 		})
 		
@@ -141,10 +144,12 @@ export default React.memo(function People(){
 			</div>
 			<div className={style.studentContainer}>
 				<div className={style.studentTitle}>
-					<p>{studentDatas.length} Siswa</p>
-					<div onClick={()=>setModal(true)} className={style.addIcon}>
-						<FontAwesomeIcon icon="user-plus" />
-					</div>
+					<p>{studentDatas.length} Siswa {teacherData.teacher !== user.data.user_id? "lainnya": ""}</p>
+					<GuardComponent teacherId={teacherData.teacher} >
+						<div onClick={()=>setModal(true)} className={style.addIcon}>
+							<FontAwesomeIcon icon="user-plus" />
+						</div>
+					</GuardComponent>
 				</div>
 				{
 					studentDatas.map((e,i)=>{
