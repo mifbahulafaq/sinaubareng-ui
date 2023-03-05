@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
-export default function GuardComponent({children, teacherId}){
+function TeacherComponent({children, teacherId}){
 	
 	const user = useSelector(s=>s.user.data)
 	
@@ -15,6 +15,11 @@ export default function GuardComponent({children, teacherId}){
 	</>
 }
 
-GuardComponent.propTypes = {
+TeacherComponent.defaultProps = {
+	teacherId: 0
+}
+TeacherComponent.propTypes = {
 	teacherId: PropTypes.number.isRequired
 }
+
+export default React.memo(TeacherComponent)

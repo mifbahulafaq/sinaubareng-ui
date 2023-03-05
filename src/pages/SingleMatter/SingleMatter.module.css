@@ -34,10 +34,11 @@
 	margin-top: 5px;
 	font-weight: 600;
 	color: #999;
+	display: flex;
+	justify-content: space-between;
 }
 .detail .duration span{
 	font-size: 12px;
-	margin-left: 5px;
 }
 .detail p.desc{
 	margin-top: 15px;
@@ -66,10 +67,14 @@
 	font-size: 20px;
 }
 .file span{
+	width: calc(100% - 40px);
 	margin-left: 8px;
 	color: #098DDF;
 	font-weight: 500;
 	font-size: 17px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 .attach .act{
 	margin-top:-5px;
@@ -260,23 +265,53 @@
 	margin-top: 20px;
 }
 .assignContainer .assigns .singleAssign{
-	padding: 10px 15px;
+	position: relative;
+	padding:15px;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
 	border-radius: 10px;
 	box-shadow: 0 1px 2px 1px rgba(207, 207, 207, 0.8);
 	transition: all 0.3s ease;
+	overflow: hidden;
+}
+.assignContainer .assigns .singleAssign.nodata{
+	height: 80px;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.9em;
+	color: #3c4043;
+	font-weight: 400;
 }
 .assignContainer .assigns .singleAssign:first-child ~ .singleAssign{
 	margin-top: 15px;
 }
+.assignContainer .assigns .singleAssign .cover{
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background: transparent;
+}
+.assignContainer .assigns .singleAssign.done .cover{
+	background: rgba(238, 238, 238, 0.4);
+}
+.assignContainer .assigns .singleAssign.expired .cover{
+	background: rgba(242, 125, 136, 0.2);
+}
 .assignContainer .assigns .singleAssign a{
 	color: #505050;
 	text-decoration: none;
+	width: 100%;
 }
 .assignContainer .assigns .singleAssign a:hover{
 	text-decoration: underline;
+}
+.assignContainer .assigns .singleAssign a h4{
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 .assignContainer .assigns .singleAssign .duration{
 	margin-top: 5px;
@@ -302,16 +337,11 @@
 	padding: 6px 11px;
 }
 .assignContainer .assigns .singleAssign .answered{
-	padding: 3px 8px;
 	border-radius: 10px;
 	font-weight: 600;
 	font-size: 0.95em;
 	display: flex;
 	align-items: center;
-	cursor: pointer;
-}
-.assignContainer .assigns .singleAssign .answered:hover{
-	background: rgba(201, 209, 255, 0.3);
 }
 .assignContainer .assigns .singleAssign .answered span{
 	margin-left: 5px;
@@ -324,10 +354,4 @@
 	margin-left: 5px;
 	display: none;
 	font-size: 12px;
-}
-.assignContainer .assigns .singleAssign .answered:hover span{
-	display: none;
-}
-.assignContainer .assigns .singleAssign .answered:hover svg{
-	display: initial;
 }

@@ -10,7 +10,7 @@ import Image from '../../components/Image'
 import ModalContainer from '../../components/ModalContainer'
 import FormControl2 from '../../components/FormControl2'
 import PreviousLink from '../../components/PreviousLink'
-import GuardComponent from '../../components/GuardComponent'
+import TeacherComponent from '../../components/TeacherComponent'
 //APIs
 import * as classApi from '../../api/class'
 import * as studentApi from '../../api/class-student'
@@ -145,11 +145,11 @@ export default React.memo(function People(){
 			<div className={style.studentContainer}>
 				<div className={style.studentTitle}>
 					<p>{studentDatas.length} Siswa {teacherData.teacher !== user.data.user_id? "lainnya": ""}</p>
-					<GuardComponent teacherId={teacherData.teacher} >
+					<TeacherComponent teacherId={teacherData.teacher} >
 						<div onClick={()=>setModal(true)} className={style.addIcon}>
 							<FontAwesomeIcon icon="user-plus" />
 						</div>
-					</GuardComponent>
+					</TeacherComponent>
 				</div>
 				{
 					studentDatas.map((e,i)=>{

@@ -7,9 +7,13 @@
     min-height: calc(100vh - 65px);
 }
 .container .mainContent{
+	background: #fff;
 	min-height: calc(100vh - 65px);
-    background: #fff;
 	padding-bottom: 25px;
+	width: 850px;
+}
+.container .mainContent.teacherAuth{
+	width: 935px;
 }
 .container .mainContent .about{
 	padding: 20px;
@@ -54,13 +58,14 @@
     display: flex;
 	flex-direction: column;
 }
-.container .mainContent .assignment.teacherAuth{
+.container .mainContent.teacherAuth .assignment{
 	padding: 20px 25px 0 0;
     display: flex;
+	justify-content: space-between;
 	flex-direction: row;
 }
-.container .mainContent .assignment.teacherAuth .qna{
-	width: 600px;
+.container .mainContent.teacherAuth .assignment .qna{
+	width: 64%;
 }
 .container .mainContent .assignment .qna .created{
 	margin-bottom: 10px;
@@ -85,6 +90,7 @@
     font-size: 22px;
     font-weight: 600;
     white-space: pre-line;
+	word-break: break-all;
     color: #434343;
 }
 .container .mainContent .assignment .qna .bottomSide{
@@ -150,9 +156,8 @@
 	background: #e77676;
 }
 .container .mainContent .assignment .answContainer{
-	margin-left: 15px;
 	padding: 0 15px 15px;
-    width: 335px;
+    width: 35%;
 	min-height: 380px;
     border-radius: 5px 5px 0 0;
     box-shadow: 0 0 8px rgb(196 196 196 / 90%);
@@ -206,7 +211,7 @@
 }
 .container .mainContent .answerContainer{
 	padding: 0 25px;
-	width: 850px;
+	width: 100%;
 }
 .container .mainContent .answerContainer::after{
 	content: "";

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, memo } from 'react';
 import style from './MatterForm.module.css';
-import { useForm } from 'react-hook-form';
+import { useForm, useFieldArray } from 'react-hook-form';
 import * as val from '../../validation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types'
@@ -14,10 +14,9 @@ import * as apiMatter from '../../api/matter';
 import formatDate from '../../utils/id-format-date';
 
  const MatterForm = memo(function ({displayMatters, display, codeClass}){
-	
-	const [attachment, setAttachment] = useState(undefined);
+	 
 	const customInput = useRef(null);
-	const { reset, setValue, watch, register, setError, handleSubmit, formState: { isSubmitSuccessful, isValid } } = useForm({
+	const { reset, control, setValue, watch, register, setError, handleSubmit, formState, getValues } = useForm({
 		mode: "onChange",
 		defaultValues: {
 			code_class: codeClass,
@@ -30,12 +29,13 @@ import formatDate from '../../utils/id-format-date';
 			}
 		}
 	});
+	const { update, remove } = useFieldArray({ control, name: 'attachment' })
+	const { isSubmitSuccessful, isValid, isSubmitted, isSubmitting, errors } = formState
+	const errorAttachment = errors.attachment?.length
 	
 	async function submit(input){
-		
 		input.schedule = input.schedule.date + " " + input.schedule.time;
 		
-		if(attachment) input.attachment = attachment;
 		if(!input.description.length) delete input.description;
 		
 		if(input.duration?.date?.length){
@@ -64,10 +64,11 @@ import formatDate from '../../utils/id-format-date';
 		}
 		
 		try{
-			//return console.log(payload.getAll('attachment'))
+			
 			const { data } = await apiMatter.add(payload);
 			
 			if(data.error){
+				
 				if(data.field){
 					
 					const key = Object.keys(data.field)[0];
@@ -80,7 +81,7 @@ import formatDate from '../../utils/id-format-date';
 				return;
 				
 			}
-			console.log(data)
+			
 			displayMatters()
 			display(false)
 			
@@ -114,16 +115,22 @@ import formatDate from '../../utils/id-format-date';
 		
 	}
 	function setFile(e){
-		let tempFiles = [];
 		
 		for(let key in e.target.files){
-			if( key < e.target.files.length ) tempFiles.push(e.target.files[key]);
-		}
-		
-		if(attachment){
-			setAttachment([...attachment, ...tempFiles]);
-		}else{
-			setAttachment(tempFiles)
+			if( key < e.target.files.length ) {
+				
+				if(!getValues('attachment')){
+					
+					if(e.target.files[key].size > 10000000 ) setError("attachment.0", {type: "size", message: "File too large"})
+					update(0, e.target.files[key])
+					
+				}else{
+					
+					if(e.target.files[key].size > 10000000 ) setError("attachment."+getValues("attachment").length, {type: "size", message: "File too large"})
+					update(getValues("attachment").length, e.target.files[key])
+					
+				}
+			}
 		}
 		
 		e.target.value = null;
@@ -133,9 +140,13 @@ import formatDate from '../../utils/id-format-date';
 		
 		reset()
 		customInput.current.textContent = ""
-		setAttachment(undefined)
 		
 	},[isSubmitSuccessful, display, reset])
+	useEffect(()=>{
+		
+		register("attachment", { value: undefined}) 
+		
+	},[register])
 	
 	const dateOfSchedule = watch("schedule.date");
 	const timeOfSchedule = watch("schedule.time");
@@ -160,22 +171,23 @@ import formatDate from '../../utils/id-format-date';
 				<span>Deskripsi (optional)</span>
 			</div>
 					
-			<div className={style.inputDate}>
+			<div className={style.inputDateContainer}>
 				<h4>Jadwal</h4>
-				<div className={`${style.select} select`}>
-				
-					<span className={style.value} >
-						{
-							dateOfSchedule?
-							formatDate(
-								dateOfSchedule+" "+timeOfSchedule,
-								"id-ID",
-								{weekday:"long",  month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit"}
-							)
-							:
-							"Tidak ada jadwal"
-						}
-					</span>
+				<div className={style.inputDate}>
+					<div className={`${style.setOption} setOption`}>
+						<span className={style.value} >
+							{
+								dateOfSchedule?
+								formatDate(
+									dateOfSchedule+" "+timeOfSchedule,
+									"id-ID",
+									{weekday:"long",  month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit"}
+								)
+								:
+								"Tidak ada jadwal"
+							}
+						</span>
+					</div>
 					
 					<div onClick={e=>e.stopPropagation()} className={`${style.opt} option`}>
 						<div className={style.desc} > Tanggal & Waktu</div>
@@ -201,23 +213,23 @@ import formatDate from '../../utils/id-format-date';
 				</div>
 			</div>
 			
-			<div className={style.inputDate}>
+			<div className={style.inputDateContainer}>
 				<h4>Berakhir pada: </h4>
-				<div className={`${style.select} ${dateOfSchedule && dateOfSchedule.length ?"":style.disabled} select`}>
-				
-					<span className={style.value} >
-						{
-							dateOfDuration?
-							formatDate(
-								dateOfDuration+" "+timeOfDuration,
-								"id-ID",
-								{weekday:"long",  month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit"}
-							)
-							:
-							"-"
-						}
-					</span>
-					
+				<div className={style.inputDate}>
+					<div className={`${style.setOption} ${dateOfSchedule && dateOfSchedule.length ?"":style.disabled} setOption`}>
+						<span className={style.value} >
+							{
+								dateOfDuration?
+								formatDate(
+									dateOfDuration+" "+timeOfDuration,
+									"id-ID",
+									{weekday:"long",  month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit"}
+								)
+								:
+								"-"
+							}
+						</span>
+					</div>
 					<div onClick={e=>e.stopPropagation()} className={`${style.opt} ${dateOfSchedule && dateOfSchedule.length ?"option":""}`}>
 						<div className={style.desc} > Tanggal & Waktu</div>
 						<div className={style.formOpt}>
@@ -243,8 +255,8 @@ import formatDate from '../../utils/id-format-date';
 			</div>
 			
 			{
-				attachment?.map((e,i)=>{
-					return <div key={i} className={style.fileUpload}>
+				watch("attachment")?.map((e,i)=>{
+					return <div key={i} className={`${style.fileUpload} ${errors.attachment?.[i]?style.error:""}`}>
 							<div className={style.icon}>
 								<div className={style.img}>
 									<Image src="images/attachment.png" />
@@ -252,13 +264,7 @@ import formatDate from '../../utils/id-format-date';
 							</div>
 							<div className={style.fileName}>{e.name}</div>
 							<div 
-								onClick={()=>{
-									setAttachment(attachment=>{
-										return attachment.filter((e,index)=>{
-											return index !== i
-										})
-									})
-								}} 
+								onClick={()=>remove(i)} 
 								className={style.removeFile}
 							>
 								<FontAwesomeIcon icon="plus" />
@@ -280,7 +286,12 @@ import formatDate from '../../utils/id-format-date';
 					multiple 
 				/>
 			</div>
-			<button type="submit" disabled={!isValid} className={`${style.btn} ${!isValid?style.disabled:""}`}>Tugaskan</button>
+			<p className={style.fileInfo}>Ukuran file tidak lebih dari 10MB</p>
+			<button 
+				type="submit" 
+				disabled={errorAttachment || isSubmitting || !isValid} 
+				className={style.btn}
+			>Tugaskan</button>
 			
 		</form>
 	)

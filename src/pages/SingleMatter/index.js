@@ -2,8 +2,8 @@ import React from 'react';
 import style from './SingleMatter.module.css';
 import { useParams, Link } from 'react-router-dom';
 import config from '../../config';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useSelector } from 'react-redux'
 
 //APIs
 import * as matterApi from '../../api/matter';
@@ -15,11 +15,15 @@ import Image from '../../components/Image';
 import PreviousLink from '../../components/PreviousLink';
 import ModalContainer from '../../components/ModalContainer';
 import AssignmentForm from '../../components/AssignmentForm';
+import TeacherComponent from '../../components/TeacherComponent'
+import StudentComponent from '../../components/StudentComponent'
 //utils
 import formatDate from '../../utils/id-format-date';
 import uppercase from '../../utils/uppercase';
 
 export default React.memo(function SingleMatter() {
+	
+	//state
 	const [matt, setMatt] = React.useState({});
 	const [comments, setComments] = React.useState([]);
 	const [mattAssignments, setMattAssignments] = React.useState([]);
@@ -27,10 +31,27 @@ export default React.memo(function SingleMatter() {
 	const [ displayModal, setDisplayModal ] = React.useState(false)
 	const customInput = React.useRef(null);
 	const [ allAss, setAllAss ] = React.useState(false)
-	//const [assignment, setAssignment] = React.useState({});
+	const user = useSelector(s=>s.user.data)
 	const params = useParams()
+	const isTeacher = user.user_id === matt.teacher
 	
-	const scheduleMatt = matt.schedule? formatDate(new Date(matt.schedule), "id-ID", {timeStyle:"short"}) : ""
+	const rawToday = new Date()
+	const rawYesterDay = new Date((new Date()).setDate(rawToday.getDate() - 1))
+	const today = formatDate(rawToday, "id-ID", {dateStyle:"medium"})
+	const yesterday = formatDate(rawYesterDay, "id-ID", {dateStyle:"medium"})
+	
+	const rawMattSchedule = new Date(matt.schedule || Date.now())
+	const rawMattduration = matt.duration? new Date( rawMattSchedule.getTime() + matt.duration): undefined
+	const mattSchedule = setDate(rawMattSchedule)
+	const mattDuration = setDate(rawMattduration).length? setDate(rawMattduration): "-"
+	
+	function setDate(date){
+		
+		if(!date) return ""
+		
+		return today === formatDate(date, "id-ID", {dateStyle:"medium"})? formatDate(date, "id-ID", {timeStyle:"short"}) : formatDate(date, "id-ID", {timeStyle:"short", dateStyle: "medium"})
+	}
+	
 	
 	const getSingleMatt = React.useCallback(()=>{
 		matterApi.getSingle(params.id_matt)
@@ -55,6 +76,7 @@ export default React.memo(function SingleMatter() {
 		
 		let filter = {}
 		if(!allAss) filter.no_answer = 1
+		if(isTeacher) delete filter.no_answer
 		
 		mattAss.getByMatter(params.id_matt, filter)
 		.then(res=>{
@@ -63,7 +85,7 @@ export default React.memo(function SingleMatter() {
 			setMattAssignments(ass.data)
 		})
 		
-	}, [params.id_matt, allAss])
+	}, [params.id_matt, allAss, isTeacher])
 	
 	React.useEffect(()=>{
 		
@@ -145,15 +167,16 @@ export default React.memo(function SingleMatter() {
 		<ModalContainer displayed={displayModal} setDisplayed={setDisplayModal}>
 			<AssignmentForm
 				refreshAssignment={()=>{
-					setAllAss(true)
+					getAss()
 					setDisplayModal(false)
-				}} 
+				}}
+				displayModal={displayModal}
 				idMatter={parseInt(params.id_matt)}
 			/>
 		</ ModalContainer>
 		
 		<div className={style.class}>
-			<PreviousLink to="../../.." name={matt.class_name} />
+			<PreviousLink to="../.." name={matt.class_name} />
 		</div>
 		
 		<div className={style.mainContent}>
@@ -162,8 +185,8 @@ export default React.memo(function SingleMatter() {
 				<div className={style.detail}>
 					<h3>{uppercase(matt.name,0)}</h3>
 					<div className={style.duration} >
-						<FontAwesomeIcon icon={['far', 'clock']} />
-						<span>{`${scheduleMatt} ${matt.duration?"- 12:12":""}`}</span>
+						<span>{uppercase(matt.teacher_name, 0)}, {mattSchedule}</span>
+						<span>Tenggat : {mattDuration}</span>
 					</div>
 					<p className={style.desc}>{matt.description?.trim()}</p>
 					{
@@ -206,12 +229,28 @@ export default React.memo(function SingleMatter() {
 						{
 							comments?.map((e,i)=>{
 								
+								const rawDiscussDate = new Date(e.date)
+								let elementDay;
+								
+								const discussDate = formatDate(rawDiscussDate, "id-ID", {dateStyle:"medium"})
+								
+								switch(discussDate){
+									case today:
+										elementDay = formatDate(rawDiscussDate, "id-ID", {timeStyle:"short"})
+										break
+									case yesterday:
+										elementDay = "Yesterday"
+										break
+									default:
+										elementDay = discussDate
+								}
+								
 								return <div key={i} className={style.singleComment}>
 									<div className={style.photo}>
 										<Image src={e.photo?`${config.api_host}/public/photo/${e.photo}`:"images/user.png"} />
 									</div>
 									<div className={style.rightSide}>
-										<h5>{uppercase(e.name, 0)} <span>07:34 AM</span></h5>
+										<h5>{uppercase(e.name, 0)} {matt?.teacher === e.user? "(Pengajar)": ""}<span>{elementDay}</span></h5>
 										<div className={style.text} >{e.text}</div>
 									</div>
 								</div>
@@ -242,30 +281,58 @@ export default React.memo(function SingleMatter() {
 			<div className={style.assignContainer}>
 				<div className={style.top}>
 					<h1 className={style.title} >Tugas</h1>
-					<div className={style.btn} onClick={()=>setDisplayModal(true)} > <FontAwesomeIcon icon="plus" /> Buat</div>
+					<TeacherComponent teacherId={matt.teacher} >
+						<div className={style.btn} onClick={()=>setDisplayModal(true)} > <FontAwesomeIcon icon="plus" /> Buat</div>
+					</TeacherComponent>
 				</div>
-				<ul className={style.menu}>
-					<li onClick={()=>setAllAss(false)} className={`${!allAss? style.active: ""}`}>Perlu Dikerjakan</li>
-					<li onClick={()=>setAllAss(true)} className={`${allAss? style.active: ""}`}>Semua</li>
-				</ul>
+				<StudentComponent teacherId={matt.teacher} >
+					<ul className={style.menu}>
+						<li onClick={()=>setAllAss(false)} className={`${!allAss? style.active: ""}`}>Perlu Dikerjakan</li>
+						<li onClick={()=>setAllAss(true)} className={`${allAss? style.active: ""}`}>Semua</li>
+					</ul>
+				</StudentComponent>
 				<div className={style.assigns}>
 					{
 						mattAssignments.map((e,i)=>{
+							
+							let additionalClassName = ""
 							let tenggat
+							
 							if(e.duration){
 								
-								const date = new Date(Date.now() + e.duration)
-								tenggat = formatDate(date, "id-ID",{dateStyle:"medium", timeStyle: 'short'})
+								const rawDuration = new Date((new Date(e.date)).getTime() + e.duration)
+								tenggat = formatDate(rawDuration, "id-ID",{dateStyle:"medium", timeStyle: 'short'})
+								
+								if(!isTeacher){
+									if(new Date() > rawDuration && Number(e.total_answers) > 0){
+										additionalClassName = style.done
+									}else if(new Date() > rawDuration && Number(e.total_answers) < 1){
+										additionalClassName = style.expired
+									}
+								}
+								
 							}
 							
-							return <div key={i} className={style.singleAssign}>
+							return <div key={i} className={`${style.singleAssign} ${additionalClassName}`}>
+								<div className={style.cover}/>
 								<Link to={`assignment/${e.id_matt_ass}`} ><h4>{e.title}</h4></Link>
 								<span className={style.duration} >
 									Tenggat: <span>{tenggat? tenggat : "-"}</span>
 								</span>
+								<StudentComponent teacherId={matt.teacher}>
+									{
+										Number(e.total_answers) > 0?
+											<span className={style.answered}>
+												Answered 
+												<span>&#10004;</span>
+											</span>
+										:""
+									}
+								</StudentComponent>
 							</div>
 						})
 					}
+					{/*
 					<div className={style.singleAssign}>
 						<Link to="assignment/1221" ><h4>tugas membuat function pada php...</h4></Link>
 						<span className={style.duration} >Tenggat: <span>6 Jul 2020 20.45</span></span>
@@ -278,7 +345,16 @@ export default React.memo(function SingleMatter() {
 							<span>&#10004;</span>
 							<FontAwesomeIcon icon="pencil" />
 						</span>
-					</div>
+					</div>*/
+					}
+					{
+						mattAssignments.length?
+						""
+						:
+						<div className={`${style.singleAssign} ${style.nodata}`}>
+							<p className={style.textInfo} > Tidak ada tugas diberikan</p>
+						</div>
+					}
 				</div>
 			</div>
 			

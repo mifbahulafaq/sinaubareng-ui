@@ -1,4 +1,4 @@
-import { useRef, memo } from 'react';
+import { useRef, memo, useEffect } from 'react';
 import style from './AssignmentForm.module.css';
 import { useForm } from 'react-hook-form';
 import * as val from '../../validation';
@@ -13,17 +13,24 @@ import * as mattAssApi from '../../api/matt-ass';
 //utils
 import formatDate from '../../utils/id-format-date';
 
- const AssignmentForm = memo(function ({ refreshAssignment, idMatter }){
+ const AssignmentForm = memo(function ({ refreshAssignment, idMatter, displayModal }){
 	 
 	const customInput = useRef(null)
-	const { reset, register, setValue, watch, handleSubmit, resetField, formState: { isValid} } = useForm({
+	const { reset, register, setValue, watch, handleSubmit, resetField, formState, setError} = useForm({
 		mode: "onChange",
 		defaultValues: {
 			time: "00:00:00"
 		}
 	})
+	const { errors, isValid, isSubmitted, isSubmitting, isSubmitSuccessful } = formState
+	
+	useEffect(()=>{
+		reset()
+		customInput.current.textContent = ""
+	}, [displayModal, isSubmitSuccessful, reset])
 	
 	async function submit(input){
+		
 		const payload = input;
 		
 		if(payload.date.length){
@@ -50,9 +57,6 @@ import formatDate from '../../utils/id-format-date';
 		if(data.error) return console.log(data)
 		
 		refreshAssignment()
-		reset()
-		customInput.current.textContent = ""
-		
 		
 	}
 	
@@ -61,9 +65,18 @@ import formatDate from '../../utils/id-format-date';
 	}
 	
 	function tugaskan(e){
-		if(!isValid) return;
+		if(errors.attachment || isSubmitting || !isValid) return;
 		const btn = e.currentTarget.parentElement.parentElement.querySelector('[type="submit"]')
 		btn.click();
+	}
+	function validateFile(e){
+		
+		for(let key in e.target.files){
+			if( key < e.target.files.length ) {
+				
+				if(e.target.files[key].size > 10000000 ) setError("attachment", {type: "size", message: "File too large"})
+			}
+		}
 	}
 	
 	return (
@@ -75,7 +88,7 @@ import formatDate from '../../utils/id-format-date';
 					</div>
 					<span>Tugas</span>
 				</div>
-				<div onClick={tugaskan} className={`${style.submit} ${!isValid? style.disabled: ""}`}>Tugaskan</div>
+				<div onClick={tugaskan} className={`${style.submit} ${errors.attachment || isSubmitting || !isValid? style.disabled: ""}`}>Tugaskan</div>
 			</div>
 			<form onSubmit={handleSubmit(submit)} >
 				<div className={style.formSection1}>
@@ -140,10 +153,13 @@ import formatDate from '../../utils/id-format-date';
 				</div>
 				
 				<div className={style.formSection2}>
-					<h4>Lampiran</h4>
+					<div className={style.fileInfo}>
+						<h4>Lampiran</h4>
+						<p>*Ukuran file tidak lebih dari 10MB</p>
+					</div>
 					{
 						watch('attachment')?.["0"]?
-							<div className={style.fileUpload}>
+							<div className={`${style.fileUpload} ${errors.attachment?style.error:""}`}>
 								<div className={style.icon}>
 									<div className={style.img}>
 										<Image src="images/attachment.png" />
@@ -167,7 +183,7 @@ import formatDate from '../../utils/id-format-date';
 							<FontAwesomeIcon icon="arrow-up-from-bracket" />
 							<input 
 								style={{display: "none"}} 
-								type="file" {...register('attachment')} 
+								type="file" {...register('attachment', { onChange: validateFile })} 
 								className={style.inputMargin}
 								accept=".pdf,.docx,.doc,.PDF,.DOCX,.DOC" 
 							/>

@@ -9,7 +9,9 @@ import { Link, useParams } from 'react-router-dom';
 import PreviousLink from '../../components/PreviousLink';
 import MatterForm from '../../components/MatterForm'
 import Calendar from 'react-calendar';
-import GuardComponent from '../../components/GuardComponent'
+import TeacherComponent from '../../components/TeacherComponent'
+//pages
+import ServerError from '../ServerError'
 //utils
 import formatDate from '../../utils/id-format-date'
 
@@ -21,6 +23,7 @@ export default React.memo(function Matter() {
 	
 	const [matters, setMatters] = React.useState([]);
 	const [comments, setComments] = React.useState([]);
+	const [errorPage, setErrorPage] = React.useState(false);
 	const [ matterForm, setMatterForm ] = React.useState(false)
 	const [ date, setDate ] = React.useState(null)
 	const { singleClass } = useContext()
@@ -31,9 +34,10 @@ export default React.memo(function Matter() {
 		matterApi.getAll(params.code_class, {date})
 		.then(res=>{
 			const { data : matters } = res;
-			if(matters.error) return console.log(matters.message);
+			if(matters.error) return setErrorPage(true);
 			setMatters(matters.data);
 		})
+		.catch(()=>setErrorPage(true))
 	},[params.code_class, date])
 	
 	React.useEffect(()=>{
@@ -43,7 +47,7 @@ export default React.memo(function Matter() {
 	function displayMatterForm(bool){
 		setMatterForm(bool)
 	}
-	
+	if(errorPage) return <ServerError />
   return (
 	<>
 		<div className={style.container}>
@@ -67,12 +71,12 @@ export default React.memo(function Matter() {
 						<div className={style.icon}> <FontAwesomeIcon icon={['far', 'calendar-days']} /> </div>
 						<span>Materi</span>
 					</div>
-					<GuardComponent teacherId={singleClass.teacher} >
+					<TeacherComponent teacherId={singleClass.teacher} >
 						<div onClick={()=>displayMatterForm(true)} className={style.add}>
 							<span>+</span>
 							<span>Tambah Materi</span>
 						</div>
-					</GuardComponent>
+					</TeacherComponent>
 				</div>
 				
 				<div className={style.matters}>
