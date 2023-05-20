@@ -1,0 +1,36 @@
+.container{
+	margin: auto;
+	background: rgba(199, 217, 237, 0.3);
+	width: 100%;
+	height: 100%;
+	padding-top: 40px;
+}
+.container .label{
+	text-decoration: none;
+	display: none;
+	align-items: center;
+	font-weight: 600;
+	color: #464646;
+	pointer-events: none;
+}
+.container .label.active{
+	display: flex;
+}
+.container .label:before{
+	content: "";
+	background: #098DDF;
+	width: 15px;
+	height: 8px;
+	border-radius: 5px;
+	margin-right: 10px;
+}
+.container .label, .container .contain{
+	width: 900px;
+	margin: auto;
+}
+.container .contain{
+	margin-top: 20px; 
+	background: #fff;
+	border-radius: 5px;
+	height: 500px;
+}

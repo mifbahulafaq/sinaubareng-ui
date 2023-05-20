@@ -223,8 +223,18 @@
 .formContainer form .formSection2{
 	margin-top: 20px;
 }
-.formContainer form .formSection2 h4{
+.formContainer form .formSection2 .fileInfo{
+	display: flex;
+	align-items: center;
+}
+.formContainer form .formSection2 .fileInfo h4{
 	color: #505050;
+} 
+.formContainer form .formSection2 .fileInfo p{
+	margin-left: 10px;
+	color: #5b5b5b;
+	font-weight: 600;
+	font-size: 0.85em;
 } 
 .formContainer form .formSection2 .fileUpload{
 	margin-top: 20px;
@@ -235,6 +245,9 @@
 	width: 100%;
 	border: 1px solid #dcdcdc;
 	border-radius: 5px;
+}
+.formContainer form .formSection2 .fileUpload.error{
+	border: 1px solid #d40027;
 }
 .formContainer form .formSection2 .fileUpload .icon{
 	margin-right: 10px;

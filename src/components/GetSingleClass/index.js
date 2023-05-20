@@ -27,8 +27,11 @@ export default function GetSingleClass(){
 			
 		})
 		.catch(()=>setError(true))
+		return ()=>{
+			setSingleClass({})
+		}
 		
 	},[params.code_class])
 	
-	return error? <ServerError />: <Outlet />
+	return error? <ServerError />: <Outlet coba={'coba'} />
 }

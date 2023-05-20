@@ -45,6 +45,39 @@ form.container .inputDateContainer h4{
 	margin-left: 10px;
 	color: #5f6368;
 }
+form.container .inputDateContainer .dateOfLink{
+	position: relative;
+	margin-top: 10px;
+	width: 350px;
+	padding: 12px 15px;
+	background: rgba(39, 161, 245, 0.1);
+	border-radius: 3px;
+	/* border: 2px solid rgba(39, 161, 245, 0.5);  */
+}
+form.container .inputDateContainer .dateOfLink .dateOfLinkText{
+	color: #01518e;
+	font-weight: 600;
+}
+form.container .inputDateContainer .dateOfLink .cancel{
+	position: absolute;
+	right: 10px;
+	top: 50%;
+	transform: translate(0, -50%);
+	display: flex;
+	justify-content: center;
+	align-items:center;
+	height: 30px;
+	width: 30px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+form.container .inputDateContainer .dateOfLink .cancel:hover{
+	background: rgba(203, 203, 203, 0.2);
+}
+form.container .inputDateContainer .dateOfLink .cancel svg{
+	font-size: 1.2em;
+	transform: rotate(45deg);
+}
 form.container .inputDateContainer .inputDate{
 	position: relative;
 	margin-top: 10px;
@@ -272,8 +305,8 @@ form.container .inputFile input{
 form.container .fileInfo{
 	margin-top: 10px;
 	color: #5b5b5b;
-	font-weight: 500;
-	font-size: 0.9em;
+	font-weight: 600;
+	font-size: 0.8em;
 }
 form.container .btn{
 	position: absolute;

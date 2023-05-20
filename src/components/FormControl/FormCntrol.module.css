@@ -1,10 +1,13 @@
 .container{
+	position: relative;
 	display:flex;
 	flex-direction:column;
 	justify-content:space-between;
 }
 .container span{
-	margin:5px 0 15px;
+	position: absolute;
+	left: 0;
+	bottom: -20px;
 	font-size:0.9em;
 	font-weight:600;
 	color:#cc3300;

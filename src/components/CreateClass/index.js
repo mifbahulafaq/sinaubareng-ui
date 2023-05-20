@@ -16,6 +16,7 @@ import { insertSchedules } from '../../api/schedule';
 
 //utils 
 import reqStatus from '../../utils/req-status';
+import days from '../../utils/days'
 
 //hooks
 import useRefreshClass from '../../hooks/useRefreshClass';
@@ -37,11 +38,14 @@ export default React.memo(function CreateClass({ setModal, modal }){
 	const arrColors = ["#83d0c9",  "#851e3e", "#fe4a49", "#f6cd61", "#009688", "#ee4035",  "#f37736", "#7bc043", "#4b3832", "#854442", "#be9b7b", "#008744", "#f6abb6", "#d62d20", "#ffa700", "#ff3377"]
 	
 	async function submit(input){
+		
 		setFormStatus(reqStatus.processing);
 		
 		let { class_name, description, color, schedules } = input;
-		schedules = schedules.map(e=>({...e, time: e.time+':00+07:00'}))
-		
+		let schedules2 = []
+		schedules.forEach(e=>{
+			if(e.day) schedules2.push({ day: days.indexOf(e.day) + '', time: e.time+':00+07:00'})
+		})
 		
 		function funcErr(result){
 			setFormStatus(reqStatus.error)
@@ -60,21 +64,25 @@ export default React.memo(function CreateClass({ setModal, modal }){
 				return
 			}
 			
-			const code_class = resultClass.data[0].code_class;
-			let schedulePayload = {schedules, code_class }
-			
-			const { data: resultSchedule } = await insertSchedules(schedulePayload);
-			if(resultSchedule.error){
-				funcErr(resultSchedule)
-				return
+			if(schedules2.length){
+				
+				const code_class = resultClass.data[0].code_class;
+				let schedulePayload = {schedules: schedules2, code_class }
+				
+				const { data: resultSchedule } = await insertSchedules(schedulePayload);
+				if(resultSchedule.error){
+					funcErr(resultSchedule)
+					return
+				}
 			}
 			
 			setFormStatus(reqStatus.success)
 			setFormClass(true)
 			setClasses();
 			setModal(false)
+			
 		}catch(err){
-			console.log(err)
+			
 			setFormStatus(reqStatus.error)
 		}
 	}
@@ -147,7 +155,7 @@ export default React.memo(function CreateClass({ setModal, modal }){
 				</div>
 				
 				<div className={`${style.hiding} ${formClass?style.hiden:''}`}>
-					<span className={style.des}>Atur waktu dan hari untuk mengingatkanmu membuat Jadwal Mareri.</span>
+					<span className={style.des}>Atur waktu dan hari untuk mengingatkanmu membuat Jadwal Materi.</span>
 					<div className={style.scheduleRelative}>
 						<div className={style.scheduleScroll}>
 							{	

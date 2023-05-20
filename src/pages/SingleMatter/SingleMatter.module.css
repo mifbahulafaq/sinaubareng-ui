@@ -41,6 +41,8 @@
 	font-size: 12px;
 }
 .detail p.desc{
+	word-break: break-all;
+	white-space: pre-line;
 	margin-top: 15px;
 	font-size: 0.96em;
 }
@@ -140,6 +142,7 @@
 	width: 400px;
 	font-size: 0.96em;
 	font-weight: 500;
+	white-space: pre-line;
     word-break:break-all;
 }
 .commentContainer .send{
@@ -293,6 +296,7 @@
 	top: 0;
 	bottom: 0;
 	background: transparent;
+	pointer-events: none;
 }
 .assignContainer .assigns .singleAssign.done .cover{
 	background: rgba(238, 238, 238, 0.4);

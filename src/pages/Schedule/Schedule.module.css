@@ -1,0 +1,53 @@
+.container{
+	position: relative;
+	margin: auto;
+	margin-top: 65px;
+	width: 800px;
+}
+.container .previousLink{
+	position: absolute;
+	top: -43px;
+}
+.container .header{
+}
+.container table{
+	width: 100%;
+	min-height: calc(95vh - 130px);
+	border-spacing: 0;
+	border-collapse: collapse;
+	font-size: 0.95em;
+}
+.container table thead{
+	background: #f5f5f5;
+	color: #5b5b5b;
+}
+.container table thead .title{
+	padding: 15px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.2em;
+}
+.container table th, .container table td{
+	border: solid 1px #dcdcdc;
+}
+.container table th{
+	padding: 10px;
+}
+.container table td{
+	vertical-align: top;
+}
+.container table tbody tr td .timeWrapper{
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	padding: 5px 3px;
+}
+.container table tbody td .timeWrapper .time{
+	background: rgba(223, 223, 223, 1);
+	width: 100%;
+	border-radius: 3px;
+	padding: 7px;
+	margin-bottom: 10px;
+	font-weight: 600;
+	color: #5b5b5b;
+}

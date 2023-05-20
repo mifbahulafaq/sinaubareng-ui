@@ -107,6 +107,9 @@
 }
 .exams .singleExam .quest a{
 	text-decoration: none;
+}
+.exams .singleExam .quest a p{
+	width: 600px;
 	font-weight: 600;
 	font-size: 1.18em;
 	white-space: nowrap;
@@ -114,7 +117,7 @@
 	text-overflow: ellipsis;
 	color: #2986cc;
 }
-.exams .singleExam .quest a:hover{
+.exams .singleExam .quest a p:hover{
 	text-decoration: underline;
 }
 .exams .singleExam .quest .detail{

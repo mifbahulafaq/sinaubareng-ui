@@ -3,7 +3,6 @@ import style from './SingleMatter.module.css';
 import { useParams, Link } from 'react-router-dom';
 import config from '../../config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useSelector } from 'react-redux'
 
 //APIs
 import * as matterApi from '../../api/matter';
@@ -15,11 +14,12 @@ import Image from '../../components/Image';
 import PreviousLink from '../../components/PreviousLink';
 import ModalContainer from '../../components/ModalContainer';
 import AssignmentForm from '../../components/AssignmentForm';
-import TeacherComponent from '../../components/TeacherComponent'
-import StudentComponent from '../../components/StudentComponent'
 //utils
 import formatDate from '../../utils/id-format-date';
+import getToday from '../../utils/get-today';
 import uppercase from '../../utils/uppercase';
+//hooks
+import useIsTeacher from '../../hooks/useIsTeacher';
 
 export default React.memo(function SingleMatter() {
 	
@@ -31,27 +31,18 @@ export default React.memo(function SingleMatter() {
 	const [ displayModal, setDisplayModal ] = React.useState(false)
 	const customInput = React.useRef(null);
 	const [ allAss, setAllAss ] = React.useState(false)
-	const user = useSelector(s=>s.user.data)
 	const params = useParams()
-	const isTeacher = user.user_id === matt.teacher
+	const isTeacher = useIsTeacher(matt.teacher)
 	
 	const rawToday = new Date()
-	const rawYesterDay = new Date((new Date()).setDate(rawToday.getDate() - 1))
 	const today = formatDate(rawToday, "id-ID", {dateStyle:"medium"})
+	const rawYesterDay = new Date((new Date()).setDate(rawToday.getDate() - 1))
 	const yesterday = formatDate(rawYesterDay, "id-ID", {dateStyle:"medium"})
 	
 	const rawMattSchedule = new Date(matt.schedule || Date.now())
 	const rawMattduration = matt.duration? new Date( rawMattSchedule.getTime() + matt.duration): undefined
-	const mattSchedule = setDate(rawMattSchedule)
-	const mattDuration = setDate(rawMattduration).length? setDate(rawMattduration): "-"
-	
-	function setDate(date){
-		
-		if(!date) return ""
-		
-		return today === formatDate(date, "id-ID", {dateStyle:"medium"})? formatDate(date, "id-ID", {timeStyle:"short"}) : formatDate(date, "id-ID", {timeStyle:"short", dateStyle: "medium"})
-	}
-	
+	const mattSchedule = getToday(rawMattSchedule, today)
+	const mattDuration = getToday(rawMattduration).length? getToday(rawMattduration, today): "-"
 	
 	const getSingleMatt = React.useCallback(()=>{
 		matterApi.getSingle(params.id_matt)
@@ -281,16 +272,20 @@ export default React.memo(function SingleMatter() {
 			<div className={style.assignContainer}>
 				<div className={style.top}>
 					<h1 className={style.title} >Tugas</h1>
-					<TeacherComponent teacherId={matt.teacher} >
+					{
+						isTeacher?
 						<div className={style.btn} onClick={()=>setDisplayModal(true)} > <FontAwesomeIcon icon="plus" /> Buat</div>
-					</TeacherComponent>
+						:""
+					}
 				</div>
-				<StudentComponent teacherId={matt.teacher} >
+				{
+					!isTeacher?
 					<ul className={style.menu}>
 						<li onClick={()=>setAllAss(false)} className={`${!allAss? style.active: ""}`}>Perlu Dikerjakan</li>
 						<li onClick={()=>setAllAss(true)} className={`${allAss? style.active: ""}`}>Semua</li>
 					</ul>
-				</StudentComponent>
+					:""
+				}
 				<div className={style.assigns}>
 					{
 						mattAssignments.map((e,i)=>{
@@ -319,16 +314,16 @@ export default React.memo(function SingleMatter() {
 								<span className={style.duration} >
 									Tenggat: <span>{tenggat? tenggat : "-"}</span>
 								</span>
-								<StudentComponent teacherId={matt.teacher}>
-									{
+								{
+									!isTeacher?
 										Number(e.total_answers) > 0?
 											<span className={style.answered}>
 												Answered 
 												<span>&#10004;</span>
 											</span>
 										:""
-									}
-								</StudentComponent>
+									:""
+								}
 							</div>
 						})
 					}

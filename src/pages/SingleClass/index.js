@@ -1,6 +1,6 @@
 import React from 'react';
 import style from './SingleClass.module.css';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext } from '../../Context'
 import { useSelector } from 'react-redux'
@@ -9,21 +9,36 @@ import { useSelector } from 'react-redux'
 import * as classDiscuss from '../../api/class-discussion';
 import * as fetchMatter from '../../api/matter';
 import * as fetchExam from '../../api/exam';
+import * as fetchClass from '../../api/class';
+import * as fetchSchedule from '../../api/schedule';
 
 //components
 import Image from '../../components/Image';
 import SingleClassCard from '../../components/SingleClassCard';
+import ModalContainer from '../../components/ModalContainer';
 
 //pages
 import ServerError from '../../pages/ServerError'
+//hooks
+import useRefreshClass from '../../hooks/useRefreshClass'
+import useIsTeacher from '../../hooks/useIsTeacher'
+//utils
+import days from '../../utils/days'
+import formatDate from '../../utils/id-format-date'
 
-export default React.memo(function SingleClass() {
+export default React.memo(function SingleClass(props) {
 	
+	const navigate = useNavigate()
+	const setClasses = useRefreshClass()
 	const params = useParams();
 	const user = useSelector(s=>s.user)
-	const [ error, setError ] = React.useState(false)
+	const [ error, setError ] = React.useState(null)
 	const { singleClass } = useContext()
+	const isTeacher = useIsTeacher(singleClass.teacher)
 	const [ discussData, setDiscussData ] = React.useState([]);
+	const [ scheduleData, setScheduleData ] = React.useState(null);
+	const [ searchDate, setSearchDate ] = React.useState(new Date())
+	const [ modal, setModal ] = React.useState(false)
 	const [ examMatter, setExamMatter ] = React.useState({
 		matter: {},
 		exam: {}
@@ -35,33 +50,100 @@ export default React.memo(function SingleClass() {
 	const fetchDiscuss = React.useCallback( async ()=>{
 		
 		const { data } = await classDiscuss.getAll(params.code_class);
-		if(data.error) return setError(true)
+		if(data.error){
+			console.log(data)
+			return setError(data)
+		}
 		setDiscussData(data.data);
 	
 	},[params.code_class])
 	
 	React.useEffect(()=>{
+
+		if(isTeacher){
+			
+			const searchDay = searchDate.getDay()
+			const searchMS= searchDate.getTime()
+			const timeToSearch = searchDate.toLocaleString('en-GB', {timeStyle: 'medium'})
+			const filterSchedule = {
+				latest: 1,
+				day: searchDay, 
+				time: timeToSearch,
+				limit: 1
+			}
+			
+			fetchSchedule.getSchedules(params.code_class, filterSchedule)
+			.then( async ({ data: result})=>{
+				
+				if(result.error) return console.log(result.error)
+				if(result.data.length){
+					
+					let scheduleResult = result.data[0]
+					const { day, time } = scheduleResult
+						
+					let dayOfSchedule = parseInt(day)
+					const oneDay = 86400000
+						
+					//set day
+					dayOfSchedule = dayOfSchedule < searchDay? dayOfSchedule + 7: dayOfSchedule
+					scheduleResult = new Date(searchMS + (oneDay * (dayOfSchedule - searchDay)))
+					//add time
+					scheduleResult = formatDate(scheduleResult, "en-CA", {dateStyle: "short"}) + " " + time
+					
+					try{
+						
+						const { data : matter} = await fetchMatter.getAll(params.code_class, {schedule: scheduleResult })
+						
+						if(matter.error) return console.log(matter.error)
+						if(matter.data.length){
+							
+							let schedule =  new Date(matter.data[0].schedule)
+							schedule = new Date(schedule.getTime() + 1000)
+							setSearchDate(schedule)
+							
+						}
+						
+						setScheduleData(scheduleResult)
+						
+					}catch(err){
+						console.log(err)
+					}
+					
+					
+				}
+			})
+		}
+		
+	}, [scheduleData, searchDate, isTeacher])
+	React.useEffect(()=>{
 		
 		fetchDiscuss();
 		Promise.all([
-			fetchExam.getAll(params.code_class, {latest:1}),
-			fetchMatter.getAll(params.code_class, {latest:1})
+			fetchExam.getAll(params.code_class, {cs:1}),
+			fetchMatter.getAll(params.code_class, {cs:1})
 		])
 		.then(([{ data: examResult }, { data: matterResult } ])=>{
 			if(examResult.error){
-				setError(true)
+				console.log(examResult)
+				setError(examResult)
 				return ;
 			}
 			if(matterResult.error){
-				setError(true)
+				console.log(matterResult)
+				setError(matterResult)
 				return ;
 			}
+			
 			setExamMatter({
 				exam: examResult.data[0],
 				matter: matterResult.data[0]
 			})
 		})
-		.catch(err=>setError(true))
+		.catch(err=>{
+			console.log(err)
+			setError(err)
+		})
+		
 		
 	},[params.code_class, fetchDiscuss])
 	
@@ -91,7 +173,8 @@ export default React.memo(function SingleClass() {
 		const { data } = await classDiscuss.add(payload);
 		
 		if(data.error) {
-			return setError(true);
+			console.log(data)
+			return setError(data);
 		}
 		fetchDiscuss();
 		textInputElement.current.innerHTML = ""
@@ -104,12 +187,68 @@ export default React.memo(function SingleClass() {
 		return false;
 	}
 	
+	async function deleteClass(){
+		
+		try{
+			
+			const { data: deleteResult } = await fetchClass.deleteClass(singleClass.code_class)
+			
+			if(deleteResult.error){
+				return console.log('404')
+			}
+			
+			setClasses()
+			navigate("/", { replace: true })
+			
+		}catch(err){
+			console.log(err)
+		}
+	}
 	if(error) return <ServerError />
   return (
 	<div className={style.container}>
+	
+		{
+			isTeacher && scheduleData?
+			<div className={style.scheduleContainer}>
+			
+				<p className={style.info}>
+					Materi Pada Jadwal:
+					<span> {formatDate(new Date(scheduleData), 'id-ID', {weekday: 'long', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit'})}</span>  belum dibuat
+				</p>
+				<div className={style.nav}>
+					<Link 
+						to="m"
+						className={style.add} 
+						state={{
+							schedule: scheduleData
+						}} 
+					>
+						Buat Materi
+					</Link>
+					<Link className={style.scheduleNav} to="s">
+						<p>Lihat Semua Jadwal </p>
+						<FontAwesomeIcon icon="arrow-right-long" />
+					</Link>
+				</div>
+				<div 
+					className={style.hiding} 
+					onClick={e=>{
+						e.currentTarget.parentElement.classList.toggle(style.off)
+					}}/>
+			</div>
+			:""
+		}
 		<div className={style.detail} style={{ background: singleClass.color }} >
 			<div className={style.title}>
-				<h1>{singleClass.class_name}</h1>
+				<h1>
+					{singleClass.class_name} 
+					{
+						isTeacher?
+						<span title="Code"> ( {singleClass.code_class} )</span>
+						:""
+					}
+				</h1>
 				<p>{singleClass.description}</p>
 			</div>
 			<ul className={style.menu} >
@@ -132,6 +271,22 @@ export default React.memo(function SingleClass() {
 					</Link>
 				</li>
 			</ul>
+			{
+				isTeacher?
+				<div className={style.settingAbsolute}>
+					<div title="Setting" className={`${style.settingContainer} setOption`}>
+						<div className={style.setting}>
+						
+							<FontAwesomeIcon icon="gear" />
+							
+						</div>
+					</div>
+					<ul className={`${style.settingList} option`} >
+						<li onClick={()=>setModal(true)} >Hapus Kelas</li>
+					</ul>
+				</div>
+				:""
+			}
 		</div>
 		
 		<div className={style.task} >
@@ -227,6 +382,20 @@ export default React.memo(function SingleClass() {
 				</form>
 			</div>
 		</div>
+		
+		<ModalContainer displayed={modal} setDisplayed={setModal} >
+			<div className={style.confirmDeletion}>
+				<p className={style.textAlert}>Hapus {singleClass.class_name} ?</p>
+				<p className={style.info}>
+					Anda tidak dapat mengakses lagi postingan atau komentar apapun yang telah ditambahkan ke kelas ini
+				</p>
+				<ul className={style.deletionOpt}>
+					<li onClick={()=>setModal(false)}>Batal</li>
+					<li onClick={deleteClass}>Hapus</li>
+				</ul>
+			</div>
+		</ModalContainer>
+		
 	</div>
   )
 })

@@ -7,10 +7,12 @@ import Context from './Context';
 
 //icons
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faSignOut, faExclamation, faUserFriends, faUserPlus, faRepeat, faArrowUpFromBracket, faArrowUp, faMessage, faClipboardQuestion, faComments, faPencil, faPaperPlane, faCirclePlus, faWarning, faXmark, faPlus, faUsers, faCircleExclamation, faBan, faCheck, faBars, faLandmark, faClipboardList, faTableList, faEllipsisVertical, faBookReader, faFileDownload, faExternalLink, faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightLong, faGear, faSignOut, faExclamation, faUserFriends, faUserPlus, faRepeat, faArrowUpFromBracket, faArrowUp, faMessage, faClipboardQuestion, faComments, faPencil, faPaperPlane, faCirclePlus, faWarning, faXmark, faPlus, faUsers, faCircleExclamation, faBan, faCheck, faBars, faLandmark, faClipboardList, faTableList, faEllipsisVertical, faBookReader, faFileDownload, faExternalLink, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { faPaperPlane as faPaperPlane2, faUser, faCommentAlt, faCalendarDays, faFile, faFolderOpen, faFileAlt, faCalendar, faClock, faFileLines, faFileWord, faFilePdf } from '@fortawesome/free-regular-svg-icons'
 
 library.add(
+	faArrowRightLong,
+	faGear,
 	faSignOut,
 	faEnvelope,
 	faPaperPlane2,

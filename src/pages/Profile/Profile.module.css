@@ -1,0 +1,156 @@
+form.container{
+	height: 100%;
+	width: 100%;
+	padding-left: 50px;
+	padding-top: 90px;
+	display:flex;
+	align-items: flex-start;
+}
+.photoContainer, .detail{
+	height: 280px;
+}
+.photoContainer{
+	margin-right: 50px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+.photoContainer .photo{
+	height: 210px;
+	width: 200px;
+	border-radius: 5px;
+	overflow: hidden;
+}
+.photoContainer .info{
+	font-size: 0.9em;
+	text-align: center;
+	font-weight: 500;
+	color: #464646;
+}
+.photoContainer .inputImage{
+	position: relative;
+	margin: 0 auto;
+	height: 37px;
+	width: 100px;
+	color: #464646;
+	font-size: 0.95em;
+	font-weight: 500;
+	overflow: hidden;
+	border-radius: 3px;
+    border: 1px solid rgba(0,0,0,.09);
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,.03);
+}
+.photoContainer .inputImage input{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	cursor: pointer;
+}
+.photoContainer .inputImage input:after{
+	content: "New Photo";
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	background: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.photoContainer .inputImage input:hover:after{
+	background: #fafafa;
+}
+.detail{
+	position: relative;
+	display: flex;
+	flex-direction: column;
+}
+.detail .fieldContainer{
+	display: flex;
+	align-items: center;
+}
+.detail .fieldContainer:first-child ~ .fieldContainer{
+	margin-top: 25px;
+}
+.detail .fieldContainer label{
+	width: 110px;
+	color: #464646;
+	font-weight: 600;
+	font-size: 0.9em;
+}
+.detail .fieldContainer input{
+	padding: 13px 17px;
+	background: rgba(235, 235, 235, 0.3);
+	border-radius: 5px;
+	border: none;
+	outline: none;
+	font-weight: 500;
+	color: #464646;
+}
+.detail .fieldContainer input:not([type="radio"]){
+	width: 100%;
+}
+.detail .fieldContainer .radioContainer{
+	display: flex;
+	align-items: center;
+}
+.detail .fieldContainer .radioContainer input{
+	margin-right: 10px;
+	font-size: 2em;
+}
+.detail .fieldContainer .radioContainer input:after{
+	display: block;
+	content: "";
+	background: #9cc4dd;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	margin: -3px 0 0 -3px;
+	pointer-events: none;
+}
+.detail .fieldContainer .radioContainer input:checked:after{
+	background: #098DDF;
+}
+.detail .fieldContainer .radioContainer .genderDesc{
+	margin-right: 30px;
+}
+.detail .buttons{
+	position: absolute;
+	bottom: 0px;
+	display: flex;
+	align-items: center;
+}
+.detail .buttons .save{
+	margin-right: 20px;
+	background: #098DDF;
+	height: 37px;
+	padding: 0 40px;
+	border: none;
+	border-radius: 3px;
+	font-weight: 600;
+	color: #fff;
+	cursor: pointer;
+}
+.detail .buttons .save:hover{
+	background: #49aae7;
+}
+.detail .buttons .pwd{
+	background: #fff;
+	text-decoration: none;
+	height: 37px;
+	padding: 0 40px;
+	border: 1px solid #098DDF;
+	border-radius: 3px;
+	font-weight: 500;
+	color: #098DDF;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}

@@ -1,54 +1,29 @@
-import { memo, useState } from 'react';
-import { useNavigate } from 'react-router-dom'
+import { memo } from 'react';
+import { useNavigate, Link } from 'react-router-dom'
 import style from './HomeHeader.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext } from '../../Context';
-import { useDispatch, useSelector } from 'react-redux'
-import * as userActions from '../../features/User/actions'
-import * as tokenActions from '../../features/Token/actions'
+import { useSelector } from 'react-redux'
 import config from '../../config'
  
 //components
 import WebTitle from '../WebTitle';
 import Image from '../Image';
-//pages
-import ErrorPage from '../../pages/ServerError'
 
-//api
-import { logout } from '../../api/auth'
 //utils
-import reqStatus from '../../utils/req-status'
 import uppercase from '../../utils/uppercase'
 
 export default memo(function HomeHeader(){
 	
 	const { setIconBar, iconBar } = useContext();
-	const [ logoutStatus, setLogoutStatus ] = useState(reqStatus.idle)
-	const navigate = useNavigate()
-	const dispatch = useDispatch()
 	const user = useSelector(s=>s.user)
+	const navigate = useNavigate()
 	
 	function clickIcon(e){
 		e.currentTarget.classList.toggle(style.active);
 		setIconBar(!iconBar);
 	}
-	async function clickLogout(){
-		
-		try{
-			const { data: logoutResult} = await logout()
-			
-			if(logoutResult.error) return setLogoutStatus(reqStatus.error)
-				
-			dispatch(tokenActions.remove())
-			dispatch(userActions.remove())
-			navigate('/login', { replace: true})
-			
-		}catch(err){
-			setLogoutStatus(reqStatus.error)
-		}
-	}
 	
-	if(logoutStatus === reqStatus.error) return <ErrorPage />
 	return (
 		<div id="home-header" className={style.container}>
 			<div className={style.left}>
@@ -73,11 +48,11 @@ export default memo(function HomeHeader(){
 						</div>
 					</div>
 					<div className={style.menu}>
-						<div className={style.edit}>
+						<Link to="/user/account/profile" className={style.edit}>
 							<FontAwesomeIcon icon="pencil" />
 							<p>Edit Profil</p>
-						</div>
-						<div onClick={clickLogout} className={style.logout}>
+						</Link>
+						<div onClick={()=>navigate('/logout')} className={style.logout}>
 							<FontAwesomeIcon icon="sign-out" />
 							<p>Log Out</p>
 						</div>

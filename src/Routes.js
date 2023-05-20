@@ -1,6 +1,7 @@
 import React from 'react';
-import { useRoutes, Outlet } from 'react-router-dom';
+import { useRoutes, Outlet, Navigate } from 'react-router-dom';
 import { useContext } from './Context';
+import { useSelector } from 'react-redux'
 
 //pages
 import Main from './pages/Main';
@@ -15,23 +16,43 @@ import SingleExam from './pages/SingleExam';
 import People from './pages/People';
 import AllAssignment from './pages/AllAssignment';
 import GivenAssignment from './pages/GivenAssignment';
+import Logout from './pages/Logout';
+import Account from './pages/Account';
+import Profile from './pages/Profile';
+import Password from './pages/Password';
+import Schedule from './pages/Schedule';
 
 //components
 import GuardGuest from './components/GuardGuest';
-import GuardPage from './components/GuardPage';
 import GetSingleClass from './components/GetSingleClass';
 
 function Element() {
 	
+	const token = useSelector(s=>s.token)
 	const { classData } = useContext();
 	
 	return useRoutes([
 		{ 
 			path: '/',
-			element: <GuardPage children={<Home />} />,
+			element: token.value? <Home />: <GuardGuest children={<Main />} />,
 			children: [
 				{index:true, element: <Classes classData={classData} /> },
 				{path: 'h', element: <Classes classData={classData} /> },
+				{
+					path: 'user',
+					element: <Outlet />,
+					children: [
+						{index:true, element: <Navigate to="account/profile" /> },
+						{
+							path: 'account', 
+							element: <Account />,
+							children: [
+								{path: 'profile', element: <Profile /> },
+								{path: 'password', element: <Password/> },
+							]
+						},
+					]
+				},
 				{
 					path:'c/:code_class', 
 					element: <GetSingleClass />,
@@ -63,14 +84,18 @@ function Element() {
 						{
 							path: 'u',
 							element: <People />
+						},
+						{
+							path: 's',
+							element: <Schedule />
 						}
 					]
 				},
 				{ path: 'assign', element: <GivenAssignment />},
 				{ path: 'assignment', element: <AllAssignment />},
+				{ path: 'logout', element: <Logout />},
 			]
 		},
-		{ path: 'login', element: <GuardGuest children={<Main />} />},
 		{ path: "*", element: <>PAGE NOT FOUND</>}
 	])
 }

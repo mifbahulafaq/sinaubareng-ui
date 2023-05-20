@@ -2,6 +2,7 @@ import React from 'react';
 import style from './Exam.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useParams } from 'react-router-dom';
+import { useContext } from '../../Context'
 
 //APIs
 import * as examApi from '../../api/exam'
@@ -10,19 +11,24 @@ import * as examApi from '../../api/exam'
 import PreviousLink from '../../components/PreviousLink';
 import ModalContainer from '../../components/ModalContainer';
 import ExamForm from '../../components/ExamForm';
+import TeacherComponent from '../../components/TeacherComponent';
 
 //utils
 import formatDate from '../../utils/id-format-date'
+//hooks
+import useIsTeacher from '../../hooks/useIsTeacher'
 
-export default React.memo(function Matter() {
+export default React.memo(function Exam() {
 	
 	const params = useParams()
 	const [ examDatas, setExamDatas ] = React.useState([])
 	const [ displayModal, setDisplayModal ] = React.useState(false)
+	const { singleClass } = useContext()
+	const isTeacher = useIsTeacher(singleClass.teacher)
 	
 	const getExams = React.useCallback(()=>{
 		
-		examApi.getAll(params.code_class)
+		examApi.getAll(params.code_class, {latest: 1})
 		.then(({ data })=>{
 			if(data.error) return console.log(data)
 			setExamDatas(data.data)
@@ -49,7 +55,7 @@ export default React.memo(function Matter() {
 		</ ModalContainer>
 		
 		<div className={style.previousLink} >
-			<PreviousLink to="../.." name="PHP Dasar" />
+			<PreviousLink to="../.." name={singleClass.class_name} />
 		</div>
 		
 		<div className={style.examContainer}>
@@ -59,10 +65,14 @@ export default React.memo(function Matter() {
 					<FontAwesomeIcon icon="clipboard-question" />
 					<span>Semua Ujian</span>
 				</div>
-				<div onClick={()=>setDisplayModal(true)} className={style.add}>
-					<span>+</span>
-					<span>Tambah Ujian</span>
-				</div>
+				{
+					isTeacher?
+					<div onClick={()=>setDisplayModal(true)} className={style.add}>
+						<span>+</span>
+						<span>Tambah Ujian</span>
+					</div>
+					:""
+				}
 			</div>
 			
 			<div className={style.exams}>
@@ -70,14 +80,20 @@ export default React.memo(function Matter() {
 					examDatas.map((e,i)=>{
 						return <div className={style.singleExam} key={i} >
 							<div className={style.answer}>
+								{isTeacher?
 								<h2>{e.total_answers}</h2>
+								:
+								<h2>{Number(e.total_answers) && <>&#10004;</>}</h2>
+								}
 								<p>answer</p>
 							</div>
 							<div className={style.quest} >
 								<div className={style.icon}> <FontAwesomeIcon icon="clipboard-question" /> </div>
 								<Link to={e.id_exm+""} >
+									<p>
 									{e.teacher_name} memposting ujian baru:
-									{e.text}
+									{e.text?.trim()}
+									</p>
 								</Link>
 								<div className={style.detail}>
 									<span>

@@ -4,6 +4,93 @@
 	display: grid;
 	grid-template-columns: 280px auto;
 	gap: 10px;
+	position: relative;
+}
+.container .scheduleContainer{
+	position: fixed;
+	top: 65px;
+	right: 210px;
+	width: 400px;
+	box-shadow: 0 0 8px rgba(47, 47, 47, 0.2);
+	background: #f3fbff;
+	border-radius: 0px 0px 0 10px;
+	padding: 20px;
+	z-index: 99;
+	font-size: 0.9em;
+	font-weight: 500;
+	color: #3c4043;
+	display: flex;
+	flex-direction: column;
+	transition: all 0.4s ease;
+}
+.container .scheduleContainer .info span{
+	font-weight: 600;
+}
+.container .scheduleContainer .info{
+	font-weight: normal;
+}
+.container .scheduleContainer.off{
+	top: -40px;
+}
+.container .scheduleContainer .nav{
+	margin-top: 20px;
+	display: flex;
+}
+.container .scheduleContainer  .nav .add{
+	text-decoration: none;
+	color: #3c4043;
+	box-shadow: 0 0 2px rgba(47, 47, 47, 0.5);
+	padding: 5px 10px;
+	cursor: pointer;
+	background: #fff;
+	border-radius: 3px;
+}
+.container .scheduleContainer  .nav .add:hover{
+	background: #f3f6f4;
+}
+.container .scheduleContainer .nav .scheduleNav{
+	margin-left: 20px;
+	display: flex;
+	align-items: center;
+	color: #3c4043;
+	text-decoration: none;
+}
+.container .scheduleContainer .nav .scheduleNav:hover p{
+	text-decoration: underline 1px;
+}
+.container .scheduleContainer .nav .scheduleNav svg{
+	margin-left: 5px;
+}
+
+.container .scheduleContainer .hiding{
+	content: "";
+	position: absolute;
+	right: 0;
+	bottom: -18px;
+	background: #f3fbff;
+	width: 30px;
+	height: 20px;
+	border-radius: 0 0 5px 5px;
+	box-shadow: -8px 8px 8px -6px rgba(47, 47, 47, 0.1),
+	8px 8px 8px -6px rgba(47, 47, 47, 0.1),
+	8px 0px 8px -6px rgba(47, 47, 47, 0.1),
+	-8px 0px 8px -6px rgba(47, 47, 47, 0.1);
+	cursor: pointer;
+}
+.container .scheduleContainer .hiding:after{
+	content: "";
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -20%) rotate(225deg);
+	border-right: 2px solid #9999;
+	border-bottom: 2px solid #9999;
+	width: 8px;
+	height: 8px;
+}
+.container .scheduleContainer.off .hiding:after{
+	transform: translate(-50%, -70%) rotate(45deg);
 }
 .container .detail{
 	grid-column: 1 / 3;
@@ -21,6 +108,10 @@
 	font-size:40px;
 	color: #fff;
 	
+}
+.container .detail .title h1 span{
+	font-size:20px;
+	font-weight: normal;
 }
 .container .detail .title p{
 	font-family: 'Kanit', sans-serif;
@@ -40,6 +131,55 @@
 	display:flex;
 	flex-direction:column;
 	align-items:center;
+}
+.container .detail .settingAbsolute{
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+}
+.container .detail .settingContainer{
+	padding: 10px;
+	border-radius: 50%;
+	cursor:pointer;
+}
+.container .detail .settingContainer:hover{
+	background:rgba(62, 62, 62, 0.2);
+}
+.container .detail .settingContainer .setting{
+	position: relative;
+	color: #fff;
+	font-size: 0.9em;
+	border-radius: 50%;
+	height: 25px;
+	width: 25px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid #fff;
+	pointer-events: none;
+}
+.container .detail .settingAbsolute .settingList{
+	display: none;
+	position: absolute;
+	top: 38px;
+	right: 15px;
+	padding: 10px 5px;
+	background: #fff;
+	box-shadow: 0 0 5px rgba(206, 206, 206, 0.6);
+	list-style: none;
+	border-radius: 4px;
+	z-index:10;
+}
+.container .detail .settingAbsolute .settingList li{
+	font-size: 15px;
+	font-weight: 600;
+	padding: 5px 10px;
+	width: 130px;
+	color: #3c4043;
+	cursor: pointer;
+}
+.container .detail .settingAbsolute .settingList li:hover{
+	background: rgba(232, 232, 232, 0.5);
 }
 .detail .menu .icon{
 	margin-bottom:5px;
@@ -126,6 +266,7 @@
 	background: #fff;
 	box-shadow: 0 1px 3px rgba(162, 162, 162, 0.47);
 	word-break: break-all;
+	white-space: pre-line;
 }
 .chatting .words .chat2{
 	clear: right;
@@ -147,6 +288,7 @@
 	color: #fff;
 	box-shadow: 0 1px 3px rgba(162, 162, 162, 0.47);
 	word-break: break-all;
+	white-space: pre-line;
 }
 .chatting .words .sortDate{
 	clear: right;
@@ -223,4 +365,41 @@
 }
 .chatting .sender button span{
 	margin-right: 5px;
+}
+.confirmDeletion{
+	background: #fff;
+	width: 300px;
+	padding: 20px;
+	border-radius: 7px;
+	color: #3c4043;
+}
+.confirmDeletion .textAlert{
+	border-radius: 7px;
+	font-weight: 600;
+	font-size: 1.1em;
+}
+.confirmDeletion .info{
+	margin-top: 20px;
+	border-radius: 7px;
+	line-height: 1.6;
+}
+.confirmDeletion .deletionOpt{
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 10px;
+	border-radius: 7px;
+	color: #a7a7a7;
+}
+.confirmDeletion .deletionOpt li{
+	list-style: none;
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 10px;
+	border-radius: 7px;
+	font-weight: 700;
+	cursor: pointer;
+}
+.confirmDeletion .deletionOpt li:last-child{
+	margin-left: 20px;
+	color: #1a73e8;
 }

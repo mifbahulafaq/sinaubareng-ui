@@ -1,0 +1,31 @@
+.container {
+	width:450px;
+	height: 150px;
+	display:flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border-radius:3px;
+	background-color:#fff;
+	color:#464646;
+	word-wrap:break-word;
+}
+.container .icon{
+	border: 2px solid #8fce00;
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #8fce00;
+	font-size:2em;
+	font-weight: bolder;
+	margin-bottom: 15px;
+}
+.container .icon svg{
+}
+.container span{
+	font-size:1em;
+	font-weight: 500;
+}

@@ -2,7 +2,6 @@ import React from 'react'
 import style from './People.module.css'
 import { useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useSelector } from 'react-redux'
 import config from '../../config'
 
 //components
@@ -17,6 +16,7 @@ import * as studentApi from '../../api/class-student'
 //utils
 import uppercase from '../../utils/uppercase'
 import reqStatus from '../../utils/req-status'
+import useIsTeacher from '../../hooks/useIsTeacher'
 
 
 export default React.memo(function People(){
@@ -27,7 +27,7 @@ export default React.memo(function People(){
 	const [ modal, setModal ] = React.useState(false)
 	const [ inputUserId, setInputUserId ] = React.useState("")
 	const [ errInputUser, setErrInputUser ] = React.useState("") 
-	const user = useSelector(s=>s.user)
+	const isTeacher = useIsTeacher(teacherData.teacher)
 	const params = useParams()
 	
 	const getStudents = React.useCallback(()=>{
@@ -144,7 +144,7 @@ export default React.memo(function People(){
 			</div>
 			<div className={style.studentContainer}>
 				<div className={style.studentTitle}>
-					<p>{studentDatas.length} Siswa {teacherData.teacher !== user.data.user_id? "lainnya": ""}</p>
+					<p>{studentDatas.length} Siswa {!isTeacher? "lainnya": ""}</p>
 					<TeacherComponent teacherId={teacherData.teacher} >
 						<div onClick={()=>setModal(true)} className={style.addIcon}>
 							<FontAwesomeIcon icon="user-plus" />

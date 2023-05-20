@@ -3,6 +3,7 @@ import style from './ExamForm.module.css';
 import { useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types'
+import * as val from '../../validation';
 
 //components
 import Image from '../Image'
@@ -15,7 +16,7 @@ import formatDate from '../../utils/id-format-date';
  const ExamForm = memo(function ({ refreshExam, codeClass, display }){
 	 
 	const customInput = useRef(null)
-	const { reset, register, setValue, watch, handleSubmit, resetField, formState: { isValid, isSubmitSuccessful} } = useForm({
+	const { reset, register, setValue, watch, handleSubmit, setError, resetField, formState } = useForm({
 		mode: "onChange",
 		defaultValues: {
 			schedule: {
@@ -26,11 +27,12 @@ import formatDate from '../../utils/id-format-date';
 			}
 		}
 	})
+	const { isValid, isSubmitSuccessful, errors, isSubmitting} = formState
 	
 	useEffect(()=>{
 		
 		reset()
-		customInput.current.textContent = ""
+		customInput.current.innerText = ""
 		
 	},[reset, display, isSubmitSuccessful])
 	
@@ -63,12 +65,21 @@ import formatDate from '../../utils/id-format-date';
 		refreshExam()
 	}
 	
+	function validateFile(e){
+		
+		for(let key in e.target.files){
+			if( key < e.target.files.length ) {
+				
+				if(e.target.files[key].size > 10000000 ) setError("attachment", {type: "size", message: "File too large"})
+			}
+		}
+	}
 	function clickInsertAttachment(e){
 		e.currentTarget.querySelector('input').click()
 	}
 	
 	function tugaskan(e){
-		if(!isValid) return;
+		if(errors.attachment || isSubmitting || !isValid) return;
 		const btn = e.currentTarget.parentElement.parentElement.querySelector('[type="submit"]')
 		btn.click();
 	}
@@ -82,7 +93,7 @@ import formatDate from '../../utils/id-format-date';
 					</div>
 					<span>Ujian</span>
 				</div>
-				<div onClick={tugaskan} className={`${style.submit} ${!isValid? style.disabled: ""}`}>Buat</div>
+				<div onClick={tugaskan} className={`${style.submit} ${errors.attachment || !isValid || isSubmitting? style.disabled: ""}`}>Buat</div>
 			</div>
 			<form onSubmit={handleSubmit(submit)} >
 				<div className={style.formSection1}>
@@ -91,7 +102,7 @@ import formatDate from '../../utils/id-format-date';
 						<input style={{display: "none"}} {...register('text')} />
 						<div 
 							ref={customInput}
-							onInput={e=>setValue('text', e.currentTarget.textContent)}
+							onInput={e=>setValue('text', e.currentTarget.innerText)}
 							contentEditable="true" 
 							className={`${style.inputMargin} ${style.text}`} 
 						/>
@@ -127,7 +138,7 @@ import formatDate from '../../utils/id-format-date';
 										</div>
 										<input 
 											type="date" 
-											{...register('schedule.date',{ required: true})} 
+											{...register('schedule.date', val.dateNoTimezone)} 
 										/>
 									</div>
 									<div className={`${style.time} ${watch('schedule.date') && watch('schedule.date').length? "": style.hidden}`}>
@@ -135,7 +146,7 @@ import formatDate from '../../utils/id-format-date';
 										<div className={style.content} >
 											{ watch('schedule.date') && watch('schedule.date').length ? formatDate(watch('schedule.date')+" "+watch('schedule.time'),"id-ID", {timeStyle:"short"}) : ""}
 										</div>
-										<input type="time" {...register('schedule.time')} />
+										<input type="time" {...register('schedule.time', val.timeNoTimezone)} />
 									</div>
 								</div>
 							</div>
@@ -190,10 +201,13 @@ import formatDate from '../../utils/id-format-date';
 				</div>
 				
 				<div className={style.formSection2}>
-					<h4>Lampiran</h4>
+					<div className={style.fileInfo}>
+						<h4>Lampiran</h4>
+						<p>*Ukuran file tidak lebih dari 10MB</p>
+					</div>
 					{
 						watch('attachment')?.["0"]?
-							<div className={style.fileUpload}>
+							<div className={`${style.fileUpload} ${errors.attachment?style.error:""}`}>
 								<div className={style.icon}>
 									<div className={style.img}>
 										<Image src="images/attachment.png" />
@@ -217,9 +231,9 @@ import formatDate from '../../utils/id-format-date';
 							<FontAwesomeIcon icon="arrow-up-from-bracket" />
 							<input 
 								style={{display: "none"}} 
-								type="file" {...register('attachment')} 
+								type="file" {...register('attachment', { onChange: validateFile })} 
 								className={style.inputMargin}
-								accept=".pdf,.docx,.doc,.PDF,.DOCX,.DOC" 
+								accept=".pdf,.docx,.doc,.PDF,.DOCX,.DOC"
 							/>
 						</div>
 						<p>Upload</p>

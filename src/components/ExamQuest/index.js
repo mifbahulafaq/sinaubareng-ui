@@ -14,22 +14,34 @@ import * as ansApi from "../../api/exam-answer"
 import * as commentApi from "../../api/ans-comment"
 
 //utils
-import formatDate from '../../utils/id-format-date'
+import getToday from '../../utils/get-today'
+import formatDate from '../../utils/id-format-date';
+import uppercase from '../../utils/uppercase';
+import statusList from '../../utils/req-status';
+
+//hooks
+import useIsTeacher from '../../hooks/useIsTeacher'
 
 export default React.memo(function ExamQuest(){
 	
+	//states
 	const params = useParams()
 	const [ examData, setExamData ] = React.useState(null)
+	const isTeacher = useIsTeacher(examData?.teacher)
 	const fileInput = React.useRef(null)
 	const [ fileAns, setFileAns ] = React.useState(null)
 	const [ ansData, setAnsData ] = React.useState({})
 	const [ commentDatas, setCommentDatas ] = React.useState([])
 	const [ modal, setModal ] = React.useState(false)
-	const { register } = useForm()
+	const [ addingFileStatus, setAddingFileStatus ] = React.useState(statusList.idle)
+	const [ sizeError, setSizeError ] = React.useState(false)
+	const disableSubmitting = !fileAns || addingFileStatus === statusList.processing || sizeError
 	
-	const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
+	const rawToday = new Date()
+	const today = formatDate(rawToday, "id-ID", {dateStyle:"medium"})
 	const extAttachment = {pdf: "document", doc: "word", docx: "word"}
-	const schedule = examData? new Date(examData.schedule) : new Date()
+	const rawSchedule = new Date(examData?.schedule || Date.now())
+	const schedule = getToday(rawSchedule, today)
 	const tenggat = examData && examData.duration? (new Date(examData.schedule)).getTime() + examData.duration : ""
 	
 	const getComments = React.useCallback((id_exm_ans)=>{
@@ -40,22 +52,16 @@ export default React.memo(function ExamQuest(){
 		})
 		.catch(err=>console.log(err))
 	}, [])
-	
-	const get_ans_and_comments = React.useCallback(()=>{
+	const getAns = React.useCallback(()=>{
 		ansApi.getByExm(params.id_exm)
 		.then(({ data })=>{
 			
 			if(data.error) return console.log(data)
 			setAnsData(data.data[0]? data.data[0]: {})
 			
-			if(data.data[0] && data.data[0].id_exm_ans){
-				
-				getComments(data.data[0].id_exm_ans)
-			}
-			
 		})
 		.catch(err=>console.log(err))
-	}, [params.id_exm, getComments])
+	}, [params.id_exm])
 	
 	React.useEffect(()=>{
 		
@@ -63,13 +69,22 @@ export default React.memo(function ExamQuest(){
 		.then(({ data })=>{
 			if(data.error) return console.log(data)
 			setExamData(data.data?.[0])
-			get_ans_and_comments()
+			getAns()
 		})
 		
-	},[params.id_exm, get_ans_and_comments])
+	},[params.id_exm, getAns])
+	
+	//for student authorization
+	React.useEffect(()=>{
+		if(!isTeacher){
+			getAns()
+		}
+	}, [isTeacher, getAns])
 	
 	function submitAnswer(){
-		if(!fileAns) return
+		if(disableSubmitting) return
+		
+		setAddingFileStatus(statusList.processing)
 		
 		const payload = new FormData()
 		payload.append('id_exm', params.id_exm)
@@ -77,24 +92,38 @@ export default React.memo(function ExamQuest(){
 		
 		ansApi.add(payload)
 		.then(({ data })=>{
-			if(data.error) console.log(data)
+			if(data.error) {
+				setAddingFileStatus(statusList.error)
+				console.log(data)
+			}
 			setFileAns(null)
-			get_ans_and_comments()
+			getAns()
+			setAddingFileStatus(statusList.success)
 		})
 		.catch(err=>console.log(err))
+	}
+	function validateFile(e){
+		setSizeError(false)
+		for(let key in e.target.files){
+			if( key < e.target.files.length ) {
+				
+				if(e.target.files[key].size > 10000000 ) setSizeError(true)
+			}
+		}
+		setFileAns(e.target.files[0])
 	}
 	
 	return (
 		<div className={style.container}>
 			<div className={style.created}>
-				<h5 className={style.teacher}>{examData?.teacher_name}</h5>
-				<p className={style.date}>Jadwal: {bulan[schedule.getMonth()]} {schedule.getDate()}, {schedule.getFullYear()}</p>
+				<h5 className={style.teacher}>{uppercase(examData?.teacher_name, 0)}</h5>
+				<p className={style.date}>Jadwal: {schedule}</p>
 			</div>
 			<div className={style.quest}>
 				<div className={style.questIcon}>
 					<FontAwesomeIcon icon="clipboard-question" />
 				</div>
-				<p>{examData?.text}</p>
+				<p>{examData?.text?.trim()}</p>
 			</div>
 			<div className={style.bottomSide}>
 				{
@@ -116,6 +145,7 @@ export default React.memo(function ExamQuest(){
 				
 				<h5 className={style.deadline} >Tenggat: {tenggat?formatDate(tenggat, 'id-ID',{dateStyle: "long", timeStyle: "short"}):"-"}</h5>
 			</div>
+			{!isTeacher?
 			<div className={style.answerContainer}>
 				<div className={style.exp}>
 					<span>Jawaban Anda</span>
@@ -139,8 +169,10 @@ export default React.memo(function ExamQuest(){
 					}
 				</div>
 				<div className={style.commentContainer}>
+					{Object.keys(ansData).length?
+					<>
 					<FontAwesomeIcon className={style.commentIcon} icon="user-friends" />
-					<span onClick={()=>setModal(true)}>{commentDatas.length} Komentar Jawaban</span>
+					<span onClick={()=>setModal(true)}>{ansData.total_comments || 0} Komentar Jawaban</span>
 					
 					<ModalContainer displayed={modal} setDisplayed={function(){}}>
 						{
@@ -149,6 +181,9 @@ export default React.memo(function ExamQuest(){
 							:""
 						}
 					</ModalContainer>
+					</>
+					:""
+					}
 					
 				</div>
 				<div className={style.addFile}>
@@ -158,14 +193,14 @@ export default React.memo(function ExamQuest(){
 							<input 
 								type="file" 
 								ref={fileInput}
-								onChange={e=>setFileAns(e.target.files[0])}
+								onChange={validateFile}
 								onClick={e=>e.target.value = null} 
 								accept=".pdf, .docx, doc, .PDF, .DOCX, DOC" 
 							/>
 							<FontAwesomeIcon className={style.selectIcon} icon='arrow-up-from-bracket' />
 							<span>Upload</span>
 						</div>
-						<div className={style.answer}>
+						<div className={`${style.answer} ${sizeError?style.error:""}`}>
 							{
 								fileAns?
 								<>
@@ -184,6 +219,7 @@ export default React.memo(function ExamQuest(){
 							
 							<div
 								onClick={()=>{
+									setSizeError(false)
 									setFileAns(null)
 								}}
 								className={style.delete}>
@@ -192,11 +228,14 @@ export default React.memo(function ExamQuest(){
 							:""
 						}
 					</div>
+					<p className={style.fileInfo}>*Ukuran file tidak lebih dari 10MB</p>
 				</div>
 				
-				<div onClick={submitAnswer} className={`${style.submit} ${fileAns?"":style.disabled}`}>Serahkan</div>
+				<div onClick={submitAnswer} className={`${style.submit} ${disableSubmitting?style.disabled:""}`}>Serahkan</div>
 				
 			</div>
+			:""
+			}
 		</div>
 	)
 })

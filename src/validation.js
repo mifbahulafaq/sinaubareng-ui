@@ -16,7 +16,7 @@ const newpassword = function(pwd){
 		required: { value: true, message: 'This field must be filled' },
 		minLength: { value: 3, message: 'Must be less than 5 or greater than 255 characters long' },
 		maxLength: { value: 255, message: 'Must be less than 5 or greater than 255 characters long' },
-		validate: v => v === pwd || 'not the same as the password above'
+		validate: v => v === pwd || " Password entered is different"
 	}
 }
 const name = { ...password }
@@ -30,10 +30,15 @@ const gender = {
 		required: { value: true, message: 'Choose the gender' }
 	}
 const day = {
-	required: { value: true, message: 'Choose the gender' }
+	required: { value: true, message: 'Choose the day' }
 }
 const time = {
 	required: { value: true, message: 'Choose the time' }
+}
+const time2 = (day)=>{
+	return {
+		validate: () => Boolean(day) || 'Choose the time'
+	}
 }
 const timeNoTimezone = {
 	required: { value: true, message: 'Choose the time' },
@@ -45,18 +50,7 @@ const timeNoTimezone = {
 }
 const dateNoTimezone = {
 	required: { value: true, message: 'Choose the date' },
-	validate: v=> moment.parseZone(v, "YYYY-MM-DD", true).isValid() || `The format of ${v} isn't a date`,
-	setValueAs: v=>{
-		if(!v.length) return v;
-		let date = new Date(v);
-		
-		date = [
-			date.getFullYear(),
-			("0"+(date.getMonth()+1)).slice(-2),
-			("0"+date.getDate()).slice(-2)
-		]
-		return date.join("-");
-	}
+	validate: v=> moment.parseZone(v, "YYYY-MM-DD", true).isValid() || `The format of ${v} isn't a date`
 }
 const codeClass = {
 	required: { value: true},
@@ -91,6 +85,7 @@ export {
 	description, 
 	day, 
 	time, 
+	time2, 
 	codeClass, 
 	userId, 
 	description2,

@@ -1,11 +1,12 @@
 import axios from 'axios';
 import config from '../config';
 
-export function getSchedules(code_class){
+export function getSchedules(code_class, params){
 	
 	const token = JSON.parse(localStorage.getItem('token'));
 	
-	return axios.get(`${config.api_host}/api/schedules/${code_class}`,{
+	return axios.get(`${config.api_host}/api/schedules/by-class/${code_class}`,{
+		params,
 		headers: {
 			authorization: `Bearer ${token}`,
 		}

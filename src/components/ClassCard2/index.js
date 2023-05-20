@@ -13,11 +13,11 @@ export default memo(function ClassCard2({classData}){
 			<div className={style.detail}>
 				<Link to={"c/"+classData.code_class}><h3>{strLimit(classData.class_name,0,13)}</h3></Link>
 				<div className={style.desc} >{strLimit(classData.description,0,120)}</div>
-				<FontAwesomeIcon icon="ellipsis-vertical" />
 			</div>
 			<div className={style.btn}>
-				<FontAwesomeIcon icon="users" />
-				<FontAwesomeIcon icon={['far','file']} />
+				<Link replace={true} to={`c/${classData.code_class}/u`}>
+					<FontAwesomeIcon title="Orang" icon="users" />
+				</Link>
 			</div>
 		</div>
 	)

@@ -13,7 +13,7 @@ export function login(input){
 }
 export function logout(){
 	
-	const token = JSON.parse(localStorage.getItem('token'))
+	const token = localStorage.getItem('token')? JSON.parse(localStorage.getItem('token')): null;
 	
 	return axios.delete(`${config.api_host}/auth/logout`,{
 		headers: {
@@ -33,7 +33,7 @@ export function signup(input){
 }
 export function me(){
 	
-	const token = JSON.parse(localStorage.getItem('token'));
+	const token = localStorage.getItem('token')? JSON.parse(localStorage.getItem('token')): null;
 	
 	return axios.get(`${config.api_host}/auth/me`,{
 		headers: {

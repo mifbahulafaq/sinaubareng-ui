@@ -107,13 +107,14 @@
 	align-items: center;
 	justify-content: center;
 }
-.user .profilDropdown .menu .edit{
+.user .profilDropdown .menu a.edit{
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	width: 50%;
 	padding: 7px;
-	cursor: pointer;
+	color: inherit;
+	text-decoration: none;
 }
 .user .profilDropdown .menu .edit:hover{
 	background: rgba(198, 223, 255, 0.2);

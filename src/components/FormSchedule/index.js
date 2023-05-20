@@ -2,10 +2,9 @@ import React from 'react';
 import style from './FormSchedule.module.css';
 import * as val from '../../validation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import days from '../../utils/days'
 
-export default function FormSchedule({ register, unregister, schedule, schedules, setValue, iSchedule,  clearErrors}){
-	
-	const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+export default function FormSchedule({ register, unregister, schedule, setValue, iSchedule,  clearErrors}){
 	
 	function funcSetDay(e, index){
 		setValue(`schedules.${index}.day`,e.currentTarget.textContent, { shouldValidate: true })
@@ -13,9 +12,27 @@ export default function FormSchedule({ register, unregister, schedule, schedules
 	
 	function removeSchedule(){
 		unregister(`schedules.${iSchedule}`)
-		//setValue('schedules',schedules.filter((e,i)=>i!==iSchedule))
-		//clearErrors(`schedules.${iSchedule}`)
 	}
+	function changeDay(e){
+		console.log(e.target.value)
+	}
+	React.useEffect(()=>{
+		if(schedule.day || schedule.time){
+			if(!schedule.day) {
+				console.log('no day')
+				register(`schedules.${iSchedule}.day`, val.day)
+			}
+			if(!schedule.time) {
+				console.log('no time')
+				register(`schedules.${iSchedule}.time`, val.time)
+			}
+		}
+		
+	}, [register, schedule.day, schedule.time])
+	
+	React.useEffect(()=>{
+		register(`schedules.${iSchedule}.day`)
+	}, [register, iSchedule])
 	
 	return <div className={style.container}>
 									
@@ -29,13 +46,7 @@ export default function FormSchedule({ register, unregister, schedule, schedules
 				<input 
 					type="time" 
 					className={style.input2} 
-					{...register(`schedules.${iSchedule}.time`, val.time)} 
-				/>
-				<input 
-					onChange={()=>console.log('change')}
-					type="text"  
-					style={{display:'none'}} 
-					{...register(`schedules.${iSchedule}.day`, val.day)}
+					{...register(`schedules.${iSchedule}.time`)} 
 				/>
 									
 				<FontAwesomeIcon onClick={removeSchedule} className={style.removeTime} icon="xmark" />

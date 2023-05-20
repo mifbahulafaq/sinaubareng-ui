@@ -53,7 +53,6 @@ export default function LoginForm({ nextRoute }){
 			dispatch(addToken(loginData.token))
 			
 			if(nextRoute) return navigate(nextRoute, { replace: true})
-			navigate('/', { replace: true})
 			
 		}catch(err){
 			setCustomError('SERVER ERROR')

@@ -24,7 +24,6 @@
 	display: flex;
 	font-size: 22px;
 	font-weight: 600;
-	white-space: pre-line;
 	color: #434343;
 }
 .container .quest .questIcon{
@@ -35,6 +34,11 @@
 	background: rgba(39, 131, 245, 0.4);
     text-align: center;
     line-height: 37px;
+}
+.container .quest p{
+	width: calc(100% - 50px);
+	white-space: pre-line;
+	word-break: break-all;
 }
 .container .bottomSide{
 	margin-top: 30px;
@@ -387,6 +391,10 @@
 	display: flex;
 	align-items: center;
 	cursor: pointer;
+	border: 1px solid transparent;
+}
+.container .answerContainer .addFile .input .answer.error{
+	border: 1px solid #d40027;
 }
 .container .answerContainer .addFile .input .answer .icon{
 	margin-right: 10px;
@@ -434,7 +442,11 @@
 	transform: rotate(45deg);
 	font-size: 1.1em;
 }
-.container .answerContainer .addFile .input .delete:hover{
+.container .answerContainer .addFile .fileInfo{
+	margin-top: 10px;
+	color: #5b5b5b;
+	font-weight: 600;
+	font-size: 0.8em;
 }
 .container .answerContainer .submit{
 	margin-top: 30px;

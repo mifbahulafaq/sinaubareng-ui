@@ -7,7 +7,7 @@
 }
 .form .inputContainer{
 	width:100%;
-	min-height:310px;
+	min-height:320px;
 	display:flex;
 	flex-direction:column;
 	justify-content:space-between;
@@ -42,7 +42,7 @@
 	left:17px;
 }
 .form .submitLogin{
-	margin-top:20px;
+	margin-top:23px;
 	height:10%;
 	width:100%;
 	padding:13px;

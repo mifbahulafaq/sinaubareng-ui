@@ -1,17 +1,17 @@
-import { useState, useRef, useEffect, memo } from 'react';
+import { useState, useRef, useEffect, memo, useMemo } from 'react';
+import { useLocation } from 'react-router-dom'
 import style from './MatterForm.module.css';
 import { useForm, useFieldArray } from 'react-hook-form';
 import * as val from '../../validation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types'
-
 //components
 import Image from '../Image'
-
 //apis
 import * as apiMatter from '../../api/matter';
 //utils
 import formatDate from '../../utils/id-format-date';
+import days from '../../utils/days';
 
  const MatterForm = memo(function ({displayMatters, display, codeClass}){
 	 
@@ -32,9 +32,35 @@ import formatDate from '../../utils/id-format-date';
 	const { update, remove } = useFieldArray({ control, name: 'attachment' })
 	const { isSubmitSuccessful, isValid, isSubmitted, isSubmitting, errors } = formState
 	const errorAttachment = errors.attachment?.length
+	const { state: locState } = useLocation()
+	const [ inputSchedule, setInputSchedule ] = useState(null)
+	
+	useEffect(()=>{
+		
+		if(!locState?.schedule) return
+		
+		setInputSchedule(new Date(locState.schedule))
+		
+	},[locState])
+	//Reset Form
+	useEffect(()=>{
+		reset()
+		customInput.current.innerText = ""
+		
+	},[isSubmitSuccessful, display, reset])
+	useEffect(()=>{
+		
+		register("attachment", { value: undefined}) 
+		
+	},[register])
 	
 	async function submit(input){
-		input.schedule = input.schedule.date + " " + input.schedule.time;
+		
+		if(inputSchedule){
+			input.schedule = formatDate(inputSchedule, "sv-SE")
+		}else{
+			input.schedule = input.schedule.date + " " + input.schedule.time;
+		}
 		
 		if(!input.description.length) delete input.description;
 		
@@ -91,7 +117,7 @@ import formatDate from '../../utils/id-format-date';
 	}
 	
 	function inputDesc(e){
-		setValue('description', e.currentTarget.textContent, { shouldValidate: true})
+		setValue('description', e.currentTarget.innerText, { shouldValidate: true})
 	}
 	function funcInputDate(e, field){
 		
@@ -135,18 +161,6 @@ import formatDate from '../../utils/id-format-date';
 		
 		e.target.value = null;
 	}
-	//Reset Form
-	useEffect(()=>{
-		
-		reset()
-		customInput.current.textContent = ""
-		
-	},[isSubmitSuccessful, display, reset])
-	useEffect(()=>{
-		
-		register("attachment", { value: undefined}) 
-		
-	},[register])
 	
 	const dateOfSchedule = watch("schedule.date");
 	const timeOfSchedule = watch("schedule.time");
@@ -173,44 +187,63 @@ import formatDate from '../../utils/id-format-date';
 					
 			<div className={style.inputDateContainer}>
 				<h4>Jadwal</h4>
-				<div className={style.inputDate}>
-					<div className={`${style.setOption} setOption`}>
-						<span className={style.value} >
+				
+				{
+					inputSchedule?
+					<div className={style.dateOfLink}>
+						<p className={style.dateOfLinkText}>
 							{
-								dateOfSchedule?
 								formatDate(
-									dateOfSchedule+" "+timeOfSchedule,
+									inputSchedule,
 									"id-ID",
 									{weekday:"long",  month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit"}
 								)
-								:
-								"Tidak ada jadwal"
 							}
-						</span>
-					</div>
-					
-					<div onClick={e=>e.stopPropagation()} className={`${style.opt} option`}>
-						<div className={style.desc} > Tanggal & Waktu</div>
-						<div className={style.formOpt}>
-							<div className={style.date}>
-								<FontAwesomeIcon icon={['far','calendar-alt']} />
-								<div className={style.content} >
-									{ dateOfSchedule && dateOfSchedule.length ? formatDate(dateOfSchedule,"id-ID", {dateStyle:"medium"}) : "Masukkan tanggal"}
-								</div>
-								<input style={{display:"none"}} {...register('schedule.date', val.dateNoTimezone)} />
-								<input type="date" onChange={funcInputDate}  />
-							</div>
-							<div className={`${style.time} ${dateOfSchedule && dateOfSchedule.length?"":style.hidden}`}>
-								<FontAwesomeIcon icon={['far','clock']} />
-								<div className={style.content} >
-									{ timeOfSchedule && timeOfSchedule.length ? formatDate(dateOfSchedule+" "+timeOfSchedule,"id-ID", {timeStyle:"short"}) : ""}
-								</div>
-								<input type="time" {...register('schedule.time', val.timeNoTimezone)} />
-							</div>
+						</p>
+						<div onClick={()=>setInputSchedule(null)} className={style.cancel}>
+							<FontAwesomeIcon icon="plus" />
 						</div>
 					</div>
-					
-				</div>
+					:
+					<div className={style.inputDate}>
+						<div className={`${style.setOption} setOption`}>
+							<span className={style.value} >
+								{
+									dateOfSchedule?
+									formatDate(
+										dateOfSchedule+" "+timeOfSchedule,
+										"id-ID",
+										{weekday:"long",  month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit"}
+									)
+									:
+									"Tidak ada jadwal"
+								}
+							</span>
+						</div>
+						
+						<div onClick={e=>e.stopPropagation()} className={`${style.opt} option`}>
+							<div className={style.desc} > Tanggal & Waktu</div>
+							<div className={style.formOpt}>
+								<div className={style.date}>
+									<FontAwesomeIcon icon={['far','calendar-alt']} />
+									<div className={style.content} >
+										{ dateOfSchedule && dateOfSchedule.length ? formatDate(dateOfSchedule,"id-ID", {dateStyle:"medium"}) : "Masukkan tanggal"}
+									</div>
+									<input style={{display:"none"}} {...register('schedule.date', val.dateNoTimezone)} />
+									<input type="date" onChange={funcInputDate}  />
+								</div>
+								<div className={`${style.time} ${dateOfSchedule && dateOfSchedule.length?"":style.hidden}`}>
+									<FontAwesomeIcon icon={['far','clock']} />
+									<div className={style.content} >
+										{ timeOfSchedule && timeOfSchedule.length ? formatDate(dateOfSchedule+" "+timeOfSchedule,"id-ID", {timeStyle:"short"}) : ""}
+									</div>
+									<input type="time" {...register('schedule.time', val.timeNoTimezone)} />
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				}
 			</div>
 			
 			<div className={style.inputDateContainer}>
@@ -230,7 +263,7 @@ import formatDate from '../../utils/id-format-date';
 							}
 						</span>
 					</div>
-					<div onClick={e=>e.stopPropagation()} className={`${style.opt} ${dateOfSchedule && dateOfSchedule.length ?"option":""}`}>
+					<div onClick={e=>e.stopPropagation()} className={`${style.opt} ${dateOfSchedule && dateOfSchedule.length || inputSchedule ?"option":""}`}>
 						<div className={style.desc} > Tanggal & Waktu</div>
 						<div className={style.formOpt}>
 							<div className={style.date}>
@@ -286,7 +319,7 @@ import formatDate from '../../utils/id-format-date';
 					multiple 
 				/>
 			</div>
-			<p className={style.fileInfo}>Ukuran file tidak lebih dari 10MB</p>
+			<p className={style.fileInfo}>*Ukuran file tidak lebih dari 10MB</p>
 			<button 
 				type="submit" 
 				disabled={errorAttachment || isSubmitting || !isValid} 

@@ -85,7 +85,7 @@ const AnsComment = function ({idAns, idTeacher, setModal}){
 			
 			{
 				commentDatas.map((e,i)=>{
-					console.log(e)
+					
 					return <div key={i} className={style.singleComment}>
 						<div className={style.photo}>
 							<Image src={"images/user.png"} />

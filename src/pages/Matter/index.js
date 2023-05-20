@@ -3,20 +3,20 @@ import style from './Matter.module.css';
 import { useContext } from '../../Context'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useLocation } from 'react-router-dom';
 
 //components
 import PreviousLink from '../../components/PreviousLink';
 import MatterForm from '../../components/MatterForm'
 import Calendar from 'react-calendar';
-import TeacherComponent from '../../components/TeacherComponent'
 //pages
 import ServerError from '../ServerError'
 //utils
 import formatDate from '../../utils/id-format-date'
-
 //APIs
 import * as matterApi from '../../api/matter';
+//hooks
+import useIsTeacher from '../../hooks/useIsTeacher'
 
 
 export default React.memo(function Matter() {
@@ -27,19 +27,24 @@ export default React.memo(function Matter() {
 	const [ matterForm, setMatterForm ] = React.useState(false)
 	const [ date, setDate ] = React.useState(null)
 	const { singleClass } = useContext()
-	
 	const params = useParams();
+	const isTeacher = useIsTeacher(singleClass.teacher)
+	const { state: locState } = useLocation()
 	
 	const getMatters = React.useCallback(()=>{
-		matterApi.getAll(params.code_class, {date})
+		
+		matterApi.getAll(params.code_class, {date, latest: 1})
 		.then(res=>{
 			const { data : matters } = res;
 			if(matters.error) return setErrorPage(true);
 			setMatters(matters.data);
 		})
 		.catch(()=>setErrorPage(true))
+		
 	},[params.code_class, date])
-	
+	React.useEffect(()=>{
+		if(locState?.schedule) setMatterForm(true)
+	}, [locState])
 	React.useEffect(()=>{
 		getMatters();
 	},[getMatters])
@@ -47,14 +52,15 @@ export default React.memo(function Matter() {
 	function displayMatterForm(bool){
 		setMatterForm(bool)
 	}
+	
 	if(errorPage) return <ServerError />
+	
   return (
 	<>
 		<div className={style.container}>
-		
 			<div className={style.calendarContainer} >
 				<div className={style.previousLink} >
-					<PreviousLink to="../119" name="PHP Dasar" />
+					<PreviousLink to="../.." name={singleClass.class_name} />
 				</div>
 				<Calendar value={date} onChange={value=>setDate(value)} />
 				<div className={style.repeat}>
@@ -71,12 +77,14 @@ export default React.memo(function Matter() {
 						<div className={style.icon}> <FontAwesomeIcon icon={['far', 'calendar-days']} /> </div>
 						<span>Materi</span>
 					</div>
-					<TeacherComponent teacherId={singleClass.teacher} >
+					{
+						isTeacher?
 						<div onClick={()=>displayMatterForm(true)} className={style.add}>
 							<span>+</span>
 							<span>Tambah Materi</span>
 						</div>
-					</TeacherComponent>
+						:""
+					}
 				</div>
 				
 				<div className={style.matters}>

@@ -40,14 +40,6 @@
 	font-weight: 600;
 	overflow: hidden;
 }
-.detail svg{
-	position: absolute;
-	top: 10px;
-	left: 15px;
-	font-size:19px;
-	color: #5b5b5b;
-	cursor: pointer;
-}
 .btn{
 	padding-right: 20px;
 	height: 20%;
