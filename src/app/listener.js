@@ -3,7 +3,7 @@ import * as userActions from '../features/User/actions'
 //api
 import { me } from '../api/auth'
 
-
+console.log('listen')
 let currentToken;
 
 function listener(){

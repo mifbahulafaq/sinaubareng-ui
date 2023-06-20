@@ -114,6 +114,9 @@
 .formContainer form .inputDateContainer .inputDate .setOption:hover{
 	background: #f0f0f0;
 }
+.formContainer form .inputDateContainer .inputDate .setOption.disabled:hover{
+	background: #fafafa;
+}
 .formContainer form .inputDateContainer .inputDate .setOption p{
 	pointer-events: none;
 }

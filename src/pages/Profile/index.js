@@ -90,12 +90,19 @@ export default function Profile() {
 				if(e.target.files[key].size > 500000 ) break;
 				
 				//Showing thumbnail uploaded
-				const reader = new FileReader()
 				
-				reader.onload = e=>{
-					setImgSrc(e.target.result)
-				}
-				reader.readAsDataURL(e.target.files[key])
+				const windUrl = window.URL.createObjectURL(e.target.files[key])
+				setImgSrc(windUrl)
+				
+				//OR
+				
+				// const reader = new FileReader()
+				
+				//window.URL.revokeObjectURL(windUrl);
+				// reader.onload = e=>{
+					// setImgSrc(e.target.result)
+				// }
+				// reader.readAsDataURL(e.target.files[key])
 				
 			}
 		}

@@ -1,5 +1,8 @@
 import { createContext, useContext as context, useReducer, useState } from 'react';
-import { user as userReducer } from './reducers';
+import { 
+	user as userReducer,
+	schedule as scheduleReducer
+} from './reducers';
 import statusList from './utils/req-status'
 
 let ContextData = createContext();

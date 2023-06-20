@@ -4,8 +4,8 @@ const jamak = (value)=>{
 
 export default function minutes(value){
 	
-	const minute = Math.floor(value / 60);
-	const hour = Math.floor(minute / 60);
+	const minute = Math.floor(value / 60000);
+	const hour = Math.floor(value / 3600000);
 	
 	const desc = hour? 'hour'+jamak(hour): minute? 'minute'+jamak(minute): '';
 	const number = hour || minute;

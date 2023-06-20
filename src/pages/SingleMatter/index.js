@@ -3,7 +3,7 @@ import style from './SingleMatter.module.css';
 import { useParams, Link } from 'react-router-dom';
 import config from '../../config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import DocViewer, { DocViewerRenderers  } from "@cyntler/react-doc-viewer";
 //APIs
 import * as matterApi from '../../api/matter';
 import * as fileApi from '../../api/file';
@@ -29,11 +29,12 @@ export default React.memo(function SingleMatter() {
 	const [mattAssignments, setMattAssignments] = React.useState([]);
 	const [ commentText, setCommentText ] = React.useState("");
 	const [ displayModal, setDisplayModal ] = React.useState(false)
+	const [ displayDoc, setDisplayDoc ] = React.useState(false)
 	const customInput = React.useRef(null);
 	const [ allAss, setAllAss ] = React.useState(false)
 	const params = useParams()
 	const isTeacher = useIsTeacher(matt.teacher)
-	
+	const [ docs, setDocs ] = React.useState([])
 	const rawToday = new Date()
 	const today = formatDate(rawToday, "id-ID", {dateStyle:"medium"})
 	const rawYesterDay = new Date((new Date()).setDate(rawToday.getDate() - 1))
@@ -89,34 +90,46 @@ export default React.memo(function SingleMatter() {
 		getComments();
 	}, [getSingleMatt, getComments])
 	
-	function getFile(idMatt, filename, donwload = false){
+	React.useEffect(()=>{
+		if(!displayDoc) setDocs([])
+	}, [displayDoc])
+
+	function getFile(idMatt, filename, download = false){
 		matterApi.getaDocument(idMatt,filename[0]).then(({ data })=>{
-			if(data.error) return console.log(data);
 			
-			fileApi.get(data.path)
-			.then(({ data })=>{
-				
-				if(data.error) return console.log(data);
-				
-				//create url
-				const blob = new Blob([data], {type: data.type});
-				const url = window.URL.createObjectURL(blob);
-				
+			if(data.error) return console.log(data);
+
+			//const ext = data.path.split('.')[1]
+			const url = `${config.api_host}${data.path}`
+			
+			if(download){
 				//create Element
 				const link = document.createElement('a');
 				
 				link.href = url;
-				if(donwload){
-					link.setAttribute('download',filename[1])
-				}else{
-					link.target = "_blank"
-				}
-				
+				link.setAttribute('download',filename[1])
 				document.body.appendChild(link);
 				link.click();
 				document.body.removeChild(link);
-			})
-			.catch(err=>console.log(err))
+				
+			}else{
+				//console.log(ext)
+				setDocs([
+					{uri:url, fileName: filename[1]}
+				])
+				setDisplayDoc(true)
+			}
+			// fileApi.get(data.path)
+			// .then(({ data })=>{
+				
+				//if(data.error) return console.log(data);
+				//create url
+				// const blob = new Blob([data], {type: data.type});
+				// const url = window.URL.createObjectURL(blob);
+				
+				
+			// })
+			// .catch(err=>console.log(err))
 			
 		})
 		.catch(err=>console.log(err))
@@ -165,6 +178,23 @@ export default React.memo(function SingleMatter() {
 				idMatter={parseInt(params.id_matt)}
 			/>
 		</ ModalContainer>
+		<ModalContainer displayed={displayDoc} setDisplayed={setDisplayDoc}>
+			
+			<DocViewer 
+				pluginRenderers={DocViewerRenderers }
+				documents={docs}
+				theme={{
+					primary: "#5296d8",
+					secondary: "#ffffff",
+					tertiary: "#5296d899",
+					textPrimary: "#black",
+					textSecondary: "#5296d8",
+					textTertiary: "#00000099",
+					disableThemeScrollbar: false,
+				}}
+				style={{width: '60vw'}}
+			/>
+		</ ModalContainer>
 		
 		<div className={style.class}>
 			<PreviousLink to="../.." name={matt.class_name} />
@@ -198,9 +228,7 @@ export default React.memo(function SingleMatter() {
 													onClick={()=>getFile(matt.id_matter, e, true)}
 												>Download</span>
 												<FontAwesomeIcon icon="external-link" />
-												<span
-													onClick={()=>getFile(matt.id_matter, e)}
-												>Read</span>
+												<span onClick={()=>getFile(matt.id_matter, e)} >Read</span>
 											</div>
 										</div>
 							})

@@ -22,9 +22,11 @@ import ServerError from '../../pages/ServerError'
 //hooks
 import useRefreshClass from '../../hooks/useRefreshClass'
 import useIsTeacher from '../../hooks/useIsTeacher'
+import useDay from '../../hooks/useDay'
 //utils
 import days from '../../utils/days'
 import formatDate from '../../utils/id-format-date'
+import dayDesc from '../../utils/day_desc'
 
 export default React.memo(function SingleClass(props) {
 	
@@ -33,7 +35,7 @@ export default React.memo(function SingleClass(props) {
 	const params = useParams();
 	const user = useSelector(s=>s.user)
 	const [ error, setError ] = React.useState(null)
-	const { singleClass } = useContext()
+	const { singleClass, scheduleClass, setScheduleClass } = useContext()
 	const isTeacher = useIsTeacher(singleClass.teacher)
 	const [ discussData, setDiscussData ] = React.useState([]);
 	const [ scheduleData, setScheduleData ] = React.useState(null);
@@ -43,6 +45,19 @@ export default React.memo(function SingleClass(props) {
 		matter: {},
 		exam: {}
 	});
+	
+	const textDay = useDay(scheduleData)
+	const textDateTime = React.useMemo(()=>{
+		
+		if(scheduleData){
+			
+			const date = new Date(scheduleData)
+			
+			return date.toLocaleString('id-ID',{ month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit'}) 
+		}
+		return null
+		
+	}, [scheduleData])
 	
 	const [ textInput, setTextInput ] = React.useState('');
 	const textInputElement = React.useRef(null)
@@ -114,7 +129,7 @@ export default React.memo(function SingleClass(props) {
 			})
 		}
 		
-	}, [scheduleData, searchDate, isTeacher])
+	}, [scheduleData, searchDate, isTeacher, scheduleClass, params.code_class])
 	React.useEffect(()=>{
 		
 		fetchDiscuss();
@@ -205,16 +220,18 @@ export default React.memo(function SingleClass(props) {
 		}
 	}
 	if(error) return <ServerError />
+	
   return (
 	<div className={style.container}>
 	
 		{
-			isTeacher && scheduleData?
+			isTeacher ?
+				textDay > 0?
 			<div className={style.scheduleContainer}>
 			
 				<p className={style.info}>
 					Materi Pada Jadwal:
-					<span> {formatDate(new Date(scheduleData), 'id-ID', {weekday: 'long', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit'})}</span>  belum dibuat
+					<span> {dayDesc[textDay]}, {textDateTime}</span>  belum dibuat
 				</p>
 				<div className={style.nav}>
 					<Link 
@@ -237,6 +254,7 @@ export default React.memo(function SingleClass(props) {
 						e.currentTarget.parentElement.classList.toggle(style.off)
 					}}/>
 			</div>
+				:""
 			:""
 		}
 		<div className={style.detail} style={{ background: singleClass.color }} >

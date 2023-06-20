@@ -16,18 +16,21 @@ import days from '../../utils/days';
  const MatterForm = memo(function ({displayMatters, display, codeClass}){
 	 
 	const customInput = useRef(null);
+	const defaultValues = {
+		code_class: codeClass,
+		status: "active",
+		schedule: {
+			date: "",
+			time : '00:00:00'
+		},
+		duration: {
+			date:"",
+			time : '00:00:00'
+		}
+	}
 	const { reset, control, setValue, watch, register, setError, handleSubmit, formState, getValues } = useForm({
 		mode: "onChange",
-		defaultValues: {
-			code_class: codeClass,
-			status: "active",
-			schedule: {
-				time : '00:00:00'
-			},
-			duration: {
-				time : '00:00:00'
-			}
-		}
+		defaultValues
 	});
 	const { update, remove } = useFieldArray({ control, name: 'attachment' })
 	const { isSubmitSuccessful, isValid, isSubmitted, isSubmitting, errors } = formState
@@ -44,10 +47,11 @@ import days from '../../utils/days';
 	},[locState])
 	//Reset Form
 	useEffect(()=>{
-		reset()
+		reset(defaultValues)
 		customInput.current.innerText = ""
 		
 	},[isSubmitSuccessful, display, reset])
+	
 	useEffect(()=>{
 		
 		register("attachment", { value: undefined}) 
@@ -66,9 +70,14 @@ import days from '../../utils/days';
 		
 		if(input.duration?.date?.length){
 			
-			const scheduleTime = new Date(input.schedule);
-			const durationTime = new Date(input.duration.date + " " + input.duration.time);
-			input.duration = durationTime.getTime() - scheduleTime.getTime();
+			const fullScheduleDate = new Date(input.schedule)
+			const fullDurationDate = new Date(input.duration.date+" "+input.duration.time)
+			
+			if(fullDurationDate <= fullScheduleDate){
+				delete input.duration
+			}else{
+				input.duration = fullDurationDate.getTime() - fullScheduleDate.getTime()
+			}
 			
 		}else{
 			delete input.duration;
@@ -127,8 +136,6 @@ import days from '../../utils/days';
 			setValue("schedule.time", "00:00", {shouldValidate: true});
 			setValue("duration", {time:"00:00"}, {shouldValidate: true});
 		}
-			
-		setValue("schedule.date", value, {shouldValidate: true});
 		
 	}
 	function funcInputDate2(e){
@@ -136,8 +143,6 @@ import days from '../../utils/days';
 		const value = e.target.value;
 		
 		if(!value.length) setValue("duration.time", "00:00", {shouldValidate: true});
-			
-		setValue("duration.date", value, {shouldValidate: true});
 		
 	}
 	function setFile(e){
@@ -229,8 +234,13 @@ import days from '../../utils/days';
 									<div className={style.content} >
 										{ dateOfSchedule && dateOfSchedule.length ? formatDate(dateOfSchedule,"id-ID", {dateStyle:"medium"}) : "Masukkan tanggal"}
 									</div>
-									<input style={{display:"none"}} {...register('schedule.date', val.dateNoTimezone)} />
-									<input type="date" onChange={funcInputDate}  />
+									<input 
+										type="date"
+										{
+											...register( 'schedule.date', { ...val.dateNoTimezone, onChange: funcInputDate } )
+										} 
+									/>
+									
 								</div>
 								<div className={`${style.time} ${dateOfSchedule && dateOfSchedule.length?"":style.hidden}`}>
 									<FontAwesomeIcon icon={['far','clock']} />
@@ -249,7 +259,7 @@ import days from '../../utils/days';
 			<div className={style.inputDateContainer}>
 				<h4>Berakhir pada: </h4>
 				<div className={style.inputDate}>
-					<div className={`${style.setOption} ${dateOfSchedule && dateOfSchedule.length ?"":style.disabled} setOption`}>
+					<div className={`${style.setOption} ${dateOfSchedule || inputSchedule  ?"":style.disabled} setOption`}>
 						<span className={style.value} >
 							{
 								dateOfDuration?
@@ -263,7 +273,7 @@ import days from '../../utils/days';
 							}
 						</span>
 					</div>
-					<div onClick={e=>e.stopPropagation()} className={`${style.opt} ${dateOfSchedule && dateOfSchedule.length || inputSchedule ?"option":""}`}>
+					<div onClick={e=>e.stopPropagation()} className={`${style.opt} ${dateOfSchedule  || inputSchedule ?"option":""}`}>
 						<div className={style.desc} > Tanggal & Waktu</div>
 						<div className={style.formOpt}>
 							<div className={style.date}>
@@ -271,8 +281,10 @@ import days from '../../utils/days';
 								<div className={style.content} >
 									{ dateOfDuration && dateOfDuration.length ? formatDate(dateOfDuration,"id-ID", {dateStyle:"medium"}) : "Masukkan tanggal"}
 								</div>
-								<input type="date" style={{display:"none"}} {...register('duration.date') } />
-								<input type="date" onChange={funcInputDate2} />
+								<input 
+									type="date"
+									{...register('duration.date', { onChange: funcInputDate2 }) } 
+								/>
 							</div>
 							<div className={`${style.time} ${dateOfDuration && dateOfDuration.length?"":style.hidden}`}>
 								<FontAwesomeIcon icon={['far','clock']} />
