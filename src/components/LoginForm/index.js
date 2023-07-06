@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import style from './LoginForm.module.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { email, password } from '../../validation';
 import { useDispatch } from 'react-redux';
 import { add as addToken, reqError as errorToken } from '../../features/Token/actions';
+import googleLogo from './google.png'
 
 //pages
 import ErrorPage from '../../pages/ServerError'
@@ -13,6 +14,10 @@ import ErrorPage from '../../pages/ServerError'
 import Input1 from '../Input1';
 import FormControl from '../FormControl';
 import ErrorAlert from '../ErrorAlert';
+import Image from '../Image';
+
+//utils
+import getGoogleUrl from '../../utils/getGoogleUrl'
 
 //apis
 import { login } from '../../api/auth';
@@ -25,6 +30,10 @@ export default function LoginForm({ nextRoute }){
 	const { register, setError, handleSubmit, formState } = useForm();
 	const { errors, isValid, isSubmitted, isSubmitting } = formState
 	let otherLoignError = errors.email && errors.password
+	const location = useLocation()
+	
+	const from = location.state || '/profile'
+	
 	
 	async function submit(input){
 		
@@ -129,6 +138,15 @@ export default function LoginForm({ nextRoute }){
 				>Log In</button>
 				
 			</form>
+			<p>Log in with another provider:</p>
+			<div className={style.oauthLogin}>
+				<a href={getGoogleUrl(from)} className={style.loginContainer}>
+					<div className={style.img}>
+						<Image src={googleLogo}/>
+					</div>
+					<span>Google</span>
+				</a>
+			</div>
 		</div>
 	)
 }

@@ -1,7 +1,7 @@
 .container{
 	width:100%;
 	height:100%;
-	padding-top:65px;
+	padding-top:20px;
 }
 .container .form{
 	width:100%;
@@ -54,4 +54,37 @@
 .form .submitLogin:disabled{
 	background-color:#78bae2;
 	cursor: default;
+}
+p{
+	margin-top: 20px;
+	margin-bottom: 20px;
+	font-size: 1.1em;
+	text-align: center;
+	color: #7a7a7a;
+	font-weight: 600;
+}
+.oauthLogin{
+	width: 100%;
+	padding: 20px;
+	background: #eaeaea;
+	border-radius: 8px;
+	
+}
+.oauthLogin .loginContainer{
+	height: 40px;
+	display: flex;
+	justify-content:center;
+	align-items: center;
+	background: #fff;
+	border-radius: 3px;
+}
+.oauthLogin .loginContainer .img{
+	height: 90%;
+	width: auto;
+}
+.oauthLogin .loginContainer span{
+	margin-left: 5px;
+	font-weight: 600;
+	color: #6b6b6b;
+	line-height: 100%;
 }
