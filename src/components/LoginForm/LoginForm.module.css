@@ -70,13 +70,14 @@ p{
 	border-radius: 8px;
 	
 }
-.oauthLogin .loginContainer{
+.oauthLogin a.loginContainer{
 	height: 40px;
 	display: flex;
 	justify-content:center;
 	align-items: center;
 	background: #fff;
 	border-radius: 3px;
+	text-decoration: none;
 }
 .oauthLogin .loginContainer .img{
 	height: 90%;
