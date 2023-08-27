@@ -1,8 +1,7 @@
-import axios from 'axios';
-import config from '../config';
+import fetch from './fetch'
 
 export function login(input){
-	return axios.post(`${config.api_host}/auth/login`,input)
+	return fetch.post('/auth/login',input, { withCredentials: true})
 	.then(result=>{
 		
 		if(!result.data.error){
@@ -15,7 +14,7 @@ export function logout(){
 	
 	const token = localStorage.getItem('token')? JSON.parse(localStorage.getItem('token')): null;
 	
-	return axios.delete(`${config.api_host}/auth/logout`,{
+	return fetch.delete('/auth/logout',{
 		headers: {
 			authorization: `Bearer ${token}`
 		}
@@ -29,13 +28,13 @@ export function logout(){
 	})
 }
 export function signup(input){
-	return axios.post(`${config.api_host}/auth/register`,input);
+	return fetch.post('/auth/register',input);
 }
 export function me(){
 	
 	const token = localStorage.getItem('token')? JSON.parse(localStorage.getItem('token')): null;
 	
-	return axios.get(`${config.api_host}/auth/me`,{
+	return fetch.get('/auth/me',{
 		headers: {
 			authorization: `Bearer ${token}`,
 		}

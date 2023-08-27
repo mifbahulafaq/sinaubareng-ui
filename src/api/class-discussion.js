@@ -1,25 +1,12 @@
-import axios from 'axios';
-import config from '../config';
+import fetch from './fetch';
 
 export function getAll(code_class){
 	
-	const token = localStorage.getItem('token')? JSON.parse(localStorage.getItem('token')): null;
-	
-	return axios.get(`${config.api_host}/api/class-discussions/${code_class}`,{
-		headers: {
-			authorization: `Bearer ${token}`,
-		}
-	});
+	return fetch.get(`/api/class-discussions/${code_class}`);
 	
 }
 export function add(payload){
 	
-	const token = localStorage.getItem('token')? JSON.parse(localStorage.getItem('token')): null;
-	
-	return axios.post(`${config.api_host}/api/class-discussions`,payload,{
-		headers: {
-			authorization: `Bearer ${token}`,
-		}
-	});
+	return fetch.post('/api/class-discussions',payload);
 	
 }

@@ -1,11 +1,10 @@
-import axios from 'axios';
-import config from '../config';
+import fetch from './fetch';
 
 export function getSchedules(code_class, params){
 	
 	const token = JSON.parse(localStorage.getItem('token'));
 	
-	return axios.get(`${config.api_host}/api/schedules/by-class/${code_class}`,{
+	return fetch.get(`/api/schedules/by-class/${code_class}`,{
 		params,
 		headers: {
 			authorization: `Bearer ${token}`,
@@ -17,7 +16,7 @@ export function insertSchedules(payload){
 	
 	const token = JSON.parse(localStorage.getItem('token'));
 	
-	return axios.post(`${config.api_host}/api/schedules`,payload,{
+	return fetch.post('/api/schedules',payload,{
 		headers: {
 			authorization: `Bearer ${token}`,
 		}

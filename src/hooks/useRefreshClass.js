@@ -16,9 +16,11 @@ export default function useRefreshClass(){
 		.then(([{data : dataClasses }, {data: dataClassStudents}])=>{
 			
 			if(dataClasses.error){
+				console.log(dataClasses)
 				return setClassData({status: statusList.error})
 			}
 			if(dataClassStudents.error){
+				console.log(dataClassStudents)
 				return setClassData({status: statusList.error})
 			}
 			

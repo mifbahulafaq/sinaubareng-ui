@@ -1,15 +1,9 @@
-import axios from 'axios';
-import config from '../config';
+import fetch from './fetch';
 
 export function get(path){
 	
 	const token = JSON.parse(localStorage.getItem('token'));
 	
-	return axios.get(`${config.api_host}${path}`,{
-		headers: {
-			authorization: `Bearer ${token}`,
-		},
-		responseType: 'blob'
-	});
+	return fetch.get(`/${path}`,{ responseType: 'blob' });
 	
 }
