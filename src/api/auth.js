@@ -1,7 +1,7 @@
 import fetch from './fetch'
 
 export function login(input){
-	return fetch.post('/auth/login',input, { withCredentials: true})
+	return fetch.post('/auth/login',input)
 	.then(result=>{
 		
 		if(!result.data.error){
@@ -12,13 +12,7 @@ export function login(input){
 }
 export function logout(){
 	
-	const token = localStorage.getItem('token')? JSON.parse(localStorage.getItem('token')): null;
-	
-	return fetch.delete('/auth/logout',{
-		headers: {
-			authorization: `Bearer ${token}`
-		}
-	})
+	return fetch.delete('/auth/logout')
 	.then(result=>{
 		
 		if(!result.data.error){
@@ -32,12 +26,6 @@ export function signup(input){
 }
 export function me(){
 	
-	const token = localStorage.getItem('token')? JSON.parse(localStorage.getItem('token')): null;
-	
-	return fetch.get('/auth/me',{
-		headers: {
-			authorization: `Bearer ${token}`,
-		}
-	}).then(result=>result)
+	return fetch.get('/auth/me').then(result=>result)
 	
 }

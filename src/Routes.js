@@ -1,7 +1,10 @@
 import React from 'react';
 import { useRoutes, Outlet, Navigate } from 'react-router-dom';
 import { useContext } from './Context';
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
+
+//custom hooks
+import useCookie from './hooks/useCookie';
 
 //pages
 import Main from './pages/Main';
@@ -28,13 +31,13 @@ import GetSingleClass from './components/GetSingleClass';
 
 function Element() {
 	
-	const token = useSelector(s=>s.token)
 	const { classData } = useContext();
+	const loginStatus = useCookie('logged_in');
 	
 	return useRoutes([
 		{ 
 			path: '/',
-			element: token.value? <Home />: <GuardGuest children={<Main />} />,
+			element: loginStatus === 'true' ? <Home />: <GuardGuest children={<Main />} />,
 			children: [
 				{index:true, element: <Classes classData={classData} /> },
 				{path: 'h', element: <Classes classData={classData} /> },
