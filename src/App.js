@@ -1,9 +1,11 @@
 import React from 'react';
 import style from './App.module.css';
 import './Additional.css';
-import { HashRouter } from 'react-router-dom';
+import { HashRouter, useNavigate } from 'react-router-dom';
 import Routes from './Routes';
 import Context from './Context';
+
+import * as authApi from '../src/api/auth'
 
 //icons
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -58,6 +60,8 @@ library.add(
 
 function App() {
 	
+	//const navigate = useNavigate()
+	
 	function hideElement(clickedE){
 		
 		//const setOptionE = document.querySelectorAll('.setOption');
@@ -78,6 +82,20 @@ function App() {
 		})
 		
 	}
+	
+	React.useEffect(()=>{
+		//navigate('/error')
+		//window.location.href = '/error'
+		/*console.log('efek')
+		authApi.me() 
+		.then(r=>{
+			console.log(r)
+		})
+		.catch(err=>{
+			console.log(err)
+		})
+		*/
+	}, [])
 	
 	return (
 		<React.Suspense fallback={<div>loading...</div>}>

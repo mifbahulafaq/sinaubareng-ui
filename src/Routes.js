@@ -31,8 +31,12 @@ import GetSingleClass from './components/GetSingleClass';
 
 function Element() {
 	
+	React.useEffect(()=>{
+		console.log('halo')
+	}, [1])
+	
 	const { classData } = useContext();
-	const loginStatus = useCookie('logged_in');
+	const loginStatus = false//useCookie('logged_in');
 	
 	return useRoutes([
 		{ 

@@ -26,6 +26,6 @@ export function signup(input){
 }
 export function me(){
 	
-	return fetch.get('/auth/me').then(result=>result)
+	return fetch.get('/auth/me')
 	
 }

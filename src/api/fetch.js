@@ -22,25 +22,25 @@ fetch.interceptors.response.use(
 		const previousFetchUrl = config.baseURL + config.url
 		
 		if(res.data.message === 'Token expired'){
+			console.log(config)
 			
 			try{
 			
-				//const refreshResult = await axios.get(`${baseURL}/auth/refresh`, {withCredentials: true});
-				//console.log('refres token', refreshResult)
-				//return Promise.reject(err);
+				const refreshResult = await axios.get(`${baseURL}/auth/refresh`, {withCredentials: true});
+				await fetch.get(config.url)
+				
 				
 			}catch(err){
-				console.log(err)//
-				const { response: res } = err;
+				console.log('error refresh token', err)
+				// const { response: res } = err;
 				
-				if(res.data.status === 401) return window.location.href = '/'
+				//if(res.data.status === 401) return window.location.href = '/error'
 			}
 			
 			
-		}else{
-		
-			Promise.reject(err);
 		}
+		
+		Promise.reject(err);
 	}
 
 )
