@@ -50,6 +50,7 @@ export default function LoginForm({ nextRoute }){
 				return;
 			}
 			
+			//store token and re-render by state
 			dispatch(addToken(loginData.token))
 			
 			if(nextRoute) return navigate(nextRoute, { replace: true})
