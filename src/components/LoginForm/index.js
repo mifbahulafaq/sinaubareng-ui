@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import style from './LoginForm.module.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -18,9 +18,10 @@ import Image from '../Image';
 
 //utils
 import getGoogleUrl from '../../utils/getGoogleUrl'
+import getDataError from '../../utils/getDataError'
 
 //apis
-import { login } from '../../api/auth';
+import { login, me } from '../../api/auth';
 
 export default function LoginForm({ nextRoute }){
 	
@@ -33,7 +34,6 @@ export default function LoginForm({ nextRoute }){
 	const location = useLocation()
 	
 	const from = location.state || '/profile'
-	
 	
 	async function submit(input){
 		
@@ -64,7 +64,13 @@ export default function LoginForm({ nextRoute }){
 			if(nextRoute) return navigate(nextRoute, { replace: true})
 			
 		}catch(err){
-			setCustomError('SERVER ERROR')
+			
+			const errorData = getDataError(err);
+			
+			if(errorData.status === 500){
+				setCustomError('SERVER ERROR')
+			}
+			//console.log(errorData)
 			dispatch(errorToken())
 		}
 	}

@@ -5,42 +5,72 @@ const baseURL = config.api_host;
 
 const fetch = axios.create({ baseURL , withCredentials: true });
 
+
+
 fetch.interceptors.response.use(
+
 	async function(res){
 		
+		//get response data and config
+		const { 
+			data: responseData, 
+			config :{
+				url,
+				method,
+				data: configData,
+				withCredentials,
+				params
+			}
+		} = res;
 		
-		console.log(res)
+		//set new request configs
+		const sentData = JSON.parse(configData || '{}');
 		
-		//console.log(res.request)
-		//const result = await fetch('trying')
-		//console.log(result)
-		return res
-	},
-	async function(err){
+		let formData = new FormData();
 		
-		const { response: res, config } = err;
-		const previousFetchUrl = config.baseURL + config.url
+		for(let key in sentData){
 		
-		if(res.data.message === 'Token expired'){
-			console.log(config)
+			formData.append(key, sentData[key])
+
+		}
+		
+		const newConfig = {
+			method,
+			url: baseURL + url,
+			data: formData,
+			params,
+			withCredentials
+		}
+		
+		//validate response
+		if(responseData?.message === 'Token expired'){
 			
 			try{
 			
-				const refreshResult = await axios.get(`${baseURL}/auth/refresh`, {withCredentials: true});
-				await fetch.get(config.url)
+				const { data: dataRefresh } = await axios.get(`${baseURL}/auth/refresh`, {withCredentials: true});
+				
+				if(dataRefresh.error){
+
+					window.location.href = '/error'
+					return res;
+					
+				}
+				
+				//repeat request
+				return await axios(newConfig)
 				
 				
 			}catch(err){
-				console.log('error refresh token', err)
-				// const { response: res } = err;
 				
-				//if(res.data.status === 401) return window.location.href = '/error'
+				//set redux state server error 
+				return res;
 			}
 			
 			
+		}else{
+			return res;
 		}
 		
-		Promise.reject(err);
 	}
 
 )

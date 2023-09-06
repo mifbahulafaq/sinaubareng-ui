@@ -1,20 +1,13 @@
 import fetch from './fetch'
+import axios from 'axios'
 
 export function login(input){
 	return fetch.post('/auth/login',input)
-	.then(result=>{
-		
-		if(!result.data.error){
-			localStorage.setItem('token',JSON.stringify(result.data.token));
-		}
-		return result;
-	})
 }
 export function logout(){
 	
 	return fetch.delete('/auth/logout')
 	.then(result=>{
-		
 		if(!result.data.error){
 			localStorage.removeItem('token');
 		}
@@ -26,6 +19,6 @@ export function signup(input){
 }
 export function me(){
 	
-	return fetch.get('/auth/me')
+	return fetch.get('/auth/me', { params: {ID: 12345}})
 	
 }

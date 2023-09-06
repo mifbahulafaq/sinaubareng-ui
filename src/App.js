@@ -60,8 +60,6 @@ library.add(
 
 function App() {
 	
-	//const navigate = useNavigate()
-	
 	function hideElement(clickedE){
 		
 		//const setOptionE = document.querySelectorAll('.setOption');
@@ -82,20 +80,6 @@ function App() {
 		})
 		
 	}
-	
-	React.useEffect(()=>{
-		//navigate('/error')
-		//window.location.href = '/error'
-		/*console.log('efek')
-		authApi.me() 
-		.then(r=>{
-			console.log(r)
-		})
-		.catch(err=>{
-			console.log(err)
-		})
-		*/
-	}, [])
 	
 	return (
 		<React.Suspense fallback={<div>loading...</div>}>

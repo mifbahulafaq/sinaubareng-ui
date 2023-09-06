@@ -11,8 +11,6 @@ import HomeHeader from '../../components/HomeHeader';
 import HomeSidebar from '../../components/HomeSidebar';
 //pages
 import ErrorPage from '../ServerError'
-//utils
-import statusList from '../../utils/req-status'
 //hooks
 import useRefreshClass from '../../hooks/useRefreshClass';
 //APIs
@@ -23,30 +21,18 @@ export default function Home() {
 	const { classData, iconBar, setIconBar } = useContext();
 	const setClasses = useRefreshClass();
 	const dispatch = useDispatch()
-	const [ reqStatus, setReqStatus ] = React.useState(statusList.idle)
 	
 	useEffect(()=>{
 		
 		me()
 		.then(({ data: meData })=>{
-			
-			if(meData.error) {
-				return setReqStatus(statusList.error)
-			} 
 				
-			dispatch(userActions.add(meData.user_id))
-			setReqStatus(statusList.success)
+			dispatch(userActions.add(meData.user_id));
+			setClasses();
+			
 		})
-		.catch(err=>{
-			setReqStatus(statusList.error)
-		})
+		
 	}, [])
-	
-	useEffect(()=>{
-		
-		setClasses();
-		
-	},[])
 	
 	function scrollOn(e){
 		const homeHeader = document.getElementById('home-header');
@@ -67,7 +53,6 @@ export default function Home() {
 		}
 	}
 	
-	if(reqStatus === statusList.error || classData.status === statusList.error) return <ErrorPage />
 	return (
 		<div className={style.container}>
 			<div onClick={()=>setIconBar(false)}  className={`${style.hideSidebar} ${iconBar?style.active:''}`} />

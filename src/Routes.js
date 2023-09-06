@@ -4,7 +4,7 @@ import { useContext } from './Context';
 import { useSelector } from 'react-redux';
 
 //custom hooks
-import useCookie from './hooks/useCookie';
+import getCookie from './utils/getCookie';
 
 //pages
 import Main from './pages/Main';
@@ -31,17 +31,13 @@ import GetSingleClass from './components/GetSingleClass';
 
 function Element() {
 	
-	React.useEffect(()=>{
-		console.log('halo')
-	}, [1])
-	
 	const { classData } = useContext();
-	const loginStatus = false//useCookie('logged_in');
+	const logged_in = React.useMemo(()=>getCookie('logged_in') === 'true',[])
 	
 	return useRoutes([
 		{ 
 			path: '/',
-			element: loginStatus === 'true' ? <Home />: <GuardGuest children={<Main />} />,
+			element: logged_in ? <Home />: <GuardGuest children={<Main />} />,
 			children: [
 				{index:true, element: <Classes classData={classData} /> },
 				{path: 'h', element: <Classes classData={classData} /> },
