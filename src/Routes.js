@@ -1,10 +1,9 @@
 import React from 'react';
 import { useRoutes, Outlet, Navigate } from 'react-router-dom';
 import { useContext } from './Context';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
-//custom hooks
-import getCookie from './utils/getCookie';
+import * as tokenActions from './features/Token/actions'
 
 //pages
 import Main from './pages/Main';
@@ -29,15 +28,26 @@ import Schedule from './pages/Schedule';
 import GuardGuest from './components/GuardGuest';
 import GetSingleClass from './components/GetSingleClass';
 
+import getCookie from './utils/getCookie'
+
 function Element() {
 	
 	const { classData } = useContext();
-	const logged_in = React.useMemo(()=>getCookie('logged_in') === 'true',[])
+	const dispatch = useDispatch();
+	const token = useSelector(s=>s.token);
+	
+	React.useEffect(()=>{
+		
+		if(!token.value){
+			dispatch(tokenActions.refresh())
+		}
+		
+	}, [token.value])
 	
 	return useRoutes([
 		{ 
 			path: '/',
-			element: logged_in ? <Home />: <GuardGuest children={<Main />} />,
+			element: token.value ? <Home />: <GuardGuest children={<Main />} />,
 			children: [
 				{index:true, element: <Classes classData={classData} /> },
 				{path: 'h', element: <Classes classData={classData} /> },

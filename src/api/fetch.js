@@ -1,5 +1,9 @@
 import axios from 'axios';
+import store from '../app/store'
+import * as tokenActions from '../features/Token/actions'
 import config from '../config';
+
+import getCookie from '../utils/getCookie';
 
 const baseURL = config.api_host;
 
@@ -43,29 +47,30 @@ fetch.interceptors.response.use(
 		}
 		
 		//validate response
-		if(responseData?.message === 'Token expired'){
+		if(
+			responseData?.message === 'jwt expired'
+			||
+			responseData?.message === "You aren't logged in"
+		){
 			
 			try{
-			
-				const { data: dataRefresh } = await axios.get(`${baseURL}/auth/refresh`, {withCredentials: true});
+				//refresh token
+				await store.dispatch(tokenActions.refresh());
 				
-				if(dataRefresh.error){
-
-					window.location.href = '/error'
-					return res;
+				//get token
+				const { value: token } = store.getState().token;
+				
+				if(!token){
 					
+					window.location.href = '/';
+					return res;
 				}
-				
-				//repeat request
-				return await axios(newConfig)
-				
-				
+					
+				return await axios(newConfig);
+					
 			}catch(err){
 				
-				//set redux state server error 
-				return res;
 			}
-			
 			
 		}else{
 			return res;

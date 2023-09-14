@@ -1,8 +1,23 @@
-import fetch from './fetch'
-import axios from 'axios'
+import fetch from './fetch';
+import axios from 'axios';
+
+import store from '../app/store';
+import * as tokenActions from '../features/Token/actions'
+
+import getCookie from '../utils/getCookie';
 
 export function login(input){
+
 	return fetch.post('/auth/login',input)
+	.then(res=>{
+
+		const login = getCookie('logged_in') === "true";
+		
+		if(login) store.dispatch(tokenActions.add(login))
+		
+		return res
+	})
+	
 }
 export function logout(){
 	

@@ -1,23 +1,27 @@
-import { ADD, REQ_ERROR, REMOVE, COBA } from './constants';
-import reqStatus from '../../utils/req-status'
+import { ADD, REMOVE, COBA } from './constants';
+import reqStatus from '../../utils/req-status';
+import getCookie from '../../utils/getCookie';
 
 const initialState = {
 	status: reqStatus.idle,
-	value: JSON.parse(localStorage.getItem('token'))
+	value: getCookie('logged_in') === "true"
 };
 
 export default function reducer (state = initialState, actions){
 	
 	switch(actions.type){
-		
-		case REQ_ERROR:
-			return { ...state, status: reqStatus.error};
 			
 		case ADD:
-			return { ...state, status: reqStatus.success, value: actions.token};
+		
+			return { value: actions.value};
 			
 		case REMOVE:
-			return { ...state, value: null};
+			
+			const expires = new Date();
+			expires.setDate(expires.getDate() - 1);
+			
+			document.cookie = `logged_in=; expires=${expires}; path=/;`;
+			return { ...state, value: false};
 			
 		case COBA:
 			return { ...state, coba: 'coba'};
