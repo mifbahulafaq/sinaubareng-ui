@@ -1,5 +1,4 @@
 import fetch from './fetch';
-import axios from 'axios';
 
 import store from '../app/store';
 import * as tokenActions from '../features/Token/actions'
@@ -32,8 +31,11 @@ export function logout(){
 export function signup(input){
 	return fetch.post('/auth/register',input);
 }
+export function verify(params){
+	return fetch.get('/auth/verify',{params});
+}
 export function me(){
 	
-	return fetch.get('/auth/me', { params: {ID: 12345}})
+	return fetch.get('/auth/me')
 	
 }

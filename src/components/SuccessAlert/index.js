@@ -8,7 +8,7 @@ function SuccessAlert({ displayed, message }){
 			<div className={style.icon}>
 				<FontAwesomeIcon icon="check" />
 			</div>	
-			<span>You have successfully registered</span>
+			<span>{message}</span>
 			<div
 				onClick={
 					e=>e.currentTarget.parentElement.style.display = 'none'

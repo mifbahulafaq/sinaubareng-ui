@@ -14,6 +14,7 @@ import ErrorPage from '../../pages/ServerError'
 import Input1 from '../Input1';
 import FormControl from '../FormControl';
 import ErrorAlert from '../ErrorAlert';
+import SuccessAlert from '../SuccessAlert';
 import Image from '../Image';
 
 //utils
@@ -59,6 +60,11 @@ export default function LoginForm({ nextRoute }){
 				return;
 			}
 			
+			if(!loginData.token){
+				setError('email',{type: 'unknown', message: loginData.message});
+				setError('password',{type: 'unknown', message: loginData.message});
+				return;
+			}
 			//store token and re-render by state
 			dispatch(addToken())
 			
@@ -100,7 +106,7 @@ export default function LoginForm({ nextRoute }){
 				otherLoignError?.type === "unknown"?
 				<ErrorAlert
 					message={
-						<>{otherLoignError?.message}. <Link to="/"> Forget password </Link></>
+						<>{otherLoignError?.message}</>
 					}
 				/>
 				:
@@ -130,7 +136,7 @@ export default function LoginForm({ nextRoute }){
 					
 					<div className={style.otherInput}>
 						<div className={style.checkbox}>
-							<input id="keep" type="checkbox" />
+							<input {...register('keep')} id="keep" type="checkbox" />
 							<label htmlFor="keep"> Keep me login </label>
 						</div>
 						<Link className={style.forget} to="/"> Forget password </Link>
@@ -145,7 +151,7 @@ export default function LoginForm({ nextRoute }){
 				>Log In</button>
 				
 			</form>
-			<p>Log in with another provider:</p>
+			<p className={style.info} >Log in with another provider:</p>
 			<div className={style.oauthLogin}>
 				<a href={getGoogleUrl(from)} className={style.loginContainer}>
 					<div className={style.img}>

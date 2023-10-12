@@ -6,7 +6,7 @@ import * as val from '../../validation';
 //import { addUser } from '../../features/User/actions';
 
 //components
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Input1 from '../Input1';
 import FormControl from '../FormControl';
 import SuccessAlert from '../SuccessAlert';
@@ -21,8 +21,14 @@ export default function RegisterForm(){
 	
 	const navigate = useNavigate();
 	const [ signupStatus, setSignupStatus] = useState(reqStatus.idle);
-	const { register, setError, watch, handleSubmit, formState: { errors } } = useForm();
+	const { reset, register, setError, watch, handleSubmit, formState } = useForm();
+	const { errors, isSubmitSuccessful } = formState;
 	
+	useEffect(()=>{
+		
+		reset()
+		
+	},[reset, isSubmitSuccessful])
 	
 	async function submit(input){
 		
@@ -31,7 +37,7 @@ export default function RegisterForm(){
 		try{
 			
 			const { data : signupData } = await signup(input);
-			
+			console.log(signupData)
 			if(signupData.error){
 				
 				if(signupData.field){
@@ -65,7 +71,7 @@ export default function RegisterForm(){
 			<SuccessAlert
 				displayed={signupStatus === reqStatus.success ? true : false }
 				message={
-					<> You have successfully registered </>
+					<> An email has been sent. Please check your email address. </>
 				}
 			/>
 			

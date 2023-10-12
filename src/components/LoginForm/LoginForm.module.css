@@ -55,7 +55,7 @@
 	background-color:#78bae2;
 	cursor: default;
 }
-p{
+p.info{
 	margin-top: 20px;
 	margin-bottom: 20px;
 	font-size: 1.1em;

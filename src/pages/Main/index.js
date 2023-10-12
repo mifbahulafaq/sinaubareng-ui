@@ -10,7 +10,7 @@ import MainContent from '../../components/MainContent';
 export default function Main() {
 	
 	const navigate = useNavigate()
-	let [ loginForm, setLoginForm ] = React.useState('')
+	let [ loginForm, setLoginForm ] = React.useState('1')
 	
 	const backgroundImage = "url('images/main.png')";
 	
