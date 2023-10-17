@@ -1,8 +1,8 @@
 import fetch from './fetch';
 
-export function getSingle(user_id){
+export function getSingle(user_id, params){
 	
-	return fetch.get(`/api/users/${user_id}`)
+	return fetch.get(`/api/users/${user_id}`, {params})
 	
 }
 export function update(payload, user_id){

@@ -25,6 +25,7 @@ import Password from './pages/Password';
 import Schedule from './pages/Schedule';
 import Verification from './pages/Verification';
 import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 
 //components
 import GuardGuest from './components/GuardGuest';
@@ -113,6 +114,7 @@ function Element() {
 		},
 		{ path: 'verify', element: <Verification />},
 		{ path: 'forgot-password', element: <ForgotPassword />},
+		{ path: 'reset-password', element: <ResetPassword />},
 		{ path: "*", element: <>PAGE NOT FOUND</>}
 	])
 }

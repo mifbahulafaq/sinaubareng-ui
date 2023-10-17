@@ -139,7 +139,7 @@ export default function LoginForm({ nextRoute }){
 							<input {...register('keep')} id="keep" type="checkbox" />
 							<label htmlFor="keep"> Keep me login </label>
 						</div>
-						<Link className={style.forget} to="/"> Forget password </Link>
+						<Link className={style.forget} to="/forgot-password"> Forget password </Link>
 					</div>
 					
 				</div>

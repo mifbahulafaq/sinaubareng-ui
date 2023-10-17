@@ -31,11 +31,21 @@ export function logout(){
 export function signup(input){
 	return fetch.post('/auth/register',input);
 }
+
 export function verify(params){
 	return fetch.get('/auth/verify',{params});
 }
-export function me(){
+
+export function forgot(email){
+	return fetch.post('/auth/forgot-password',{email});
+}
+
+export function reset(payload, params){
+	return fetch.post('/auth/reset-password',payload, { params });
+}
+
+export function me(params){
 	
-	return fetch.get('/auth/me')
+	return fetch.get('/auth/me', {params})
 	
 }
