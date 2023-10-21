@@ -35,7 +35,7 @@ export default function Verification() {
 			
 			try{
 				const { data: verification } = await authAPI.verify({t: token});
-				console.log(verification)
+				
 				if(!verification.error){
 					
 					setUser(verification.data);

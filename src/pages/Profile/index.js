@@ -39,6 +39,9 @@ export default function Profile() {
 	async function submit(input){
 		
 		const keys = Object.keys(dirtyFields)
+		//console.log(keys)
+		//console.log(input)
+		//return 
 		if(keys.length){
 			
 			let payload = new FormData()
@@ -50,9 +53,10 @@ export default function Profile() {
 				}
 			}
 			
+			//return console.log(payload.get('photo'))
 			try{
 				const { data } = await userApi.update(payload, user.user_id)
-				
+				console.log(data)
 				if(data.error){
 					
 					if(data.field){

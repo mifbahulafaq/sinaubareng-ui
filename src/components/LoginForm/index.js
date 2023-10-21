@@ -61,6 +61,7 @@ export default function LoginForm({ nextRoute }){
 			}
 			
 			if(!loginData.token){
+				console.log(loginData)
 				setError('email',{type: 'unknown', message: loginData.message});
 				setError('password',{type: 'unknown', message: loginData.message});
 				return;

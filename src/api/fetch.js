@@ -21,27 +21,17 @@ fetch.interceptors.response.use(
 			config :{
 				url,
 				method,
-				data: configData,
+				data,
 				withCredentials,
 				params
 			}
 		} = res;
-		
 		//set new request configs
-		const sentData = JSON.parse(configData || '{}');
-		
-		let formData = new FormData();
-		
-		for(let key in sentData){
-		
-			formData.append(key, sentData[key])
-
-		}
 		
 		const newConfig = {
 			method,
 			url: baseURL + url,
-			data: formData,
+			data,
 			params,
 			withCredentials
 		}

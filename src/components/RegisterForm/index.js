@@ -37,7 +37,7 @@ export default function RegisterForm(){
 		try{
 			
 			const { data : signupData } = await signup(input);
-			console.log(signupData)
+			
 			if(signupData.error){
 				
 				if(signupData.field){
