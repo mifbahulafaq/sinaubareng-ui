@@ -1,6 +1,7 @@
 import axios from 'axios';
 import store from '../app/store'
 import * as tokenActions from '../features/Token/actions'
+import * as errorActions from '../features/Error/actions'
 import config from '../config';
 
 import getCookie from '../utils/getCookie';
@@ -21,17 +22,19 @@ fetch.interceptors.response.use(
 			config :{
 				url,
 				method,
-				data,
+				data: dataBody,
 				withCredentials,
 				params
 			}
 		} = res;
 		//set new request configs
 		
+		
+		
 		const newConfig = {
 			method,
 			url: baseURL + url,
-			data,
+			data: typeof(dataBody) === 'string'? JSON.parse(dataBody): dataBody,
 			params,
 			withCredentials
 		}
@@ -55,17 +58,21 @@ fetch.interceptors.response.use(
 					window.location.href = '/';
 					return res;
 				}
-					
+					console.log(newConfig)
 				return await axios(newConfig);
 					
 			}catch(err){
-				
+				store.dispatch(errorActions.add())
 			}
 			
 		}else{
 			return res;
 		}
 		
+	}, function(error){
+		
+		store.dispatch(errorActions.add())
+		return Promise.reject(error)
 	}
 
 )

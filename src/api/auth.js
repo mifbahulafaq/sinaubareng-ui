@@ -9,10 +9,8 @@ export function login(input){
 
 	return fetch.post('/auth/login',input)
 	.then(res=>{
-
-		const login = getCookie('logged_in') === "true";
 		
-		if(login) store.dispatch(tokenActions.add(login))
+		if(login) store.dispatch(tokenActions.reqSuccess())
 		
 		return res
 	})

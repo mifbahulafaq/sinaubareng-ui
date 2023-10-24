@@ -27,8 +27,8 @@ export default function ContextProvider({children}){
 			classData, 
 			setClassData, 
 			iconBar, 
-			setIconBar}
-		}>
+			setIconBar,
+		}}>
 		{children}
 	</ContextData.Provider>
 }

@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
+/*font-family: 'Open Sans', sans-serif;*/
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
+/*font-family: 'Fira Code', monospace;*/
+.container{
+	font-family: 'Open Sans', sans-serif;
+	padding-top: 60px;
+}
+.container > *{
+	margin: auto;
+}
+.img{
+	width: 200px;
+}
+.title{
+	margin-top: 15px;
+	font-size: 24px;
+	text-align: center;
+	color: #949494;
+}
+.title span{
+	color: #2986cc;
+	font-size: 2em;
+}
+.info{
+	margin-top: 15px;
+	color: #393939;
+	width: 350px;
+	text-align: center;
+	line-height: 1.5;
+}
+.btn{
+	margin-top: 20px;
+	padding: 8px 0;
+	background: #2986cc;
+	text-decoration: none;
+	text-align: center;
+	display: block;
+	width: 60px;
+	color: #fff;
+	font-weight: 600;
+	transition: 0.1s;
+}
+.btn:hover{
+	background: #4595d2;
+}

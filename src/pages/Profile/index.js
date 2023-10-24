@@ -16,6 +16,8 @@ import FormControl from '../../components/FormControl'
 import ModalContainer from '../../components/ModalContainer'
 import SuccessAlert2 from '../../components/SuccessAlert2'
 
+import toFormData from '../../utils/toFormData';
+
 export default function Profile() {
 	
 	const { reset, register, setError, handleSubmit, formState, clearErrors } = useForm({reValidateMode: "onSubmit"})
@@ -39,23 +41,20 @@ export default function Profile() {
 	async function submit(input){
 		
 		const keys = Object.keys(dirtyFields)
-		//console.log(keys)
-		//console.log(input)
-		//return 
+		let payload = {...dirtyFields};
+		
 		if(keys.length){
 			
-			let payload = new FormData()
-			input.photo = input.photo?.[0]
+			input.photo = input.photo?.[0];
 			
-			for (let key in input){
-				if(dirtyFields[key]){
-					payload.append(key, input[key])
-				}
-			}
+			keys.forEach(key=>{
+				payload[key] = input[key]
+			})
 			
-			//return console.log(payload.get('photo'))
+			let formData = toFormData(payload);
+			
 			try{
-				const { data } = await userApi.update(payload, user.user_id)
+				const { data } = await userApi.update(formData, user.user_id)
 				console.log(data)
 				if(data.error){
 					

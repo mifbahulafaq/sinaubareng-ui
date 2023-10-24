@@ -5,12 +5,10 @@ import { getSingle } from '../../api/user'
 
 export function add(user_id){
 	
-	
 	return async function(dispatch, getState){
 		
 		try{
 			const { data } = await getSingle(user_id)
-			
 			if(data.error) return dispatch(reqError())
 				
 			dispatch(reqSuccess(data))

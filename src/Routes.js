@@ -26,6 +26,8 @@ import Schedule from './pages/Schedule';
 import Verification from './pages/Verification';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import ErrorServerHandler from './pages/ErrorServerHandler';
+import PageNotFound from './pages/PageNotFound';
 
 //components
 import GuardGuest from './components/GuardGuest';
@@ -50,7 +52,7 @@ function Element() {
 	return useRoutes([
 		{ 
 			path: '/',
-			element: token.value ? <Home />: <GuardGuest children={<Main />} />,
+			element: token.value ? <ErrorServerHandler children={<Home />} />: <ErrorServerHandler children={<GuardGuest children={<Main />} />} />,
 			children: [
 				{index:true, element: <Classes classData={classData} /> },
 				{path: 'h', element: <Classes classData={classData} /> },
@@ -112,10 +114,10 @@ function Element() {
 				{ path: 'logout', element: <Logout />},
 			]
 		},
-		{ path: 'verify', element: <Verification />},
-		{ path: 'forgot-password', element: <ForgotPassword />},
-		{ path: 'reset-password', element: <ResetPassword />},
-		{ path: "*", element: <>PAGE NOT FOUND</>}
+		{ path: 'verify', element: <ErrorServerHandler children={<Verification />} /> },
+		{ path: 'forgot-password', element: <ErrorServerHandler children={<ForgotPassword />} />},
+		{ path: 'reset-password', element: <ErrorServerHandler children={<ResetPassword />} />},
+		{ path: "*", element: <PageNotFound />}
 	])
 }
 

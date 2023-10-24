@@ -14,10 +14,11 @@ export default function (state = initialState, actions){
 			return { ...state, status: reqStatus.error};
 			
 		case REQ_SUCCESS:
+		
 			return { ...state, status: reqStatus.success, data: actions.data};
 			
 		case REMOVE:
-			return { ...state, data: {}};
+			return { ...state, data: {}, status: reqStatus.idle};
 			
 		default:
 			return state;

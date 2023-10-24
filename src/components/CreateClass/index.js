@@ -17,6 +17,7 @@ import { insertSchedules } from '../../api/schedule';
 //utils 
 import reqStatus from '../../utils/req-status';
 import days from '../../utils/days'
+import toFormData from '../../utils/toFormData'
 
 //hooks
 import useRefreshClass from '../../hooks/useRefreshClass';
@@ -57,6 +58,9 @@ export default React.memo(function CreateClass({ setModal, modal }){
 		}
 		
 		try{
+			
+			let formData = toFormData({class_name, color, description: description || undefined})
+			//const { data : resultClass} = await createClass(formData);
 			
 			const { data : resultClass} = await createClass({class_name, color, description: description || undefined});
 			if(resultClass.error){

@@ -1,9 +1,8 @@
 import axios from 'axios'
 import config from '../../config';
-
-import { REQ_ERROR, ADD, REMOVE, COBA } from './constants';
-
+import { REQ_ERROR, REQ_SUCCESS, REMOVE, COBA } from './constants';
 import getCookie from '../../utils/getCookie';
+
 
 export function remove(){
 	
@@ -17,12 +16,12 @@ export function reqError(){
 		type: REQ_ERROR
 	}
 }
-export function add(){
+export function reqSuccess(){
 	
 	const login = getCookie('logged_in') === 'true';
 	
 	return {
-		type: ADD,
+		type: REQ_SUCCESS,
 		value: login
 	}
 }
@@ -35,14 +34,14 @@ export function refresh(){
 			const { data: dataRefresh } = await axios.get(`${config.api_host}/auth/refresh`, {withCredentials: true});
 				
 			if(dataRefresh.error){
-				dispatch(remove());
+				dispatch(reqError());
 			}else{
-				dispatch(add());
+				dispatch(reqSuccess());
 			}
 			
 		}catch(err){
 			//error server
-			console.log(err)
+			dispatch(reqError());
 		}
 		
 	}

@@ -5,8 +5,6 @@ import { HashRouter, useNavigate } from 'react-router-dom';
 import Routes from './Routes';
 import Context from './Context';
 
-import * as authApi from '../src/api/auth'
-
 //icons
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faArrowRightLong, faGear, faSignOut, faExclamation, faUserFriends, faUserPlus, faRepeat, faArrowUpFromBracket, faArrowUp, faMessage, faClipboardQuestion, faComments, faPencil, faPaperPlane, faCirclePlus, faWarning, faXmark, faPlus, faUsers, faCircleExclamation, faBan, faCheck, faBars, faLandmark, faClipboardList, faTableList, faEllipsisVertical, faBookReader, faFileDownload, faExternalLink, faEnvelope, faEnvelopeCircleCheck, faCircleUser, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';

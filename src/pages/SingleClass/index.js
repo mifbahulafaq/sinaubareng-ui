@@ -185,7 +185,13 @@ export default React.memo(function SingleClass(props) {
 			text: textInput
 		}
 		
-		const { data } = await classDiscuss.add(payload);
+		let formData = new FormData();
+			
+		for (let key in payload){
+			formData.append(key, payload[key])
+		}
+		
+		const { data } = await classDiscuss.add(formData);
 		
 		if(data.error) {
 			console.log(data)

@@ -23,10 +23,10 @@ export default function Home() {
 	const dispatch = useDispatch()
 	
 	useEffect(()=>{
-		
+
 		me()
 		.then(({ data: meData })=>{
-				
+			
 			dispatch(userActions.add(meData.user_id));
 			setClasses();
 			
