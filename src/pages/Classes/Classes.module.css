@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&display=swap');
 .container{
 	padding:20px;
 }
@@ -63,8 +62,64 @@
 	background: rgba(232, 232, 232, 0.5);
 }
 .container .content{
+	position: relative;
 	display:grid;
 	justify-content: start;
 	gap: 30px;
-	
+}
+.container .content .nodata{
+	position: absolute;
+	top: 50px;
+	left: 50%;
+	transform: translate( -50%, 0);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.nodata .img{
+	position: relative;
+	width: 150px;
+}
+.nodata .img .attr{
+	top: 0;
+	bottom: 0;
+	right: 0;
+	text-align: center;
+	writing-mode: vertical-rl;
+	font-size: 0.8em;
+	color: #777;
+	text-decoration: none;
+	position: absolute;
+}
+.nodata .info{
+	color: #3c4043;
+	text-align: center;
+	font-weight: 600;
+}
+.nodata .btn{
+	display: flex;
+	justify-content: space-between;
+	width: 260px;
+	margin-top: 10px;
+}
+.nodata .btn .add, .nodata .btn .join{
+	cursor: pointer;
+	font-weight: 600;
+	border-radius: 1em;
+	line-height: 2.1;
+	width: 48%;
+	text-align: center;
+}
+.nodata .btn .add{
+	margin-right: 20px;
+	color: #fff;
+	background: #098DDF;
+	transition: 0.2s;
+}
+.nodata .btn .add:hover{
+	background: rgba(39, 153, 245, 0.9);
+}
+.nodata .btn .join{
+	color: #098DDF;
+	border: solid 1px #098DDF;
 }

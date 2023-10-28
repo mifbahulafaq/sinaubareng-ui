@@ -2,14 +2,29 @@ import React from 'react';
 import style from './AllAssignment.module.css';
 import { Link } from 'react-router-dom'
 import { assignmentFilter } from '../../reducers'
+import imgNodata from './book.jpg';
 
 //components
-import Pagination from '../../components/Pagination'
+import Pagination from '../../components/Pagination';
+import ImageWithAttribute from '../../components/ImageWithAttribute';
 //apis
 import * as assApi from '../../api/matt-ass'
 import * as classStudentApi from '../../api/class-student'
 //utils
 import formateDate from '../../utils/id-format-date'
+
+function NoData(){
+	return <div className={style.noData}>
+		<ImageWithAttribute 
+			height= "90px"
+			attrRight={"-15px"}
+			imgSrc={imgNodata}
+			attrHref="https://www.vecteezy.com/free-vector/book"
+			attrText="img by Vecteezy"
+		/>
+		<p className={style.info} >Have no assigments</p>
+	</div>
+}
 
 export default function AllAssignment() {
 	
@@ -80,7 +95,7 @@ export default function AllAssignment() {
 			<div className={style.assignments}>
 			
 				{
-					assignmentDatas.data.length?"":<p>No Data</p>
+					assignmentDatas.data.length?"":<NoData />
 				}
 				{
 					assignmentDatas.data.map((e,i)=>{

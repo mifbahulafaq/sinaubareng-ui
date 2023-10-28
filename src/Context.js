@@ -14,6 +14,7 @@ export default function ContextProvider({children}){
 	const [ iconBar, setIconBar ] = useState(false);
 	const [ classData, setClassData ] = useState({
 		data: {},
+		count: 0,
 		status: statusList.idle
 	})
 	const [ user, dispatch ] = useReducer(userReducer, {});

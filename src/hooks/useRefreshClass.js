@@ -26,6 +26,7 @@ export default function useRefreshClass(){
 			
 			setClassData({
 				status: statusList.success,
+				count: dataClasses.data.length + dataClassStudents.data.length,
 				data: {
 					created_classes: dataClasses.data,
 					joined_classes: dataClassStudents.data

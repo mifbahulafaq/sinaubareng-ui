@@ -2,18 +2,33 @@ import React from 'react';
 import style from './GivenAssignment.module.css';
 import { Link } from 'react-router-dom'
 import { assignmentFilter } from '../../reducers'
+import nodataImg from './2958290.jpg';
 
 //components
 import Pagination from '../../components/Pagination'
+import ImageWithAttribute from '../../components/ImageWithAttribute';
 //apis
 import * as assApi from '../../api/matt-ass'
-import * as classStudentApi from '../../api/class-student'
+import * as classApi from '../../api/class'
 //utils
 import formateDate from '../../utils/id-format-date'
 
+function NoData(){
+	return <div className={style.noData}>
+		<ImageWithAttribute 
+			height= "220px"
+			attrRight={"-5px"}
+			imgSrc={nodataImg}
+			attrHref="https://www.freepik.com/free-vector/transfer-files-concept-landing-page_5632211.htm#query=file%20sent&position=6&from_view=search&track=ais"
+			attrText="Image by Freepik"
+		/>
+		<p className={style.info} >Have no assigments</p>
+	</div>
+}
+
 export default function GivenAssignment() {
 	
-	const [ classStudentData, setClassStudentData ] = React.useState([])
+	const [ classData, setClassData ] = React.useState([])
 	const [ assignmentDatas, setAssignmentDatas ] = React.useState({data: [], rowCount: 0})
 	const [ className, setClassName ] = React.useState('Semua Kelas')
 	const [ filterAssignment, dispatch ] = React.useReducer(assignmentFilter, {
@@ -22,20 +37,20 @@ export default function GivenAssignment() {
 		skip: 0,
 		limit: 4
 	})
-	
+	console.log(filterAssignment)
 	React.useEffect(()=>{
 		
-		Promise.all([assApi.getAll(filterAssignment), classStudentApi.getAll()])
-		.then(([ { data: assData }, { data: classStudentData }])=>{
+		Promise.all([assApi.getAll(filterAssignment), classApi.getAll()])
+		.then(([ { data: assData }, { data: classData }])=>{
 			
-			if(assData.error || classStudentData.error ) {
+			if(assData.error || classData.error ) {
 					
 				console.log(assData)
-				console.log(classStudentData)
+				console.log(classData)
 				return
 			}
 			setAssignmentDatas(assData)
-			setClassStudentData(classStudentData.data)
+			setClassData(classData.data)
 		})
 		.catch(err=>console.log(err))
 	},[filterAssignment])
@@ -62,7 +77,7 @@ export default function GivenAssignment() {
 				<ul className={`${style.option} option`}>
 					<li onClick={()=>clickClass('Semua Kelas', '')}>Semua Kelas</li>
 					{
-						classStudentData.map((e,i)=><li key={i} onClick={()=>clickClass(e.class_name,e.code_class)}>{e.class_name}</li>)
+						classData.map((e,i)=><li key={i} onClick={()=>clickClass(e.class_name,e.code_class)}>{e.class_name}</li>)
 					}
 				</ul>
 			</div>
@@ -71,11 +86,12 @@ export default function GivenAssignment() {
 		<div className={style.content}>
 			<div className={style.assignments}>
 				{
-					assignmentDatas.data.length?"":<p>No Data</p>
+					([]).length?"":<NoData />
+					//assignmentDatas.data.length?"":<p>No Data</p>
 				}
 				{
-					assignmentDatas.data.map((e,i)=>{
-						
+					//assignmentDatas.data.map((e,i)=>{
+					([]).map((e,i)=>{
 						const status = filterAssignment.status
 						const dateToTime = (new Date(e.date)).getTime()
 						const durationToTime =  (new Date(e.date)).getTime() + e.duration
