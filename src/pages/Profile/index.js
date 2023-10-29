@@ -17,6 +17,7 @@ import ModalContainer from '../../components/ModalContainer'
 import SuccessAlert2 from '../../components/SuccessAlert2'
 
 import toFormData from '../../utils/toFormData';
+import getPhotoPath from '../../utils/getPhotoPath';
 
 export default function Profile() {
 	
@@ -33,7 +34,7 @@ export default function Profile() {
 		
 		reset(remainder)
 		if(user.photo){
-			setImgSrc(`${config.api_host}/public/photo/${user.photo}`)
+			setImgSrc(getPhotoPath(user.photo))
 		}
 		
 	}, [reset ,user, isSubmitSuccessful])

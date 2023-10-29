@@ -14,14 +14,13 @@ import ModalContainer from '../../components/ModalContainer';
 //utils
 import strLimit from '../../utils/strLimit';
 import uppercase from '../../utils/uppercase';
+import getPhotoPath from '../../utils/getPhotoPath';
 
 export default memo(function ClassCard({classStudentData}){
 	
-	const [ modal, setModal ] = useState(false)
-	const tphoto = classStudentData.tphoto
-	const setClasses = useRefreshClass()
-	
-	
+	const [ modal, setModal ] = useState(false);
+	const tphoto =  getPhotoPath(classStudentData.tphoto);
+	const setClasses = useRefreshClass();
 	
 	async function unenrol(){
 		
@@ -45,7 +44,7 @@ export default memo(function ClassCard({classStudentData}){
 			<div className={style.container}>
 				<div style={{background: classStudentData.color}} className={style.user}>
 					<div className={style.image}>
-						<Image src={`${tphoto? config.api_host+"/public/photo/"+tphoto: "images/user.png"}`} />
+						<Image src={tphoto} />
 					</div>
 					<span>{uppercase(strLimit(classStudentData.tname,0,15),0)}</span>
 				</div>

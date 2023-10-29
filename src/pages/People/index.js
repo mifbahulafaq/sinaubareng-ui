@@ -16,6 +16,8 @@ import * as studentApi from '../../api/class-student'
 //utils
 import uppercase from '../../utils/uppercase'
 import reqStatus from '../../utils/req-status'
+import getPhotoPath from '../../utils/getPhotoPath'
+
 import useIsTeacher from '../../hooks/useIsTeacher'
 
 
@@ -135,7 +137,7 @@ export default React.memo(function People(){
 		<div className={style.people}>
 			<div className={style.teacher}>
 				<div className={style.photo}>
-					<Image src={teacherData?.photo? `${config.api_host}/public/photo/${teacherData.photo}`: "images/user.png"} />
+					<Image src={getPhotoPath(teacherData.photo)} />
 				</div>
 				<div className={style.detail}>
 					<p>{uppercase(teacherData?.username, 0)}</p>
@@ -156,7 +158,7 @@ export default React.memo(function People(){
 						
 						return <div key={i} className={style.singleStudent}>
 							<div className={style.photo}>
-								<Image src={e.photo? `${config.api_host}/public/photo/${e.photo}`: "images/user.png"} />
+								<Image src={getPhotoPath(e.photo)} />
 							</div>
 							<p>{uppercase(e.name, 0)}</p>
 						</div>

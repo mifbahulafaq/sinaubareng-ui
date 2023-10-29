@@ -37,12 +37,12 @@ export default function GivenAssignment() {
 		skip: 0,
 		limit: 4
 	})
-	console.log(filterAssignment)
+	
 	React.useEffect(()=>{
 		
 		Promise.all([assApi.getAll(filterAssignment), classApi.getAll()])
 		.then(([ { data: assData }, { data: classData }])=>{
-			
+			console.log(assData)
 			if(assData.error || classData.error ) {
 					
 				console.log(assData)
@@ -68,7 +68,7 @@ export default function GivenAssignment() {
 	function filterNav(value){
 		return filterAssignment.status === value? style.active: ""
 	}
-	
+	console.log(assignmentDatas)
   return (
 	<div className={style.container}>
 		<div className={style.menuContainer}>
@@ -86,18 +86,17 @@ export default function GivenAssignment() {
 		<div className={style.content}>
 			<div className={style.assignments}>
 				{
-					([]).length?"":<NoData />
-					//assignmentDatas.data.length?"":<p>No Data</p>
+					
+					assignmentDatas.data.length?"":<NoData />
 				}
 				{
-					//assignmentDatas.data.map((e,i)=>{
-					([]).map((e,i)=>{
+					assignmentDatas.data.map((e,i)=>{
 						const status = filterAssignment.status
 						const dateToTime = (new Date(e.date)).getTime()
 						const durationToTime =  (new Date(e.date)).getTime() + e.duration
 						
 						return <div key={i} className={style.singleAssignment} >
-							<Link to={`../c/${e.class.code_class}/m/${e.matter.id_matt}/assignment/${e.matter.id_matt_ass}`} className={style.leftDetail}>
+							<Link to={`../c/${e.class.code_class}/m/${e.matter.id_matter}/assignment/${e.id_matt_ass}`} className={style.leftDetail}>
 								<p className={style.created}>Dibuat <span>{formateDate(e.date, "id-ID", {weekday: 'long', month: 'short', day: '2-digit', year: 'numeric'})}</span></p>
 								<div className={style.midDetail}>
 									<p className={style.title}>{e.title}</p>
@@ -105,7 +104,7 @@ export default function GivenAssignment() {
 								</div>
 							</Link>
 							<div className={style.rightDetail}>
-								<Link to="#" className={style.ansAmount}><span>10</span> Jawaban</Link>
+								<Link to="#" className={style.ansAmount}><span>{e.total_answers}</span> Jawaban</Link>
 								<p className={style.deadline}>
 									Tenggat:&nbsp;
 									{dateToTime === durationToTime? " -": formateDate(durationToTime, "id-ID", {dateStyle: "medium", timeStyle: "short"})}

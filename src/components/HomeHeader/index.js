@@ -12,12 +12,12 @@ import Image from '../Image';
 
 //utils
 import uppercase from '../../utils/uppercase'
+import getPhotoPath from '../../utils/getPhotoPath'
 
 export default memo(function HomeHeader(){
 	
 	const { setIconBar, iconBar } = useContext();
 	const user = useSelector(s=>s.user)
-	const photo =  user.data.photo? user.data.photo.includes('http')? user.data.photo: `${config.api_host}/public/photo/${user.data.photo}`: 'images/user.png';
 	const navigate = useNavigate()
 	
 	function clickIcon(e){
@@ -33,12 +33,12 @@ export default memo(function HomeHeader(){
 			</div>
 			<ul className={style.user}>
 				<div className={`${style.userImage} setOption`}>
-					<Image src={photo} />
+					<Image src={getPhotoPath(user.data.photo)} />
 				</div>
 				<div className={`${style.profilDropdown} option`}>
 					<div className={style.detail}>
 						<div className={style.userImage2}>
-							<Image src={photo}/>
+							<Image src={getPhotoPath(user.data.photo)}/>
 						</div>
 						<div className={style.text}>
 							<p className={style.name}>{user.data.name? uppercase(user.data.name, 0): ""}</p>

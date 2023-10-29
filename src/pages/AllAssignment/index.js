@@ -104,7 +104,7 @@ export default function AllAssignment() {
 						const dateToTime = (new Date(e.date)).getTime()
 						const durationToTime =  (new Date(e.date)).getTime() + e.duration
 						
-						return <Link to={`../c/${e.class.code_class}/m/${e.matter.id_matt}/assignment/${e.matter.id_matt_ass}`} key={i} className={`${style.singleAssignment} ${style[status]}`}>
+						return <Link to={`../c/${e.class.code_class}/m/${e.matter.id_matter}/assignment/${e.id_matt_ass}`} key={i} className={`${style.singleAssignment} ${style[status]}`}>
 							<p className={style.created}>Dibuat <span>{formateDate(e.date, "id-ID", {weekday: 'long', month: 'short', day: '2-digit', year: 'numeric'})}</span></p>
 							<div className={style.detail}>
 								<p className={style.title}>{e.title}</p>
