@@ -50,7 +50,7 @@ export default memo(function ClassCard({classStudentData}){
 				</div>
 				<div className={style.class}>
 					<div className={style.detail}>
-						<Link to={"c/"+classStudentData.code_class}><h3>{classStudentData.class_name}</h3></Link>
+						<Link to={"/c/"+classStudentData.code_class}><h3>{classStudentData.class_name}</h3></Link>
 						<p>{uppercase(strLimit(classStudentData.description,0,120),0)}</p>
 					</div>
 					<div className={style.btn}>

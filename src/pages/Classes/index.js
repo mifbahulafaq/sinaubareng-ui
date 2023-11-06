@@ -37,13 +37,13 @@ function Classes({ classData, iconBar }) {
 		</ModalContainer>
 		<ul className={style.menu}>
 			<li>
-				<Link to="../../assign" >
+				<Link to="/given-assignment" >
 					<FontAwesomeIcon icon="clipboard-list" />
 					<span>Tugas Diberikan</span>
 				</Link>
 			</li>
 			<li>
-				<Link to="../../assignment" >
+				<Link to="/assignment" >
 					<FontAwesomeIcon icon="table-list" />
 					<span>Tugas Diterima</span>
 				</Link>

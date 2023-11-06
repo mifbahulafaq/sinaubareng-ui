@@ -23,13 +23,13 @@ function HomeSidebar({ classData, iconBar }){
 					</NavLink>
 				</li>
 				<li>
-					<NavLink to="unread-assignment" className={classActive} >
+					<NavLink to="/given-assignment" className={classActive} >
 						<FontAwesomeIcon icon="clipboard-list" />
-						<div className={style.navName}>Perlu Diperikas</div>
+						<div className={style.navName}>Tugas Diberikan</div>
 					</NavLink>
 				</li>
 				<li>
-					<NavLink to="assignment" className={classActive} >
+					<NavLink to="/assignment" className={classActive} >
 						<FontAwesomeIcon icon="table-list" />
 						<div className={style.navName}>Semua Tugas</div>
 					</NavLink>

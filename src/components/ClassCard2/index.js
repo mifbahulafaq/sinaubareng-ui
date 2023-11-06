@@ -11,7 +11,7 @@ export default memo(function ClassCard2({classData}){
 	return (
 		<div style={{borderTop: `3px solid ${classData.color}`}} className={style.container}>
 			<div className={style.detail}>
-				<Link to={"c/"+classData.code_class}><h3>{strLimit(classData.class_name,0,13)}</h3></Link>
+				<Link to={"/c/"+classData.code_class}><h3>{strLimit(classData.class_name,0,13)}</h3></Link>
 				<div className={style.desc} >{strLimit(classData.description,0,120)}</div>
 			</div>
 			<div className={style.btn}>

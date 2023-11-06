@@ -4,6 +4,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext } from '../../Context'
 import { useSelector } from 'react-redux'
+import classImage from './class.png';
 
 //APIs
 import * as classDiscuss from '../../api/class-discussion';
@@ -16,6 +17,7 @@ import * as fetchSchedule from '../../api/schedule';
 import Image from '../../components/Image';
 import SingleClassCard from '../../components/SingleClassCard';
 import ModalContainer from '../../components/ModalContainer';
+import ImageWithAttribute from '../../components/ImageWithAttribute'
 
 //pages
 import ServerError from '../../pages/ServerError'
@@ -47,6 +49,7 @@ export default React.memo(function SingleClass(props) {
 	});
 	
 	const textDay = useDay(scheduleData)
+	console.log(textDay)
 	const textDateTime = React.useMemo(()=>{
 		
 		if(scheduleData){
@@ -89,7 +92,7 @@ export default React.memo(function SingleClass(props) {
 			
 			fetchSchedule.getSchedules(params.code_class, filterSchedule)
 			.then( async ({ data: result})=>{
-				
+				console.log(result)
 				if(result.error) return console.log(result.error)
 				if(result.data.length){
 					
@@ -110,6 +113,7 @@ export default React.memo(function SingleClass(props) {
 						const { data : matter} = await fetchMatter.getAll(params.code_class, {schedule: scheduleResult })
 						
 						if(matter.error) return console.log(matter.error)
+							console.log(matter)
 						if(matter.data.length){
 							
 							let schedule =  new Date(matter.data[0].schedule)

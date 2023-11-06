@@ -109,7 +109,7 @@ function Element() {
 						}
 					]
 				},
-				{ path: 'assign', element: <GivenAssignment />},
+				{ path: 'given-assignment', element: <GivenAssignment />},
 				{ path: 'assignment', element: <AllAssignment />},
 				{ path: 'logout', element: <Logout />},
 			]
