@@ -79,7 +79,6 @@ export default React.memo(function SingleClass(props) {
 	React.useEffect(()=>{
 
 		if(isTeacher){
-			
 			const searchDay = searchDate.getDay()
 			const searchMS= searchDate.getTime()
 			const timeToSearch = searchDate.toLocaleString('en-GB', {timeStyle: 'medium'})
