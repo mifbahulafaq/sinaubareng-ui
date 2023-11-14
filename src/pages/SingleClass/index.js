@@ -36,12 +36,11 @@ export default React.memo(function SingleClass(props) {
 	const setClasses = useRefreshClass()
 	const params = useParams();
 	const user = useSelector(s=>s.user)
-	const [ error, setError ] = React.useState(null)
 	const { singleClass, scheduleClass, setScheduleClass } = useContext()
 	const isTeacher = useIsTeacher(singleClass.teacher)
 	const [ discussData, setDiscussData ] = React.useState([]);
 	const [ scheduleData, setScheduleData ] = React.useState(null);
-	const [ searchDate, setSearchDate ] = React.useState(new Date())
+	const [ time, setTime ] = React.useState(new Date())
 	const [ modal, setModal ] = React.useState(false)
 	const [ examMatter, setExamMatter ] = React.useState({
 		matter: {},
@@ -49,7 +48,7 @@ export default React.memo(function SingleClass(props) {
 	});
 	
 	const textDay = useDay(scheduleData)
-	console.log(textDay)
+	
 	const textDateTime = React.useMemo(()=>{
 		
 		if(scheduleData){
@@ -70,69 +69,71 @@ export default React.memo(function SingleClass(props) {
 		const { data } = await classDiscuss.getAll(params.code_class);
 		if(data.error){
 			console.log(data)
-			return setError(data)
 		}
 		setDiscussData(data.data);
 	
 	},[params.code_class])
 	
+	//start scheduling
 	React.useEffect(()=>{
-
-		if(isTeacher){
-			const searchDay = searchDate.getDay()
-			const searchMS= searchDate.getTime()
-			const timeToSearch = searchDate.toLocaleString('en-GB', {timeStyle: 'medium'})
-			const filterSchedule = {
-				latest: 1,
-				day: searchDay, 
-				time: timeToSearch,
-				limit: 1
-			}
-			
-			fetchSchedule.getSchedules(params.code_class, filterSchedule)
-			.then( async ({ data: result})=>{
-				console.log(result)
-				if(result.error) return console.log(result.error)
-				if(result.data.length){
-					
-					let scheduleResult = result.data[0]
-					const { day, time } = scheduleResult
-						
-					let dayOfSchedule = parseInt(day)
-					const oneDay = 86400000
-						
-					//set day
-					dayOfSchedule = dayOfSchedule < searchDay? dayOfSchedule + 7: dayOfSchedule
-					scheduleResult = new Date(searchMS + (oneDay * (dayOfSchedule - searchDay)))
-					//add time
-					scheduleResult = formatDate(scheduleResult, "en-CA", {dateStyle: "short"}) + " " + time
-					
-					try{
-						
-						const { data : matter} = await fetchMatter.getAll(params.code_class, {schedule: scheduleResult })
-						
-						if(matter.error) return console.log(matter.error)
-							console.log(matter)
-						if(matter.data.length){
-							
-							let schedule =  new Date(matter.data[0].schedule)
-							schedule = new Date(schedule.getTime() + 1000)
-							setSearchDate(schedule)
-							
-						}
-						
-						setScheduleData(scheduleResult)
-						
-					}catch(err){
-						console.log(err)
-					}
-					
-					
-				}
-			})
-		}
 		
-	}, [scheduleData, searchDate, isTeacher, scheduleClass, params.code_class])
+		//craete 2 days
+		const timeStart = new Date();
+		const timeLimit = new Date(timeStart);
+		timeLimit.setDate(timeLimit.getDate() + 1);
+		timeLimit.setHours(23, 59, 59);
+		
+		const scheduleFilter = {
+			timeStart,
+			timeLimit,
+			order_type: 'asc',
+			latest: 1
+		}
+		//get schedule datas by 2 days
+		fetchSchedule.getSchedules(params.code_class, scheduleFilter)
+		.then( async ({ data: result })=>{
+			
+			const scheduleDatas = result.data;
+			
+			for(let i = 0; i < scheduleDatas.length; i++){
+				
+				const schedule = scheduleDatas[i];
+				
+				const dayOfSchedule = schedule.day;
+				const timeOfSchedule = schedule.time;
+				
+				const date = new Date(timeStart);
+				const dayOfDate = date.getDay();
+				
+				const range = dayOfDate > dayOfSchedule? dayOfSchedule + 7 - dayOfDate: dayOfSchedule - dayOfDate;
+				
+				date.setDate(date.getDate() + range);
+				
+				const matterFilter = {
+					schedule : formatDate(date, "en-CA", {dateStyle: "short"}) + " " + timeOfSchedule
+				}
+				
+				try{
+				
+					const { data: matterResult } = await fetchMatter.getAll(params.code_class, matterFilter);
+					
+					if(!matterResult.data.length){
+							
+						setScheduleData(matterFilter.schedule);
+						break;
+					}
+				}catch(err){
+					console.log(err)
+				}
+			}
+		
+		})
+		.catch(err=>console.log(err))
+		
+	}, [params.code_class ])
+	
+	//end scheduling
+	
 	React.useEffect(()=>{
 		
 		fetchDiscuss();
@@ -143,12 +144,10 @@ export default React.memo(function SingleClass(props) {
 		.then(([{ data: examResult }, { data: matterResult } ])=>{
 			if(examResult.error){
 				console.log(examResult)
-				setError(examResult)
 				return ;
 			}
 			if(matterResult.error){
 				console.log(matterResult)
-				setError(matterResult)
 				return ;
 			}
 			
@@ -159,7 +158,6 @@ export default React.memo(function SingleClass(props) {
 		})
 		.catch(err=>{
 			console.log(err)
-			setError(err)
 		})
 		
 		
@@ -198,7 +196,6 @@ export default React.memo(function SingleClass(props) {
 		
 		if(data.error) {
 			console.log(data)
-			return setError(data);
 		}
 		fetchDiscuss();
 		textInputElement.current.innerHTML = ""
@@ -228,41 +225,40 @@ export default React.memo(function SingleClass(props) {
 			console.log(err)
 		}
 	}
-	if(error) return <ServerError />
 	
   return (
 	<div className={style.container}>
 	
 		{
 			isTeacher ?
-				textDay > 0?
-			<div className={style.scheduleContainer}>
-			
-				<p className={style.info}>
-					Materi Pada Jadwal:
-					<span> {dayDesc[textDay]}, {textDateTime}</span>  belum dibuat
-				</p>
-				<div className={style.nav}>
-					<Link 
-						to="m"
-						className={style.add} 
-						state={{
-							schedule: scheduleData
-						}} 
-					>
-						Buat Materi
-					</Link>
-					<Link className={style.scheduleNav} to="s">
-						<p>Lihat Semua Jadwal </p>
-						<FontAwesomeIcon icon="arrow-right-long" />
-					</Link>
-				</div>
-				<div 
-					className={style.hiding} 
-					onClick={e=>{
-						e.currentTarget.parentElement.classList.toggle(style.off)
-					}}/>
-			</div>
+				scheduleData?
+					<div className={style.scheduleContainer}>
+					
+						<p className={style.info}>
+							Materi Pada Jadwal:
+							<span> {dayDesc[textDay]}, {textDateTime}</span>  belum dibuat
+						</p>
+						<div className={style.nav}>
+							<Link 
+								to="m"
+								className={style.add} 
+								state={{
+									schedule: scheduleData
+								}} 
+							>
+								Buat Materi
+							</Link>
+							<Link className={style.scheduleNav} to="s">
+								<p>Lihat Semua Jadwal </p>
+								<FontAwesomeIcon icon="arrow-right-long" />
+							</Link>
+						</div>
+						<div 
+							className={style.hiding} 
+							onClick={e=>{
+								e.currentTarget.parentElement.classList.toggle(style.off)
+							}}/>
+					</div>
 				:""
 			:""
 		}

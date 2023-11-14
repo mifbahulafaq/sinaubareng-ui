@@ -1,5 +1,6 @@
 import React from 'react';
 
+//this hook is to get the index of ["Kemarin", "Hari ini", "Besok"]
 export default function useDay(tempSchedule){
 
 	return React.useMemo(()=>{
