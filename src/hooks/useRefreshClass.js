@@ -12,16 +12,29 @@ export default function useRefreshClass(){
 	
 	return React.useCallback(()=>{
 		
+		setClassData(classData=>{
+			return { ...classData, status: statusList.processing }
+		})
+			
 		Promise.all([ getClass(), getClassStudent()])
 		.then(([{data : dataClasses }, {data: dataClassStudents}])=>{
 			
 			if(dataClasses.error){
-				console.log(dataClasses)
-				return setClassData({status: statusList.error})
+				
+				setClassData(classData=>{
+					return { ...classData, status: statusList.error }
+				})
+				
+				return ;
 			}
+			
 			if(dataClassStudents.error){
-				console.log(dataClassStudents)
-				return setClassData({status: statusList.error})
+				
+				setClassData(classData=>{
+					return { ...classData, status: statusList.error }
+				})
+				
+				return;
 			}
 			
 			setClassData({

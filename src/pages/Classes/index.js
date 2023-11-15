@@ -59,29 +59,32 @@ function Classes({ classData, iconBar }) {
 		
 		<div style={styleContent} className={style.content}>
 			{
-				classData.count?
-				<>
-					{
-						classData.data.created_classes?.map((e,i)=><React.Fragment key={i}><ClassCard2 classData={e} /></React.Fragment>)
-					}
-					{
-						classData.data.joined_classes?.map((e,i)=><React.Fragment key={i}><ClassCard classStudentData={e} /></React.Fragment>)
-					}
-				</>
+				classData.status === statusReq.processing?
+				""
 				:
-				<div className={style.nodata}>
-					<ImageWithAttribute 
-						width= "150px"
-						imgSrc={bookImage}
-						attrHref="https://www.freepik.com/free-vector/purple-book-open-isolated-icon_70015830.htm#page=7&query=book&position=27&from_view=search&track=sph"
-						attrText="Image by jemastock"
-					/>
-					<p className={style.info}> Belum ada kelas </p>
-					<div className={style.btn}>
-						<div onClick={()=>clickContent(0)} className={style.add}>Buat Kelas</div>
-						<div onClick={()=>clickContent(1)} className={style.join}>Gabung Kelas</div>
+					classData.count?
+					<>
+						{
+							classData.data.created_classes?.map((e,i)=><React.Fragment key={i}><ClassCard2 classData={e} /></React.Fragment>)
+						}
+						{
+							classData.data.joined_classes?.map((e,i)=><React.Fragment key={i}><ClassCard classStudentData={e} /></React.Fragment>)
+						}
+					</>
+					:
+					<div className={style.nodata}>
+						<ImageWithAttribute 
+							width= "150px"
+							imgSrc={bookImage}
+							attrHref="https://www.freepik.com/free-vector/purple-book-open-isolated-icon_70015830.htm#page=7&query=book&position=27&from_view=search&track=sph"
+							attrText="Image by jemastock"
+						/>
+						<p className={style.info}> Belum ada kelas </p>
+						<div className={style.btn}>
+							<div onClick={()=>clickContent(0)} className={style.add}>Buat Kelas</div>
+							<div onClick={()=>clickContent(1)} className={style.join}>Gabung Kelas</div>
+						</div>
 					</div>
-				</div>
 			}
 			
 		</div>

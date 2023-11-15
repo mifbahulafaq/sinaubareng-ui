@@ -34,25 +34,50 @@ import GuardGuest from './components/GuardGuest';
 import GetSingleClass from './components/GetSingleClass';
 
 import getCookie from './utils/getCookie'
+import reqStatus from './utils/req-status'
+
+const MainPage = function({ status, token }){
+	
+	 if(status === reqStatus.success){
+		 return <ErrorServerHandler>
+			{
+			 token?
+			 <Home />
+			 :
+			 <GuardGuest children={<Main />} />
+			}
+		 </ErrorServerHandler>
+	 }
+	return "";
+}
 
 function Element() {
 	
 	const { classData } = useContext();
 	const dispatch = useDispatch();
 	const token = useSelector(s=>s.token);
+	const [ status, setStatus ] = React.useState(reqStatus.idle);
 	
-	React.useEffect(()=>{
+	const refreshToken = React.useCallback( async ()=>{
+
+		setStatus(reqStatus.processing);
 		
 		if(!token.value){
-			dispatch(tokenActions.refresh())
+			await dispatch(tokenActions.refresh());
 		}
 		
+		setStatus(reqStatus.success)
+		
 	}, [token.value])
+	
+	React.useEffect(()=>{
+		refreshToken()
+	}, [])
 	
 	return useRoutes([
 		{ 
 			path: '/',
-			element: token.value ? <ErrorServerHandler children={<Home />} />: <ErrorServerHandler children={<GuardGuest children={<Main />} />} />,
+			element: <MainPage status={status} token={token.value} />,
 			children: [
 				{index:true, element: <Classes classData={classData} /> },
 				{path: 'h', element: <Classes classData={classData} /> },
