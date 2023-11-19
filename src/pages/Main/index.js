@@ -1,5 +1,4 @@
 import React from 'react';
-import LinearProgress from '@mui/material/LinearProgress';
 import { useNavigate } from 'react-router-dom';
 import style from './Main.module.css';
 
@@ -14,7 +13,7 @@ export default function Main() {
 	let [ loginForm, setLoginForm ] = React.useState('1')
 	
 	const backgroundImage = "url('images/main.png')";
-	//return <LinearProgress />
+	
 	return (
 		<div style={{backgroundImage}} className={style.container}>
 		

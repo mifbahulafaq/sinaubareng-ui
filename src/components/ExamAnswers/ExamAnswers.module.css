@@ -250,3 +250,9 @@
 .container .singleAns .detail .ansNav .nav:hover{
 	background: rgba(25,103,210, 0.05);
 }
+.loading{
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+}

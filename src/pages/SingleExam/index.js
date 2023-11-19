@@ -24,7 +24,7 @@ export default React.memo(function SingleExam() {
 		<div className={style.mainContent}>
 			<div className={style.topNav}>
 				<div className={style.about}>
-					<div className={style.className}><Link to="..">PHP Dasar</Link></div>
+					<div className={style.className}><Link to="..">{singleClass.class_name}</Link></div>
 					<div className={style.icon}><FontAwesomeIcon icon="clipboard-question" /></div>	
 					<h3>Ujian</h3>
 				</div>

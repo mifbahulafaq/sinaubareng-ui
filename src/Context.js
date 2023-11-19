@@ -18,7 +18,7 @@ export default function ContextProvider({children}){
 		status: statusList.idle
 	})
 	const [ user, dispatch ] = useReducer(userReducer, {});
-	const [ singleClass, setSingleClass ] = useState({});
+	const [ singleClass, setSingleClass ] = useState({status: statusList.idle});
 	
 	return <ContextData.Provider value={{
 			singleClass,

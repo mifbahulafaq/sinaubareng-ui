@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import { useContext } from '../../Context'
 import { useForm } from 'react-hook-form'
 import { inputExamAnswer as ansReducer } from '../../reducers'
+import LinearProgress from '@mui/material/LinearProgress';
 
 //components
 import Image from '../Image'
@@ -29,12 +30,13 @@ const ExamAnswers = function (){
 	const { singleClass } = useContext()
 	const [ ansData, dispatch ] = React.useReducer(ansReducer, [])
 	const [ errScore, setErrScore ] = React.useState("")
+	const [ loading, setLoading ] = React.useState(false)
 	
 	const getAns = React.useCallback(()=>{
 		
 		ansApi.getByExm(params.id_exm)
 		.then(({ data })=>{
-			if(data.error) return console.log(data)
+			if(data.error) return setLoading(true)
 			dispatch({ type: 'ADD', data: data.data})
 		})
 		.catch(err=>console.log(err))
@@ -75,6 +77,7 @@ const ExamAnswers = function (){
 		.catch(err=>console.log(err))
 	}
 	
+	if(loading) return <div className={style.loading}><LinearProgress /></div>
 	return (
 		<div className={style.container}>
 			<div className={`${style.errorAlert} ${errScore?style.active:""}`}>

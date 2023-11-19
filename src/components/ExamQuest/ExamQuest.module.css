@@ -463,3 +463,9 @@
 	background: rgba(0,0,0,.12);
 	color: rgba(0,0,0,.38);
 }
+.loading{
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+}

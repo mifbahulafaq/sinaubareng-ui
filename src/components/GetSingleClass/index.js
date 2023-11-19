@@ -1,5 +1,6 @@
 import React from 'react';
 import { Outlet, useParams } from 'react-router-dom'
+import LinearProgress from '@mui/material/LinearProgress';
 import { useContext } from '../../Context'
 
 //API
@@ -9,7 +10,7 @@ import ServerError from '../../pages/ServerError'
 
 export default function GetSingleClass(){
 	
-	const { setSingleClass } = useContext()
+	const { setSingleClass, singleClass } = useContext()
 	const params = useParams()
 	const [ error, setError ] = React.useState(false)
 	
@@ -19,19 +20,18 @@ export default function GetSingleClass(){
 		.then( async ({data})=>{
 			
 			if(data.error){
-				setError(true)
+				console.log(data)
 				return ;
 			}
 			
 			setSingleClass(data.data);
 			
 		})
-		.catch(()=>setError(true))
 		return ()=>{
 			setSingleClass({})
 		}
 		
 	},[params.code_class])
 	
-	return error? <ServerError />: <Outlet coba={'coba'} />
+	return singleClass.code_class? <Outlet coba={'coba'} />: <LinearProgress />
 }

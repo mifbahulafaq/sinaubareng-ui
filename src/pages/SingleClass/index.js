@@ -1,5 +1,6 @@
 import React from 'react';
 import style from './SingleClass.module.css';
+import LinearProgress from '@mui/material/LinearProgress';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext } from '../../Context'

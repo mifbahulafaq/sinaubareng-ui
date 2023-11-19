@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import style from './ExamQuest.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useForm } from 'react-hook-form'
+import LinearProgress from '@mui/material/LinearProgress';
 
 //components
 import Image from '../Image'
@@ -26,7 +27,7 @@ export default React.memo(function ExamQuest(){
 	
 	//states
 	const params = useParams()
-	const [ examData, setExamData ] = React.useState(null)
+	const [ examData, setExamData ] = React.useState({})
 	const isTeacher = useIsTeacher(examData?.teacher)
 	const fileInput = React.useRef(null)
 	const [ fileAns, setFileAns ] = React.useState(null)
@@ -35,7 +36,7 @@ export default React.memo(function ExamQuest(){
 	const [ modal, setModal ] = React.useState(false)
 	const [ addingFileStatus, setAddingFileStatus ] = React.useState(statusList.idle)
 	const [ sizeError, setSizeError ] = React.useState(false)
-	const disableSubmitting = !fileAns || addingFileStatus === statusList.processing || sizeError
+	const disableSubmitting = !fileAns || addingFileStatus === statusList.processing || sizeError;
 	
 	const rawToday = new Date()
 	const today = formatDate(rawToday, "id-ID", {dateStyle:"medium"})
@@ -113,6 +114,7 @@ export default React.memo(function ExamQuest(){
 		setFileAns(e.target.files[0])
 	}
 	
+	if(!examData.id_exm) return <div className={style.loading}><LinearProgress /></div>
 	return (
 		<div className={style.container}>
 			<div className={style.created}>

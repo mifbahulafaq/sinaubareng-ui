@@ -62,6 +62,7 @@ fetch.interceptors.response.use(
 				return await axios(newConfig);
 					
 			}catch(err){
+				// Any status codes that falls outside the range of 2xx cause this function to trigger
 				store.dispatch(errorActions.add())
 			}
 			
@@ -70,7 +71,7 @@ fetch.interceptors.response.use(
 		}
 		
 	}, function(error){
-		
+		// Any status codes that falls outside the range of 2xx cause this function to trigger
 		store.dispatch(errorActions.add())
 		return Promise.reject(error)
 	}

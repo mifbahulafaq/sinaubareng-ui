@@ -2,6 +2,7 @@ import React from 'react';
 import style from './SingleAssignment.module.css';
 import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import LinearProgress from '@mui/material/LinearProgress';
 import config from '../../config'
 
 //components
@@ -16,6 +17,7 @@ import plural from '../../utils/plural'
 import * as assignmentApi from '../../api/matt-ass' 
 import * as answerApi from '../../api/ass-answer'
 import * as studentApi from '../../api/class-student'
+
 //hooks
 import useIsTeacher from '../../hooks/useIsTeacher'
 
@@ -26,7 +28,6 @@ export default React.memo(function SingleAssignment() {
 	const [ ansFile, setAnsFile ] = React.useState(null)
 	const [ assData, setAssData ] = React.useState({})
 	const [ ansData, setAnsData ] = React.useState([])
-	const [ notFound, setNotFound ] = React.useState(false)
 	const [ errorServer, setErrorServer ] = React.useState(false)
 	const fileAnsw = React.useRef(null)
 	const isTeacher = useIsTeacher(assData.teacher?.user_id)
@@ -35,7 +36,7 @@ export default React.memo(function SingleAssignment() {
 	const assdate = assData.date? new Date(assData.date) : new Date()
 	const tenggat = assData.duration? (assdate).getTime() + assData.duration : ""
 	
-	const getSingleAnswer = React.useCallback(()=>{
+	const getAnswer = React.useCallback(()=>{
 		
 		answerApi.getByAss(params.id_matt_ass)
 		.then(({ data })=>{
@@ -54,20 +55,18 @@ export default React.memo(function SingleAssignment() {
 		
 		.then(([{ data: assData }, { data: studentData }])=>{
 			if(assData.error){
-				setNotFound(true)
 				return ;
 			}
 			if(studentData.error){
-				setNotFound(true)
 				return ;
 			}
 			setAssData(assData.data[0])
 			setStudentData(studentData.data)
-			getSingleAnswer()
+			getAnswer()
 		})
 		.catch(err=>console.log(err))
 		
-	},[params.id_matt_ass, params.code_class, getSingleAnswer])
+	},[params.id_matt_ass, params.code_class, getAnswer])
 	
 	function submitAnswer(){
 		if(!ansFile) return
@@ -79,15 +78,16 @@ export default React.memo(function SingleAssignment() {
 		answerApi.add(payload)
 		.then(({ data })=>{
 			if(data.error) return console.log(data)
-			getSingleAnswer()
+			getAnswer()
 			setAnsFile(null)
 		})
 		.catch(err=>console.log(err))
 	}
 	
-	if(notFound) return "data not found"
   return (
 	<div className={style.container}>
+		{
+		assData.id_matt_ass?
 		<div className={`${style.mainContent} ${isTeacher? style.teacherAuth: ""}`}>
 		
 			<div className={style.about}>
@@ -252,6 +252,11 @@ export default React.memo(function SingleAssignment() {
 			
 			
 		</div>
+		:
+		<div className={style.loading}>
+			<LinearProgress />
+		</div>
+		}
 	</div>
   )
 })
