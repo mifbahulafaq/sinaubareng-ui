@@ -12,6 +12,7 @@ import * as assApi from '../../api/matt-ass'
 import * as classApi from '../../api/class'
 //utils
 import formateDate from '../../utils/id-format-date'
+import reqStatus from '../../utils/req-status';
 
 function NoData(){
 	return <div className={style.noData}>
@@ -29,30 +30,39 @@ function NoData(){
 export default function GivenAssignment() {
 	
 	const [ classData, setClassData ] = React.useState([])
-	const [ assignmentDatas, setAssignmentDatas ] = React.useState({data: [], rowCount: 0})
+	const [ assignmentDatas, setAssignmentDatas ] = React.useState({
+		data: [], 
+		rowCount: 0,
+		status: reqStatus.idle
+	})
 	const [ className, setClassName ] = React.useState('Semua Kelas')
 	const [ filterAssignment, dispatch ] = React.useReducer(assignmentFilter, {
 		by: 'teacher',
 		class: "",
 		skip: 0,
-		limit: 4
+		limit: 2
 	})
 	
 	React.useEffect(()=>{
 		
+		setAssignmentDatas(state=>({...state, status: reqStatus.processing }));
+		
 		Promise.all([assApi.getAll(filterAssignment), classApi.getAll()])
 		.then(([ { data: assData }, { data: classData }])=>{
-			console.log(assData)
+			
 			if(assData.error || classData.error ) {
 					
+				setAssignmentDatas(state=>({...state, status: reqStatus.error }));
 				console.log(assData)
 				console.log(classData)
 				return
 			}
-			setAssignmentDatas(assData)
-			setClassData(classData.data)
+			
+			setAssignmentDatas({...assData, status: reqStatus.success });
+			setClassData(classData.data);
 		})
 		.catch(err=>console.log(err))
+		
 	},[filterAssignment])
 	
 	function clickStatus(value){
@@ -86,33 +96,40 @@ export default function GivenAssignment() {
 		<div className={style.content}>
 			<div className={style.assignments}>
 				{
-					
-					assignmentDatas.data.length?"":<NoData />
-				}
-				{
-					assignmentDatas.data.map((e,i)=>{
-						const status = filterAssignment.status
-						const dateToTime = (new Date(e.date)).getTime()
-						const durationToTime =  (new Date(e.date)).getTime() + e.duration
+					(function(){
+						if(assignmentDatas.status === reqStatus.processing || assignmentDatas.status === reqStatus.idle){
+							return ""
+						}
 						
-						return <div key={i} className={style.singleAssignment} >
-							<Link to={`../c/${e.class.code_class}/m/${e.matter.id_matter}/assignment/${e.id_matt_ass}`} className={style.leftDetail}>
-								<p className={style.created}>Dibuat <span>{formateDate(e.date, "id-ID", {weekday: 'long', month: 'short', day: '2-digit', year: 'numeric'})}</span></p>
-								<div className={style.midDetail}>
-									<p className={style.title}>{e.title}</p>
-									<p className={style.className}>{e.class.class_name}</p>
+						if(assignmentDatas.rowCount){
+							return assignmentDatas.data.map((e,i)=>{
+								const status = filterAssignment.status
+								const dateToTime = (new Date(e.date)).getTime()
+								const durationToTime =  (new Date(e.date)).getTime() + e.duration
+								
+								return <div key={i} className={style.singleAssignment} >
+									<Link to={`../c/${e.class.code_class}/m/${e.matter.id_matter}/assignment/${e.id_matt_ass}`} className={style.leftDetail}>
+										<p className={style.created}>Dibuat <span>{formateDate(e.date, "id-ID", {weekday: 'long', month: 'short', day: '2-digit', year: 'numeric'})}</span></p>
+										<div className={style.midDetail}>
+											<p className={style.title}>{e.title}</p>
+											<p className={style.className}>{e.class.class_name}</p>
+										</div>
+									</Link>
+									<div className={style.rightDetail}>
+										<Link to="#" className={style.ansAmount}><span>{e.total_answers}</span> Jawaban</Link>
+										<p className={style.deadline}>
+											Tenggat:&nbsp;
+											{dateToTime === durationToTime? " -": formateDate(durationToTime, "id-ID", {dateStyle: "medium", timeStyle: "short"})}
+										</p>
+									</div>
+									
 								</div>
-							</Link>
-							<div className={style.rightDetail}>
-								<Link to="#" className={style.ansAmount}><span>{e.total_answers}</span> Jawaban</Link>
-								<p className={style.deadline}>
-									Tenggat:&nbsp;
-									{dateToTime === durationToTime? " -": formateDate(durationToTime, "id-ID", {dateStyle: "medium", timeStyle: "short"})}
-								</p>
-							</div>
+							})
 							
-						</div>
-					})
+						}else{
+							return <NoData />
+						}
+					})()
 				}
 				
 			</div>

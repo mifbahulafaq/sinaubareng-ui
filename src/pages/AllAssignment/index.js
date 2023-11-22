@@ -12,6 +12,7 @@ import * as assApi from '../../api/matt-ass'
 import * as classStudentApi from '../../api/class-student'
 //utils
 import formateDate from '../../utils/id-format-date'
+import reqStatus from '../../utils/req-status'
 
 function NoData(){
 	return <div className={style.noData}>
@@ -29,7 +30,11 @@ function NoData(){
 export default function AllAssignment() {
 	
 	const [ classStudentData, setClassStudentData ] = React.useState([])
-	const [ assignmentDatas, setAssignmentDatas ] = React.useState({data: [], rowCount: 0})
+	const [ assignmentDatas, setAssignmentDatas ] = React.useState({
+		data: [], 
+		rowCount: 0,
+		status: reqStatus.idle
+	})
 	const [ className, setClassName ] = React.useState('Semua Kelas')
 	const [ filterAssignment, dispatch ] = React.useReducer(assignmentFilter, {
 		status: 'none',
@@ -41,16 +46,19 @@ export default function AllAssignment() {
 	
 	React.useEffect(()=>{
 		
+		setAssignmentDatas(state=>({...state, status: reqStatus.processing}));
+		
 		Promise.all([assApi.getAll(filterAssignment), classStudentApi.getAll()])
 		.then(([ { data: assData }, { data: classStudentData }])=>{
 			
 			if(assData.error || classStudentData.error ) {
-					
+				setAssignmentDatas(state=>({...state, status: reqStatus.error}));	
 				console.log(assData)
 				console.log(classStudentData)
 				return
 			}
-			setAssignmentDatas(assData)
+			
+			setAssignmentDatas(state=>({...assData, status: reqStatus.success}));
 			setClassStudentData(classStudentData.data)
 		})
 		.catch(err=>console.log(err))
@@ -93,35 +101,41 @@ export default function AllAssignment() {
 				</div>
 			</div>
 			<div className={style.assignments}>
-			
 				{
-					assignmentDatas.data.length?"":<NoData />
-				}
-				{
-					assignmentDatas.data.map((e,i)=>{
+					(function(){
+						if(assignmentDatas.status === reqStatus.processing || assignmentDatas.status === reqStatus.idle){
+							return ""
+						}
+						if(assignmentDatas.rowCount){
+							return assignmentDatas.data.map((e,i)=>{
 						
-						const status = filterAssignment.status
-						const dateToTime = (new Date(e.date)).getTime()
-						const durationToTime =  (new Date(e.date)).getTime() + e.duration
-						
-						return <Link to={`../c/${e.class.code_class}/m/${e.matter.id_matter}/assignment/${e.id_matt_ass}`} key={i} className={`${style.singleAssignment} ${style[status]}`}>
-							<p className={style.created}>Dibuat <span>{formateDate(e.date, "id-ID", {weekday: 'long', month: 'short', day: '2-digit', year: 'numeric'})}</span></p>
-							<div className={style.detail}>
-								<p className={style.title}>{e.title}</p>
-								<p className={style.className}>{e.class.class_name}</p>
+								const status = filterAssignment.status
+								const dateToTime = (new Date(e.date)).getTime()
+								const durationToTime =  (new Date(e.date)).getTime() + e.duration
 								
-								{
-									status === 'done'?
-										<div className={style.deadline}>Jawaban Diserahkan</div>
-									:
-										<div className={style.deadline}>
-										Tenggat: 
-										{dateToTime === durationToTime? " -": formateDate(durationToTime, "id-ID", {dateStyle: "medium", timeStyle: "short"})}
-										</div>
-								}
-							</div>
-						</Link>
-					})
+								return <Link to={`../c/${e.class.code_class}/m/${e.matter.id_matter}/assignment/${e.id_matt_ass}`} key={i} className={`${style.singleAssignment} ${style[status]}`}>
+									<p className={style.created}>Dibuat <span>{formateDate(e.date, "id-ID", {weekday: 'long', month: 'short', day: '2-digit', year: 'numeric'})}</span></p>
+									<div className={style.detail}>
+										<p className={style.title}>{e.title}</p>
+										<p className={style.className}>{e.class.class_name}</p>
+										
+										{
+											status === 'done'?
+												<div className={style.deadline}>Jawaban Diserahkan</div>
+											:
+												<div className={style.deadline}>
+												Tenggat: 
+												{dateToTime === durationToTime? " -": formateDate(durationToTime, "id-ID", {dateStyle: "medium", timeStyle: "short"})}
+												</div>
+										}
+									</div>
+								</Link>
+							})
+							
+						}else{
+							return <NoData />
+						}
+					})()
 				}
 				
 			</div>
