@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 
 const Pagination =  React.memo(({ rowCount, dispatch, limit, skip, hidden_total })=>{
 	
-	const clickedPage = (skip + limit) / limit;
-	const pages = Math.ceil(rowCount/limit);
-	const maxPage = 5;
+	const pages = Math.ceil(rowCount/limit)
 	
 	return (
 		<ul className={style.container}>
@@ -18,13 +16,7 @@ const Pagination =  React.memo(({ rowCount, dispatch, limit, skip, hidden_total 
 					
 					for( let i = 1; i <= pages; i++){
 						
-						elementArr.push(
-							<li 
-								className={i === clickedPage? style.active: ""}
-								onClick={()=>dispatch({type: 'change_page', page: i})}
-								key={i}
-							>{i}</li>
-						)
+						elementArr.push(<li className={skip === (i*limit-limit)? style.active: ""} onClick={()=>dispatch({type: 'change_page', page: i})} key={i}>{i}</li>)
 					}
 					
 					return elementArr
