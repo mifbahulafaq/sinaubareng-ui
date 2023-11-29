@@ -142,7 +142,6 @@ export default function GivenAssignment() {
 						dispatch={dispatch}  
 						limit={filterAssignment.limit}  
 						skip={filterAssignment.skip} 
-						hidden_total={2} 
 					/>
 				</div>
 			}

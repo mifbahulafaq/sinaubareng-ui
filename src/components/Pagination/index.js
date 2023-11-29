@@ -2,7 +2,7 @@ import React from 'react';
 import style from './Pagination.module.css';
 import PropTypes from 'prop-types';
 
-const Pagination =  React.memo(({ rowCount, dispatch, limit, skip, hidden_total })=>{
+const Pagination =  React.memo(({ rowCount, dispatch, limit, skip })=>{
 	
 	const pages = Math.ceil(rowCount/limit)
 	
