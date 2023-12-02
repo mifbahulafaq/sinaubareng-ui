@@ -1,11 +1,11 @@
 import React from 'react';
 import style from './GivenAssignment.module.css';
+import Pagination from '@mui/material/Pagination';
 import { Link } from 'react-router-dom'
 import { assignmentFilter } from '../../reducers'
 import nodataImg from './2958290.jpg';
 
 //components
-import Pagination from '../../components/Pagination'
 import ImageWithAttribute from '../../components/ImageWithAttribute';
 //apis
 import * as assApi from '../../api/matt-ass'
@@ -42,6 +42,8 @@ export default function GivenAssignment() {
 		skip: 0,
 		limit: 2
 	})
+	const pages = Math.ceil(assignmentDatas.rowCount/filterAssignment.limit);
+	const clickedPage = (filterAssignment.skip + filterAssignment.limit ) / filterAssignment.limit;
 	
 	React.useEffect(()=>{
 		
@@ -78,7 +80,7 @@ export default function GivenAssignment() {
 	function filterNav(value){
 		return filterAssignment.status === value? style.active: ""
 	}
-	console.log(assignmentDatas)
+	
   return (
 	<div className={style.container}>
 		<div className={style.menuContainer}>
@@ -137,11 +139,13 @@ export default function GivenAssignment() {
 				filterAssignment.limit >= assignmentDatas.rowCount?
 				"":
 				<div className={style.paginContainer}>
-					<Pagination 
-						rowCount={assignmentDatas.rowCount} 
-						dispatch={dispatch}  
-						limit={filterAssignment.limit}  
-						skip={filterAssignment.skip} 
+					<Pagination
+						count={pages}
+						page={clickedPage}
+						shape="rounded"
+						onChange={(event,value)=>{
+							dispatch({type: 'change_page', page: value})
+						}}
 					/>
 				</div>
 			}

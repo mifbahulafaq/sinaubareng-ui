@@ -1,11 +1,11 @@
 import React from 'react';
 import style from './AllAssignment.module.css';
+import Pagination from '@mui/material/Pagination';
 import { Link } from 'react-router-dom'
 import { assignmentFilter } from '../../reducers'
 import imgNodata from './book.jpg';
 
 //components
-import Pagination from '../../components/Pagination';
 import ImageWithAttribute from '../../components/ImageWithAttribute';
 //apis
 import * as assApi from '../../api/matt-ass'
@@ -43,7 +43,9 @@ export default function AllAssignment() {
 		skip: 0,
 		limit: 4
 	})
-	
+	const pages = Math.ceil(assignmentDatas.rowCount/filterAssignment.limit)
+	const clickedPage = (filterAssignment.skip + filterAssignment.limit ) / filterAssignment.limit;
+	console.log(pages)
 	React.useEffect(()=>{
 		
 		setAssignmentDatas(state=>({...state, status: reqStatus.processing}));
@@ -143,12 +145,13 @@ export default function AllAssignment() {
 				filterAssignment.limit >= assignmentDatas.rowCount?
 				"":
 				<div className={style.paginContainer}>
-					<Pagination 
-						rowCount={assignmentDatas.rowCount} 
-						dispatch={dispatch}  
-						limit={filterAssignment.limit}  
-						skip={filterAssignment.skip} 
-						hidden_total={2} 
+					<Pagination
+						count={pages}
+						page={clickedPage}
+						shape="rounded"
+						onChange={(event,value)=>{
+							dispatch({type: 'change_page', page: value})
+						}}
 					/>
 				</div>
 			}
