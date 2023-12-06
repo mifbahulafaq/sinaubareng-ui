@@ -1,5 +1,6 @@
 .container a{
-	color:#098DDF;
+	color: var(--primary-color);
 	font-family: cursive;
 	text-decoration:none;
+	font-size: 2rem;
 }

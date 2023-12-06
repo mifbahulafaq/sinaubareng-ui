@@ -35,7 +35,7 @@
 }
 .login.active{
 	background-color:#fff;
-	border:solid 1px #098DDF;
+	border:solid 1px var(--primary-color);
 	color:#2e2e2e;
 }
 .signup{
@@ -43,7 +43,7 @@
 	color:#2e2e2e;
 }
 .signup:hover{
-	color:#098DDF;
+	color: var(--primary-color);
 }
 .signup.active{
 	color:#098DDF;
