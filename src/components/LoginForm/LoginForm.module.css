@@ -1,7 +1,6 @@
 .container{
 	width:100%;
 	height:100%;
-	padding-top:20px;
 }
 .container .form{
 	width:100%;
@@ -12,37 +11,37 @@
 	flex-direction:column;
 	justify-content:space-between;
 	align-items:flex-start;
-	height:160px;
+	height:12rem;
 }
 .form .inputContainer .otherInput{
-	margin-top:1px;
 	width:100%;
 	display:flex;
+	flex-direction: column;
 	justify-content:space-between;
-	align-items:center;
+	align-items: flex-start;
 }
 .form .inputContainer .otherInput .checkbox{
+	margin-bottom: 1rem;
 	display:flex;
 	justify-content:space-between;
 	align-items:center;
 }
 .form .checkbox label{
-	margin-left:10px;
+	margin-left:0.7rem;
 	font-weight:600;
-	font-size:0.9em;
+	font-size:0.9rem;
 	color:#898989;
 }
 .form .forget{
 	text-decoration:none;
 	font-weight:600;
-	font-size:0.9em;
+	font-size:0.9rem;
 	color:#898989;
 }
 .form .submitLogin{
 	width:100%;
 	padding:13px;
 	margin-top:35px;
-	font-family: 'Open Sans', Arial;
 	font-weight:bolder;
 	border-radius:8px;
 	background-color: var(--primary-color);
@@ -56,22 +55,22 @@
 	cursor: default;
 }
 p.info{
-	margin-top: 20px;
-	margin-bottom: 20px;
-	font-size: 1.1em;
+	margin-top: 1.5rem;
+	margin-bottom: 1.5rem;
+	font-size: 0.9rem;
 	text-align: center;
 	color: #7a7a7a;
 	font-weight: 600;
 }
 .oauthLogin{
 	width: 100%;
-	padding: 20px;
+	padding: 1.2rem;
 	background: #eaeaea;
-	border-radius: 8px;
+	border-radius: 0.5rem;
 	
 }
 .oauthLogin a.loginContainer{
-	height: 40px;
+	height: 2.5rem;
 	display: flex;
 	justify-content:center;
 	align-items: center;
@@ -84,8 +83,21 @@ p.info{
 	width: auto;
 }
 .oauthLogin .loginContainer span{
-	margin-left: 5px;
+	margin-left: 0.4rem;
 	font-weight: 600;
 	color: #6b6b6b;
 	line-height: 100%;
+}
+
+@media only screen and (min-width: 340px){
+	.form .inputContainer{
+		height: 10rem;
+	}
+	.form .inputContainer .otherInput{
+		flex-direction: row;
+		justify-content:space-between;
+	}
+	.form .inputContainer .otherInput .checkbox{
+		margin-bottom: 0;
+	}
 }

@@ -27,9 +27,12 @@ export default function Main() {
 						<WebTitle />
 					</div>
 				</div>
-				<div style={{backgroundImage}} className={style.content}>
-					<h1> Ayo belajar bersama di Sinaubareng</h1>
-					<h3>Buat materi pembelajaranmu atau masuk kelas yang ingin kamu ikuti</h3>
+				<div className={style.content}>
+					<div style={{backgroundImage}} className={style.backgroundImage} />
+					<div className={style.text}>
+						<h1> Ayo belajar bersama di Sinaubareng</h1>
+						<h3>Buat materi pembelajaranmu atau masuk kelas yang ingin kamu ikuti</h3>
+					</div>
 				</div>
 			</div>
 			
