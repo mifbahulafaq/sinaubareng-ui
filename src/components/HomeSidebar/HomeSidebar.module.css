@@ -1,33 +1,62 @@
+.leftSide{
+	display: flex;
+	justify-content: center;
+	width: 20%;
+}
+.rightSide{
+	margin-left: 0.3rem;
+}
 .container{
 	position:fixed;
-	height:100vh;
 	top:0;
 	bottom:0;
 	margin-left:-300px;
 	display:flex;
 	flex-direction: column;
-	justify-content:space-between;
 	align-items: center;
 	width: 300px;
 	background:#fff;
-	font-family: 'Open Sans', sans-serif;
 	color: #073763;
 	box-shadow: 1px 0 20px rgba(206, 206, 206, 0.4);
 	transition: all 0.4s ease;
 	z-index:103;
+	overflow-y: auto;
+	--sidebar-font-size: 0.85rem;
+}
+.container .user{
+	height:4.1rem;
+	width: 100%;
+	border-bottom: 1px solid rgba(0,0,0,.12);
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	padding:25px 35px;
+}
+.container .user .photo{
+	width: 2.2rem;
+	height: 2.2rem;
+	border-radius:50%;
+	overflow: hidden;
+}
+.container .user .detail .name{
+	font-size: var(--sidebar-font-size);
+	font-weight: 500;
+	color: var(--primary-font-color);
+}
+.container .user .detail .email{
+	font-size: 0.78rem;
+	color: var(--primary-font-color);
 }
 .container .nav{
 	padding:10px 20px;
 	display: flex;
 	flex-direction: column;
 	width:100%;
-	height:25%;
 	list-style: none;
 }
 .container .nav li a{
 	text-decoration: none;
 	display:flex;
-	justify-content:space-between;
 	align-items:center;
 	padding:15px;
 	border-radius:10px;
@@ -39,6 +68,8 @@
 .container .nav li a.active{
 	background: rgba(198, 223, 255, 0.5);
 }
+.container .nav li a{
+}
 .container .nav li a svg{
 	font-weight:500;
 	font-size:20px;
@@ -48,27 +79,25 @@
 	color: #073763;
 }
 .container .nav li a .navName{
-	width:80%;
 	text-align:left;
-	font-size:14px;
+	font-size: var(--sidebar-font-size);
 	font-weight:600;
 }
 .container .nav li a.active .navName{
 	font-weight:700;
 }
 .container .classContainer{
-	height: 73%;
 	width: 100%;
 	overflow-y: auto;
-	font-size:14px;
+	font-size: var(--sidebar-font-size);
 	font-weight:600;
 }
 .container .classContainer .typeContainer{
 	padding:10px 20px;
-	border-top: 1px solid #d4d4d4;
+	border-top: 1px solid rgba(0,0,0,.12);
 }
 .container .classContainer .typeContainer .nameType{
-	font-size:14px;
+	font-size: var(--sidebar-font-size);
 	font-weight:600;
 	color: #999;
 }

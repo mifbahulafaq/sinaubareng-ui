@@ -4,6 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+//components
+import Image from '../Image';
+//utils
+import getPhotoPath from '../../utils/getPhotoPath'
+
 function HomeSidebar({ classData, iconBar }){
 	
 	function classActive({ isActive }){
@@ -15,23 +20,40 @@ function HomeSidebar({ classData, iconBar }){
 			style={{marginLeft: iconBar? '0': '-300px'}} 
 			className={style.container}
 		>
+			<div className={style.user}>
+				<div className={style.leftSide}>
+					<div className={style.photo}>
+						<Image src={getPhotoPath(null)}/>
+					</div>
+				</div>
+				<div className={`${style.detail} ${style.rightSide}`}>
+					<p className={style.name}>Mifbahul Afaq</p>
+					<p className={style.email}>mifbahulafaq@gmail.com</p>
+				</div>
+			</div>
 			<ul className={style.nav}>
 				<li>
 					<NavLink to="c" className={classActive}>
-						<FontAwesomeIcon icon="landmark" />
-						<div className={style.navName}>Kelas</div>
+						<div className={style.leftSide}>
+							<FontAwesomeIcon icon="landmark" />
+						</div>
+						<div className={`${style.navName} ${style.rightSide}`}>Kelas</div>
 					</NavLink>
 				</li>
 				<li>
 					<NavLink to="/given-assignment" className={classActive} >
-						<FontAwesomeIcon icon="clipboard-list" />
-						<div className={style.navName}>Tugas Diberikan</div>
+						<div className={style.leftSide}>
+							<FontAwesomeIcon icon="clipboard-list" />
+						</div>
+						<div className={`${style.navName} ${style.rightSide}`}>Tugas Diberikan</div>
 					</NavLink>
 				</li>
 				<li>
 					<NavLink to="/assignment" className={classActive} >
-						<FontAwesomeIcon icon="table-list" />
-						<div className={style.navName}>Semua Tugas</div>
+						<div className={style.leftSide}>
+							<FontAwesomeIcon icon="table-list" />
+						</div>
+						<div className={`${style.navName} ${style.rightSide}`}>Semua Tugas</div>
 					</NavLink>
 				</li>
 			</ul>
@@ -80,7 +102,7 @@ function TypeContainer({name, data}){
 									{a[0].toUpperCase()}
 									</div>
 									
-									<span>{e.class_name}</span>
+									<span className={style.rightSide}>{e.class_name}</span>
 								</NavLink>
 							</li>
 					})
