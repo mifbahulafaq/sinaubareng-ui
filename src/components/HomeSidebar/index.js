@@ -16,6 +16,10 @@ function HomeSidebar({ classData, iconBar }){
 	}
 	
 	return (
+		<>
+		<div className={style.hider}>
+			<FontAwesomeIcon icon="angle-left" />
+		</div>
 		<div 
 			style={{marginLeft: iconBar? '0': '-300px'}} 
 			className={style.container}
@@ -63,7 +67,18 @@ function HomeSidebar({ classData, iconBar }){
 				<TypeContainer name="Mengikuti" data={classData.joined_classes} />
 				
 			</div>
+			
+			<div className={style.logout}>
+				<div className={style.leftSide}>
+					<div className={style.icon}>
+						<FontAwesomeIcon icon="sign-out" />
+					</div>
+				</div>
+				<span className={style.rightSide} >Logout</span>
+				
+			</div>
 		</div>
+		</>
 	)
 }
 

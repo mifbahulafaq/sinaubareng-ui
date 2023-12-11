@@ -6,6 +6,24 @@
 .rightSide{
 	margin-left: 0.3rem;
 }
+.hider{
+	font-size: 0.9rem;
+	position: absolute;
+	top: 2.05rem;
+	left: 300px;
+	transform: translate(50%, -50%);
+	background: var(--primary-color);
+	height: 1.7em;
+	width: 1.7em;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 1.7em;
+	cursor: pointer;
+	z-index:104;
+}
+.hider svg{
+	color: #fff;
+}
 .container{
 	position:fixed;
 	top:0;
@@ -15,12 +33,13 @@
 	flex-direction: column;
 	align-items: center;
 	width: 300px;
+	padding-bottom: 4rem;
 	background:#fff;
 	color: #073763;
 	box-shadow: 1px 0 20px rgba(206, 206, 206, 0.4);
 	transition: all 0.4s ease;
-	z-index:103;
 	overflow-y: auto;
+	z-index:103;
 	--sidebar-font-size: 0.85rem;
 }
 .container .user{
@@ -30,7 +49,11 @@
 	cursor: pointer;
 	display: flex;
 	align-items: center;
-	padding:25px 35px;
+	padding:1.8rem 2.2rem;
+	transition: all 0.2s ease;
+}
+.container .user:hover{
+	background: rgba(215, 215, 215, 0.1);
 }
 .container .user .photo{
 	width: 2.2rem;
@@ -136,4 +159,37 @@
 .classContainer ul a.active span{
 	
 	font-weight:700;
+}
+.container .logout{
+	position: absolute;
+	bottom: 0;
+	display: flex;
+	align-items: center;
+	padding: 0 2.2rem;
+	width: 100%;
+	font-size: var(--sidebar-font-size);
+	height: 4em;
+	border-top: 1px solid rgba(0,0,0,.12);
+	cursor: pointer;
+	transition: all 0.2s ease;
+	background: #fff;
+}
+.container .logout:hover{
+	background: rgba(215, 215, 215, 0.3);
+}
+.container .logout .icon{
+	height: 2.5em;
+	width: 2.5em;
+	line-height: 2.5em;
+	text-align: center;
+	background: rgba(215, 215, 215, 0.5);
+	border-radius: 3px;
+}
+.container .logout .icon svg{
+	color: #ed2a00;
+	font-size: 1.2em;
+}
+.container .logout span{
+	font-size: 1em;
+	font-weight: 600;
 }

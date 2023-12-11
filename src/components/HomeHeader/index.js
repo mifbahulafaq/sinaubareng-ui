@@ -55,7 +55,7 @@ export default memo(function HomeHeader(){
 						</Link>
 						<div onClick={()=>navigate('/logout')} className={style.logout}>
 							<FontAwesomeIcon icon="sign-out" />
-							<p>Log Out</p>
+							<p>Logout</p>
 						</div>
 					</div>
 				</div>
