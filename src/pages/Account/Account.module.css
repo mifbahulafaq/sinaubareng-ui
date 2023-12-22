@@ -1,15 +1,18 @@
 .container{
-	margin: auto;
 	background: rgba(199, 217, 237, 0.3);
 	width: 100%;
 	height: 100%;
-	padding-top: 40px;
+	padding: 2rem 2.5rem;
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 .container .label{
 	text-decoration: none;
 	display: none;
 	align-items: center;
 	font-weight: 600;
+	font-size: 1rem;
+	height: 3rem;
 	color: #464646;
 	pointer-events: none;
 }
@@ -18,19 +21,19 @@
 }
 .container .label:before{
 	content: "";
+	display: block;
 	background: #098DDF;
-	width: 15px;
-	height: 8px;
+	width: 0.9375rem;
+	height: 0.5rem;
 	border-radius: 5px;
-	margin-right: 10px;
+	margin-right: 0.625rem;
 }
 .container .label, .container .contain{
-	width: 900px;
+	max-width: 900px;
 	margin: auto;
 }
 .container .contain{
-	margin-top: 20px; 
+	min-height: calc(100% - 3rem);
 	background: #fff;
 	border-radius: 5px;
-	height: 500px;
 }

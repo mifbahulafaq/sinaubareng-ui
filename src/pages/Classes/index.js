@@ -68,10 +68,18 @@ function Classes({ classData, iconBar }) {
 					if(classData.count){
 						return <>
 							{
-								classData.data.created_classes?.map((e,i)=><React.Fragment key={i}><ClassCard2 classData={e} /></React.Fragment>)
+								classData.data.created_classes?.map((e,i)=><React.Fragment key={i}>
+									<div className={style.classCardCont}>
+										<ClassCard2 width="100%" classData={e} />
+									</div>
+								</React.Fragment>)
 							}
 							{
-								classData.data.joined_classes?.map((e,i)=><React.Fragment key={i}><ClassCard classStudentData={e} /></React.Fragment>)
+								classData.data.joined_classes?.map((e,i)=><React.Fragment key={i}>
+									<div className={style.classCardCont}>
+										<ClassCard width="100%" classStudentData={e} />
+									</div>
+								</React.Fragment>)
 							}
 						</>
 					}else{

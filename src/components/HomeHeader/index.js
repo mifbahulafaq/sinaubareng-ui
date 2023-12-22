@@ -29,7 +29,9 @@ export default memo(function HomeHeader(){
 		<div id="home-header" className={style.container}>
 			<div className={style.left}>
 				<FontAwesomeIcon icon="bars" onClick={clickIcon} />
-				<WebTitle size="25px" />
+				<div className={style.title}>
+					<WebTitle size="1em" />
+				</div>
 			</div>
 			<ul className={style.user}>
 				<div className={`${style.userImage} setOption`}>

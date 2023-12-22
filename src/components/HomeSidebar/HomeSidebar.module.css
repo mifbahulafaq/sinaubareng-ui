@@ -6,39 +6,18 @@
 .rightSide{
 	margin-left: 0.3rem;
 }
-.hider{
-	font-size: 0.9rem;
-	position: absolute;
-	top: 2.05rem;
-	left: 300px;
-	transform: translate(50%, -50%);
-	background: var(--primary-color);
-	height: 1.7em;
-	width: 1.7em;
-	border-radius: 50%;
-	text-align: center;
-	line-height: 1.7em;
-	cursor: pointer;
-	z-index:104;
-}
-.hider svg{
-	color: #fff;
-}
 .container{
 	position:fixed;
 	top:0;
 	bottom:0;
-	margin-left:-300px;
-	display:flex;
-	flex-direction: column;
-	align-items: center;
-	width: 300px;
+	margin-left: -18.8rem;
+	width: 18.8rem;
+	height: 100vh;
 	padding-bottom: 4rem;
 	background:#fff;
 	color: #073763;
 	box-shadow: 1px 0 20px rgba(206, 206, 206, 0.4);
 	transition: all 0.4s ease;
-	overflow-y: auto;
 	z-index:103;
 	--sidebar-font-size: 0.85rem;
 }
@@ -51,6 +30,7 @@
 	align-items: center;
 	padding:1.8rem 2.2rem;
 	transition: all 0.2s ease;
+	text-decoration: none;
 }
 .container .user:hover{
 	background: rgba(215, 215, 215, 0.1);
@@ -70,14 +50,42 @@
 	font-size: 0.78rem;
 	color: var(--primary-font-color);
 }
-.container .nav{
+.container .user .hider{
+	font-size: 0.9rem;
+	position: absolute;
+	top: 2.05rem;
+	left: 300px;
+	transform: translate( -50%, -50%);
+	background: var(--primary-color);
+	height: 1.7em;
+	width: 1.7em;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 1.7em;
+	cursor: pointer;
+	z-index:104;
+}
+.container .user .hider svg{
+	color: #fff;
+}
+.container .user .hider.hidden{
+	display: none;
+}
+.container .centerSide{
+	height: calc(100vh - 7.5rem);
+	display:flex;
+	flex-direction: column;
+	align-items: center;
+	overflow-y: auto;
+}
+.container .centerSide .nav{
 	padding:10px 20px;
 	display: flex;
 	flex-direction: column;
 	width:100%;
 	list-style: none;
 }
-.container .nav li a{
+.container .centerSide .nav li a{
 	text-decoration: none;
 	display:flex;
 	align-items:center;
@@ -85,52 +93,52 @@
 	border-radius:10px;
 	color: #073763;
 }
-.container .nav li a:hover{
+.container .centerSide .nav li a:hover{
 	background: rgba(198, 223, 255, 0.5);
 }
-.container .nav li a.active{
+.container .centerSide .nav li a.active{
 	background: rgba(198, 223, 255, 0.5);
 }
-.container .nav li a{
+.container .centerSide .nav li a{
 }
-.container .nav li a svg{
+.container .centerSide .nav li a svg{
 	font-weight:500;
 	font-size:20px;
 	color: #999;
 }
-.container .nav li a.active svg{
+.container .centerSide .nav li a.active svg{
 	color: #073763;
 }
-.container .nav li a .navName{
+.container .centerSide .nav li a .navName{
 	text-align:left;
 	font-size: var(--sidebar-font-size);
 	font-weight:600;
 }
-.container .nav li a.active .navName{
+.container .centerSide .nav li a.active .navName{
 	font-weight:700;
 }
-.container .classContainer{
+.container .centerSide .classContainer{
 	width: 100%;
 	overflow-y: auto;
 	font-size: var(--sidebar-font-size);
 	font-weight:600;
 }
-.container .classContainer .typeContainer{
+.container .centerSide .classContainer .typeContainer{
 	padding:10px 20px;
 	border-top: 1px solid rgba(0,0,0,.12);
 }
-.container .classContainer .typeContainer .nameType{
+.container .centerSide .classContainer .typeContainer .nameType{
 	font-size: var(--sidebar-font-size);
 	font-weight:600;
 	color: #999;
 }
-.container .classContainer ul{
+.container .centerSide .classContainer ul{
 	margin:20px 0;
 	padding-left:10px;
 	list-style: none;
 	border-left: 2px solid rgba(180, 180, 180, 0.4);
 }
-.container .classContainer ul a{
+.container .centerSide .classContainer ul a{
 	display:flex;
 	align-items:center;
 	padding:8px;
@@ -138,11 +146,11 @@
 	border-radius: 10px; 
 	color: #073763;
 }
-.container .classContainer ul a:hover{
+.container .centerSide .classContainer ul a:hover{
 	background: rgba(215, 215, 215, 0.5);
 	
 }
-.container .classContainer ul a.active{
+.container .centerSide .classContainer ul a.active{
 	background: rgba(215, 215, 215, 0.5);
 }
 .classContainer ul a .circle{
@@ -153,11 +161,9 @@
 	line-height:35px;
 	font-weight:bolder;
 	border-radius: 50%;
-	background: red;
 	color: #fff;
 }
 .classContainer ul a.active span{
-	
 	font-weight:700;
 }
 .container .logout{
@@ -168,7 +174,7 @@
 	padding: 0 2.2rem;
 	width: 100%;
 	font-size: var(--sidebar-font-size);
-	height: 4em;
+	height: 3.4rem;
 	border-top: 1px solid rgba(0,0,0,.12);
 	cursor: pointer;
 	transition: all 0.2s ease;
@@ -192,4 +198,19 @@
 .container .logout span{
 	font-size: 1em;
 	font-weight: 600;
+}
+
+@media only screen and (min-width: 460px){
+	.container .user{
+		display: none;
+	}
+	.container .user .hider{
+		display: none;
+	}
+	.container .centerSide{
+		height: 100%;
+	}
+	.container .logout{
+		display: none;
+	}
 }

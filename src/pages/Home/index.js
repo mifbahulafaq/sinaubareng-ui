@@ -56,12 +56,14 @@ export default function Home() {
 	return (
 		<div className={style.container}>
 			<div onClick={()=>setIconBar(false)}  className={`${style.hideSidebar} ${iconBar?style.active:''}`} />
-			<HomeSidebar iconBar={iconBar} classData={classData.data} />
+			<HomeSidebar setIconBar={()=>setIconBar(false)} iconBar={iconBar} classData={classData.data} />
 			
 			<div
 				className={style.right}
 			>
-				<HomeHeader />
+				<div className={style.header}>
+					<HomeHeader />
+				</div>
 				<div onScroll={scrollOn} className={style.content}>
 					<Outlet />
 				</div>

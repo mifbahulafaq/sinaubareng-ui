@@ -1,7 +1,7 @@
 import { memo } from 'react';
+import { useNavigate, Link, NavLink } from 'react-router-dom';
 import style from './HomeSidebar.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 //components
@@ -9,22 +9,17 @@ import Image from '../Image';
 //utils
 import getPhotoPath from '../../utils/getPhotoPath'
 
-function HomeSidebar({ classData, iconBar }){
+function HomeSidebar({ classData, iconBar, setIconBar }){
+	
+	const navigate = useNavigate();
 	
 	function classActive({ isActive }){
 		return isActive? style.active: '';
 	}
 	
 	return (
-		<>
-		<div className={style.hider}>
-			<FontAwesomeIcon icon="angle-left" />
-		</div>
-		<div 
-			style={{marginLeft: iconBar? '0': '-300px'}} 
-			className={style.container}
-		>
-			<div className={style.user}>
+		<div style={{marginLeft: iconBar? '0': '-18.8rem'}} className={style.container}>
+			<Link to="/user/account/profile" className={style.user}>
 				<div className={style.leftSide}>
 					<div className={style.photo}>
 						<Image src={getPhotoPath(null)}/>
@@ -34,41 +29,49 @@ function HomeSidebar({ classData, iconBar }){
 					<p className={style.name}>Mifbahul Afaq</p>
 					<p className={style.email}>mifbahulafaq@gmail.com</p>
 				</div>
-			</div>
-			<ul className={style.nav}>
-				<li>
-					<NavLink to="c" className={classActive}>
-						<div className={style.leftSide}>
-							<FontAwesomeIcon icon="landmark" />
-						</div>
-						<div className={`${style.navName} ${style.rightSide}`}>Kelas</div>
-					</NavLink>
-				</li>
-				<li>
-					<NavLink to="/given-assignment" className={classActive} >
-						<div className={style.leftSide}>
-							<FontAwesomeIcon icon="clipboard-list" />
-						</div>
-						<div className={`${style.navName} ${style.rightSide}`}>Tugas Diberikan</div>
-					</NavLink>
-				</li>
-				<li>
-					<NavLink to="/assignment" className={classActive} >
-						<div className={style.leftSide}>
-							<FontAwesomeIcon icon="table-list" />
-						</div>
-						<div className={`${style.navName} ${style.rightSide}`}>Semua Tugas</div>
-					</NavLink>
-				</li>
-			</ul>
-			
-			<div className={style.classContainer}>
-				<TypeContainer name="Mengajar" data={classData.created_classes} />
-				<TypeContainer name="Mengikuti" data={classData.joined_classes} />
+
+				<div onClick={()=>setIconBar()} className={`${style.hider} ${!iconBar?style.hidden: ""}`}>
+					<FontAwesomeIcon icon="angle-left" />
+				</div>
 				
+			</Link>
+			<div 
+				className={style.centerSide}
+			>
+				<ul className={style.nav}>
+					<li>
+						<NavLink to="c" className={classActive}>
+							<div className={style.leftSide}>
+								<FontAwesomeIcon icon="landmark" />
+							</div>
+							<div className={`${style.navName} ${style.rightSide}`}>Kelas</div>
+						</NavLink>
+					</li>
+					<li>
+						<NavLink to="/given-assignment" className={classActive} >
+							<div className={style.leftSide}>
+								<FontAwesomeIcon icon="clipboard-list" />
+							</div>
+							<div className={`${style.navName} ${style.rightSide}`}>Tugas Diberikan</div>
+						</NavLink>
+					</li>
+					<li>
+						<NavLink to="/assignment" className={classActive} >
+							<div className={style.leftSide}>
+								<FontAwesomeIcon icon="table-list" />
+							</div>
+							<div className={`${style.navName} ${style.rightSide}`}>Semua Tugas</div>
+						</NavLink>
+					</li>
+				</ul>
+				
+				<div className={style.classContainer}>
+					<TypeContainer name="Mengajar" data={classData.created_classes} />
+					<TypeContainer name="Mengikuti" data={classData.joined_classes} />
+					
+				</div>
 			</div>
-			
-			<div className={style.logout}>
+			<div onClick={()=>navigate('/logout')} className={style.logout}>
 				<div className={style.leftSide}>
 					<div className={style.icon}>
 						<FontAwesomeIcon icon="sign-out" />
@@ -78,7 +81,6 @@ function HomeSidebar({ classData, iconBar }){
 				
 			</div>
 		</div>
-		</>
 	)
 }
 

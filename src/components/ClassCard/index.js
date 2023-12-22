@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import style from './ClassCard.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import config from '../../config'
+import PropTypes from 'prop-types';
 
 //api
 import * as fetchStudent from '../../api/class-student'
@@ -16,7 +17,7 @@ import strLimit from '../../utils/strLimit';
 import uppercase from '../../utils/uppercase';
 import getPhotoPath from '../../utils/getPhotoPath';
 
-export default memo(function ClassCard({classStudentData}){
+const ClassCard = function ({classStudentData, width}){
 	
 	const [ modal, setModal ] = useState(false);
 	const tphoto =  getPhotoPath(classStudentData.tphoto);
@@ -41,7 +42,7 @@ export default memo(function ClassCard({classStudentData}){
 	
 	return (
 		<div className={style.nonOverflow}>
-			<div className={style.container}>
+			<div style={{ width }} className={style.container}>
 				<div style={{background: classStudentData.color}} className={style.user}>
 					<div className={style.image}>
 						<Image src={tphoto} />
@@ -83,4 +84,13 @@ export default memo(function ClassCard({classStudentData}){
 			
 		</div>
 	)
-})
+}
+
+ClassCard.propType = {
+	width: PropTypes.string
+}
+ClassCard.defaultProps = {
+	width: "500px"
+}
+
+export default memo(ClassCard)

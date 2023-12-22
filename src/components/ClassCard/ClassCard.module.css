@@ -5,7 +5,6 @@
 	display:flex;
 	align-items: center;
 	height:200px;
-	width: 300px;
 	border-radius: 8px;
 	overflow: hidden;
 	box-shadow:0 3px 8px -3px #999;
@@ -29,10 +28,10 @@
 	margin-bottom: 15px;
 }
 .user span{
-	padding:1px 8px;
+	padding:0.0625rem 0.5rem;
 	border-radius: 10px;
 	background: #ed2a00;
-	font-size: 0.8em;
+	font-size: 0.7em;
 	font-weight: 700;
 	color: #fff;
 }
@@ -60,7 +59,7 @@
 }
 .detail p{
 	margin-top:10px;
-	font-size: 13px;
+	font-size: 0.8125rem;
 	font-weight: 600;
 	color: #999;
 }
@@ -74,7 +73,7 @@
 }
 .btn svg{
 	margin-left: 20px;
-	font-size:20px;
+	font-size: 1.25rem;
 	color:#999;
 }
 .btn svg:hover{
@@ -87,7 +86,7 @@
 	position: absolute;
 	top: 5px;
 	left: 5px;
-	font-size:19px;
+	font-size:1.1875rem;
 	color: #fff;
 	display: flex;
 	justify-content: center;
@@ -113,7 +112,7 @@
 	z-index:10;
 }
 .nonOverflow .settingList li{
-	font-size: 15px;
+	font-size: 0.9375rem;
 	font-weight: 600;
 	padding: 5px 10px;
 	width: 160px;

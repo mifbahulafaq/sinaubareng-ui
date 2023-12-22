@@ -11,7 +11,6 @@ import * as val from '../../validation'
 import * as userApi from '../../api/user'
 
 // components
-import Image from '../../components/Image'
 import FormControl from '../../components/FormControl'
 import ModalContainer from '../../components/ModalContainer'
 import SuccessAlert2 from '../../components/SuccessAlert2'
@@ -127,7 +126,7 @@ export default function Profile() {
 			<form onSubmit={handleSubmit(submit)} className={style.container}>
 				<div className={style.photoContainer}>
 					<div className={style.photo}>
-						<Image src={imgSrc?imgSrc:'images/user.png'}  />
+						<img src={imgSrc?imgSrc:'images/user.png'}  alt="photo" />
 					</div>
 					<p className={style.info} > JPG or PNG no larger than 500 KB </p>
 					<div className={style.inputImage}>
@@ -138,19 +137,19 @@ export default function Profile() {
 				
 					<div className={style.fieldContainer} >
 						<label>Name:</label>
-						<FormControl width="380px" error={errors.name?.message} >
-							<input {...customRegister('name')} />
+						<FormControl width="100%" error={errors.name?.message} >
+							<input type="text" {...customRegister('name')} />
 						</FormControl>	
 					</div>
 					<div className={style.fieldContainer} >
 						<label>Email:</label>
-						<FormControl width="380px" error={errors.email?.message} >
-							<input {...customRegister('email')} />
+						<FormControl width="100%" error={errors.email?.message} >
+							<input type="text" {...customRegister('email')} />
 						</FormControl>	
 					</div>
 					<div className={style.fieldContainer}>
 						<label>Gender:</label>
-						<FormControl width="380px" error={errors.gender?.message} >
+						<FormControl width="100%" error={errors.gender?.message} >
 							<div className={style.radioContainer}>
 								<input {...register('gender', val.gender)} value="Male" name="gender" type="radio" placeholder="Your Name" />
 								<p className={style.genderDesc}>Male</p>
