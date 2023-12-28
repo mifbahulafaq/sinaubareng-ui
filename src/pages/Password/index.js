@@ -78,26 +78,25 @@ export default function Password() {
 			
 				<div className={style.fieldContainer} >
 					<label>Current Password</label>
-					<FormControl width="380px" error={errors.old_password?.message} >
+					<FormControl fontSize="0.9em" width="100%" error={errors.old_password?.message} >
 						<input type="password" {...register('old_password', val.password)} />
 					</FormControl>	
 				</div>
 				<div className={style.fieldContainer} >
 					<label>New Password</label>
-					<FormControl width="380px" error={errors.new_password?.message} >
+					<FormControl fontSize="0.9em" width="100%" error={errors.new_password?.message} >
 						<input type="password" {...register('new_password', {...val.password, onChange:ChangePwd})} />
 					</FormControl>	
 				</div>
 				<div className={style.fieldContainer} >
 					<label>Re-Type Password</label>
-					<FormControl width="380px" error={errors.retype_password?.message} >
+					<FormControl fontSize="0.9em" width="100%" error={errors.retype_password?.message} >
 						<input type="password" {...register('retype_password', val.newpassword(new_password))} />
 					</FormControl>	
 				</div>
 				
 				<div className={style.buttons}>
 					<button className={style.save} disabled={isSubmitting || errorLength || !isValid}>Save</button>
-					<Link to="." className={style.forget}>Forget Password</Link>
 				</div>
 				
 			</form>

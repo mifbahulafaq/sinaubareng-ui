@@ -1,5 +1,6 @@
 import React from 'react';
 import style from './AllAssignment.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Pagination from '@mui/material/Pagination';
 import { Link } from 'react-router-dom'
 import { assignmentFilter } from '../../reducers'
@@ -45,7 +46,7 @@ export default function AllAssignment() {
 	})
 	const pages = Math.ceil(assignmentDatas.rowCount/filterAssignment.limit)
 	const clickedPage = (filterAssignment.skip + filterAssignment.limit ) / filterAssignment.limit;
-	console.log(pages)
+	
 	React.useEffect(()=>{
 		
 		setAssignmentDatas(state=>({...state, status: reqStatus.processing}));
@@ -83,11 +84,25 @@ export default function AllAssignment() {
   return (
 	<div className={style.container}>
 		<div className={style.menuContainer}>
-			<ul>
-				<li onClick={()=>clickStatus('none')} className={filterNav('none')} >Tidak Ada</li>
-				<li onClick={()=>clickStatus('expired')} className={filterNav('expired')}>Terlambat</li>
-				<li onClick={()=>clickStatus('done')} className={filterNav('done')}>Selesai</li>
-			</ul>
+			<div className={style.filter}>
+				<div className={style.btnFilter}>
+					<FontAwesomeIcon icon="plus" /> 
+					<span>Add Filter</span>
+				</div>
+				<div className={style.dropDown}>
+					<ul className={style.status}>
+						<li onClick={()=>clickStatus('none')} className={filterNav('none')} >Tidak Ada</li>
+						<li onClick={()=>clickStatus('expired')} className={filterNav('expired')}>Terlambat</li>
+						<li onClick={()=>clickStatus('done')} className={filterNav('done')}>Selesai</li>
+					</ul>
+					<ul className={style.classes}>
+						<li>Semua Kelas</li>
+						<li>Belajar PHP</li>
+					</ul>
+				</div>
+			
+			</div>
+			
 			<h2 className={style.title}>Tugas Diterima</h2>
 		</div>
 		<div className={style.content}>

@@ -137,19 +137,19 @@ export default function Profile() {
 				
 					<div className={style.fieldContainer} >
 						<label>Name:</label>
-						<FormControl width="100%" error={errors.name?.message} >
+						<FormControl fontSize="0.9em" width="100%" error={errors.name?.message} >
 							<input type="text" {...customRegister('name')} />
 						</FormControl>	
 					</div>
 					<div className={style.fieldContainer} >
 						<label>Email:</label>
-						<FormControl width="100%" error={errors.email?.message} >
+						<FormControl fontSize="0.9em" width="100%" error={errors.email?.message} >
 							<input type="text" {...customRegister('email')} />
 						</FormControl>	
 					</div>
 					<div className={style.fieldContainer}>
 						<label>Gender:</label>
-						<FormControl width="100%" error={errors.gender?.message} >
+						<FormControl fontSize="0.9em" width="100%" error={errors.gender?.message} >
 							<div className={style.radioContainer}>
 								<input {...register('gender', val.gender)} value="Male" name="gender" type="radio" placeholder="Your Name" />
 								<p className={style.genderDesc}>Male</p>

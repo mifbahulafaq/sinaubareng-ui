@@ -1,63 +1,92 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap');
 .container{
-	font-family: Roboto, Arial, sans-serif;
 	background: rgba(199, 217, 237, 0.3);
 	min-height: 100%;
-	padding: 20px 0;
+	padding: 20px 30px;
+	font-family: Roboto, Arial, sans-serif;
 }
 .container .menuContainer{
 	margin: auto;
-	padding: 0 30px 0 20px;
+	padding: 0.9rem 20px;
+	height: 3.2rem;
 	margin-bottom: 5px;
-	height: 50px;
-	width: 800px;
+	max-width: 800px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	background: #fff;
 	border-radius: 10px 10px 0 0;
 }
-.container .menuContainer ul{
+.container .menuContainer .filter{
+	position: relative;
+	/* background: green; */
+}
+.container .menuContainer .filter .btnFilter{
+	font-size: 0.9375rem;
+	padding: 0.3rem 0.7rem;
+	box-shadow: 0 1px 3px rgba(116, 116, 116, 0.4);
+	border-radius: 0.3rem;
+	color: var(--primary-font-color);
+	font-weight: 400;
+	cursor: pointer;
+	transition: box-shadow ease 0.3s;
+}
+.container .menuContainer .filter .btnFilter:hover{
+	background: #f8f8f8;
+	box-shadow: none;
+	border: 2px solid var(--primary-color);
+}
+.container .menuContainer .filter .btnFilter svg{
+	margin-right: 0.4rem;
+}
+.container .menuContainer .filter .dropDown{
+	background: red;
+	width: 300px;
+	position: absolute;
+	z-index: 1;
+}
+.container .menuContainer .filter .dropDown ul.status{
 	list-style: none;
 	display: flex;
 	align-items: center;
 }
-.container .menuContainer li{
-	margin-right: 20px;
-	padding: 8px 0;
+.container .menuContainer .filter .dropDown ul.status li{
+	margin-right: 1.25rem;
 	font-weight: 500;
 	color: #999;
 	border-bottom: 2px solid transparent;
 	transition: all ease 0.3s;
 	cursor: pointer;
 }
-.container .menuContainer li.active{
+.container .menuContainer .filter .dropDown ul.status li.active{
 	color: #098DDF;
 	border-bottom: 2px solid #098DDF;
 }
-.container .menuContainer ul :not(.active):hover{
+.container .menuContainer .filter .dropDown ul.status :not(.active):hover{
 	border-bottom: 2px solid #999;
+}
+.container .menuContainer .filter .dropDown .classes{
+	
 }
 .container .menuContainer .title{
 	color: #3c4043;
+	font-family: Roboto, Arial, sans-serif;
+	font-size: 1.3rem;
 }
 .container .content{
 	position: relative;
 	margin: auto;
 	height: 503px;
-	width: 800px;
+	max-width: 800px;
 	background: #fff;
 	border-radius: 0 0 10px 10px;
 }
 .container .content .header{
-	display: flex;
-	align-items: center;
-	height: 50px;
-	padding-left: 20px;
-	border-bottom: 1px solid rgba(224, 224, 224, 0.8);
+	display: none;
 }
 .container .content .header .filter{
 	position: relative;
+	font-size: 0.9375rem;
 }
 .container .content .header .filter .setOption{
 	height: 30px;
@@ -67,7 +96,6 @@
 	color: #3c4043;
 	line-height: 30px;
 	border-radius: 5px;
-	font-size: 15px;
 	cursor: pointer;
 }
 .container .content .header .filter .setOption:hover{
@@ -86,11 +114,11 @@
 .container .content .header .filter .option{
 	display: none;
 	position: absolute;
-	padding: 10px 0;
+	padding: 0.625rem 0;
 	left: 0;
 	top: 100%;
-	width: 300px;
-	max-height: 500px;
+	width: 18.75rem;
+	max-height: 31.25rem;
 	border-radius: 5px;
 	background: #fff;
 	box-shadow: 0 5px 10px rgb(0 0 0 / 30%);
@@ -99,9 +127,8 @@
 }
 .container .content .header .filter .option li{
 	width: 100%;
-	padding: 15px;
+	padding: 1em;
 	color: #3c4043;
-	font-size: 15px;
 	font-weight: 500;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -189,7 +216,6 @@
 	border-radius: 5px;
 	background: #fff;
 }
-
 .noData{
 	width: 100%;
 	height: 100%;
@@ -205,3 +231,33 @@
     text-align: center;
     font-weight: 500;
 }
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+	.container .menuContainer .filter .btnFilter{
+		display: none;
+	}
+	.container .menuContainer .filter .dropDown{
+		display: initial;
+		position: initial;
+	}
+	.container .menuContainer .filter .dropDown .classes{
+		display: none;
+	}
+	.container .content .header{
+		display: flex;
+		align-items: center;
+		height: 50px;
+		padding-left: 20px;
+		border-bottom: 1px solid rgba(224, 224, 224, 0.8);
+	}
+	
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {}

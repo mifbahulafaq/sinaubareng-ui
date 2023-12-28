@@ -3,7 +3,7 @@
 	width: 100%;
 	height: 100%;
 	padding: 2rem 2.5rem;
-	overflow-x: hidden;
+	overflow-x: auto;
 	overflow-y: auto;
 }
 .container .label{
