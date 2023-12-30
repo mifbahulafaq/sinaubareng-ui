@@ -81,11 +81,27 @@ export default function AllAssignment() {
 		return filterAssignment.status === value? style.active: ""
 	}
 	
+	function clickFilter(e){
+		
+		const dropDown = e.currentTarget.parentElement.querySelector(`.${style.dropDown}`);
+		
+		dropDown.classList.toggle(style.active)
+		
+		const classArr = Array.from(dropDown.classList);
+		const isActive = classArr.includes(style.active);
+		
+		if(isActive){
+			e.target.classList.add(style.clicked);
+		}else{
+			e.target.classList.remove(style.clicked);
+		}
+	}
+	
   return (
 	<div className={style.container}>
 		<div className={style.menuContainer}>
 			<div className={style.filter}>
-				<div className={style.btnFilter}>
+				<div className={style.btnFilter} onClick={clickFilter} >
 					<FontAwesomeIcon icon="plus" /> 
 					<span>Add Filter</span>
 				</div>
@@ -96,8 +112,23 @@ export default function AllAssignment() {
 						<li onClick={()=>clickStatus('done')} className={filterNav('done')}>Selesai</li>
 					</ul>
 					<ul className={style.classes}>
-						<li>Semua Kelas</li>
-						<li>Belajar PHP</li>
+						<li 
+							className={filterAssignment.class === "" ? style.active: ""} 
+							onClick={()=>clickClass('Semua Kelas', '')}
+						>Semua Kelas</li>
+						{
+							classStudentData.map((e,i)=>{
+								return(
+									<li 
+										key={i} 
+										onClick={()=>clickClass(e.class_name,e.code_class)}
+										className={filterAssignment.class === e.code_class? style.active: ""}
+									>
+									{e.class_name}
+									</li>
+								)
+							})
+						}
 					</ul>
 				</div>
 			

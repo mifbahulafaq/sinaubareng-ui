@@ -2,12 +2,12 @@
 .container{
 	background: rgba(199, 217, 237, 0.3);
 	min-height: 100%;
-	padding: 20px 30px;
+	padding: 20px 15px;
 	font-family: Roboto, Arial, sans-serif;
 }
 .container .menuContainer{
 	margin: auto;
-	padding: 0.9rem 20px;
+	padding: 0 1.25rem;
 	height: 3.2rem;
 	margin-bottom: 5px;
 	max-width: 800px;
@@ -31,7 +31,10 @@
 	cursor: pointer;
 	transition: box-shadow ease 0.3s;
 }
-.container .menuContainer .filter .btnFilter:hover{
+.container .menuContainer .filter .btnFilter > *{
+	pointer-events: none;
+}
+.container .menuContainer .filter .btnFilter.clicked{
 	background: #f8f8f8;
 	box-shadow: none;
 	border: 2px solid var(--primary-color);
@@ -40,22 +43,37 @@
 	margin-right: 0.4rem;
 }
 .container .menuContainer .filter .dropDown{
-	background: red;
-	width: 300px;
+	display: none;
+	width: 280px;
 	position: absolute;
+	top: 120%;
+	border-radius: 0.4rem;
+	box-shadow: 0 1px 4px 1px rgba(116, 116, 116, 0.4);
 	z-index: 1;
+	background: #fff;
+	font-size: 0.95rem;
+}
+.container .menuContainer .filter .dropDown.active{
+	display: block;
 }
 .container .menuContainer .filter .dropDown ul.status{
 	list-style: none;
 	display: flex;
 	align-items: center;
+	border-bottom: 2px solid #f3f3f4;
+	padding: 0 0.9rem;
+	height: 2.5rem;
 }
 .container .menuContainer .filter .dropDown ul.status li{
 	margin-right: 1.25rem;
+	margin-bottom: -2px;
+	height: 100%;
+	display: flex;
+	align-items: center;
 	font-weight: 500;
 	color: #999;
 	border-bottom: 2px solid transparent;
-	transition: all ease 0.3s;
+	transition: border ease 0.3s;
 	cursor: pointer;
 }
 .container .menuContainer .filter .dropDown ul.status li.active{
@@ -66,12 +84,29 @@
 	border-bottom: 2px solid #999;
 }
 .container .menuContainer .filter .dropDown .classes{
-	
+	list-style: none;
+	padding: 0.3rem 0;
+	max-height: 16rem;
+	overflow-y: auto;
+}
+.container .menuContainer .filter .dropDown .classes li{
+	list-style: none;
+	padding: 0.4rem 0.9rem;
+	cursor: pointer;
+	transition: background ease 0.3s;
+}
+.container .menuContainer .filter .dropDown .classes li.active{
+	background: rgba(123, 237, 37, 0.1);
+	color: rgba(123, 237, 37, 1);
+	font-weight: 500;
+}
+.container .menuContainer .filter .dropDown .classes li:hover{
+	background: rgba(123, 237, 37, 0.1);
 }
 .container .menuContainer .title{
 	color: #3c4043;
 	font-family: Roboto, Arial, sans-serif;
-	font-size: 1.3rem;
+	font-size: 1.1rem;
 }
 .container .content{
 	position: relative;
@@ -162,22 +197,23 @@
 }
 .container .content .assignments .singleAssignment .created{
 	margin-right: 30px;
-	font-size: 13px;
+	font-size: 0.8125rem;
 	color: rgba(0,0,0,.549);
+	background: red;
 }
 .container .content .assignments .singleAssignment .created span{
 	color: rgba(0,0,0,.7);
 	font-weight: 500;
 }
 .container .content .assignments .singleAssignment .detail{
-	font-size: 13px;
+	font-size: 0.8125rem;
+	background: green;
 }
 .container .content .assignments .singleAssignment .detail .title{
 	margin-bottom: 10px;
 	font-size: 14px;
 	font-weight: 500;
 	color: #3c4043;
-	width: 400px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -186,7 +222,6 @@
 	margin-bottom: 10px;
 	color: rgba(0,0,0,.549);
 	font-weight: 400;
-	width: 400px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -233,15 +268,29 @@
 }
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
+	.container{
+		padding: 20px 30px;
+	}
 	.container .menuContainer .filter .btnFilter{
 		display: none;
 	}
 	.container .menuContainer .filter .dropDown{
-		display: initial;
-		position: initial;
+		display: block;
+		position: static;
+		font-size: 1rem;
+		top: initial;
+		box-shadow: none;
+		z-index: none;
+	}
+	.container .menuContainer .filter .dropDown ul.status{
+		border-bottom: none;
+		padding: 0;
 	}
 	.container .menuContainer .filter .dropDown .classes{
 		display: none;
+	}
+	.container .menuContainer .title{
+		font-size: 1.3rem;
 	}
 	.container .content .header{
 		display: flex;
