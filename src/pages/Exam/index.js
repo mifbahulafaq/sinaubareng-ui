@@ -54,12 +54,13 @@ export default React.memo(function Exam() {
 			/>
 		</ ModalContainer>
 		
-		<div className={style.previousLink} >
-			<PreviousLink to="../.." name={singleClass.class_name} />
-		</div>
 		
 		<div className={style.examContainer}>
 		
+			<div className={style.previousLink} >
+				<PreviousLink to="../.." name={singleClass.class_name} />
+			</div>
+			
 			<div className={style.top}>
 				<div className={style.label}>
 					<FontAwesomeIcon icon="clipboard-question" />

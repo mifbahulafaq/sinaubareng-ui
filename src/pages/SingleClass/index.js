@@ -96,7 +96,7 @@ export default React.memo(function SingleClass(props) {
 			
 			const scheduleDatas = result.data;
 			
-			for(let i = 0; i < scheduleDatas.length; i++){
+			for(let i = 0; i < (scheduleDatas?.length || 0); i++){
 				
 				const schedule = scheduleDatas[i];
 				

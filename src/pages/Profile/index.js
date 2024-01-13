@@ -82,7 +82,6 @@ export default function Profile() {
 			
 		}
 		
-		
 	}
 	
 	function validateFile(e){
@@ -136,19 +135,23 @@ export default function Profile() {
 				<div className={style.detail}>
 				
 					<div className={style.fieldContainer} >
-						<label>Name:</label>
+						<label>User ID</label>
+						<p className={style.userId}>{user.user_id}</p>
+					</div>
+					<div className={style.fieldContainer} >
+						<label>Name</label>
 						<FormControl fontSize="0.9em" width="100%" error={errors.name?.message} >
 							<input type="text" {...customRegister('name')} />
 						</FormControl>	
 					</div>
 					<div className={style.fieldContainer} >
-						<label>Email:</label>
+						<label>Email</label>
 						<FormControl fontSize="0.9em" width="100%" error={errors.email?.message} >
 							<input type="text" {...customRegister('email')} />
 						</FormControl>	
 					</div>
 					<div className={style.fieldContainer}>
-						<label>Gender:</label>
+						<label>Gender</label>
 						<FormControl fontSize="0.9em" width="100%" error={errors.gender?.message} >
 							<div className={style.radioContainer}>
 								<input {...register('gender', val.gender)} value="Male" name="gender" type="radio" placeholder="Your Name" />

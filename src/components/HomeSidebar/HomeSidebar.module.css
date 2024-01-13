@@ -16,7 +16,6 @@
 	padding-bottom: 4rem;
 	background:#fff;
 	color: #073763;
-	box-shadow: 1px 0 20px rgba(206, 206, 206, 0.4);
 	transition: all 0.4s ease;
 	z-index:103;
 	--sidebar-font-size: 0.85rem;

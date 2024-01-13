@@ -17,8 +17,22 @@ function HomeSidebar({ classData, iconBar, setIconBar }){
 		return isActive? style.active: '';
 	}
 	
+	let styling = {};
+	
+	if(iconBar){
+		styling = {
+			marginLeft: '0',
+			boxShadow: '1px 0 20px rgba(206, 206, 206, 0.4)'
+		}
+	}else{
+		styling = {
+			marginLeft: '-18.8rem',
+			boxShadow: 'none'
+		}
+	}
+	
 	return (
-		<div style={{marginLeft: iconBar? '0': '-18.8rem'}} className={style.container}>
+		<div style={{...styling}} className={style.container}>
 			<Link to="/user/account/profile" className={style.user}>
 				<div className={style.leftSide}>
 					<div className={style.photo}>

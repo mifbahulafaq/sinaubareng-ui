@@ -1,20 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
 .container{
 	position: relative;
-	padding:55px 210px 0;
-	display: flex;
+	padding:55px 30px 20px;
 	min-height: calc(100vh - 65px);
-	justify-content: space-between;
-	align-items: flex-start;
 	background: rgba(199, 217, 237, 0.3);
 }
 .container .previousLink{
+	margin: auto;
 	position: absolute;
-	top: 15px;
+	top: -42px;
+	left: 0;
 }
 .container .examContainer{
+	position: relative;
 	padding: 20px 10px 50px;
-	width: 100%;
+	max-width: 950px;
+	min-height: 500px;
+	margin: auto;
 	box-shadow:0 0 8px rgba(224, 224, 224, 0.8);
 	border-radius: 5px;
 	background: #fff;
@@ -143,4 +145,23 @@
 .exams .singleExam .menu:hover{
 	background: rgba(231, 231, 231, 0.6);
 }
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+}
 
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+	
+}

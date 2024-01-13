@@ -16,22 +16,32 @@ import days from '../../utils/days';
  const MatterForm = memo(function ({displayMatters, display, codeClass}){
 	 
 	const customInput = useRef(null);
+	const defaultScheduleTime = (new Date()).toLocaleString('en-GB',{timeStyle: 'short'}) + ':00';
+	let defaultDurationTime = new Date();
+	defaultDurationTime.setHours(defaultDurationTime.getHours() + 1);
+	defaultDurationTime = defaultDurationTime.toLocaleString('en-GB',{timeStyle: 'short'}) + ':00';
+	
 	const defaultValues = {
+		name: "",
 		code_class: codeClass,
 		status: "active",
 		schedule: {
 			date: "",
-			time : '00:00:00'
+			time : defaultScheduleTime
 		},
 		duration: {
 			date:"",
-			time : '00:00:00'
+			time : defaultDurationTime
 		}
 	}
 	const { reset, control, setValue, watch, register, setError, handleSubmit, formState, getValues } = useForm({
 		mode: "onChange",
 		defaultValues
 	});
+	const dateOfSchedule = watch("schedule.date");
+	const timeOfSchedule = watch("schedule.time");
+	const dateOfDuration = watch("duration.date");
+	const timeOfDuration = watch("duration.time");
 	const { update, remove } = useFieldArray({ control, name: 'attachment' })
 	const { isSubmitSuccessful, isValid, isSubmitted, isSubmitting, errors } = formState
 	const errorAttachment = errors.attachment?.length
@@ -45,6 +55,7 @@ import days from '../../utils/days';
 		setInputSchedule(new Date(locState.schedule))
 		
 	},[locState])
+	
 	//Reset Form
 	useEffect(()=>{
 		reset(defaultValues)
@@ -167,11 +178,6 @@ import days from '../../utils/days';
 		e.target.value = null;
 	}
 	
-	const dateOfSchedule = watch("schedule.date");
-	const timeOfSchedule = watch("schedule.time");
-	const dateOfDuration = watch("duration.date");
-	const timeOfDuration = watch("duration.time");
-	
 	return (
 		<form className={style.container} onSubmit={handleSubmit(submit)} >
 			<input className={style.input} maxLength={255} placeholder="Judul" {...register('name', val.name)} />
@@ -236,6 +242,7 @@ import days from '../../utils/days';
 									</div>
 									<input 
 										type="date"
+										min={(new Date()).toLocaleString('en-CA',{dateStyle: 'short'})}
 										{
 											...register( 'schedule.date', { ...val.dateNoTimezone, onChange: funcInputDate } )
 										} 
@@ -282,6 +289,7 @@ import days from '../../utils/days';
 									{ dateOfDuration && dateOfDuration.length ? formatDate(dateOfDuration,"id-ID", {dateStyle:"medium"}) : "Masukkan tanggal"}
 								</div>
 								<input 
+									min={dateOfSchedule}
 									type="date"
 									{...register('duration.date', { onChange: funcInputDate2 }) } 
 								/>

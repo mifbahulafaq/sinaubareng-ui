@@ -55,9 +55,7 @@ export default function AllAssignment() {
 		.then(([ { data: assData }, { data: classStudentData }])=>{
 			
 			if(assData.error || classStudentData.error ) {
-				setAssignmentDatas(state=>({...state, status: reqStatus.error}));	
-				console.log(assData)
-				console.log(classStudentData)
+				setAssignmentDatas(state=>({...state, status: reqStatus.error}));
 				return
 			}
 			
@@ -66,6 +64,14 @@ export default function AllAssignment() {
 		})
 		.catch(err=>console.log(err))
 	},[filterAssignment])
+	
+	React.useEffect(()=>{
+		
+		const vw = window.innerWidth;
+		
+		if(vw < 478 && assignmentDatas.rowCount > 0) dispatch({type:'change_limit', limit: assignmentDatas.rowCount})
+		
+	}, [assignmentDatas.rowCount])
 	
 	function clickStatus(value){
 		if(filterAssignment.status === value) return
@@ -172,7 +178,7 @@ export default function AllAssignment() {
 												<div className={style.deadline}>Jawaban Diserahkan</div>
 											:
 												<div className={style.deadline}>
-												Tenggat: 
+												Tenggat:  
 												{dateToTime === durationToTime? " -": formateDate(durationToTime, "id-ID", {dateStyle: "medium", timeStyle: "short"})}
 												</div>
 										}
@@ -191,14 +197,16 @@ export default function AllAssignment() {
 				filterAssignment.limit >= assignmentDatas.rowCount?
 				"":
 				<div className={style.paginContainer}>
-					<Pagination
-						count={pages}
-						page={clickedPage}
-						shape="rounded"
-						onChange={(event,value)=>{
-							dispatch({type: 'change_page', page: value})
-						}}
-					/>
+					<div className={style.pagin}>
+						<Pagination
+							count={pages}
+							page={clickedPage}
+							shape="rounded"
+							onChange={(event,value)=>{
+								dispatch({type: 'change_page', page: value})
+							}}
+						/>
+					</div>
 				</div>
 			}
 		</div>

@@ -67,6 +67,14 @@ export default function GivenAssignment() {
 		
 	},[filterAssignment])
 	
+	React.useEffect(()=>{
+		
+		const vw = window.innerWidth;
+		
+		if(vw < 478 && assignmentDatas.rowCount > 0) dispatch({type:'change_limit', limit: assignmentDatas.rowCount})
+		
+	}, [assignmentDatas.rowCount])
+	
 	function clickStatus(value){
 		if(filterAssignment.status === value) return
 		dispatch({type:'status', value})
@@ -80,6 +88,15 @@ export default function GivenAssignment() {
 	function filterNav(value){
 		return filterAssignment.status === value? style.active: ""
 	}
+	function toThousand(value){
+		
+		const text = value.toString();
+		
+		if(text.length > 3){
+			return text.slice(0, text.length - 3) + 'k';
+		}
+		return text
+	}
 	
   return (
 	<div className={style.container}>
@@ -88,6 +105,7 @@ export default function GivenAssignment() {
 				<div className={`${style.setOption} setOption`}>{className}</div>
 				<ul className={`${style.option} option`}>
 					<li onClick={()=>clickClass('Semua Kelas', '')}>Semua Kelas</li>
+					<li onClick={()=>clickClass('Semua Kelas', '')}>Semua Kelas Semua Kelas Semua Kelas Semua Kelas</li>
 					{
 						classData.map((e,i)=><li key={i} onClick={()=>clickClass(e.class_name,e.code_class)}>{e.class_name}</li>)
 					}
@@ -112,13 +130,13 @@ export default function GivenAssignment() {
 								return <div key={i} className={style.singleAssignment} >
 									<Link to={`../c/${e.class.code_class}/m/${e.matter.id_matter}/assignment/${e.id_matt_ass}`} className={style.leftDetail}>
 										<p className={style.created}>Dibuat <span>{formateDate(e.date, "id-ID", {weekday: 'long', month: 'short', day: '2-digit', year: 'numeric'})}</span></p>
-										<div className={style.midDetail}>
-											<p className={style.title}>{e.title}</p>
-											<p className={style.className}>{e.class.class_name}</p>
-										</div>
 									</Link>
+									<div className={style.midDetail}>
+										<p className={style.title}>{e.title}</p>
+										<p className={style.className}>{e.class.class_name}</p>
+									</div>
 									<div className={style.rightDetail}>
-										<Link to="#" className={style.ansAmount}><span>{e.total_answers}</span> Jawaban</Link>
+										<Link to="#" className={style.ansAmount}><span>{toThousand(e.total_answers)}</span> Jawaban</Link>
 										<p className={style.deadline}>
 											Tenggat:&nbsp;
 											{dateToTime === durationToTime? " -": formateDate(durationToTime, "id-ID", {dateStyle: "medium", timeStyle: "short"})}

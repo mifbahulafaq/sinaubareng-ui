@@ -54,6 +54,10 @@ export function assignmentFilter(state, actions){
 		
 			return {...state, status: actions.value}
 			
+		case 'change_limit':
+		
+			return {...state, limit: actions.limit}
+			
 		case 'class':
 		
 			return {...state, class: actions.code_class}

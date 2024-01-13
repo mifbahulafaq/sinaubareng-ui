@@ -2,7 +2,7 @@
 .container{
 	background: rgba(199, 217, 237, 0.3);
 	min-height: 100%;
-	padding: 20px 15px;
+	padding: 20px 0px;
 	font-family: Roboto, Arial, sans-serif;
 }
 .container .menuContainer{
@@ -15,7 +15,6 @@
 	align-items: center;
 	justify-content: space-between;
 	background: #fff;
-	border-radius: 10px 10px 0 0;
 }
 .container .menuContainer .filter{
 	position: relative;
@@ -111,7 +110,7 @@
 .container .content{
 	position: relative;
 	margin: auto;
-	height: 503px;
+	min-height: 503px;
 	max-width: 800px;
 	background: #fff;
 	border-radius: 0 0 10px 10px;
@@ -196,18 +195,18 @@
 	border-left: 2px solid #999;
 }
 .container .content .assignments .singleAssignment .created{
-	margin-right: 30px;
+	max-width: 184px;
+	margin-right: 1.5rem;
 	font-size: 0.8125rem;
 	color: rgba(0,0,0,.549);
-	background: red;
 }
 .container .content .assignments .singleAssignment .created span{
 	color: rgba(0,0,0,.7);
 	font-weight: 500;
 }
 .container .content .assignments .singleAssignment .detail{
+	width: 60%;
 	font-size: 0.8125rem;
-	background: green;
 }
 .container .content .assignments .singleAssignment .detail .title{
 	margin-bottom: 10px;
@@ -231,9 +230,9 @@
 }
 .container .content .assignments .singleAssignment.expired .detail .deadline{
 	padding: 5px 10px;
-	width: 230px;
 	color: rgba(245, 39, 118, 1);
 	font-weight: 500;
+	max-width: 13rem;
 	background: rgba(245, 39, 118, 0.1);
 }
 .container .content .assignments .singleAssignment.done .detail .deadline{
@@ -243,13 +242,15 @@
 .container .content .paginContainer{
 	position: absolute;
 	bottom: 7px;
-	left: 50%;
-	transform: translate(-50%, 0);
-	font-size: 14px;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+.container .content .paginContainer .pagin{
+	font-size: 0.875rem;
 	box-shadow: 0 0 8px -2px rgba(205, 205, 205, 1);
-	padding: 0.6em 0.9em;
+	padding: 0.4em 0.9em;
 	border-radius: 5px;
-	background: #fff;
 }
 .noData{
 	width: 100%;
@@ -266,10 +267,14 @@
     text-align: center;
     font-weight: 500;
 }
+
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
 	.container{
 		padding: 20px 30px;
+	}
+	.container .menuContainer{
+		border-radius: 10px 10px 0 0;
 	}
 	.container .menuContainer .filter .btnFilter{
 		display: none;
@@ -299,14 +304,8 @@
 		padding-left: 20px;
 		border-bottom: 1px solid rgba(224, 224, 224, 0.8);
 	}
+	.container .content .assignments .singleAssignment .detail{
+		width: 400px;
+	}
 	
 }
-
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 768px) {}
-
-/* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {}
-
-/* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {}
