@@ -7,7 +7,7 @@ import { Link, useParams, useLocation } from 'react-router-dom';
 
 //components
 import PreviousLink from '../../components/PreviousLink';
-import MatterForm from '../../components/MatterForm'
+import AddingMatterForm from '../../components/AddingMatterForm'
 import Calendar from 'react-calendar';
 //pages
 import ServerError from '../ServerError'
@@ -22,7 +22,6 @@ import useIsTeacher from '../../hooks/useIsTeacher'
 export default React.memo(function Matter() {
 	
 	const [matters, setMatters] = React.useState([]);
-	const [comments, setComments] = React.useState([]);
 	const [errorPage, setErrorPage] = React.useState(false);
 	const [ matterForm, setMatterForm ] = React.useState(false)
 	const [ date, setDate ] = React.useState(null)
@@ -127,22 +126,12 @@ export default React.memo(function Matter() {
 				
 			</div>
 		</div>
-		
-		<div className={style.hideAdd} />
-		<div className={`${style.addMatter} ${matterForm?style.open:''}`}>
-			<div className={style.header}>
-				<div className={style.left}>
-					<FontAwesomeIcon icon={['far', 'file-alt']} />
-					<h2>Materi</h2>
-				</div>
-				<div className={style.right}>
-					<FontAwesomeIcon onClick={()=>displayMatterForm(false)} icon="plus" />
-				</div>
-			</div>
-			<div className={style.formContainer}>
-				<MatterForm displayMatters={getMatters} display={displayMatterForm} codeClass={params.code_class}/>
-			</div>
-		</div>
+		<AddingMatterForm 
+			fetchMatters={getMatters} 
+			setDisplay={displayMatterForm} 
+			display={matterForm} 
+			codeClass={params.code_class}
+		/>
 	</>
   )
 })

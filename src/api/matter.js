@@ -1,4 +1,6 @@
 import fetch from './fetch';
+// import axios from 'axios';
+// import config from '../config';
 
 export function getAll(codeCLass, params){
 	
@@ -10,6 +12,11 @@ export function getAll(codeCLass, params){
 export function add(payload){
 	
 	return fetch.post('/api/matters',payload);
+	
+}
+export function edit(id_matter, payload){
+	
+	return fetch.put(`/api/matters/${id_matter}`,payload);
 	
 }
 export function getSingle(id_matt){

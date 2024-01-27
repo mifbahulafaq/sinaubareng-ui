@@ -1,7 +1,71 @@
-form.container .input:first-child ~ div{
+.addMatter{
+	position: fixed;
+	top: 0;
+	right: -710px;
+	bottom: 0;
+	width: 700px;
+	height: 100vh;
+	overflow-y: auto;
+	z-index: 101;
+	background: #fff;
+	box-shadow:-1px 0 15px rgba(210, 210, 210, 0.8);
+	transition: all 0.8s ease ;
+}
+.addMatter.open{
+	right: 0;
+}
+.addMatter .header{
+	position: sticky;
+	top: 0;
+	background: #fff;
+	height: 70px;
+	padding: 0 40px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid #bcbcbc;
+	z-index: 1;
+}
+.addMatter .header .left {
+	display: flex;
+	align-items: center;
+}
+.addMatter .header .left svg{
+	margin-right: 10px;
+	font-size: 2em;
+	color: #098DDF;
+}
+.addMatter .header .left h2{
+	font-weight: 600;
+	color: #434343;
+}
+.addMatter .header .right{
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 45px;
+	cursor: pointer;
+}
+.addMatter .header .right:hover{
+	background: rgba(222, 222, 222, 0.5);
+}
+.addMatter .header .right svg{
+	color: #434343;
+	transform: rotate(45deg);
+	font-size: 1.6em;
+	font-weight: normal;
+}
+.addMatter .formContainer {
+	position: relative;
+	background: #fff;
+	min-height: calc(100vh - 70px);
+	padding: 20px 50px 70px;
+}
+.form .input:first-child ~ div{
 	margin-top: 20px;
 }
-form.container input.input, form.container div.input [contenteditable="true"]{
+.form input.input, .form div.input [contenteditable="true"]{
 	padding: 15px;
 	width: 100%;
 	border: none;
@@ -13,19 +77,19 @@ form.container input.input, form.container div.input [contenteditable="true"]{
 	font-weight: 500;
 	border-bottom: 1px solid #999;
 }
-form.container input.input:focus, form.container div.input [contenteditable="true"]:focus{
+.form input.input:focus, .form div.input [contenteditable="true"]:focus{
 	padding: 15px 15px 14px;
 	border-bottom: 2px solid #098DDF;
 }
-form.container div.input{
+.form div.input{
 	position: relative;
 }
-form.container input.input::placeholder{
+.form input.input::placeholder{
 	font-weight: 500;
 	font-size: 15px;
 	color: #969494;
 }
-form.container div.input span{
+.form div.input span{
 	display: none;
 	position: absolute;
 	left: 15px;
@@ -35,17 +99,17 @@ form.container div.input span{
 	color: #969494;
 	pointer-events: none;
 }
-form.container div.input [contenteditable="true"]{
+.form div.input [contenteditable="true"]{
 	min-height: 120px;
 }
-form.container div.input [contenteditable="true"]:empty ~ span{
+.form div.input [contenteditable="true"]:empty ~ span{
 	display: initial;
 }
-form.container .inputDateContainer h4{
+.form .inputDateContainer h4{
 	margin-left: 10px;
 	color: #5f6368;
 }
-form.container .inputDateContainer .dateOfLink{
+.form .inputDateContainer .dateOfLink{
 	position: relative;
 	margin-top: 10px;
 	width: 350px;
@@ -54,11 +118,11 @@ form.container .inputDateContainer .dateOfLink{
 	border-radius: 3px;
 	/* border: 2px solid rgba(39, 161, 245, 0.5);  */
 }
-form.container .inputDateContainer .dateOfLink .dateOfLinkText{
+.form .inputDateContainer .dateOfLink .dateOfLinkText{
 	color: #01518e;
 	font-weight: 600;
 }
-form.container .inputDateContainer .dateOfLink .cancel{
+.form .inputDateContainer .dateOfLink .cancel{
 	position: absolute;
 	right: 10px;
 	top: 50%;
@@ -71,18 +135,18 @@ form.container .inputDateContainer .dateOfLink .cancel{
 	border-radius: 50%;
 	cursor: pointer;
 }
-form.container .inputDateContainer .dateOfLink .cancel:hover{
+.form .inputDateContainer .dateOfLink .cancel:hover{
 	background: rgba(203, 203, 203, 0.2);
 }
-form.container .inputDateContainer .dateOfLink .cancel svg{
+.form .inputDateContainer .dateOfLink .cancel svg{
 	font-size: 1.2em;
 	transform: rotate(45deg);
 }
-form.container .inputDateContainer .inputDate{
+.form .inputDateContainer .inputDate{
 	position: relative;
 	margin-top: 10px;
 }
-form.container .inputDateContainer .inputDate .setOption{
+.form .inputDateContainer .inputDate .setOption{
 	position: relative;
 	width: 350px;
 	padding: 12px 15px;
@@ -92,20 +156,20 @@ form.container .inputDateContainer .inputDate .setOption{
 	font-weight: 600;
 	cursor: pointer;
 }
-form.container .inputDateContainer .inputDate .setOption:hover{
+.form .inputDateContainer .inputDate .setOption:hover{
 	background: rgba(217, 217, 217, 0.6);
 }
-form.container .inputDateContainer .inputDate .setOption.disabled:hover{
+.form .inputDateContainer .inputDate .setOption.disabled:hover{
 	background: rgba(217, 217, 217, 0.3);
 }
-form.container .inputDateContainer .inputDate .value{
+.form .inputDateContainer .inputDate .value{
 	color: #5f6368;
 	font-weight: 500;
 }
-form.container .inputDateContainer .inputDate .setOption span{
+.form .inputDateContainer .inputDate .setOption span{
 	pointer-events: none;
 }
-form.container .inputDateContainer .inputDate .setOption span:after{
+.form .inputDateContainer .inputDate .setOption span:after{
 	position: absolute;
 	top: 50%;
 	right: 15px;
@@ -116,7 +180,7 @@ form.container .inputDateContainer .inputDate .setOption span:after{
 	border-left: 5px solid transparent;
 	border-right: 5px solid transparent;
 }
-form.container .inputDateContainer .inputDate .opt{
+.form .inputDateContainer .inputDate .opt{
 	display: none;
 	position: absolute;
 	top: 0;
@@ -128,7 +192,7 @@ form.container .inputDateContainer .inputDate .opt{
 	background: #fff;
 	z-index: 2;
 }
-form.container .inputDateContainer .inputDate .opt .desc{
+.form .inputDateContainer .inputDate .opt .desc{
 	color: #5f6368;
 	width: 100%;
 	height: 50px;
@@ -136,28 +200,28 @@ form.container .inputDateContainer .inputDate .opt .desc{
 	text-align: center;
 	border-bottom: 1px solid #ededed;
 }
-form.container .inputDateContainer .inputDate .opt .formOpt{
+.form .inputDateContainer .inputDate .opt .formOpt{
 	padding-top: 20px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
-form.container .inputDateContainer .inputDate .opt .formOpt .date{
+.form .inputDateContainer .inputDate .opt .formOpt .date{
 	position: relative;
 	height: 45px;
 	width: 220px;
 }
-form.container .inputDateContainer .inputDate .opt .formOpt .time{
+.form .inputDateContainer .inputDate .opt .formOpt .time{
 	position: relative;
 	margin-top: 20px;
 	height: 45px;
 	width: 220px;
 }
-form.container .inputDateContainer .inputDate .opt .formOpt .time.hidden{
+.form .inputDateContainer .inputDate .opt .formOpt .time.hidden{
 	display: none;
 }
-form.container .inputDateContainer .inputDate .opt .formOpt .date svg,
-form.container .inputDateContainer .inputDate .opt .formOpt .time svg
+.form .inputDateContainer .inputDate .opt .formOpt .date svg,
+.form .inputDateContainer .inputDate .opt .formOpt .time svg
 {
 	color: #5f6368;
 	position: absolute;
@@ -167,8 +231,8 @@ form.container .inputDateContainer .inputDate .opt .formOpt .time svg
 	font-size: 1.2em;
 	z-index: 2;
 }
-form.container .inputDateContainer .inputDate .opt .formOpt .time .content,
-form.container .inputDateContainer .inputDate .opt .formOpt .date .content
+.form .inputDateContainer .inputDate .opt .formOpt .time .content,
+.form .inputDateContainer .inputDate .opt .formOpt .date .content
 {
 	position: absolute;
 	top: 0;
@@ -185,8 +249,8 @@ form.container .inputDateContainer .inputDate .opt .formOpt .date .content
 	z-index: 1;
 	pointer-events: none; 
 }
-form.container .inputDateContainer .inputDate .opt .formOpt .time .content:after,
-form.container .inputDateContainer .inputDate .opt .formOpt .date .content:after
+.form .inputDateContainer .inputDate .opt .formOpt .time .content:after,
+.form .inputDateContainer .inputDate .opt .formOpt .date .content:after
 {
 	position: absolute;
 	top: 50%;
@@ -198,8 +262,8 @@ form.container .inputDateContainer .inputDate .opt .formOpt .date .content:after
 	border-left: 5px solid transparent;
 	border-right: 5px solid transparent;
 }
-form.container .inputDateContainer .inputDate .opt .formOpt .date input,
-form.container .inputDateContainer .inputDate .opt .formOpt .time input
+.form .inputDateContainer .inputDate .opt .formOpt .date input,
+.form .inputDateContainer .inputDate .opt .formOpt .time input
 {
 	position: absolute;
 	top: 2px;
@@ -207,7 +271,7 @@ form.container .inputDateContainer .inputDate .opt .formOpt .time input
 	bottom: 2px;
 	right: 5px;
 }
-form.container .fileUpload{
+.form .fileUpload{
 	position: relative;
 	display: flex;
 	align-items: center;
@@ -216,10 +280,10 @@ form.container .fileUpload{
 	border: 1px solid #dcdcdc;
 	border-radius: 5px;
 }
-form.container .fileUpload.error{
+.form .fileUpload.error{
 	border: 1px solid #d40027;
 }
-form.container .fileUpload .icon{
+.form .fileUpload .icon{
 	margin-right: 10px;
 	display: flex;
 	justify-content: center;
@@ -231,18 +295,18 @@ form.container .fileUpload .icon{
 	border-right:1px solid #dcdcdc ;
 	float: left;
 }
-form.container .fileUpload .icon .img{
+.form .fileUpload .icon .img{
 	height: 70%;
 	width: 100%;
 }
-form.container .fileUpload .fileName{
+.form .fileUpload .fileName{
 	max-width: 430px;
 }
-form.container .fileUpload .fileName span{
+.form .fileUpload .fileName span{
 	color: #5f6368;
 	font-weight: 500;
 }
-form.container .fileUpload .removeFile{
+.form .fileUpload .removeFile{
 	position: absolute;
 	right: 10px;
 	height: 37px;
@@ -251,16 +315,16 @@ form.container .fileUpload .removeFile{
 	text-align: center;
 	line-height: 42px;
 }
-form.container .fileUpload .removeFile:hover{
+.form .fileUpload .removeFile:hover{
 	background: rgba(249, 249, 249, 1);
 	cursor: pointer;
 }
-form.container .fileUpload .removeFile svg{
+.form .fileUpload .removeFile svg{
 	font-size: 1.4em;
 	transform: rotate(45deg);
 	color: #5f6368;
 }
-form.container div.inputFile{
+.form div.inputFile{
 	position: relative;
 	height: 40px;
 	width: 120px;
@@ -268,10 +332,10 @@ form.container div.inputFile{
 	border-radius: 5px;
 	overflow: hidden;
 }
-form.container div.inputFile:hover .icon{
+.form div.inputFile:hover .icon{
 	background: #f3faff;
 }
-form.container .inputFile .icon{
+.form .inputFile .icon{
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -283,16 +347,16 @@ form.container .inputFile .icon{
 	background: #fff;
 	pointer-events: none;
 }
-form.container .inputFile .icon svg{
+.form .inputFile .icon svg{
 	margin-right: 10px;
 	font-size: 1.2em;
 	color: #098DDF;
 }
-form.container .inputFile .icon span{
+.form .inputFile .icon span{
 	font-weight: 600;
 	color: #5f6368;
 }
-form.container .inputFile input{
+.form .inputFile input{
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -302,13 +366,13 @@ form.container .inputFile input{
 	color: #098DDF;
 	border: 1px solid #bcbcbc;
 }
-form.container .fileInfo{
+.form .fileInfo{
 	margin-top: 10px;
 	color: #5b5b5b;
 	font-weight: 600;
 	font-size: 0.8em;
 }
-form.container .btn{
+.form .btn{
 	position: absolute;
 	left: 0;
 	right: 0;
@@ -322,13 +386,13 @@ form.container .btn{
 	background-color: #3280c5;
 	cursor: pointer;
 }
-form.container .btn:disabled{
+.form .btn:disabled{
 	background: #c7c7c7;
 	color: #5f6368;
 }
-form.container .btn:disabled:hover{
+.form .btn:disabled:hover{
 	background: #c7c7c7;
 }
-form.container .btn:hover{
+.form .btn:hover{
 	background-color: #60a8e7;
 }

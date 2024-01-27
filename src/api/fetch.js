@@ -4,18 +4,23 @@ import * as tokenActions from '../features/Token/actions'
 import * as errorActions from '../features/Error/actions'
 import config from '../config';
 
-import getCookie from '../utils/getCookie';
-
 const baseURL = config.api_host;
 
-const fetch = axios.create({ baseURL , withCredentials: true });
+const fetch = axios.create({ 
+	baseURL ,
+	withCredentials: true
+});
 
 
-
+// fetch.interceptors.request.use(function(config){
+	// console.log(config)
+	// return config;
+// }, function(err){
+	// return Promise.reject(err);
+// })
 fetch.interceptors.response.use(
 
 	async function(res){
-		
 		//get response data and config
 		const { 
 			data: responseData, 
@@ -28,8 +33,6 @@ fetch.interceptors.response.use(
 			}
 		} = res;
 		//set new request configs
-		
-		
 		
 		const newConfig = {
 			method,
@@ -58,7 +61,7 @@ fetch.interceptors.response.use(
 					window.location.href = '/';
 					return res;
 				}
-					console.log(newConfig)
+				
 				return await axios(newConfig);
 					
 			}catch(err){

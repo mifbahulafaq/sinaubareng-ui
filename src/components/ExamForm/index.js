@@ -1,4 +1,4 @@
-import { useEffect, useRef, memo } from 'react';
+import { useEffect, useRef, memo,useMemo } from 'react';
 import style from './ExamForm.module.css';
 import { useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,17 +15,20 @@ import formatDate from '../../utils/id-format-date';
 
  const ExamForm = memo(function ({ refreshExam, codeClass, display }){
 	 
-	const customInput = useRef(null)
-	const defaultValues = {
+	const customInput = useRef(null);
+	const defaultValues = useMemo(()=>{
+		return {
 		schedule: {
 			date: "",
-			time : '00:00:00'
+			time : '00:00'
 		},
 		duration: {
 			date: "",
-			time : '00:00:00'
+			time : '00:00'
 		}
 	}
+	}, [])
+	
 	const { reset, register, setValue, watch, handleSubmit, setError, resetField, formState } = useForm({
 		mode: "onChange",
 		defaultValues
@@ -37,12 +40,12 @@ import formatDate from '../../utils/id-format-date';
 		reset(defaultValues)
 		customInput.current.innerText = ""
 		
-	},[reset, display, isSubmitSuccessful])
+	},[reset, display, isSubmitSuccessful, defaultValues])
 	
 	async function submit(input){
 		const payload = input;
 		payload.schedule = payload.schedule.date+ " " + payload.schedule.time
-		
+		console.log(payload.schedule)
 		if(payload?.duration?.date.length){
 			
 			const fullScheduleDate = new Date(payload.schedule)

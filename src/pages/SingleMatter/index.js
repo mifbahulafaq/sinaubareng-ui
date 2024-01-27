@@ -14,6 +14,7 @@ import Image from '../../components/Image';
 import PreviousLink from '../../components/PreviousLink';
 import ModalContainer from '../../components/ModalContainer';
 import AssignmentForm from '../../components/AssignmentForm';
+import EditingMatterForm from '../../components/EditingMatterForm';
 //utils
 import formatDate from '../../utils/id-format-date';
 import getToday from '../../utils/get-today';
@@ -30,6 +31,7 @@ export default React.memo(function SingleMatter() {
 	const [ commentText, setCommentText ] = React.useState("");
 	const [ displayModal, setDisplayModal ] = React.useState(false)
 	const [ displayDoc, setDisplayDoc ] = React.useState(false)
+	const [ matterForm, setMatterForm ] = React.useState(false); 
 	const customInput = React.useRef(null);
 	const [ allAss, setAllAss ] = React.useState(false)
 	const params = useParams()
@@ -72,7 +74,7 @@ export default React.memo(function SingleMatter() {
 		
 	}, [ params.id_matt, allAss, isTeacher])
 	
-	React.useEffect(()=>{
+	const getSingleMatter = React.useCallback(()=>{
 		
 		matterApi.getSingle(params.id_matt)
 		.then(res=>{
@@ -84,12 +86,18 @@ export default React.memo(function SingleMatter() {
 			const singleMatt = matter.data[0];
 			
 			setMatt(singleMatt);
-			getComments();
-			getAss()
 			
 			
 		})
-	}, [params.id_matt, getAss, getComments])
+	}, [params.id_matt])
+	
+	React.useEffect(()=>{
+	
+		getSingleMatter();
+		getComments();
+		getAss();
+
+	}, [getAss, getComments, getSingleMatter])
 	
 	React.useEffect(()=>{
 		if(!displayDoc) setDocs([])
@@ -166,12 +174,20 @@ export default React.memo(function SingleMatter() {
 			.replace(/(^\s*)|(\s*$)/g, "")
 		)
 	}
-	
+	function displayMatterForm(bool){
+		setMatterForm(bool)
+	}
   return (
 	<div className={style.container}>
 		{
 		matt.id_matter?
 			<>
+			<EditingMatterForm 
+				fetchMatters={()=>getSingleMatter()} 
+				setDisplay={displayMatterForm} 
+				display={matterForm} 
+				singleMatter={matt}
+			/>
 			<ModalContainer displayed={displayModal} setDisplayed={setDisplayModal}>
 				<AssignmentForm
 					refreshAssignment={()=>{
@@ -208,7 +224,12 @@ export default React.memo(function SingleMatter() {
 			
 				<div className={style.matter}>
 					<div className={style.detail}>
-						<h3>{uppercase(matt.name,0)}</h3>
+						<div className={style.top}>
+							<p className={style.matterName}>{uppercase(matt.name,0)}</p>
+							<div onClick={()=>setMatterForm(true)} className={style.editIcon}>
+								<FontAwesomeIcon icon="pencil" />
+							</div>
+						</div>
 						<div className={style.duration} >
 							<span>{uppercase(matt.teacher_name, 0)}, {mattSchedule}</span>
 							<span>Tenggat : {mattDuration}</span>

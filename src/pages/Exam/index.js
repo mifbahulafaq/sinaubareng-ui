@@ -3,6 +3,7 @@ import style from './Exam.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useParams } from 'react-router-dom';
 import { useContext } from '../../Context'
+import externalSvg from './undraw_books_re_8gea.svg';
 
 //APIs
 import * as examApi from '../../api/exam'
@@ -58,7 +59,7 @@ export default React.memo(function Exam() {
 		<div className={style.examContainer}>
 		
 			<div className={style.previousLink} >
-				<PreviousLink to="../.." name={singleClass.class_name} />
+				<PreviousLink to="../.." name={singleClass.class_name} fontSize="1em"/>
 			</div>
 			
 			<div className={style.top}>
@@ -76,41 +77,48 @@ export default React.memo(function Exam() {
 				}
 			</div>
 			
-			<div className={style.exams}>
-				{
-					examDatas.map((e,i)=>{
-						return <div className={style.singleExam} key={i} >
-							<div className={style.answer}>
-								{isTeacher?
-								<h2>{e.total_answers}</h2>
-								:
-								<h2>{Number(e.total_answers) && <>&#10004;</>}</h2>
-								}
-								<p>answer</p>
-							</div>
-							<div className={style.quest} >
-								<div className={style.icon}> <FontAwesomeIcon icon="clipboard-question" /> </div>
-								<Link to={e.id_exm+""} >
-									<p>
-									{e.teacher_name} memposting ujian baru:
-									{e.text?.trim()}
-									</p>
-								</Link>
-								<div className={style.detail}>
-									<span>
-										{formatDate(new Date(e.schedule), "en-GB",{dateStyle: "short", timeStyle: "short"})}
-									</span>
+			{
+				examDatas.length?
+				<div className={style.exams}>
+					{
+						examDatas.map((e,i)=>{
+							return <div className={style.singleExam} key={i} >
+								<div className={style.answer}>
+									{isTeacher?
+									<h2>{e.total_answers}</h2>
+									:
+									<h2>{Number(e.total_answers) && <>&#10004;</>}</h2>
+									}
+									<p>answer</p>
+								</div>
+								<div className={style.quest} >
+									<div className={style.icon}> <FontAwesomeIcon icon="clipboard-question" /> </div>
+									<Link to={e.id_exm+""} >
+										<p>
+										{e.teacher_name} memposting ujian baru:
+										{e.text?.trim()}
+										</p>
+									</Link>
+									<div className={style.detail}>
+										<span>
+											{formatDate(new Date(e.schedule), "en-GB",{dateStyle: "short", timeStyle: "short"})}
+										</span>
+									</div>
+								</div>
+								<div className={style.menu}>
+									<FontAwesomeIcon icon="ellipsis-vertical" />
 								</div>
 							</div>
-							<div className={style.menu}>
-								<FontAwesomeIcon icon="ellipsis-vertical" />
-							</div>
-						</div>
-					})
-				}
-				
-			</div>
-			
+						})
+					}
+					
+				</div>
+				:
+				<div className={style.noDatas}>
+					<object className={style.noDataIcon} data={externalSvg} />
+					<p className={style.info}> Belum ada ujian sama sekali.</p>
+				</div>
+			}
 		</div>
 	</div>
   )

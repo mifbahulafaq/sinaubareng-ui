@@ -26,9 +26,27 @@
 	background: rgba(201, 209, 255, 0.3);
 	border-radius: 10px;
 }
-.detail h3{
+.detail .top{
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+.detail .top .matterName{
+	width: calc(100% - 100px);
 	font-weight: 700;
-	font-size: 18px;
+	font-size: 1.1rem;
+	line-height: 1.4rem;
+	color: var(--primary-font-color);
+}
+.detail .top .editIcon{
+	color: var(--primary-font-color);
+	line-height: 1.7rem;
+	font-size: 1.2rem;
+	cursor: pointer;
+	transition: all ease 0.4s;
+}
+.detail .top .editIcon svg:hover{
+	color: #7D8285;
 }
 .detail .duration{
 	margin-top: 5px;
