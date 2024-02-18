@@ -9,6 +9,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import * as matterApi from '../../api/matter';
 import * as discussionApi from '../../api/matter-discussion';
 import * as mattAss from '../../api/matt-ass';
+import fetch from '../../api/fetch';
 //components
 import Image from '../../components/Image';
 import PreviousLink from '../../components/PreviousLink';
@@ -104,30 +105,62 @@ export default React.memo(function SingleMatter() {
 	}, [displayDoc])
 
 	function getFile(idMatt, filename, download = false){
-		matterApi.getaDocument(idMatt,filename[0]).then(({ data })=>{
+		matterApi.getaDocument(idMatt, filename[0]).then( async ({ data })=>{
 			
 			if(data.error) return console.log(data);
 
-			//const ext = data.path.split('.')[1]
-			const url = `${config.api_host}${data.path}`
+			const ext = data.path.split('.')[1]
+			let url = `${config.api_host}${data.path}`
 			
-			if(download){
-				//create Element
-				const link = document.createElement('a');
+			try{
 				
-				link.href = url;
-				link.setAttribute('download',filename[1])
-				document.body.appendChild(link);
-				link.click();
-				document.body.removeChild(link);
+				const requestConfig =  { responseType: 'blob'};
+				const { data: blob } = await fetch.get(url, requestConfig);
 				
-			}else{
-				//console.log(ext)
-				setDocs([
-					{uri:url, fileName: filename[1]}
-				])
-				setDisplayDoc(true)
+				// console.log(file.type)
+				// const blob = new Blob([file], {type: headers["content-type"]})
+				url = window.URL.createObjectURL(blob);
+				
+				if(download){
+					
+					const link = document.createElement('a');
+					
+					link.href = url;
+					link.setAttribute('download', filename[1])
+					document.body.appendChild(link);
+					link.click();
+					
+					document.body.removeChild(link);
+					window.URL.revokeObjectURL(url);
+				}else{
+				
+					setDocs([
+						{uri:url, fileName: filename[1], fileType: ext}
+					])
+					setDisplayDoc(true)
+				}
+				
+			}catch(err){
+				console.log(err)
 			}
+			
+			// if(download){
+
+				// const link = document.createElement('a');
+				
+				// link.href = url;
+				// link.setAttribute('download', filename[1])
+				// document.body.appendChild(link);
+				// link.click();
+				// document.body.removeChild(link);
+				
+			// }else{
+				
+				// setDocs([
+					// {uri:url, fileName: filename[1], fileType: ext}
+				// ])
+				// setDisplayDoc(true)
+			// }
 			// fileApi.get(data.path)
 			// .then(({ data })=>{
 				
@@ -226,9 +259,13 @@ export default React.memo(function SingleMatter() {
 					<div className={style.detail}>
 						<div className={style.top}>
 							<p className={style.matterName}>{uppercase(matt.name,0)}</p>
-							<div onClick={()=>setMatterForm(true)} className={style.editIcon}>
-								<FontAwesomeIcon icon="pencil" />
-							</div>
+							{
+								isTeacher?
+								<div onClick={()=>setMatterForm(true)} className={style.editIcon}>
+									<FontAwesomeIcon icon="pencil" />
+								</div>
+								:""
+							}
 						</div>
 						<div className={style.duration} >
 							<span>{uppercase(matt.teacher_name, 0)}, {mattSchedule}</span>

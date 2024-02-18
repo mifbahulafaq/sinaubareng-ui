@@ -50,13 +50,11 @@ export default function AddingMatterForm({fetchMatters, setDisplay, display, cod
 	
 	async function submit(input){
 		
-		console.log(input)
 		if(inputSchedule){
 			input.schedule = formatDate(inputSchedule, "sv-SE")
 		}else{
 			input.schedule = input.schedule.date + " " + input.schedule.time;
 		}
-		console.log(input.description.length)
 		//if(!input.description.length) delete input.description;
 		
 		if(input.duration?.date?.length){

@@ -1,11 +1,11 @@
-import { useRef, useEffect,useCallback } from 'react';
+import { useRef, useEffect } from 'react';
 import style from './MatterForm.module.css';
-import { useFieldArray } from 'react-hook-form';
 import * as val from '../../validation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types'
 //components
 import Image from '../Image'
+import InputDate from '../InputDate'
 //utils
 import formatDate from '../../utils/id-format-date';
 
@@ -21,10 +21,9 @@ import formatDate from '../../utils/id-format-date';
 	submit
 }){
 	 
-	const customInput = useRef(null);
+	const descField = useRef(null);
 	
-	const { reset, control, setValue, watch, register, setError, handleSubmit, formState, getValues } = useForm;
-	const { update, remove } = useFieldArray({ control, name: 'attachment' })
+	const { reset, setValue, watch, register, setError, clearErrors, handleSubmit, formState, getValues } = useForm;
 	const { isSubmitSuccessful, errors } = formState;
 	
 	const dateOfSchedule = watch("schedule.date");
@@ -35,22 +34,20 @@ import formatDate from '../../utils/id-format-date';
 	//Reset Form
 	useEffect(()=>{
 		
-		customInput.current.innerText = defaultValues.description || ""
+		descField.current.innerText = defaultValues.description || ""
 		
-	},[defaultValues.description, customInput])
+	},[defaultValues.description, descField])
 	useEffect(()=>{
 		reset(defaultValues)
 		
 	},[isSubmitSuccessful, setDisplay, reset, defaultValues])
 	
 	useEffect(()=>{
-		
-		register("attachment")
 		register('description', val.description2) 
 		
 	},[register])
 	
-	const customSetValue = useCallback((field, value)=>{
+	const customSetValue = function(field, value){
 
 		setValue(
 			field, 
@@ -61,7 +58,7 @@ import formatDate from '../../utils/id-format-date';
 			}
 		)
 		
-	}, [setValue])
+	}
 	
 	function inputDesc(e){
 		customSetValue( 'description', e.currentTarget.innerText)
@@ -124,18 +121,29 @@ import formatDate from '../../utils/id-format-date';
 				if(!getValues('attachment')){
 					
 					if(e.target.files[key].size > 10000000 ) setError("attachment.0", {type: "size", message: "File too large"})
-					update(0, e.target.files[key])
+						
+					customSetValue( "attachment.0", e.target.files[key])
 					
 				}else{
 					
 					if(e.target.files[key].size > 10000000 ) setError("attachment."+getValues("attachment").length, {type: "size", message: "File too large"})
-					update(getValues("attachment").length, e.target.files[key])
+						
+					const i = getValues("attachment").length;
+					
+					customSetValue(`attachment.${i}`, e.target.files[key])
 					
 				}
 			}
 		}
 		
 		e.target.value = null;
+	}
+	
+	function removeFile(i){
+		const left = getValues('attachment').filter((e,index)=>index!==i)
+		customSetValue("attachment", left);
+											
+		if(errors.attachment?.[i]) clearErrors(`attachment.${i}`)
 	}
 	
 	return (
@@ -156,7 +164,7 @@ import formatDate from '../../utils/id-format-date';
 						<div 
 							maxLength={5} 
 							onPaste={e=>e.preventDefault()}
-							ref={customInput}
+							ref={descField}
 							onKeyPress={e=>{
 								if(e.target.textContent.length >= 255) e.preventDefault();
 							}}
@@ -301,7 +309,7 @@ import formatDate from '../../utils/id-format-date';
 									</div>
 									<div className={style.fileName}>{e.name}</div>
 									<div 
-										onClick={()=>remove(i)} 
+										onClick={()=>removeFile(i)} 
 										className={style.removeFile}
 									>
 										<FontAwesomeIcon icon="plus" />

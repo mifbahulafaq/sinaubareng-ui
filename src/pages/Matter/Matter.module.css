@@ -119,6 +119,9 @@
 .matterContainer .matters .singleMatter .cover:hover{
 	background: rgba(226, 228, 231, 0.3);
 }
+.matterContainer .matters .singleMatter .cover:has(+ a:hover){
+	background: rgba(226, 228, 231, 0.3);
+}
 .matters .singleMatter .detail{
 	width: 60%;
 }
@@ -151,15 +154,20 @@
 	height: 27px;
 	line-height: 30px;
 	text-align: center;
-	background: #0772c2;
+	background: #999;
 	color: #fff;
 	font-size: 0.95em;
-}
-.matters .singleMatter a:hover{
-	background: #7aa7c9;
+	cursor: context-menu;
 }
 .matters .singleMatter a svg{
 	transform: rotate(45deg);
+}
+.matters .singleMatter a.open{
+	background: #0772c2;
+	cursor: pointer;
+}
+.matters .singleMatter a.open:hover{
+	background: #7aa7c9;
 }
 .matterContainer .matters .singleMatter:first-child{
 	margin-top: 30px;

@@ -21,7 +21,7 @@ import useIsTeacher from '../../hooks/useIsTeacher'
 
 export default React.memo(function Matter() {
 	
-	const [matters, setMatters] = React.useState([]);
+	const [matters, setMatters] = React.useState(null);
 	const [errorPage, setErrorPage] = React.useState(false);
 	const [ matterForm, setMatterForm ] = React.useState(false)
 	const [ date, setDate ] = React.useState(null)
@@ -88,7 +88,7 @@ export default React.memo(function Matter() {
 				
 				<div className={style.matters}>
 					{
-						!matters.length?
+						matters?.length === 0?
 							<div className={style.emptyData} >
 								{
 									date === null?
@@ -104,6 +104,10 @@ export default React.memo(function Matter() {
 				
 					{
 						matters?.map((e,i)=>{
+							
+							const schedule = new Date(e.schedule);
+							const isClosed = !isTeacher && new Date() < schedule;
+							
 							return <div key={i} className={style.singleMatter}>
 								<div className={style.detail}>
 									<h2 className={style.title} >{e.name}</h2>
@@ -114,7 +118,10 @@ export default React.memo(function Matter() {
 									<div className={style.comm}>{e.total_comments} Comments</div>
 								</div>
 								<div className={style.cover} />
-								<Link to={""+e.id_matter} >
+								<Link 
+									className={isClosed? "": style.open} 
+									to={isClosed? "./": ""+e.id_matter} 
+								>
 									<FontAwesomeIcon icon="arrow-up" />
 								</Link>
 							</div>

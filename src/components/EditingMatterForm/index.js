@@ -13,7 +13,7 @@ export default function EditingMatterForm({fetchMatters, setDisplay, display, si
 	
 	const defaultValues = useMemo(()=>{
 		
-		const attachment = singleMatter.attachment?.map((e,i)=>({ fileName: e[0], name: e[1]}))
+		const attachment = singleMatter.attachment?.map((e,i)=>({ filename: e[0], name: e[1]}))
 		const schedule = new Date(singleMatter.schedule);
 		
 		const duration = {
@@ -47,17 +47,17 @@ export default function EditingMatterForm({fetchMatters, setDisplay, display, si
 		mode: "onChange",
 		defaultValues
 	});
-	const setError = formHandling.setError;
-	const { isSubmitting, isValid, isDirty, errors } = formHandling.formState;
+	const { watch, setError } = formHandling;
+	const { isSubmitting, isValid, dirtyFields, errors } = formHandling.formState;
+	const dirtyFieldArr = Object.keys(dirtyFields);
 	const errorAttachment = errors.attachment?.length;
-	const disabledSubmit = errorAttachment || isSubmitting || !isValid || !isDirty;
+	const disabledSubmit = errorAttachment || isSubmitting || !isValid || !dirtyFieldArr.length;
 	
 	async function submit(input){
 		
 		input.schedule = input.schedule.date + " " + input.schedule.time;
 		
-		if(!input.description.length) delete input.description;
-		
+		 //calculating or deleting duraiton
 		if(input.duration?.date?.length){
 			
 			const fullScheduleDate = new Date(input.schedule)
@@ -74,40 +74,28 @@ export default function EditingMatterForm({fetchMatters, setDisplay, display, si
 		}
 		
 		let payload = new FormData();
-		// delete input.attachment
-		for(let key in input){
-			
-			if(key === 'attachment'){
+		
+		dirtyFieldArr.forEach((e)=>{
+			if(e !== 'attachment') payload.append(e, input[e])
+		})
+	
+		let i = 0;
 				
-				let i = 0;
-				
-				input.attachment.forEach(e=>{
+		input.attachment.forEach(e=>{
 					
-					if(e.lastModified){
+			if(e.lastModified){
 						
-						payload.append('new_attachment',e);
-					}else{
-						payload.append(`attachment[${i}][name]`,e.name);
-						i++;
-					}
-				})
+				payload.append('new_attachment',e);
 				
 			}else{
-				payload.append(key, input[key]);
+
+				payload.append(`attachment[${i}][originalname]`,e.name);
+				payload.append(`attachment[${i}][filename]`,e.filename);
+						
+				i++;
 			}
-		}
-		// for(let key in input){
-			
-			// if(key === 'attachment'){
-				
-				// input.new_attachment = input.attachment.filter(e=>e.lastModified);
-				// input.coba = input.new_attachment[0]
-				// delete input.new_attachment
-				// input.attachment = input.attachment.filter(e=>!e.lastModified);
-				
-			// }
-		// }
-		console.log(input)
+		})
+		
 		try{
 			
 			const { data } = await apiMatter.edit(input.id_matter, payload);
