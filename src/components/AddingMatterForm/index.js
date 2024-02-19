@@ -38,20 +38,20 @@ export default function AddingMatterForm({fetchMatters, setDisplay, display, cod
 	const disabledSubmit = errorAttachment || isSubmitting || !isValid;
 	
 	const { state: locState } = useLocation();
-	const [ inputSchedule, setInputSchedule ] = useState(null);
+	const [ autoSchedule, setAutoSchedule ] = useState(null);
 	
 	useEffect(()=>{
 		
 		if(!locState?.schedule) return
 		
-		setInputSchedule(new Date(locState.schedule))
+		setAutoSchedule(new Date(locState.schedule))
 		
 	},[locState])
 	
 	async function submit(input){
 		
-		if(inputSchedule){
-			input.schedule = formatDate(inputSchedule, "sv-SE")
+		if(autoSchedule){
+			input.schedule = formatDate(autoSchedule, "sv-SE")
 		}else{
 			input.schedule = input.schedule.date + " " + input.schedule.time;
 		}
@@ -119,8 +119,8 @@ export default function AddingMatterForm({fetchMatters, setDisplay, display, cod
 			display={display} 
 			defaultValues={defaultValues}
 			useForm = {formHandling}
-			inputSchedule={inputSchedule}
-			setInputSchedule={setInputSchedule}
+			autoSchedule={autoSchedule}
+			setAutoSchedule={setAutoSchedule}
 			disabledSubmit={disabledSubmit}
 			submit={submit}
 	/>

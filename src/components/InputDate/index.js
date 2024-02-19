@@ -1,21 +1,25 @@
 import style from './InputDate.module.css';
+import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 //utils
 import formatDate from '../../utils/id-format-date';
 
-export default function InputDate(
+export default function InputDate({
+	margin,
+	fontSize,
+	width,
+	minDate,
 	dateInput, 
 	timeInput,
-	defaultDateInput,
 	dateRegistration,
 	timeRegistration,
 	active
-){
+}){
 	
 	
 	return(
-		<div className={style.inputDate}>
-			<div className={`${style.setOption} setOption`}>
+		<div style={{width, fontSize, margin}} className={style.inputDate}>
+			<div style={{fontSize}} className={`${style.setOption} ${active ?"":style.disabled} setOption`}>
 				<span className={style.value} >
 					{
 						dateInput?
@@ -30,7 +34,7 @@ export default function InputDate(
 				</span>
 			</div>
 			
-			<div onClick={e=>e.stopPropagation()} className={`${style.opt} option`}>
+			<div onClick={e=>e.stopPropagation()} className={`${style.opt} ${active ?"option":""}`}>
 				<div className={style.desc} > Tanggal & Waktu</div>
 				<div className={style.formOpt}>
 					<div className={style.date}>
@@ -40,11 +44,7 @@ export default function InputDate(
 						</div>
 						<input 
 							type="date"
-							min={
-								defaultDateInput 
-								|| 
-								(new Date()).toLocaleString('en-CA',{dateStyle: 'short'})
-							}
+							min={minDate}
 							{ ...dateRegistration } 
 						/>
 						
@@ -64,4 +64,16 @@ export default function InputDate(
 			
 		</div>
 	)
+}
+
+InputDate.propTypes = {
+	margin: PropTypes.string,
+	fontSize: PropTypes.string,
+	width: PropTypes.string,
+	minDate: PropTypes.string,
+	dateInput: PropTypes.string,
+	timeInput: PropTypes.string,
+	dateRegistration: PropTypes.object.isRequired,
+	timeRegistration: PropTypes.object.isRequired,
+	active: PropTypes.bool,
 }

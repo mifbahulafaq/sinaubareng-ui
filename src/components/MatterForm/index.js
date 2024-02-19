@@ -15,8 +15,8 @@ import formatDate from '../../utils/id-format-date';
 	display,
 	defaultValues, 
 	useForm, 
-	inputSchedule,
-	setInputSchedule,
+	autoSchedule,
+	setAutoSchedule,
 	disabledSubmit,
 	submit
 }){
@@ -30,6 +30,7 @@ import formatDate from '../../utils/id-format-date';
 	const timeOfSchedule = watch("schedule.time");
 	const dateOfDuration = watch("duration.date");
 	const timeOfDuration = watch("duration.time");
+	const inputDateStyling = {width: "350px", margin: "10px 0 0", fontSize: "0.875rem"};
 	
 	//Reset Form
 	useEffect(()=>{
@@ -174,129 +175,57 @@ import formatDate from '../../utils/id-format-date';
 						</div>
 						<span>Deskripsi (optional)</span>
 					</div>
-							
+					<div className={style.inputDateContainer}>
+					</div>	
 					<div className={style.inputDateContainer}>
 						<h4>Jadwal</h4>
 						
 						{
-							inputSchedule?
+							autoSchedule?
 							<div className={style.dateOfLink}>
 								<p className={style.dateOfLinkText}>
 									{
 										formatDate(
-											inputSchedule,
+											autoSchedule,
 											"id-ID",
 											{weekday:"long",  month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit"}
 										)
 									}
 								</p>
-								<div onClick={()=>setInputSchedule(null)} className={style.cancel}>
+								<div onClick={()=>setAutoSchedule(null)} className={style.cancel}>
 									<FontAwesomeIcon icon="plus" />
 								</div>
 							</div>
 							:
-							<div className={style.inputDate}>
-								<div className={`${style.setOption} setOption`}>
-									<span className={style.value} >
-										{
-											dateOfSchedule?
-											formatDate(
-												dateOfSchedule+" "+timeOfSchedule,
-												"id-ID",
-												{weekday:"long",  month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit"}
-											)
-											:
-											"Tidak ada jadwal"
-										}
-									</span>
-								</div>
-								
-								<div onClick={e=>e.stopPropagation()} className={`${style.opt} option`}>
-									<div className={style.desc} > Tanggal & Waktu</div>
-									<div className={style.formOpt}>
-										<div className={style.date}>
-											<FontAwesomeIcon icon={['far','calendar-alt']} />
-											<div className={style.content} >
-												{ dateOfSchedule && dateOfSchedule.length ? formatDate(dateOfSchedule,"id-ID", {dateStyle:"medium"}) : "Masukkan tanggal"}
-											</div>
-											<input 
-												type="date"
-												min={
-													defaultValues.schedule.date 
-													|| 
-													(new Date()).toLocaleString('en-CA',{dateStyle: 'short'})
-												}
-												{
-													...register( 'schedule.date', { ...val.dateNoTimezone, onChange: funcInputDate } )
-												} 
-											/>
-											
-										</div>
-										<div className={`${style.time} ${dateOfSchedule && dateOfSchedule.length?"":style.hidden}`}>
-											<FontAwesomeIcon icon={['far','clock']} />
-											<div className={style.content} >
-												{ timeOfSchedule && timeOfSchedule.length ? formatDate(dateOfSchedule+" "+timeOfSchedule,"id-ID", {timeStyle:"short"}) : ""}
-											</div>
-											<input
-												type="time" 
-												{
-													...register('schedule.time', { ...val.timeNoTimezone, onChange: functionInputTime })
-												} 
-											/>
-										</div>
-									</div>
-								</div>
-								
-							</div>
+							
+							<InputDate 
+								{...inputDateStyling}
+								minDate={
+									defaultValues.schedule.date
+									|| 
+									(new Date()).toLocaleString('en-CA',{dateStyle: 'short'})
+								}
+								dateInput={dateOfSchedule} 
+								timeInput={timeOfSchedule}
+								dateRegistration={register( 'schedule.date', { ...val.dateNoTimezone, onChange: funcInputDate })}
+								timeRegistration={register('schedule.time', { ...val.timeNoTimezone, onChange: functionInputTime })} 
+								active={true}
+							/>
+							
 						}
 					</div>
 					
 					<div className={style.inputDateContainer}>
 						<h4>Berakhir pada: </h4>
-						<div className={style.inputDate}>
-							<div className={`${style.setOption} ${dateOfSchedule || inputSchedule  ?"":style.disabled} setOption`}>
-								<span className={style.value} >
-									{
-										dateOfDuration?
-										formatDate(
-											dateOfDuration+" "+timeOfDuration,
-											"id-ID",
-											{weekday:"long",  month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit"}
-										)
-										:
-										"-"
-									}
-								</span>
-							</div>
-							<div onClick={e=>e.stopPropagation()} className={`${style.opt} ${dateOfSchedule  || inputSchedule ?"option":""}`}>
-								<div className={style.desc} > Tanggal & Waktu</div>
-								<div className={style.formOpt}>
-									<div className={style.date}>
-										<FontAwesomeIcon icon={['far','calendar-alt']} />
-										<div className={style.content} >
-											{ dateOfDuration && dateOfDuration.length ? formatDate(dateOfDuration,"id-ID", {dateStyle:"medium"}) : "Masukkan tanggal"}
-										</div>
-										<input 
-											min={dateOfSchedule}
-											type="date"
-											{
-												...register('duration.date',
-												{onChange: funcInputDate2}
-												) 
-											} 
-										/>
-									</div>
-									<div className={`${style.time} ${dateOfDuration && dateOfDuration.length?"":style.hidden}`}>
-										<FontAwesomeIcon icon={['far','clock']} />
-										<div className={style.content} >
-											{ timeOfDuration && timeOfDuration.length ? formatDate(dateOfDuration+" "+timeOfDuration,"id-ID", {timeStyle:"short"}) : ""}
-										</div>
-										<input  type="time" {...register('duration.time') } />
-									</div>
-								</div>
-							</div>
-							
-						</div>
+						<InputDate
+							{...inputDateStyling}
+							minDate={dateOfSchedule}
+							dateInput={dateOfDuration} 
+							timeInput={timeOfDuration}
+							dateRegistration={register('duration.date',{onChange: funcInputDate2})}
+							timeRegistration={register('duration.time')} 
+							active={dateOfSchedule|| autoSchedule}
+						/>
 					</div>
 					
 					{
