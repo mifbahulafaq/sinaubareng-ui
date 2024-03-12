@@ -27,6 +27,7 @@ export default React.memo(function SingleMatter() {
 	
 	//state
 	const [matt, setMatt] = React.useState({});
+	console.log(matt)
 	const [comments, setComments] = React.useState([]);
 	const [mattAssignments, setMattAssignments] = React.useState([]);
 	const [ commentText, setCommentText ] = React.useState("");
@@ -44,9 +45,7 @@ export default React.memo(function SingleMatter() {
 	const yesterday = formatDate(rawYesterDay, "id-ID", {dateStyle:"medium"})
 	
 	const rawMattSchedule = new Date(matt.schedule || Date.now())
-	const rawMattduration = matt.duration? new Date( rawMattSchedule.getTime() + matt.duration): undefined
 	const mattSchedule = getToday(rawMattSchedule, today)
-	const mattDuration = getToday(rawMattduration).length? getToday(rawMattduration, today): "-"
 	
 	const getComments = React.useCallback(()=>{
 		
@@ -269,7 +268,6 @@ export default React.memo(function SingleMatter() {
 						</div>
 						<div className={style.duration} >
 							<span>{uppercase(matt.teacher_name, 0)}, {mattSchedule}</span>
-							<span>Tenggat : {mattDuration}</span>
 						</div>
 						<p className={style.desc}>{matt.description?.trim()}</p>
 						{

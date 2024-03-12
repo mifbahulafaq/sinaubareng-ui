@@ -8,7 +8,7 @@ body{
 	font-family: 'Open Sans', Arial;
 }
 :root{
-	--primary-color: #098DDF;
+	--primary-color: #098DDF;/*rgba(9, 141, 223, 1)*/
 	--primary-font-color: #3c4043;
 }
 .active{

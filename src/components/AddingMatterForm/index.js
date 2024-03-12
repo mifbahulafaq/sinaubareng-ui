@@ -1,6 +1,5 @@
-import { useState, useEffect, useMemo} from 'react';
+import { useMemo} from 'react';
 import { useForm } from 'react-hook-form';
-import { useLocation } from 'react-router-dom'
 
 //compnents
 import MatterForm from '../MatterForm';
@@ -10,10 +9,11 @@ import * as apiMatter from '../../api/matter';
 //utils
 import formatDate from '../../utils/id-format-date';
 
-export default function AddingMatterForm({fetchMatters, setDisplay, display, codeClass}){
+export default function AddingMatterForm({fetchMatters, setDisplay, display, codeClass, autoSchedule}){
 	
 	const defaultValues = useMemo(()=>{
-		return {
+		
+		const obj = {
 			name: "",
 			code_class: codeClass,
 			status: "active",
@@ -26,7 +26,18 @@ export default function AddingMatterForm({fetchMatters, setDisplay, display, cod
 				time : "00:00"
 			}
 		}
-	}, [codeClass])
+		
+		if(autoSchedule){
+
+			const arrayOfDate = autoSchedule.split(' ');
+			
+			obj.schedule.date = arrayOfDate[0];
+			obj.schedule.time = arrayOfDate[1];
+		}
+			
+		return obj;
+		
+	}, [codeClass, autoSchedule])
 	
 	const formHandling = useForm({
 		mode: "onChange",
@@ -36,17 +47,6 @@ export default function AddingMatterForm({fetchMatters, setDisplay, display, cod
 	const { isSubmitting, isValid, errors } = formHandling.formState;
 	const errorAttachment = errors.attachment?.length;
 	const disabledSubmit = errorAttachment || isSubmitting || !isValid;
-	
-	const { state: locState } = useLocation();
-	const [ autoSchedule, setAutoSchedule ] = useState(null);
-	
-	useEffect(()=>{
-		
-		if(!locState?.schedule) return
-		
-		setAutoSchedule(new Date(locState.schedule))
-		
-	},[locState])
 	
 	async function submit(input){
 		
@@ -119,8 +119,8 @@ export default function AddingMatterForm({fetchMatters, setDisplay, display, cod
 			display={display} 
 			defaultValues={defaultValues}
 			useForm = {formHandling}
-			autoSchedule={autoSchedule}
-			setAutoSchedule={setAutoSchedule}
+			// autoSchedule={autoSchedule}
+			// setAutoSchedule={setAutoSchedule}
 			disabledSubmit={disabledSubmit}
 			submit={submit}
 	/>

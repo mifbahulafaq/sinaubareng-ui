@@ -6,8 +6,6 @@ import PropTypes from 'prop-types'
 //components
 import Image from '../Image'
 import InputDate from '../InputDate'
-//utils
-import formatDate from '../../utils/id-format-date';
 
  const MatterForm = function ({
 	fetchMatters, 
@@ -15,8 +13,6 @@ import formatDate from '../../utils/id-format-date';
 	display,
 	defaultValues, 
 	useForm, 
-	autoSchedule,
-	setAutoSchedule,
 	disabledSubmit,
 	submit
 }){
@@ -28,8 +24,6 @@ import formatDate from '../../utils/id-format-date';
 	
 	const dateOfSchedule = watch("schedule.date");
 	const timeOfSchedule = watch("schedule.time");
-	const dateOfDuration = watch("duration.date");
-	const timeOfDuration = watch("duration.time");
 	const inputDateStyling = {width: "350px", margin: "10px 0 0", fontSize: "0.875rem"};
 	
 	//Reset Form
@@ -71,45 +65,13 @@ import formatDate from '../../utils/id-format-date';
 		
 		const defaultScheduleTime = (new Date()).toLocaleString('en-GB',{timeStyle: 'short'});
 		
+		//set time of the schedule
 		if(value.length) {
-			
-			if(getValues('duration.date')) customSetValue("duration.date", value);
 			
 			customSetValue("schedule.time", defaultScheduleTime);
 			
 		}else{
 			customSetValue("schedule.time", "00:00:00");
-			customSetValue("duration", {date: "", time: "00:00:00"});
-		}
-		
-	}
-
-	function funcInputDate2(e){
-		
-		const value = e.target.value;
-		
-		let date = formatDate(new Date(),'en-CA',{dateStyle: 'short'});
-		date = new Date(date + " " + timeOfSchedule);
-		date.setHours(date.getHours() + 1);
-		
-		if(!value){
-			customSetValue( "duration.time", "00:00:00");
-		}else{
-			customSetValue( "duration.time", formatDate(date,'en-GB',{timeStyle: 'short'}) + ":00");
-		}
-		
-	}
-	
-	function functionInputTime(e){
-	
-		const value = e.target.value;
-		
-		let date = formatDate(new Date(),'en-CA',{dateStyle: 'short'});
-		date = new Date(date + " " + value);
-		date.setHours(date.getHours() + 1);
-		
-		if(dateOfDuration){
-			customSetValue( "duration.time",formatDate(date,'en-GB',{timeStyle: 'short'}) + ":00");
 		}
 		
 	}
@@ -179,52 +141,19 @@ import formatDate from '../../utils/id-format-date';
 					</div>	
 					<div className={style.inputDateContainer}>
 						<h4>Jadwal</h4>
-						
-						{
-							autoSchedule?
-							<div className={style.dateOfLink}>
-								<p className={style.dateOfLinkText}>
-									{
-										formatDate(
-											autoSchedule,
-											"id-ID",
-											{weekday:"long",  month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit"}
-										)
-									}
-								</p>
-								<div onClick={()=>setAutoSchedule(null)} className={style.cancel}>
-									<FontAwesomeIcon icon="plus" />
-								</div>
-							</div>
-							:
-							
-							<InputDate 
-								{...inputDateStyling}
-								minDate={
-									defaultValues.schedule.date
-									|| 
-									(new Date()).toLocaleString('en-CA',{dateStyle: 'short'})
-								}
-								dateInput={dateOfSchedule} 
-								timeInput={timeOfSchedule}
-								dateRegistration={register( 'schedule.date', { ...val.dateNoTimezone, onChange: funcInputDate })}
-								timeRegistration={register('schedule.time', { ...val.timeNoTimezone, onChange: functionInputTime })} 
-								active={true}
-							/>
-							
-						}
-					</div>
-					
-					<div className={style.inputDateContainer}>
-						<h4>Berakhir pada: </h4>
-						<InputDate
+						<InputDate 
 							{...inputDateStyling}
-							minDate={dateOfSchedule}
-							dateInput={dateOfDuration} 
-							timeInput={timeOfDuration}
-							dateRegistration={register('duration.date',{onChange: funcInputDate2})}
-							timeRegistration={register('duration.time')} 
-							active={dateOfSchedule|| autoSchedule}
+							minDate={
+								defaultValues.schedule.date
+								|| 
+								(new Date()).toLocaleString('en-CA',{dateStyle: 'short'})
+							}
+							initialText="Tidak ada jadwal"
+							dateInput={dateOfSchedule} 
+							timeInput={timeOfSchedule}
+							dateRegistration={register( 'schedule.date', { ...val.dateNoTimezone, onChange: funcInputDate })}
+							timeRegistration={register('schedule.time', { ...val.timeNoTimezone })} 
+							active={true}
 						/>
 					</div>
 					

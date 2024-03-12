@@ -42,9 +42,11 @@
 .addMatter .header .right{
 	width: 40px;
 	height: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	border-radius: 50%;
 	text-align: center;
-	line-height: 45px;
 	cursor: pointer;
 }
 .addMatter .header .right:hover{
@@ -71,7 +73,7 @@
 	border: none;
 	outline: none;
 	border-radius: 3px;
-	background: rgba(217, 217, 217, 0.3);
+	background: #fafafa;
 	color: #434343;
 	font-size: 14px;
 	font-weight: 500;
@@ -151,7 +153,7 @@
 	width: 350px;
 	padding: 12px 15px;
 	border-radius: 3px;
-	background: rgba(217, 217, 217, 0.3);
+	background: #fafafa;
 	font-size: 14px;
 	font-weight: 600;
 	cursor: pointer;
@@ -160,7 +162,7 @@
 	background: rgba(217, 217, 217, 0.6);
 }
 .form .inputDateContainer .inputDate .setOption.disabled:hover{
-	background: rgba(217, 217, 217, 0.3);
+	background: #fafafa;
 }
 .form .inputDateContainer .inputDate .value{
 	color: #5f6368;

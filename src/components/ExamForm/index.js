@@ -6,15 +6,15 @@ import PropTypes from 'prop-types'
 import * as val from '../../validation';
 
 //components
-import Image from '../Image'
+import Image from '../Image';
+import InputDate from '../InputDate';
 
 //apis
 import * as examApi from '../../api/exam';
-//utils
-import formatDate from '../../utils/id-format-date';
 
- const ExamForm = memo(function ({ refreshExam, codeClass, display }){
+ const ExamForm = memo(function ({ refreshExam, codeClass, display, setDisplay }){
 	 
+	const inputDateStyling = {width: "100%", margin: "0.625rem 0 0", fontSize: "0.875rem"};
 	const customInput = useRef(null);
 	const defaultValues = useMemo(()=>{
 		return {
@@ -44,8 +44,8 @@ import formatDate from '../../utils/id-format-date';
 	
 	async function submit(input){
 		const payload = input;
-		payload.schedule = payload.schedule.date+ " " + payload.schedule.time
-		console.log(payload.schedule)
+		payload.schedule = payload.schedule.date+ " " + payload.schedule.time;
+		
 		if(payload?.duration?.date.length){
 			
 			const fullScheduleDate = new Date(payload.schedule)
@@ -90,12 +90,40 @@ import formatDate from '../../utils/id-format-date';
 	}
 	
 	function tugaskan(e){
+		
 		if(errors.attachment || isSubmitting || !isValid) return;
-		const btn = e.currentTarget.parentElement.parentElement.querySelector('[type="submit"]')
+		
+		const btn = document.querySelector('.'+style.formContainer).querySelector('[type="submit"]');
+		
 		btn.click();
 	}
-	function clickInputDate(e){
-		//e.target.value = null
+	const customSetValue = function(field, value){
+
+		setValue(
+			field, 
+			value,
+			{ 
+				shouldValidate: true,
+				shouldDirty: true,
+			}
+		)
+		
+	}
+	function funcInputDate(e){
+		
+		const value = e.target.value;
+		
+		const defaultScheduleTime = (new Date()).toLocaleString('en-GB',{timeStyle: 'short'});
+		
+		//set time of the schedule
+		if(value.length) {
+			
+			customSetValue("schedule.time", defaultScheduleTime);
+			
+		}else{
+			customSetValue("schedule.time", "00:00:00");
+		}
+		
 	}
 	
 	return (
@@ -107,7 +135,12 @@ import formatDate from '../../utils/id-format-date';
 					</div>
 					<span>Ujian</span>
 				</div>
-				<div onClick={tugaskan} className={`${style.submit} ${errors.attachment || !isValid || isSubmitting? style.disabled: ""}`}>Buat</div>
+				<div className={style.rightSide}>
+					<div className={style.close}>
+						<FontAwesomeIcon onClick={()=>setDisplay(false)} icon="plus" />
+					</div>
+					<div onClick={tugaskan} className={`${style.submit} ${errors.attachment || !isValid || isSubmitting? style.disabled: ""}`}>Buat</div>
+				</div>
 			</div>
 			<form onSubmit={handleSubmit(submit)} >
 				<div className={style.formSection1}>
@@ -125,90 +158,30 @@ import formatDate from '../../utils/id-format-date';
 					
 					<div className={`${style.inputDateContainer} ${style.inputMargin}`}>
 						<h4>Jadwal</h4>
-						<div className={style.inputDate}>
-							<div className={`${style.setOption} setOption`}>
-								<p>
-								{
-									watch('schedule.date')?
-									formatDate(
-										watch('schedule.date')+" "+watch('schedule.time'),
-										"id-ID",
-										{weekday:"long",  month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit"}
-									)
-									:
-									"-"
-								}
-								</p>
-								<div className={style.triangle} />
-							</div>
-							
-							<div onClick={e=>e.stopPropagation()} className={`${style.selectContainer} option`}>
-								<div className={style.desc} > Tanggal & Waktu</div>
-								<div className={style.formOpt}>
-									<div className={style.date}>
-										<FontAwesomeIcon icon={['far','calendar-alt']} />
-										<div className={style.content} >
-											{ watch('schedule.date') && watch('schedule.date').length ? formatDate(watch('schedule.date'),"id-ID", {dateStyle:"medium"}) : "Masukkan tanggal"}
-										</div>
-										<input 
-											type="date" 
-											{...register('schedule.date', val.dateNoTimezone)} 
-										/>
-									</div>
-									<div className={`${style.time} ${watch('schedule.date') && watch('schedule.date').length? "": style.hidden}`}>
-										<FontAwesomeIcon icon={['far','clock']} />
-										<div className={style.content} >
-											{ watch('schedule.date') && watch('schedule.date').length ? formatDate(watch('schedule.date')+" "+watch('schedule.time'),"id-ID", {timeStyle:"short"}) : ""}
-										</div>
-										<input type="time" {...register('schedule.time', val.timeNoTimezone)} />
-									</div>
-								</div>
-							</div>
-							
-						</div>
+						<InputDate
+							{...inputDateStyling}
+							minDate={(new Date()).toLocaleString('en-CA',{dateStyle: 'short'})}
+							initialText="Tidak ada jadwal"
+							dateInput={watch('schedule.date')} 
+							timeInput={watch('schedule.time')}
+							dateRegistration={register( 'schedule.date', { ...val.dateNoTimezone, onChange: funcInputDate })}
+							timeRegistration={register('schedule.time', { ...val.timeNoTimezone })} 
+							active={true}
+						/>
 					</div>
 					
 					<div className={`${style.inputDateContainer} ${style.inputMargin}`}>
 						<h4>Tenggat</h4>
-						<div className={style.inputDate}>
-						
-							<div className={`${style.setOption} ${watch("schedule.date")? "": style.disabled} setOption`}>
-								<p>
-								{
-									watch('duration.date')?
-									formatDate(
-										watch('duration.date')+" "+watch('duration.time'),
-										"id-ID",
-										{weekday:"long",  month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit"}
-									)
-									:
-									"-"
-								}
-								</p>
-								<div className={style.triangle} />
-							</div>
-							
-							<div onClick={e=>e.stopPropagation()} className={`${style.selectContainer} ${watch("schedule.date")? "option": ""}`}>
-								<div className={style.desc} > Tanggal & Waktu</div>
-								<div className={style.formOpt}>
-									<div className={style.date}>
-										<FontAwesomeIcon icon={['far','calendar-alt']} />
-										<div className={style.content} >
-											{ watch('duration.date') && watch('duration.date').length ? formatDate(watch('duration.date'),"id-ID", {dateStyle:"medium"}) : "Masukkan tanggal"}
-										</div>
-										<input type="date" onClick={clickInputDate} {...register('duration.date')} />
-									</div>
-									<div className={`${style.time} ${watch('duration.date') && watch('duration.date').length? "": style.hidden}`}>
-										<FontAwesomeIcon icon={['far','clock']} />
-										<div className={style.content} >
-											{ watch('duration.date') && watch('duration.date').length ? formatDate(watch('duration.date')+" "+watch('duration.time'),"id-ID", {timeStyle:"short"}) : ""}
-										</div>
-										<input type="time" {...register('duration.time')} />
-									</div>
-								</div>
-							</div>
-							
-						</div>
+						<InputDate
+							{...inputDateStyling}
+							minDate={watch("schedule.date")}
+							initialText="-"
+							dateInput={watch('duration.date')} 
+							timeInput={watch('duration.time')}
+							dateRegistration={register( 'duration.date')}
+							timeRegistration={register('duration.time')} 
+							active={Boolean(watch("schedule.date"))}
+						/>
 					</div>
 					
 					

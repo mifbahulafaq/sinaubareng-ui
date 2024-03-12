@@ -12,7 +12,6 @@ import * as examApi from '../../api/exam'
 import PreviousLink from '../../components/PreviousLink';
 import ModalContainer from '../../components/ModalContainer';
 import ExamForm from '../../components/ExamForm';
-import TeacherComponent from '../../components/TeacherComponent';
 
 //utils
 import formatDate from '../../utils/id-format-date'
@@ -47,6 +46,7 @@ export default React.memo(function Exam() {
 		<ModalContainer displayed={displayModal} setDisplayed={setDisplayModal}>
 			<ExamForm
 				display={displayModal}
+				setDisplay={setDisplayModal}
 				refreshExam={()=>{
 					getExams()
 					setDisplayModal(false)
@@ -115,7 +115,7 @@ export default React.memo(function Exam() {
 				</div>
 				:
 				<div className={style.noDatas}>
-					<object className={style.noDataIcon} data={externalSvg} />
+					<object className={style.noDataIcon} aria-label="nodata" data={externalSvg} />
 					<p className={style.info}> Belum ada ujian sama sekali.</p>
 				</div>
 			}

@@ -6,7 +6,7 @@
 	width: 100%;
 	padding: 0.8571428571428571em 1.0714285714285714em;
 	border-radius: 3px;
-	background: rgba(217, 217, 217, 0.3);
+	background: #fafafa;
 	font-weight: 600;
 	cursor: pointer;
 }
@@ -17,9 +17,9 @@
 	cursor: context-menu;
 }
 .inputDate .setOption.disabled:hover{
-	background: rgba(217, 217, 217, 0.3);
+	background: #fafafa;
 }
-.inputDate .value{
+.inputDate .text{
 	color: #5f6368;
 	font-weight: 500;
 }
@@ -42,7 +42,8 @@
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 19.2857em;
+	right: 0;
+	max-width: 19.2857em;
 	padding-bottom: 20px;
 	border-radius: 3px;
 	box-shadow: 0 0 7px #999;
@@ -59,20 +60,19 @@
 }
 .inputDate .opt .formOpt{
 	padding-top: 1.4285714285714286em;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
 }
 .inputDate .opt .formOpt .date{
+	margin: auto;
 	position: relative;
 	height: 3.2142857142857144em;
-	width: 15.714285714285714em;
+	max-width: 15.714285714285714em;
 }
 .inputDate .opt .formOpt .time{
+	margin: auto;
 	position: relative;
 	margin-top: 20px;
 	height: 3.2142857142857144em;
-	width: 15.714285714285714em;
+	max-width: 15.714285714285714em;
 }
 .inputDate .opt .formOpt .time.hidden{
 	display: none;

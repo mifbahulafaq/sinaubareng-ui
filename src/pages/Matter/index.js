@@ -1,14 +1,23 @@
 import React from 'react';
 import style from './Matter.module.css';
+import calendarStyling from 'react-day-picker/dist/style.module.css';
+import customCalendarStyling from './day-picker.module.css';
 import { useContext } from '../../Context'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useParams, useLocation } from 'react-router-dom';
+import { format } from 'date-fns';
+import { DayPicker } from 'react-day-picker';
+ 
 
 //components
 import PreviousLink from '../../components/PreviousLink';
-import AddingMatterForm from '../../components/AddingMatterForm'
-import Calendar from 'react-calendar';
+import AddingMatterForm from '../../components/AddingMatterForm';
+import RowOfDaypicker from '../../components/RowOfDaypicker';
+import NumberOfWeek from '../../components/NumberOfWeek';
+import MonthOfDaypicker from '../../components/MonthOfDaypicker';
+import CustomCaption from '../../components/CustomCaption';
+import CustomHeadRow from '../../components/CustomHeadRow';
 //pages
 import ServerError from '../ServerError'
 //utils
@@ -28,7 +37,12 @@ export default React.memo(function Matter() {
 	const { singleClass } = useContext()
 	const params = useParams();
 	const isTeacher = useIsTeacher(singleClass.teacher)
-	const { state: locState } = useLocation()
+	const { state: urlState } = useLocation();
+	
+	const dayPickerClassNames = {
+		...calendarStyling,
+		...customCalendarStyling
+	}
 	
 	const getMatters = React.useCallback(()=>{
 		
@@ -42,8 +56,9 @@ export default React.memo(function Matter() {
 		
 	},[params.code_class, date])
 	React.useEffect(()=>{
-		if(locState?.schedule) setMatterForm(true)
-	}, [locState])
+		if(urlState?.schedule) setMatterForm(true)
+	}, [urlState])
+
 	React.useEffect(()=>{
 		getMatters();
 	},[getMatters])
@@ -53,7 +68,7 @@ export default React.memo(function Matter() {
 	}
 	
 	if(errorPage) return <ServerError />
-	
+	// console.log(DayOfWeek())
   return (
 	<>
 		<div className={style.container}>
@@ -61,12 +76,25 @@ export default React.memo(function Matter() {
 				<div className={style.previousLink} >
 					<PreviousLink to="../.." name={singleClass.class_name} />
 				</div>
-				<Calendar value={date} onChange={value=>setDate(value)} />
-				<div className={style.repeat}>
-					<div className={style.icon} onClick={()=>setDate(null)}>
-						<FontAwesomeIcon icon="repeat" />
-					</div>
-				</div>
+				<DayPicker 
+					mode="single"
+					classNames={dayPickerClassNames}
+					selected={date}
+					onSelect={setDate}
+					components={{
+						Caption: CustomCaption,
+						Row: RowOfDaypicker,
+						HeadRow: CustomHeadRow,
+					}}
+					modifiers={{
+						selectedMonth: ''
+					}}
+					onDayClick={(day, modifiers)=>{
+						console.log(day)
+					}}
+					showOutsideDays
+				/>
+				
 			</div>
 			
 			<div className={style.matterContainer}>
@@ -138,6 +166,7 @@ export default React.memo(function Matter() {
 			setDisplay={displayMatterForm} 
 			display={matterForm} 
 			codeClass={params.code_class}
+			autoSchedule={urlState?.schedule || ""}
 		/>
 	</>
   )

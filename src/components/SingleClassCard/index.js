@@ -25,10 +25,14 @@ export default function SingleClassCard({ data, matter }){
 								<FontAwesomeIcon icon={['far', 'calendar']} />
 								<span>{schedule}</span>
 							</li>
-							<li>
-								<FontAwesomeIcon icon={['far', 'clock']} />
-								<span>{timeFormat(data?.duration)}</span>
-							</li>
+							{
+								!matter?
+								<li>
+									<FontAwesomeIcon icon={['far', 'clock']} />
+									<span>{timeFormat(data?.duration)}</span>
+								</li>
+								:""
+							}
 							<li>
 								<FontAwesomeIcon icon={['far', 'file-lines']} />
 								<span>{attachment} Files</span>

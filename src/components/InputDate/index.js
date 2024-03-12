@@ -7,6 +7,7 @@ import formatDate from '../../utils/id-format-date';
 export default function InputDate({
 	margin,
 	fontSize,
+	initialText,
 	width,
 	minDate,
 	dateInput, 
@@ -20,7 +21,7 @@ export default function InputDate({
 	return(
 		<div style={{width, fontSize, margin}} className={style.inputDate}>
 			<div style={{fontSize}} className={`${style.setOption} ${active ?"":style.disabled} setOption`}>
-				<span className={style.value} >
+				<span className={style.text} >
 					{
 						dateInput?
 						formatDate(
@@ -29,7 +30,7 @@ export default function InputDate({
 							{weekday:"long",  month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit"}
 						)
 						:
-						active? "Tidak ada jadwal": "-"
+						initialText
 					}
 				</span>
 			</div>
@@ -69,11 +70,20 @@ export default function InputDate({
 InputDate.propTypes = {
 	margin: PropTypes.string,
 	fontSize: PropTypes.string,
+	initialText:PropTypes.string,
 	width: PropTypes.string,
 	minDate: PropTypes.string,
 	dateInput: PropTypes.string,
 	timeInput: PropTypes.string,
 	dateRegistration: PropTypes.object.isRequired,
 	timeRegistration: PropTypes.object.isRequired,
+	active: PropTypes.bool,
+}
+InputDate.defaultProps = {
+	margin: "0",
+	fontSize: "1rem",
+	initialText: "-",
+	width: "100%",
+	minDate: "",
 	active: PropTypes.bool,
 }

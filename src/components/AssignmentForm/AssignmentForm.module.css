@@ -105,47 +105,7 @@
 .formContainer form .inputDateContainer h4{
 	color: #505050;
 }
-.formContainer form .inputDateContainer .inputDate{
-	position: relative;
-}
-.formContainer form .inputDateContainer .inputDate .setOption{
-	position: relative;
-	margin-top: 10px;
-	padding: 10px 20px;
-	width: 300px;
-	background: #fafafa;
-	border-radius: 3px;
-	cursor: pointer;
-}
-.formContainer form .inputDateContainer .inputDate .setOption:hover{
-	background: #f0f0f0;
-}
-.formContainer form .inputDateContainer .inputDate .setOption p{
-	pointer-events: none;
-}
-.formContainer form .inputDateContainer .inputDate .setOption .triangle{
-	position: absolute;
-	top: 50%;
-	right: 20px;
-	transform: translate(0, -50%);
-	border-top: 6px solid #505050;
-	border-left: 6px solid transparent;
-	border-right: 6px solid transparent;
-	pointer-events: none;
-}
-.formContainer form .inputDateContainer .inputDate .selectContainer{
-	display: none;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 270px;
-	padding-bottom: 20px;
-	border-radius: 3px;
-	box-shadow: 0 0 7px #999;
-	background: #fff;
-	z-index: 2;
-	cursor: default;
-}
+
 .selectContainer .desc{
 	color: #5f6368;
 	width: 100%;

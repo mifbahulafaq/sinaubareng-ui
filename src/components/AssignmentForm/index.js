@@ -6,7 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types'
 
 //components
-import Image from '../Image'
+import Image from '../Image';
+import InputDate from '../InputDate';
 
 //apis
 import * as mattAssApi from '../../api/matt-ass';
@@ -78,7 +79,33 @@ import formatDate from '../../utils/id-format-date';
 			}
 		}
 	}
-	
+	const customSetValue = function(field, value){
+
+		setValue(
+			field, 
+			value,
+			{ 
+				shouldValidate: true,
+				shouldDirty: true,
+			}
+		)
+		
+	}
+	function funcInputDate(e){
+		
+		const value = e.target.value;
+		
+		const defaultScheduleTime = (new Date()).toLocaleString('en-GB',{timeStyle: 'short'});
+		
+		if(value.length) {
+			
+			customSetValue("time", defaultScheduleTime);
+			
+		}else{
+			customSetValue("time", "00:00:00");
+		}
+		
+	}
 	return (
 		<div className={style.formContainer}>
 			<div className={style.header}>
@@ -108,45 +135,17 @@ import formatDate from '../../utils/id-format-date';
 					
 					<div className={`${style.inputDateContainer} ${style.inputMargin}`}>
 						<h4>Tenggat</h4>
-						<div className={style.inputDate}>
-							
-							<div className={`${style.setOption} setOption`}>
-								<p>
-								{
-									watch('date')?
-									formatDate(
-										watch('date')+" "+watch('time'),
-										"id-ID",
-										{weekday:"long",  month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit"}
-									)
-									:
-									"-"
-								}
-								</p>
-								<div className={style.triangle} />
-							</div>
-							
-							<div onClick={e=>e.stopPropagation()} className={`${style.selectContainer} option`}>
-								<div className={style.desc} > Tanggal & Waktu</div>
-								<div className={style.formOpt}>
-									<div className={style.date}>
-										<FontAwesomeIcon icon={['far','calendar-alt']} />
-										<div className={style.content} >
-											{ watch('date') && watch('date').length ? formatDate(watch('date'),"id-ID", {dateStyle:"medium"}) : "Masukkan tanggal"}
-										</div>
-										<input type="date" {...register('date')} />
-									</div>
-									<div className={`${style.time} ${watch('date') && watch('date').length? "": style.hidden}`}>
-										<FontAwesomeIcon icon={['far','clock']} />
-										<div className={style.content} >
-											{ watch('date') && watch('date').length ? formatDate(watch('date')+" "+watch('time'),"id-ID", {timeStyle:"short"}) : ""}
-										</div>
-										<input type="time" {...register('time')} />
-									</div>
-								</div>
-							</div>
-							
-						</div>
+						<InputDate
+							width="300px"
+							margin="10px 0 0"
+							fontSize="0.95em"
+							minDate={(new Date()).toLocaleString('en-CA',{dateStyle: 'short'})}
+							dateInput={watch("date")}
+							timeInput={watch("time")}
+							dateRegistration={register('date', { onChange: funcInputDate })}
+							timeRegistration={register('time')}
+							active={true}
+						/>
 					</div>
 					
 					

@@ -83,7 +83,7 @@ export default React.memo(function SingleAssignment() {
 		})
 		.catch(err=>console.log(err))
 	}
-	
+	console.log(assData)
   return (
 	<div className={style.container}>
 		{

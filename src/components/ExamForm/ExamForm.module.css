@@ -1,6 +1,6 @@
 .formContainer{
 	height: 100%;
-	width: 940px;
+	width: 960px;
 	background: #fafafa;
 	overflow-y: auto;
 }
@@ -35,7 +35,31 @@
 	font-weight: 600;
 	color: #505050;
 }
-.formContainer .header .submit{
+.formContainer .header .rightSide{
+	display: flex;
+	align-items: center;
+}
+.formContainer .header .rightSide .close{
+	margin-right: 1rem;
+	width: 40px;
+	height: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 50%;
+	text-align: center;
+	cursor: pointer;
+}
+.formContainer .header .rightSide .close:hover{
+	background: rgba(222, 222, 222, 0.5);
+}
+.formContainer .header .rightSide .close svg{
+	color: #434343;
+	transform: rotate(45deg);
+	font-size: 1.6em;
+	font-weight: normal;
+}
+.formContainer .header .rightSide .submit{
 	float: right;
 	background: #0e77b9;
 	padding: 8px 13px;
@@ -45,10 +69,10 @@
 	color: #fff;
 	cursor: pointer;
 }
-.formContainer .header .submit:hover{
+.formContainer .header .rightSide .submit:hover{
 	background: #57a1cf;
 }
-.formContainer .header .submit.disabled{
+.formContainer .header .rightSide .submit.disabled{
 	background: #cfcfcf;
 	color: #999;
 }
@@ -81,67 +105,30 @@
 }
 .formContainer form .customInputContainer{
 	position: relative;
+	font-size: 1rem;
 }
 .formContainer form .customInputContainer [contenteditable="true"]{
-	min-height: 100px;
+	min-height: 6.25em;
+	font-size: inherit;
 }
 .formContainer form .customInputContainer p{
 	display: none;
 	position: absolute;
-	top: 20px;
-	left: 20px;
+	top: 1.25em;
+	left: 1.25em;
 	color: #797979;
-	font-size: 1.1em;
+	font-size: inherit;
 }
 .formContainer form .customInputContainer [contenteditable="true"]:empty ~ p{
 	display: initial;
 }
+.formContainer form .inputDateContainer{
+	max-width: 350px;
+}
 .formContainer form .inputDateContainer h4{
 	color: #505050;
-}
-.formContainer form .inputDateContainer .inputDate{
-	position: relative;
-}
-.formContainer form .inputDateContainer .inputDate .setOption{
-	position: relative;
-	margin-top: 10px;
-	padding: 10px 20px;
-	width: 300px;
-	border-radius: 3px;
-	background: #fafafa;
-	cursor: pointer;
-}
-.formContainer form .inputDateContainer .inputDate .setOption:hover{
-	background: #f0f0f0;
-}
-.formContainer form .inputDateContainer .inputDate .setOption.disabled:hover{
-	background: #fafafa;
-}
-.formContainer form .inputDateContainer .inputDate .setOption p{
-	pointer-events: none;
-}
-.formContainer form .inputDateContainer .inputDate .setOption .triangle{
-	position: absolute;
-	top: 50%;
-	right: 20px;
-	transform: translate(0, -50%);
-	border-top: 6px solid #505050;
-	border-left: 6px solid transparent;
-	border-right: 6px solid transparent;
-	pointer-events: none;
-}
-.formContainer form .inputDateContainer .inputDate .selectContainer{
-	display: none;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 270px;
-	padding-bottom: 20px;
-	border-radius: 3px;
-	box-shadow: 0 0 7px #999;
-	background: #fff;
-	z-index: 2;
-	cursor: default;
+	font-size: 0.95rem;
+	margin-left: 0.5rem;
 }
 .selectContainer .desc{
 	color: #5f6368;
@@ -229,22 +216,26 @@
 .formContainer form .formSection2 .fileInfo{
 	display: flex;
 	align-items: center;
+	flex-wrap: wrap;
 }
 .formContainer form .formSection2 .fileInfo h4{
 	color: #505050;
+	font-size: 0.95rem;
+	margin: 0 10px 5px 0;
 } 
 .formContainer form .formSection2 .fileInfo p{
-	margin-left: 10px;
 	color: #5b5b5b;
 	font-weight: 600;
 	font-size: 0.85em;
+	margin-bottom: 5px;
 } 
 .formContainer form .formSection2 .fileUpload{
 	margin-top: 20px;
 	position: relative;
 	display: flex;
 	align-items: center;
-	height: 50px;
+	font-size: 1rem;
+	height: 3.125rem;
 	width: 100%;
 	border: 1px solid #dcdcdc;
 	border-radius: 5px;
@@ -253,27 +244,24 @@
 	border: 1px solid #d40027;
 }
 .formContainer form .formSection2 .fileUpload .icon{
-	margin-right: 10px;
+	width: 60px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding: 0 20px;
 	height: 100%;
 	color: #098DDF;
-	font-size: 1.4em;
 	border-right:1px solid #dcdcdc ;
 	float: left;
 }
 .formContainer form .formSection2 .fileUpload .icon .img{
 	height: 70%;
-	width: 100%;
 }
 .formContainer form .formSection2 .fileUpload .fileName{
-	max-width: 430px;
-}
-.formContainer form .formSection2 .fileUpload .fileName span{
-	color: #5f6368;
-	font-weight: 500;
+	width: calc(100% - 107px);
+	padding: 0 10px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .formContainer form .formSection2 .fileUpload .removeFile{
 	position: absolute;
@@ -282,7 +270,7 @@
 	width: 37px;
 	border-radius: 50%;
 	text-align: center;
-	line-height: 42px;
+	line-height: 2.625rem;
 }
 .formContainer form .formSection2 .fileUpload .removeFile:hover{
 	background: rgba(249, 249, 249, 1);

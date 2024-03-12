@@ -9,18 +9,22 @@
 	align-items: flex-start;
 	background: rgba(199, 217, 237, 0.3);
 }
+
+
 .container .calendarContainer{
 	position: relative;
+	box-shadow:0 0 8px rgba(224, 224, 224, 0.8);
+	background: #fff;
+	border-radius: 5px;
 }
 .container .calendarContainer .previousLink{
 	position: absolute;
 	top: -43px;
 }
 .container .calendarContainer .repeat{
-	background: #fff;
 	width: 100%;
 	height: 30px;
-	padding-right: 25px;
+	padding-right: 10px;
 }
 .container .calendarContainer .repeat .icon{
 	display: inline-block;
