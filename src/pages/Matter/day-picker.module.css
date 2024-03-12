@@ -1,0 +1,26 @@
+.month{
+}
+.cell{
+	height: 2rem;
+	border-radius: 0 0 9px 9px;
+}
+.cell:has(.day_selected){
+	background: var(--primary-color);
+	color: #fff;
+}
+.button{ 
+	cursor: pointer;
+	border-radius: 100%;
+	margin: auto;
+	width: 2rem;
+	height: 2rem;
+}
+.button:hover:not(.day_selected){ 
+	background: rgba(9, 141, 223, 0.2);
+}
+.day_selected{
+}
+.day{
+	display: block;
+	border: none;
+}

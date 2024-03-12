@@ -1,0 +1,10 @@
+.wrapper{
+	color: var(--primary-font-color);
+	font-size: 1rem;
+	font-weight: bold;
+	padding: 0.5rem;
+	
+}
+.wrapper p{
+	text-align: center;
+}
