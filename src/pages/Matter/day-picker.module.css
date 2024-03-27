@@ -1,4 +1,34 @@
+.root{
+	--rdp-cell-size: 40px; /* Size of the day cells. */
+  --rdp-caption-font-size: 18px; /* Font size for the caption labels. */
+  --rdp-accent-color: #0000ff; /* Accent color for the background of selected days. */
+  --rdp-background-color: #e7edff; /* Background color for the hovered/focused elements. */
+  --rdp-accent-color-dark: #3003e1; /* Accent color for the background of selected days (to use in dark-mode). */
+  --rdp-background-color-dark: #180270; /* Background color for the hovered/focused elements (to use in dark-mode). */
+  --rdp-outline: 2px solid var(--rdp-accent-color); /* Outline border for focused elements */
+  --rdp-outline-selected: 3px solid var(--rdp-accent-color); /* Outline border for focused _and_ selected elements */
+  --rdp-selected-color: #fff; /* Color of selected day text */
+  margin: auto;
+}
+.root:after{
+	position: absolute;
+	left: 1rem;
+	right: 1rem;
+	bottom: 0;
+	content: "";
+	display: block;
+	background: rgba(224, 224, 224, 0.5);
+	height: 1px;
+	/* box-shadow: 0 2px 2px ; */
+}
 .month{
+	width: 100%;
+}
+.table{
+	width: 100%;
+	border-collapse: collapse;
+	background: rgba(255, 185, 113, 0.1);
+	border-radius: 5px;
 }
 .cell{
 	height: 2rem;
@@ -23,4 +53,8 @@
 .day{
 	display: block;
 	border: none;
+}
+.day_outside{
+	opacity: 0.5;
+	text-align: center;
 }

@@ -8,7 +8,7 @@ export default function RowOfDaypicker(props){
 	const [ days, setDays ] = React.useState([]);
 	const { selected, today, ...others } = useDayPicker();
 	const selectSingle = useSelectSingle();
-	// console.log(others)
+	// console.log(selected)
 	const today2 = React.useMemo(()=>format(new Date(), 'MM/dd/yyyy'), [today])
 	const dates2 = React.useMemo(()=>props.dates.map(e=>format(e, 'MM/dd/yyyy')), [props.dates])
 	const selected2 = React.useMemo(()=>selected && format(selected, 'MM/dd/yyyy'), [selected])

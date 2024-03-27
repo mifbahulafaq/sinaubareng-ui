@@ -13,11 +13,11 @@ import { DayPicker } from 'react-day-picker';
 //components
 import PreviousLink from '../../components/PreviousLink';
 import AddingMatterForm from '../../components/AddingMatterForm';
-import RowOfDaypicker from '../../components/RowOfDaypicker';
-import NumberOfWeek from '../../components/NumberOfWeek';
-import MonthOfDaypicker from '../../components/MonthOfDaypicker';
+import CustomMonths from '../../components/CustomMonths';
 import CustomCaption from '../../components/CustomCaption';
+import RowOfDaypicker from '../../components/RowOfDaypicker';
 import CustomHeadRow from '../../components/CustomHeadRow';
+import CustomDay from '../../components/CustomDay';
 //pages
 import ServerError from '../ServerError'
 //utils
@@ -25,19 +25,18 @@ import formatDate from '../../utils/id-format-date'
 //APIs
 import * as matterApi from '../../api/matter';
 //hooks
-import useIsTeacher from '../../hooks/useIsTeacher'
+import useIsTeacher from '../../hooks/useIsTeacher';
 
-
-export default React.memo(function Matter() {
+export default function Matter() {
 	
 	const [matters, setMatters] = React.useState(null);
 	const [errorPage, setErrorPage] = React.useState(false);
 	const [ matterForm, setMatterForm ] = React.useState(false)
-	const [ date, setDate ] = React.useState(null)
 	const { singleClass } = useContext()
 	const params = useParams();
 	const isTeacher = useIsTeacher(singleClass.teacher)
 	const { state: urlState } = useLocation();
+	const [ date, setDate ] = React.useState(null);
 	
 	const dayPickerClassNames = {
 		...calendarStyling,
@@ -68,7 +67,7 @@ export default React.memo(function Matter() {
 	}
 	
 	if(errorPage) return <ServerError />
-	// console.log(DayOfWeek())
+	
   return (
 	<>
 		<div className={style.container}>
@@ -80,18 +79,15 @@ export default React.memo(function Matter() {
 					mode="single"
 					classNames={dayPickerClassNames}
 					selected={date}
-					onSelect={setDate}
+					// onSelect={setDate}
 					components={{
 						Caption: CustomCaption,
-						Row: RowOfDaypicker,
 						HeadRow: CustomHeadRow,
+						Months: CustomMonths,
+						Row: RowOfDaypicker,
+						Day: CustomDay
 					}}
-					modifiers={{
-						selectedMonth: ''
-					}}
-					onDayClick={(day, modifiers)=>{
-						console.log(day)
-					}}
+					onDayClick={(date)=>setDate(date)}
 					showOutsideDays
 				/>
 				
@@ -170,4 +166,4 @@ export default React.memo(function Matter() {
 		/>
 	</>
   )
-})
+}

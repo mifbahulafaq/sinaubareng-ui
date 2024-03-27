@@ -27,7 +27,6 @@ export default React.memo(function SingleMatter() {
 	
 	//state
 	const [matt, setMatt] = React.useState({});
-	console.log(matt)
 	const [comments, setComments] = React.useState([]);
 	const [mattAssignments, setMattAssignments] = React.useState([]);
 	const [ commentText, setCommentText ] = React.useState("");
