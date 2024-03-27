@@ -1,0 +1,31 @@
+.monthWrapper{
+	position: relative;
+	padding: 0 2.5rem;
+}
+.monthWrapper .nextDay, .monthWrapper .previousDay{
+	position: absolute;
+	background: var(--primary-color);
+	color: #fff;
+	font-size: 1rem;
+	width: 2em;
+	height: 2em;
+	line-height: 2em;
+	text-align: center;
+	border-radius: 100%;
+	cursor: pointer;
+	transition: all ease 0.2s;
+}
+.monthWrapper .previousDay{
+	left: 0;
+	bottom: 20%;
+}
+.monthWrapper .nextDay{
+	right: 0;
+	bottom: 20%;
+}
+.monthWrapper .nextDay:hover, .monthWrapper .previousDay:hover{
+	background: rgba(9, 141, 223, 0.5);
+}
+.monthWrapper .nextDay svg{
+	transform: rotate(180deg);
+}
