@@ -42,7 +42,8 @@ export default React.memo(function SingleClass(props) {
 	const [ discussData, setDiscussData ] = React.useState([]);
 	const [ scheduleData, setScheduleData ] = React.useState(null);
 	const [ time, setTime ] = React.useState(new Date())
-	const [ modal, setModal ] = React.useState(false)
+	const [ classDeletion, setClassDeletion ] = React.useState(false)
+	const [ info, displayInfo ] = React.useState(false)
 	const [ examMatter, setExamMatter ] = React.useState({
 		matter: {},
 		exam: {}
@@ -266,14 +267,22 @@ export default React.memo(function SingleClass(props) {
 		<div className={style.detail} style={{ background: singleClass.color }} >
 			<div className={style.title}>
 				<h1>
-					{singleClass.class_name} 
-					{
-						isTeacher?
-						<span title="Code"> ( {singleClass.code_class} )</span>
-						:""
-					}
+					{singleClass.class_name}
 				</h1>
-				<p>{singleClass.description}</p>
+				{
+					isTeacher?
+					<p className={style.codeClass}>({singleClass.code_class})</p>
+					:""
+				}
+				
+				{
+					// <p>{singleClass.description}</p>
+				}
+				<div title="Description" onClick={()=>displayInfo(true)} className={style.infoBtnContainer}>
+					<div className={style.infoBtn}>
+						<FontAwesomeIcon icon="info" />
+					</div>
+				</div>
 			</div>
 			<ul className={style.menu} >
 				<li>
@@ -306,17 +315,21 @@ export default React.memo(function SingleClass(props) {
 						</div>
 					</div>
 					<ul className={`${style.settingList} option`} >
-						<li onClick={()=>setModal(true)} >Hapus Kelas</li>
+						<li onClick={()=>setClassDeletion(true)} >Hapus Kelas</li>
 					</ul>
 				</div>
 				:""
 			}
 		</div>
 		
-		<div className={style.task} >
-			<SingleClassCard data={examMatter.matter} matter={true} />
-			<SingleClassCard data={examMatter.exam} />
-		</div>
+		<ul className={style.task} >
+			<li>
+				<SingleClassCard data={examMatter.matter} matter={true} />
+			</li>
+			<li>
+				<SingleClassCard data={examMatter.exam} />
+			</li>
+		</ul>
 		
 		<div className={style.chatting} >
 			<div className={style.words}>
@@ -407,16 +420,24 @@ export default React.memo(function SingleClass(props) {
 			</div>
 		</div>
 		
-		<ModalContainer displayed={modal} setDisplayed={setModal} >
+		<ModalContainer displayed={classDeletion} setDisplayed={setClassDeletion} >
 			<div className={style.confirmDeletion}>
 				<p className={style.textAlert}>Hapus {singleClass.class_name} ?</p>
 				<p className={style.info}>
 					Anda tidak dapat mengakses lagi postingan atau komentar apapun yang telah ditambahkan ke kelas ini
 				</p>
 				<ul className={style.deletionOpt}>
-					<li onClick={()=>setModal(false)}>Batal</li>
+					<li onClick={()=>setClassDeletion(false)}>Batal</li>
 					<li onClick={deleteClass}>Hapus</li>
 				</ul>
+			</div>
+		</ModalContainer>
+		<ModalContainer displayed={info} setDisplayed={displayInfo} >
+			<div className={style.info}>
+				<h3>Description</h3>
+				<div className={style.content}>
+					<p>{singleClass.description}</p>
+				</div>
 			</div>
 		</ModalContainer>
 		

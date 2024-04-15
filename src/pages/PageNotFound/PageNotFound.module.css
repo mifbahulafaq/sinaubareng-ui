@@ -9,6 +9,7 @@
 .content{
 	width: 500px;
 	margin: auto;
+	padding: 0 20px;
 }
 .content h1{
 	color: #919191;

@@ -96,15 +96,15 @@ export default React.memo(function People(){
 	return <div className={style.container}>
 	
 		<div className={style.previousLink} >
-			<PreviousLink to=".." name={teacherData?.class_name}/>
+			<PreviousLink to=".." name={teacherData.class_name || ''}/>
 		</div>
 		<ModalContainer displayed={modal} setDisplayed={setModal}>
 			<div className={style.addStudentContainer}>
 			
-				<h2>Tambahkan Siswa</h2>
+				<h3>Tambahkan Siswa</h3>
 				
 				<div className={style.content} >
-					<h3>ID Siswa</h3>
+					<h4>ID Siswa</h4>
 					<p>Masukan 6 digit ID Siswa.</p>
 					<form onSubmit={handleSubmit} className={style.form}>
 						

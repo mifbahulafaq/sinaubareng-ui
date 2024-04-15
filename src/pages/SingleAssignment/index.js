@@ -30,7 +30,7 @@ export default React.memo(function SingleAssignment() {
 	const [ ansData, setAnsData ] = React.useState([])
 	const [ errorServer, setErrorServer ] = React.useState(false)
 	const fileAnsw = React.useRef(null)
-	const isTeacher = useIsTeacher(assData.teacher?.user_id)
+	const isTeacher = useIsTeacher(assData.teacher?.user_id);
 	
 	const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
 	const assdate = assData.date? new Date(assData.date) : new Date()

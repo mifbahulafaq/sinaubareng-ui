@@ -3,7 +3,8 @@
 	top: 0;
 	right: -710px;
 	bottom: 0;
-	width: 700px;
+	width: 100%;
+	max-width: 700px;
 	height: 100vh;
 	overflow-y: auto;
 	z-index: 101;
@@ -31,13 +32,14 @@
 	align-items: center;
 }
 .addMatter .header .left svg{
-	margin-right: 10px;
-	font-size: 2em;
+	margin-right: 0.5rem;
+	font-size: 1.6em;
 	color: #098DDF;
 }
 .addMatter .header .left h2{
 	font-weight: 600;
 	color: #434343;
+	font-size: 1.2rem;
 }
 .addMatter .header .right{
 	width: 40px;
@@ -62,7 +64,7 @@
 	position: relative;
 	background: #fff;
 	min-height: calc(100vh - 70px);
-	padding: 20px 50px 70px;
+	padding: 20px 30px 70px;
 }
 .form .input:first-child ~ div{
 	margin-top: 20px;
@@ -106,6 +108,10 @@
 }
 .form div.input [contenteditable="true"]:empty ~ span{
 	display: initial;
+}
+.form .inputDateContainer{
+	width: 100%;
+	max-width: 350px;
 }
 .form .inputDateContainer h4{
 	margin-left: 10px;
@@ -288,9 +294,10 @@
 .form .fileUpload .icon{
 	margin-right: 10px;
 	display: flex;
+	width: 50px;
+	padding: 5px 0;
 	justify-content: center;
 	align-items: center;
-	padding: 0 20px;
 	height: 100%;
 	color: #098DDF;
 	font-size: 1.4em;
@@ -298,11 +305,13 @@
 	float: left;
 }
 .form .fileUpload .icon .img{
-	height: 70%;
-	width: 100%;
+	height: 100%;
 }
 .form .fileUpload .fileName{
-	max-width: 430px;
+	width: calc(100% - 100px);
+	text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 .form .fileUpload .fileName span{
 	color: #5f6368;
@@ -383,7 +392,7 @@
 	width: 100%;
 	border: none;
 	color: #fff;
-	font-size: 1.2em;
+	font-size: 1em;
 	font-weight: 700;
 	background-color: #3280c5;
 	cursor: pointer;
@@ -397,4 +406,21 @@
 }
 .form .btn:hover{
 	background-color: #60a8e7;
+}
+@media only screen and (min-width: 600px) {
+	.addMatter .formContainer {
+		padding: 20px 50px 70px;
+	}
+	.addMatter .header .left {
+	}
+	.addMatter .header .left svg{
+		margin-right: 0.8rem;
+		font-size: 2em;
+	}
+	.addMatter .header .left h2{
+		font-size: 1.4rem;
+	}
+	.form .btn{
+		font-size: 1.2em;
+	}
 }

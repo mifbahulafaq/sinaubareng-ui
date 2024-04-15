@@ -1,8 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
 .container{
-	padding:10px 170px 0;
+	padding:10px 30px 0;
+	width: min(1000px, 100%);
+	margin: auto;
 	display: grid;
-	grid-template-columns: 280px auto;
+	/* grid-template-columns: 280px auto; */
+	grid-template-columns: repeat(4, 1fr);
+	grid-template-areas: 
+		"detail detail detail detail"
+		"task task task task"
+		"chatting chatting chatting chatting"
+	;
 	gap: 10px;
 	position: relative;
 }
@@ -93,25 +101,60 @@
 	transform: translate(-50%, -70%) rotate(45deg);
 }
 .container .detail{
-	grid-column: 1 / 3;
+	grid-area: detail;
 	position: relative;
-	padding:20px 60px;
+	padding:20px 20px;
 	height:200px;
 	display:flex;
 	justify-content: space-between;
 	align-items:flex-start;
 	border-radius: 10px;
+	color: #fff;
+}
+.container .detail .title{
+	width: 90%;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	line-height: 1;
+	color: #fff;
+	font-size: 0.9rem;
 }
 .container .detail .title h1{
+	margin-right: 0.2em;
 	font-family: 'Kanit', sans-serif;
 	font-weight:500;
-	font-size:40px;
-	color: #fff;
-	
+	font-size:2.5em;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
-.container .detail .title h1 span{
-	font-size:20px;
+.container .detail .title .codeClass{
+	font-size:1.3em;
 	font-weight: normal;
+	color: inherit;
+}
+.container .detail .title .infoBtnContainer{
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	padding: 10px;
+	border-radius: 50%;
+	cursor:pointer;
+}
+.container .detail .title .infoBtnContainer:hover{
+	background:rgba(62, 62, 62, 0.2);
+}
+.container .detail .title .infoBtnContainer .infoBtn{
+	color: #fff;
+	font-size: 0.9em;
+	border-radius: 50%;
+	height: 25px;
+	width: 25px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid #fff;
 }
 .container .detail .title p{
 	font-family: 'Kanit', sans-serif;
@@ -123,11 +166,11 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	left:60px;
+	left:20px;
 	bottom:10px;
 }
 .container .detail .menu li{
-	margin-right:30px;
+	margin-right:15px;
 	display:flex;
 	flex-direction:column;
 	align-items:center;
@@ -212,16 +255,20 @@
 	text-shadow: 0 0 4px #fff;
 }
 .task{
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+	list-style: none;
+	grid-area: task;
+	display: grid;
+	align-content: start;
+	grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+	gap: 10px;
 }
 .chatting{
+	grid-area: chatting;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	background: rgba(126, 200, 243, 0.15);
-	min-height: 470px;
+	min-height: 340px;
 	border-radius: 5px;
 	box-shadow: 0 1px 3px rgba(162, 162, 162, 0.3);
 }
@@ -293,6 +340,7 @@
 .chatting .words .sortDate{
 	clear: right;
 	text-align: center;
+	margin-bottom: 1rem;
 	
 }
 .chatting .words .sortDate.hidden{
@@ -308,29 +356,26 @@
 	
 }
 .chatting .sender{
-	margin-bottom: 5px;
+	margin: 5px 0;
 	position: sticky;
-	width: 680px;
+	width: 97%;
+	height: 3.7rem;
 	bottom: 5px;
 	border-radius: 5px;
 	box-shadow: 0 0 2px #999;
 	background: #fff;
 }
 .chatting .sender form{
-	position: relative;
 	display: flex;
 	width: 100%;
+	height: 100%;
 	padding:10px;
 	align-items: flex-start;
 	justify-content: space-between;
 }
-.chatting .sender .addFile{
-	margin-right: 10px;
-	color: #999;
-	font-size: 24px;
-}
 .chatting .sender .customInput{
-	width: 87%;
+	width: calc(100% - 4.9rem);
+	height: 100%;
 	padding:8px 13px;
 	outline: none;
 	border-radius:5px;
@@ -340,9 +385,11 @@
 	display: none;
 	position: absolute;
 	top: 50%;
-	transform: translate(0, -50%);
 	left: 25px;
+	transform: translate(0, -50%);
 	color: #999;
+	font-size: 0.9rem;
+	font-weight: 500;
 	pointer-events: none;
 }
 .chatting .sender .customInput:empty + .placeHolder{
@@ -350,9 +397,10 @@
 }
 .chatting .sender button{
 	display: flex;
-	width: 11%;
+	width: 4.5rem;
+	height: 100%;
 	align-items: center;
-	margin-left: 10px;
+	/* margin-left: 10px; */
 	padding: 10px 13px;
 	background: #098DDF;
 	border-radius: 5px;
@@ -402,4 +450,54 @@
 .confirmDeletion .deletionOpt li:last-child{
 	margin-left: 20px;
 	color: #1a73e8;
+}
+.info{
+	margin: 0 20px;
+	background: #fff;
+	width: 30rem;
+	padding: 20px;
+	border-radius: 7px;
+	color: #3c4043;
+	max-height: 20rem;
+	overflow-y: auto;
+}
+.info h3{
+	margin-bottom: 0.8rem;
+}
+.info .content{
+	border-radius: 7px;
+	padding: 0.8rem 1.2rem;
+	background: #f0f0f0;
+	min-height: 5rem;
+}
+.info .content p{
+	font-size: 0.95rem;
+	/* font-weight: 500; */
+}
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+	.container .detail{
+		padding:20px 60px;
+	}
+	.container .detail .title{
+		width: 100%;
+		font-size: 1rem;
+	}
+	.container .detail .menu{
+		left:60px;
+	}
+	.container .detail .menu li{
+		margin-right:30px;
+	}
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+	.container{
+		grid-template-columns: repeat(3, 1fr);	
+		grid-template-areas: 
+			"detail detail detail"
+			"task chatting chatting"
+		;
+	}
 }

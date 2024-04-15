@@ -9,6 +9,7 @@
   --rdp-outline-selected: 3px solid var(--rdp-accent-color); /* Outline border for focused _and_ selected elements */
   --rdp-selected-color: #fff; /* Color of selected day text */
   margin: auto;
+  max-width: 500px;
 }
 .root:after{
 	position: absolute;
@@ -57,4 +58,10 @@
 .day_outside{
 	opacity: 0.5;
 	text-align: center;
+}
+
+@media only screen and (min-width: 992px) {
+	.root{
+		width: initial;
+	}
 }

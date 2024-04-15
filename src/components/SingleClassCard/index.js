@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import timeFormat from '../../utils/times';
 
-export default function SingleClassCard({ data, matter }){
+export default function SingleClassCard({ data, matter, width }){
 	
 	const locale = 'en-GB';
 	const option = { dateStyle:'short', timeStyle: 'short'};
@@ -13,7 +13,7 @@ export default function SingleClassCard({ data, matter }){
 	const schedule = data?.schedule? new Date(data.schedule).toLocaleString(locale, option): '';
 	
 	return (
-		<div className={style.container} >
+		<div style={{ width }} className={style.container} >
 			<h4>{matter?'Materi Mendatang':'Ujian Mendatang'}</h4>
 			{
 				data?.id_matter || data?.id_exm?
@@ -53,4 +53,7 @@ export default function SingleClassCard({ data, matter }){
 
 SingleClassCard.defaultProps = {
 	matter: false
+}
+SingleClassCard.defaultProps = {
+	width: '100%'
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import style from './Schedule.module.css';
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useContext } from '../../Context'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -17,7 +17,7 @@ export default React.memo(function Schedule() {
 	
 	const { singleClass } = useContext()
 	const params = useParams();
-	const [ error, setError ] = React.useState(null)
+	const navigate = useNavigate();
 	const [ scheduleDatas, setScheduleDatas ] = React.useState(null)
 	
 	React.useEffect(()=>{
@@ -26,8 +26,8 @@ export default React.memo(function Schedule() {
 		.then(({ data: schedulesResult})=>{
 			
 			if(schedulesResult.error){
-				console.log(schedulesResult)
-				setError(schedulesResult)
+				
+				navigate('..', {replace: true});
 				return ;
 			}
 			
@@ -41,7 +41,6 @@ export default React.memo(function Schedule() {
 		})
 		.catch(err=>{
 			console.log(err)
-			setError(err)
 		})
 	}, [params.code_class])
 	

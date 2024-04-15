@@ -24,7 +24,7 @@ import InputDate from '../InputDate'
 	
 	const dateOfSchedule = watch("schedule.date");
 	const timeOfSchedule = watch("schedule.time");
-	const inputDateStyling = {width: "350px", margin: "10px 0 0", fontSize: "0.875rem"};
+	const inputDateStyling = {width: "100%", margin: "10px 0 0", fontSize: "0.875rem"};
 	
 	//Reset Form
 	useEffect(()=>{
