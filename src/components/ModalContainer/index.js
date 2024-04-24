@@ -1,11 +1,12 @@
 import React from 'react';
 import style from './ModalContainer.module.css';
+import PropTypes from 'prop-types';
 
-export default React.memo(function ModalContainer({ children, displayed, setDisplayed }){
+function ModalContainer({ overflow, children, displayed, setDisplayed }){
 	
 	return (
 		<div
-			style={{display: displayed?'flex':'none'}}
+			style={{display: displayed?'flex':'none', overflowY: overflow }}
 			id="ModalContainer"
 			className={style.container}
 			onClick={e=>{
@@ -15,4 +16,13 @@ export default React.memo(function ModalContainer({ children, displayed, setDisp
 			{children}
 		</div>
 	)
-})
+}
+
+ModalContainer.propType = {
+	overflow: PropTypes.string
+}
+ModalContainer.defaultProps = {
+	overflow: 'visible'
+}
+
+export default React.memo(ModalContainer)

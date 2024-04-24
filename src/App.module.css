@@ -10,6 +10,8 @@ body{
 :root{
 	--primary-color: #098DDF;/*rgba(9, 141, 223, 1)*/
 	--primary-font-color: #3c4043;
+	--min-width: 330px;
+	--main-transition: ease all 0.2s;
 }
 .active{
 	display: block;

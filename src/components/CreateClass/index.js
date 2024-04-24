@@ -137,10 +137,10 @@ export default React.memo(function CreateClass({ setModal, modal }){
 			<form onSubmit={handleSubmit(submit)} className={style.form}>
 			
 				<div className={`${style.hiding} ${!formClass?style.hiden:''}`}>
-					<FormControl2 error={errors.class_name?.message} margin="0 0 20px 0" width="85%" > 
+					<FormControl2 error={errors.class_name?.message} margin="0 0 20px 0" width="100%" > 
 						<input className={`${style.input} ${errors.class_name?style.error:''}`} placeholder="Nama Kelas" {...register('class_name', val.className)}/>
 					</FormControl2>
-					<FormControl2 error={errors.description?.message} margin="0 0 20px 0" width="85%" >  
+					<FormControl2 error={errors.description?.message} margin="0 0 20px 0" width="100%" >  
 						<textarea rows="5" className={`${style.input} ${errors.description?style.error:''}`} placeholder="Keterangan" {...register('description', val.description)}/>
 					</FormControl2> 
 					<div className={style.inputColor}>
@@ -181,7 +181,7 @@ export default React.memo(function CreateClass({ setModal, modal }){
 				<div className={style.btnContainer}>
 					{
 					formClass?
-					<div type="button" className={style.btn} onClick={()=>navClick(false)} >Next</div>
+					<div className={style.btn} onClick={()=>navClick(false)} >Next</div>
 					:
 					<button 
 						type="submit" 
@@ -191,6 +191,7 @@ export default React.memo(function CreateClass({ setModal, modal }){
 						Submit
 					</button>
 					}
+					<div className={style.btn}>Cancel</div>
 				</div>
 				
 			</form>

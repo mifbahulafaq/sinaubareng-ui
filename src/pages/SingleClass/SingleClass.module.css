@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
 .container{
-	padding:10px 30px 0;
+	padding:10px 20px 0;
 	width: min(1000px, 100%);
 	margin: auto;
 	display: grid;
@@ -118,7 +118,7 @@
 	align-items: center;
 	line-height: 1;
 	color: #fff;
-	font-size: 0.9rem;
+	font-size: 0.85rem;
 }
 .container .detail .title h1{
 	margin-right: 0.2em;
@@ -359,36 +359,39 @@
 	margin: 5px 0;
 	position: sticky;
 	width: 97%;
-	height: 3.7rem;
+	font-size: 0.9rem;
+	height: 3.5em;
 	bottom: 5px;
 	border-radius: 5px;
 	box-shadow: 0 0 2px #999;
 	background: #fff;
+	
 }
 .chatting .sender form{
 	display: flex;
 	width: 100%;
 	height: 100%;
-	padding:10px;
+	padding: 0.5em;
 	align-items: flex-start;
 	justify-content: space-between;
 }
 .chatting .sender .customInput{
-	width: calc(100% - 4.9rem);
+	width: calc(100% - 5.2em);
 	height: 100%;
-	padding:8px 13px;
+	padding:0.5em 0.8125em;
 	outline: none;
 	border-radius:5px;
 	border: 2px solid #e5e5e5;
+	font-size: 0.95em;
 }
 .chatting .sender .placeHolder{
 	display: none;
 	position: absolute;
 	top: 50%;
-	left: 25px;
+	left: 1.75em;
 	transform: translate(0, -50%);
 	color: #999;
-	font-size: 0.9rem;
+	font-size: 0.9em;
 	font-weight: 500;
 	pointer-events: none;
 }
@@ -397,11 +400,11 @@
 }
 .chatting .sender button{
 	display: flex;
-	width: 4.5rem;
+	width: 5em;
 	height: 100%;
 	align-items: center;
 	/* margin-left: 10px; */
-	padding: 10px 13px;
+	padding: 0.625em 0.8125em;
 	background: #098DDF;
 	border-radius: 5px;
 	color: #fff;
@@ -451,7 +454,7 @@
 	margin-left: 20px;
 	color: #1a73e8;
 }
-.info{
+.desc{
 	margin: 0 20px;
 	background: #fff;
 	width: 30rem;
@@ -461,16 +464,16 @@
 	max-height: 20rem;
 	overflow-y: auto;
 }
-.info h3{
+.desc h3{
 	margin-bottom: 0.8rem;
 }
-.info .content{
+.desc .content{
 	border-radius: 7px;
 	padding: 0.8rem 1.2rem;
 	background: #f0f0f0;
 	min-height: 5rem;
 }
-.info .content p{
+.desc .content p{
 	font-size: 0.95rem;
 	/* font-weight: 500; */
 }
@@ -488,6 +491,13 @@
 	}
 	.container .detail .menu li{
 		margin-right:30px;
+	}
+	.chatting .sender{
+		font-size: 1rem;
+	}
+	
+	.chatting .sender button{
+		width: 5.5em;
 	}
 }
 

@@ -1,17 +1,20 @@
 .container{
 	position: relative;
 	width:480px;
-	height:550px;
+	/* height:550px; */
 	border-radius: 5px;
 	background: #fff;
+	/* overflow-y: auto; */
+	--border-to-content: 30px;
+	padding-bottom: 40px;
 }
 .container h2{
-	padding: 20px;
+	padding: 1rem var(--border-to-content);
 	color:#616161;
 }
 .menu{
 	margin-top: 10px;
-	padding: 0 30px;
+	padding: 0 var(--border-to-content);
 	display: flex;
 	align-items: center;
 	list-style: none;
@@ -38,7 +41,7 @@
 	border-bottom: 2px solid #098DDF;
 }
 .form{
-	margin-top: 30px;
+	padding: 30px var(--border-to-content) 0;
 }
 .form .hiding{
 	display: flex;
@@ -46,7 +49,7 @@
 	align-items: center;
 }
 .form .hiding > *{
-	width:85%;
+	width:100%;
 }
 .form .hiding.hiden{
 	display: none;
@@ -139,15 +142,23 @@
 }
 .btnContainer{
 	position: absolute;
-	width: 100%;
 	bottom: 0;
+	left: 0;
+	background: #fff;
 	width: 100%;
 	padding: 10px 20px;
 	border-top: 1px solid #e4e4e4;
 }
+.btnContainer:after{
+	content: '';
+	display: block;
+	clear: right;
+}
 .form .btnContainer .btn{
+	margin-left: 1rem;
+	font-size: 0.95rem;
 	float: right;
-	padding: 10px 30px;
+	padding: 0.6em 1.5em;
 	border-radius: 3px;
 	border: none;
 	background: #098DDF;
@@ -155,6 +166,15 @@
 	font-weight: 600;
 	box-shadow: 0 2px 8px #bcbcbc;
 	cursor: pointer;
+	transition: var(--main-transition);
+}
+.form .btnContainer .btn:last-child{
+	box-shadow: none;
+	background: none;
+	color: #8a8a8a;
+}
+.form .btnContainer .btn:last-child:hover{
+	background: rgba(232, 232, 232, 0.3);
 }
 .form .btnContainer .btn:disabled{
 	background:#9fc5e8;

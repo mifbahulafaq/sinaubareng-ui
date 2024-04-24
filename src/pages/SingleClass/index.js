@@ -433,7 +433,7 @@ export default React.memo(function SingleClass(props) {
 			</div>
 		</ModalContainer>
 		<ModalContainer displayed={info} setDisplayed={displayInfo} >
-			<div className={style.info}>
+			<div className={style.desc}>
 				<h3>Description</h3>
 				<div className={style.content}>
 					<p>{singleClass.description}</p>

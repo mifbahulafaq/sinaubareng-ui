@@ -32,7 +32,7 @@ function Classes({ classData, iconBar }) {
 	
   return (
 	<div className={style.container}>
-		<ModalContainer displayed={modal} setDisplayed={setModal} >
+		<ModalContainer overflow='auto' displayed={modal} setDisplayed={setModal} >
 			{content[indexContent]}
 		</ModalContainer>
 		<ul className={style.menu}>
