@@ -1,49 +1,58 @@
-
 .container{
+	position: relative;
+	font-size: 0.9rem;
 	display: flex;
 	align-items: flex-end;
-	margin-top: 20px;
+	margin-top: 1.25rem;
 }
-.container .input2{
-	margin-right: 20px;
-	width:40%;
-	height: 25px;
-	padding: 0 5px 5px;
+.container .input{
+	margin-right: 1em;
+	height: 1.5625em;
+	padding: 0 0.3125em 0.3125em;
 	color: #404040;
 	outline: none;
 	border: none;
 	border-bottom: 2px solid #616161;
 }
-.container .input2.dropdown{
+.container .input.dropdown{
+	min-width:7em;
+}
+.container input.input{
+	font-size: 0.95em;
+	min-width:6em;
+}
+.container .input.dropdown{
 	position: relative;
 }
-.container .input2.dropdown::after{
+.container .input.dropdown::after{
 	position: absolute;
 	top: 0;
 	right: 0;
-	margin-right: 10px;
+	margin-right: 0.5em;
 	content: "";
 	border-right: 1px solid #616161;
 	border-bottom: 1px solid #616161;
-	padding:4px;
+	padding:0.25em;
     transform: translate(0,30%) rotate(45deg);
 }
-.container .input2.dropdown.active::after{
+.container .input.dropdown.active::after{
 	border-right: 1px solid #098DDF;
 	border-bottom: 1px solid #098DDF;
 }
-.container .input2.dropdown.active{
+.container .input.dropdown.active{
 	border-bottom: 2px solid #098DDF;
 }
-.container .input2.dropdown .value{
+.container .input.dropdown .value{
+	font-size: 0.95em;
 	color: #b4b4b4;
 }
 .container .select{
+	font-size: 0.9em;
 	display: none;
 	position: absolute;
-	width:160px;
-	left: 25px;
-	top:40px;
+	width: 8em;
+	left: 0;
+	top:1.5em;
 	list-style: none;
 	background: #fff;
 	border: 1px solid #098DDF;
@@ -52,8 +61,7 @@
 }
 .container .select li{
 	width:100%;
-	padding: 8px 20px;
-	font-size: 13px;
+	padding: 0.5em 1.25em;
 	font-weight: 600;
 	cursor: pointer;
 }
@@ -65,12 +73,8 @@
 	background: rgba(194, 194, 194, 0.8);
 	color: #fff;
 }
-.container .input2[type="time"]{
-	width:30%;
-	margin-right: 10px;
-}
 .container .removeTime{
-	padding: 4px 4px;
+	padding: 0.25em 0.25em;
 	color: #fff;
 	background: #ff8781;
 	border-radius: 3px;
@@ -79,4 +83,9 @@
 }
 .container .removeTime:hover{
 	background: red;
+}
+@media only screen and (min-width: 600px) {
+	.container{
+		font-size: 1rem;
+	}
 }

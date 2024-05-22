@@ -28,15 +28,14 @@ import InputDate from '../InputDate'
 	
 	//Reset Form
 	useEffect(()=>{
+		reset(defaultValues)
+		
+	},[isSubmitSuccessful, setDisplay, reset, defaultValues])
+	useEffect(()=>{
 		
 		descField.current.innerText = defaultValues.description || ""
 		
 	},[defaultValues.description, descField])
-	useEffect(()=>{
-		reset(defaultValues)
-		
-	},[isSubmitSuccessful, setDisplay, reset, defaultValues])
-	
 	useEffect(()=>{
 		register('description', val.description2) 
 		

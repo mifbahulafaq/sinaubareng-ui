@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useForm } from 'react-hook-form';
 import * as val from '../../validation';
 import { useContext } from '../../Context';
+import sanitizeHtml from 'sanitize-html';
+import ContentEditable from 'react-contenteditable';
 
 //components
 import FormSchedule from '../FormSchedule';
@@ -26,10 +28,13 @@ import useRefreshClass from '../../hooks/useRefreshClass';
 export default React.memo(function CreateClass({ setModal, modal }){
 	
 	const [ formClass, setFormClass ] = React.useState(true);
+	const descField = React.useRef(null);
+	const [ content, setContent ] = React.useState("")
 	const { reset, register, unregister, getValues, watch, setValue, setError, clearErrors, handleSubmit, formState } = useForm({
 		mode: "onChange",
 		defaultValues: {
-			color: '#83d0c9'
+			color: '#83d0c9',
+			description: ""
 		}
 	});
 	const {isValid, errors } = formState
@@ -86,7 +91,6 @@ export default React.memo(function CreateClass({ setModal, modal }){
 			setModal(false)
 			
 		}catch(err){
-			
 			setFormStatus(reqStatus.error)
 		}
 	}
@@ -109,8 +113,14 @@ export default React.memo(function CreateClass({ setModal, modal }){
 	}
 	
 	React.useEffect(()=>{
+
 		reset()
-	}, [modal])
+		
+	}, [modal, reset])
+	
+	React.useEffect(()=>{
+		register('description', val.description)
+	},[register])
 	
 	React.useEffect(()=>{
 		
@@ -123,7 +133,21 @@ export default React.memo(function CreateClass({ setModal, modal }){
 		
 	},[errArray.length, formClass])
 	
-	if(!errArray.length && formStatus === reqStatus.error) return <ServerError />
+	const onContentChange = React.useCallback(e=>{
+		
+		const config = {
+			allowedTags: ['b', 'i', 'a', 'p'],
+			allowedAttributes: { a: ["href"] }
+		};
+		
+		///255 chars validation
+		const [ ...arrValue ] = e.currentTarget.innerText;
+		const value = (arrValue.filter((e,i)=>i<255)).join('');
+		
+		setValue('description', sanitizeHtml(value, config), { shouldValidate: true });
+		
+	}, [setValue])
+	
 	return (
 		<div className={style.container}>
 		
@@ -138,10 +162,42 @@ export default React.memo(function CreateClass({ setModal, modal }){
 			
 				<div className={`${style.hiding} ${!formClass?style.hiden:''}`}>
 					<FormControl2 error={errors.class_name?.message} margin="0 0 20px 0" width="100%" > 
-						<input className={`${style.input} ${errors.class_name?style.error:''}`} placeholder="Nama Kelas" {...register('class_name', val.className)}/>
+						<input 
+							className={`${style.input} ${errors.class_name?style.error:''}`}
+							placeholder="Nama Kelas" 
+							{...register('class_name', val.className)}
+						/>
 					</FormControl2>
-					<FormControl2 error={errors.description?.message} margin="0 0 20px 0" width="100%" >  
-						<textarea rows="5" className={`${style.input} ${errors.description?style.error:''}`} placeholder="Keterangan" {...register('description', val.description)}/>
+					<FormControl2 error={errors.description?.message} margin="0 0 20px 0" width="100%" > 
+						<div className={style.input}>
+							<ContentEditable
+								className={style.contentEditable}
+								onChange={onContentChange}
+								html={watch('description')}
+							/>
+							{
+								/*
+								<div
+									onPaste={e=>{
+										
+										// e.preventDefault();
+										// console.dir(e)
+										// const inputText = e.currentTarget.innerText + e.clipboardData.getData('Text');
+										
+										// setValue('description', inputText, { shouldValidate: true })
+										// e.currentTarget.innerText = inputText;
+									}}
+									onInput={onContentInput}
+									contentEditable
+									dangerouslySetInnerHTML={{__html: watch('description')}}
+								/>
+								*/
+							}
+							<span className={style.placeholder}>Keterangan</span>
+						</div>
+						{
+						// <textarea rows="5" className={`${style.input} ${errors.description?style.error:''}`} placeholder="Keterangan" {...register('description', val.description)}/>
+						}
 					</FormControl2> 
 					<div className={style.inputColor}>
 						<p>Tema Kelas</p>
@@ -168,7 +224,7 @@ export default React.memo(function CreateClass({ setModal, modal }){
 										
 										return <React.Fragment key={current_i}>
 											<FormSchedule clearErrors={clearErrors} unregister={unregister} register={register} schedule={current_e} schedules={getValues('schedules')} iSchedule={current_i} setValue={setValue} />
-										</React.Fragment>
+										</React.Fragment >
 									})
 								: <FormSchedule clearErrors={clearErrors} unregister={unregister} register={register} schedule={{day: '', time: ''}} schedules={[]} iSchedule={0} setValue={setValue} />
 							}
@@ -179,6 +235,7 @@ export default React.memo(function CreateClass({ setModal, modal }){
 				</div>
 				
 				<div className={style.btnContainer}>
+					<div onClick={()=>setModal(false)} className={style.btn}>Cancel</div>
 					{
 					formClass?
 					<div className={style.btn} onClick={()=>navClick(false)} >Next</div>
@@ -191,7 +248,6 @@ export default React.memo(function CreateClass({ setModal, modal }){
 						Submit
 					</button>
 					}
-					<div className={style.btn}>Cancel</div>
 				</div>
 				
 			</form>

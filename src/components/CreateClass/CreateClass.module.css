@@ -1,19 +1,26 @@
 .container{
 	position: relative;
 	width:480px;
-	/* height:550px; */
+	height: 100%;
+	max-height: 33rem;
 	border-radius: 5px;
 	background: #fff;
 	/* overflow-y: auto; */
-	--border-to-content: 30px;
-	padding-bottom: 40px;
+	--border-to-content: 1.2rem;
+	padding-bottom: 3.5rem;
 }
 .container h2{
-	padding: 1rem var(--border-to-content);
+	font-size: 1.3rem;
+	padding: 0 var(--border-to-content);
 	color:#616161;
+	height: 2em;
+	/* background: red; */
+	display: flex;
+	align-items: center;
 }
 .menu{
-	margin-top: 10px;
+	font-size: 1rem;
+	height: 1.4rem;
 	padding: 0 var(--border-to-content);
 	display: flex;
 	align-items: center;
@@ -21,11 +28,13 @@
 	border-bottom: 2px solid #000;
 }
 .menu li{
-	padding-bottom: 5px;
-	margin-right: 30px;
-	margin-bottom: -2px;
+	margin-right: 1.9em;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	margin-top: 4px;
 	border-bottom: 2px solid transparent;
-	font-size:15px;
+	font-size:0.95em;
 	font-weight: 600;
 	color:#616161;
 	cursor: pointer;
@@ -41,20 +50,20 @@
 	border-bottom: 2px solid #098DDF;
 }
 .form{
-	padding: 30px var(--border-to-content) 0;
+	overflow-y: auto;
+	padding: 1.2rem var(--border-to-content);
+	height: calc(100% - 5rem);
 }
 .form .hiding{
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
-.form .hiding > *{
-	width:100%;
-}
 .form .hiding.hiden{
 	display: none;
 }
-.form .input{
+.form input.input, .form div.input .contentEditable{
+	font-size: 0.9rem;
 	width: 100%;
 	padding: 10px;
 	font-weight:600;
@@ -63,18 +72,36 @@
 	outline: none;
 	border: 2px solid #5b5b5b;
 }
-.form .input::placeholder{
-	color: #b4b4b4;
-}
-.form .input:focus{
+.form input.input:focus, .form div.input .contentEditable:focus{
 	border:2px solid #098DDF ;
+}
+.form .input::placeholder, .form div.input span.placeholder{
+	color: #b4b4b4;
+	font-size: 0.8rem;
+	font-weight: 500;
 }
 .form .input.error{
 	border:2px solid #cc3300;
 }
-.form .inputColor{
+.form div.input{
+	position: relative;
+}
+.form div.input .contentEditable{
+	min-height: 4rem;
+}
+.form div.input .contentEditable:empty ~ span.placeholder{
+	display:initial;
+}
+.form div.input span.placeholder{
+	display: none;
+	position: absolute;
+	left: 12px;
+	top: 10px;
+	color: #b4b4b4;
+	pointer-events: none;
 }
 .form .inputColor p{
+	font-size: 0.95rem;
 	font-weight: 700;
 	color: #393939;
 }
@@ -84,14 +111,13 @@
 .form .inputColor .colorLists{
 	display: flex;
 	flex-wrap: wrap;
-	height: 70px;
 }
 .form .inputColor .colorLists input{
 	display: none;
 }
 .form .inputColor .colorLists .color{
 	position: relative;
-	margin-right: 5px;
+	margin: 0 5px 5px;
 	border-radius: 50%;
 	width: 30px;
 	height: 30px;
@@ -117,20 +143,19 @@
 }
 .form .scheduleRelative{
 	position: relative;
-	width: 100%;
 }
 .form .scheduleScroll{
-	max-height: 226px;
-	width: 100%;
-	padding: 0 35px;
-	overflow-y: auto;
+	padding: 0 2rem 0 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	
 }
 .form .scheduleScroll .addTime{
 	position: absolute;
-	right: 80px;
+	right: 0px;
 	bottom: 0;
-	padding: 4px 4px;
+	padding: 3px 3px;
 	color: #fff;
 	background: #098DDF;
 	border-radius: 50%;
@@ -140,25 +165,24 @@
 .form .scheduleScroll .addTime:hover{
 	background: blue;
 }
-.btnContainer{
+.form .btnContainer{
+	font-size: 0.9em;
 	position: absolute;
 	bottom: 0;
 	left: 0;
-	background: #fff;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
 	width: 100%;
-	padding: 10px 20px;
+	height: 3.5rem;
+	padding-right: var(--border-to-content);
+	background: #fff;
 	border-top: 1px solid #e4e4e4;
 }
-.btnContainer:after{
-	content: '';
-	display: block;
-	clear: right;
-}
 .form .btnContainer .btn{
-	margin-left: 1rem;
-	font-size: 0.95rem;
-	float: right;
-	padding: 0.6em 1.5em;
+	font-size: 0.95em;
+	margin-left: 1em;
+	padding: 0.5em 1.3em;
 	border-radius: 3px;
 	border: none;
 	background: #098DDF;
@@ -168,14 +192,38 @@
 	cursor: pointer;
 	transition: var(--main-transition);
 }
-.form .btnContainer .btn:last-child{
+.form .btnContainer .btn:first-child{
 	box-shadow: none;
 	background: none;
 	color: #8a8a8a;
 }
-.form .btnContainer .btn:last-child:hover{
+.form .btnContainer .btn:first-child:hover{
 	background: rgba(232, 232, 232, 0.3);
 }
 .form .btnContainer .btn:disabled{
 	background:#9fc5e8;
+}
+
+@media only screen and (min-width: 600px) {
+	.container h2{
+		font-size: 1.5rem;
+	}
+	.container .menu{	
+		height: 1.8rem;
+	}
+	.container{
+		--border-to-content: 1.875rem;
+	}
+	.form{
+		padding: 30px var(--border-to-content);
+	}
+	.form .scheduleScroll .addTime{
+		padding: 4px 4px;
+	}
+	.form .inputColor p{
+		font-size: 1rem;
+	}
+	.form .btnContainer{
+		font-size: 1rem;
+	}
 }
