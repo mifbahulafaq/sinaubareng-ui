@@ -1,9 +1,11 @@
-import { useRef, memo, useEffect } from 'react';
+import { useRef, memo, useEffect, useCallback } from 'react';
 import style from './AssignmentForm.module.css';
 import { useForm } from 'react-hook-form';
 import * as val from '../../validation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types'
+import sanitizeHtml from 'sanitize-html';
+import ContentEditable from 'react-contenteditable';
 
 //components
 import Image from '../Image';
@@ -16,18 +18,17 @@ import formatDate from '../../utils/id-format-date';
 
  const AssignmentForm = memo(function ({ refreshAssignment, idMatter, displayModal }){
 	 
-	const customInput = useRef(null)
 	const { reset, register, setValue, watch, handleSubmit, resetField, formState, setError} = useForm({
 		mode: "onChange",
 		defaultValues: {
-			time: "00:00:00"
+			time: "00:00:00",
+			text: ""
 		}
 	})
 	const { errors, isValid, isSubmitted, isSubmitting, isSubmitSuccessful } = formState
 	
 	useEffect(()=>{
 		reset()
-		customInput.current.textContent = ""
 	}, [displayModal, isSubmitSuccessful, reset])
 	
 	async function submit(input){
@@ -106,6 +107,17 @@ import formatDate from '../../utils/id-format-date';
 		}
 		
 	}
+	useEffect(()=>{
+		register('text')
+	}, [])
+	const onChangeEditable = useCallback(e=>{
+		
+		const config = {
+			allowedTags: ['b', 'i', 'a', 'p'],
+			allowedAttributes: { a: ["href"] }
+		};
+		setValue('text', sanitizeHtml(e.currentTarget.textContent, config))
+	}, [setValue])
 	return (
 		<div className={style.formContainer}>
 			<div className={style.header}>
@@ -123,12 +135,10 @@ import formatDate from '../../utils/id-format-date';
 					<input className={`${style.inputMargin} ${style.text}`} maxLength={255} placeholder="Judul" {...register('title', val.title)}/>
 					
 					<div className={style.customInputContainer}>
-						<input style={{display: "none"}} {...register('text')} />
-						<div 
-							ref={customInput}
-							onInput={e=>setValue('text', e.currentTarget.textContent)}
-							contentEditable="true" 
+						<ContentEditable
 							className={`${style.inputMargin} ${style.text}`} 
+							onChange={onChangeEditable}
+							html={watch('text')}
 						/>
 						<p>Isi (Opsional)</p>
 					</div>

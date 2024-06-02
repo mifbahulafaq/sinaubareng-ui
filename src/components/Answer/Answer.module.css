@@ -1,0 +1,53 @@
+container{
+	width: 180px;
+	padding: 5px 10px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+container{
+	margin-right: 10px;
+	border-radius: 3px;
+	/* background: red; */
+	padding: 5px 10px;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	border: 1px solid transparent;
+}
+container.error{
+	border: 1px solid #d40027;
+}
+container:hover{
+    background: rgba(39, 131, 245, 0.1);
+}
+container .icon{
+	margin-right: 10px;
+	min-width: 17px;
+	height: 17px;
+	text-align: center;
+	color: #fff;
+	line-height: 17px;
+	font-size: 0.9em;
+	font-weight: 700;
+	border-radius: 2px;
+}
+container .icon.doc{
+	background: #098DDF;
+}
+container .icon.docx{
+	background: #098DDF;
+}
+container .icon.pdf{
+	background: #ff5858;
+}
+container span{
+	font-size: 0.99em;
+	font-weight: 600;
+	color: #434343;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

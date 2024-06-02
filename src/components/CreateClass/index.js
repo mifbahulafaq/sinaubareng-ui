@@ -3,23 +3,20 @@ import style from './CreateClass.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useForm } from 'react-hook-form';
 import * as val from '../../validation';
-import { useContext } from '../../Context';
 import sanitizeHtml from 'sanitize-html';
 import ContentEditable from 'react-contenteditable';
 
 //components
 import FormSchedule from '../FormSchedule';
 import FormControl2 from '../FormControl2';
-//pages
-import ServerError from '../../pages/ServerError'
+
 //APIs
 import { createClass } from '../../api/class';
 import { insertSchedules } from '../../api/schedule';
 
 //utils 
 import reqStatus from '../../utils/req-status';
-import days from '../../utils/days'
-import toFormData from '../../utils/toFormData'
+import days from '../../utils/days';
 
 //hooks
 import useRefreshClass from '../../hooks/useRefreshClass';
@@ -28,8 +25,6 @@ import useRefreshClass from '../../hooks/useRefreshClass';
 export default React.memo(function CreateClass({ setModal, modal }){
 	
 	const [ formClass, setFormClass ] = React.useState(true);
-	const descField = React.useRef(null);
-	const [ content, setContent ] = React.useState("")
 	const { reset, register, unregister, getValues, watch, setValue, setError, clearErrors, handleSubmit, formState } = useForm({
 		mode: "onChange",
 		defaultValues: {
@@ -64,7 +59,6 @@ export default React.memo(function CreateClass({ setModal, modal }){
 		
 		try{
 			
-			let formData = toFormData({class_name, color, description: description || undefined})
 			//const { data : resultClass} = await createClass(formData);
 			
 			const { data : resultClass} = await createClass({class_name, color, description: description || undefined});
@@ -131,7 +125,7 @@ export default React.memo(function CreateClass({ setModal, modal }){
 			
 		}
 		
-	},[errArray.length, formClass])
+	},[errArray, errArray.length, formClass])
 	
 	const onContentChange = React.useCallback(e=>{
 		

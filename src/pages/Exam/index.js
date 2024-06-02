@@ -82,7 +82,10 @@ export default React.memo(function Exam() {
 				<div className={style.exams}>
 					{
 						examDatas.map((e,i)=>{
-							return <div className={style.singleExam} key={i} >
+							
+							const classes = `${style.singleExam} ${isTeacher? style.teacher: ''}`
+							
+							return <div className={classes} key={i} >
 								<div className={style.answer}>
 									{isTeacher?
 									<h2>{e.total_answers}</h2>
@@ -105,9 +108,14 @@ export default React.memo(function Exam() {
 										</span>
 									</div>
 								</div>
-								<div className={style.menu}>
-									<FontAwesomeIcon icon="ellipsis-vertical" />
-								</div>
+								{
+									
+									isTeacher?
+									<div className={style.menu}>
+										<FontAwesomeIcon icon="ellipsis-vertical" />
+									</div>
+									:""
+								}
 							</div>
 						})
 					}

@@ -4,10 +4,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useForm } from 'react-hook-form';
 import useQuery from '../../hooks/useQuery';
-import * as val from '../../validation';
 
 import WebTitle from '../../components/WebTitle';
-import ErrorAlert from '../../components/ErrorAlert';
 
 import * as userApi from '../../api/user';
 import * as authApi from '../../api/auth';
@@ -17,8 +15,8 @@ export default function ResetPassword() {
 	
 	const [ redirecting, setRedirecting ] = React.useState(false);
 	const [ user, setUser ] = React.useState(null)
-	const { reset, register, setError, watch, formState, handleSubmit } = useForm();
-	const { errors, isSubmitSuccessful, isSubmitted, isSubmitting, isValid } = formState;
+	const { register, setError, formState, handleSubmit } = useForm();
+	const { errors, isSubmitted, isSubmitting, isValid } = formState;
 	const qs = useQuery();
 	const navigate = useNavigate();
 	
@@ -59,7 +57,7 @@ export default function ResetPassword() {
 			console.log(err)
 		})
 		
-	}, [qs])
+	}, [qs, navigate])
 	
 	function submit(input){
 		

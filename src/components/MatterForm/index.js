@@ -1,11 +1,14 @@
-import { useRef, useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import style from './MatterForm.module.css';
 import * as val from '../../validation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import sanitizeHtml from 'sanitize-html';
+import ContentEditable from 'react-contenteditable';
 //components
 import Image from '../Image'
 import InputDate from '../InputDate'
+// import Contenteditable from '../Contenteditable'
 
  const MatterForm = function ({
 	fetchMatters, 
@@ -16,8 +19,6 @@ import InputDate from '../InputDate'
 	disabledSubmit,
 	submit
 }){
-	 
-	const descField = useRef(null);
 	
 	const { reset, setValue, watch, register, setError, clearErrors, handleSubmit, formState, getValues } = useForm;
 	const { isSubmitSuccessful, errors } = formState;
@@ -31,14 +32,9 @@ import InputDate from '../InputDate'
 		reset(defaultValues)
 		
 	},[isSubmitSuccessful, setDisplay, reset, defaultValues])
+	
 	useEffect(()=>{
-		
-		descField.current.innerText = defaultValues.description || ""
-		
-	},[defaultValues.description, descField])
-	useEffect(()=>{
-		register('description', val.description2) 
-		
+		register('description', val.description2)
 	},[register])
 	
 	const customSetValue = function(field, value){
@@ -54,9 +50,20 @@ import InputDate from '../InputDate'
 		
 	}
 	
-	function inputDesc(e){
-		customSetValue( 'description', e.currentTarget.innerText)
-	}
+	const inputDesc = useCallback(e=>{
+		
+		const config = {
+			allowedTags: ['b', 'i', 'a', 'p'],
+			allowedAttributes: { a: ["href"] }
+		};
+		
+		///255 chars validation
+		const [ ...arrValue ] = e.currentTarget.innerText;
+		const value = (arrValue.filter((e,i)=>i<255)).join('');
+		
+		setValue('description', sanitizeHtml(value, config), { shouldValidate: true });
+		
+	}, [setValue])
 	
 	function funcInputDate(e){
 		
@@ -123,18 +130,12 @@ import InputDate from '../InputDate'
 				<form className={style.form} onSubmit={handleSubmit(submit)} >
 					<input className={style.input} maxLength={255} placeholder="Judul" {...register('name', val.name)} />
 					<div className={style.input} >
-						<div 
-							maxLength={5} 
-							onPaste={e=>e.preventDefault()}
-							ref={descField}
-							onKeyPress={e=>{
-								if(e.target.textContent.length >= 255) e.preventDefault();
-							}}
-							onInput={inputDesc} 
-							contentEditable="true" 
-						>
-						</div>
-						<span>Deskripsi (optional)</span>
+						<ContentEditable
+							className={style.contentEditable}
+							html={watch('description')}
+							onChange={inputDesc} 
+						/>
+						<span className={style.placeholder} >Deskripsi (optional)</span>
 					</div>
 					<div className={style.inputDateContainer}>
 					</div>	
@@ -178,7 +179,7 @@ import InputDate from '../InputDate'
 					<div className={style.inputFile} >
 						<div className={style.icon} >
 							<FontAwesomeIcon icon='arrow-up-from-bracket' />
-							<span>Upload</span>
+							<span className={style.textBtn}>Upload</span>
 						</div>
 						
 						<input 

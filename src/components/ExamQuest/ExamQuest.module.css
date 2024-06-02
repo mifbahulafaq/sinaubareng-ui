@@ -1,5 +1,59 @@
+.container .answerContainer .answers .answer{
+	width: 180px;
+	padding: 5px 10px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+.container .answerContainer .addFile .input .answer{
+	margin-right: 10px;
+	border-radius: 3px;
+	/* background: red; */
+	padding: 5px 10px;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	border: 1px solid transparent;
+}
+.container .answerContainer .addFile .input .answer.error{
+	border: 1px solid #d40027;
+}
+.container .answerContainer .answers .answer:hover{
+    background: rgba(39, 131, 245, 0.1);
+}
+.container .answerContainer .answers .answer .icon{
+	margin-right: 10px;
+	min-width: 17px;
+	height: 17px;
+	text-align: center;
+	color: #fff;
+	line-height: 17px;
+	font-size: 0.9em;
+	font-weight: 700;
+	border-radius: 2px;
+}
+.container .answerContainer .answers .answer .icon.doc{
+	background: #098DDF;
+}
+.container .answerContainer .answers .answer .icon.docx{
+	background: #098DDF;
+}
+.container .answerContainer .answers .answer .icon.pdf{
+	background: #ff5858;
+}
+.container .answerContainer .answers .answer span{
+	font-size: 0.99em;
+	font-weight: 600;
+	color: #434343;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 .container{
-	padding: 20px 50px 0 30px;
+	padding: 20px 15px 0;
 	height: 100%;
 	width: 100%;
 }
@@ -18,7 +72,6 @@
 	color: #999;
 	font-weight: 500;
 }
-
 .container .quest{
 	margin: 20px 0;
 	display: flex;
@@ -43,9 +96,10 @@
 .container .bottomSide{
 	margin-top: 30px;
 	display: flex;
+	flex-direction: column;
 	padding-bottom: 20px;
-	align-items: flex-end;
-	justify-content: space-between;
+	align-items: flex-start;
+	justify-content: flex-start;
 	border-bottom: 2px solid #098DDF;
 }
 .container .bottomSide .fileUpload{
@@ -94,7 +148,6 @@
 	color: #5f6368;
 }
 .container .bottomSide .deadline{
-	float: right;
 	font-weight: 600;
 	font-size: 13px;
 	padding-left: 18px;
@@ -132,57 +185,7 @@
 .container .answerContainer .exp span:nth-child(2).score .num{
 	color: green;
 }
-.container .answerContainer .answers{
-	margin-top: 20px;
-	width: 100%;
-	padding: 20px 10px;
-	display: grid;
-	justify-content: start;
-	grid-template-columns: auto auto auto auto;
-	gap: 10px;
-	border-top: 0.10rem solid rgba(224, 224, 224, 1);
-	border-bottom: 0.06999rem solid rgba(224, 224, 224, 1);
-}
-.container .answerContainer .answers .answer{
-	width: 180px;
-	padding: 5px 10px;
-	border: 1px solid #ccc;
-	border-radius: 3px;
-	display: flex;
-	align-items: center;
-	cursor: pointer;
-}
-.container .answerContainer .answers .answer:hover{
-    background: rgba(39, 131, 245, 0.1);
-}
-.container .answerContainer .answers .answer .icon{
-	margin-right: 10px;
-	min-width: 17px;
-	height: 17px;
-	text-align: center;
-	color: #fff;
-	line-height: 17px;
-	font-size: 0.9em;
-	font-weight: 700;
-	border-radius: 2px;
-}
-.container .answerContainer .answers .answer .icon.doc{
-	background: #098DDF;
-}
-.container .answerContainer .answers .answer .icon.docx{
-	background: #098DDF;
-}
-.container .answerContainer .answers .answer .icon.pdf{
-	background: #ff5858;
-}
-.container .answerContainer .answers .answer span{
-	font-size: 0.99em;
-	font-weight: 600;
-	color: #434343;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
+
 .container .answerContainer .commentContainer{
 	margin-top: 10px;
 }
@@ -388,6 +391,8 @@
 .container .answerContainer .addFile .input .answer{
 	margin-right: 10px;
 	border-radius: 3px;
+	/* background: red; */
+	padding: 5px 10px;
 	display: flex;
 	align-items: center;
 	cursor: pointer;
@@ -468,4 +473,22 @@
 	left: 0;
 	top: 0;
 	right: 0;
+}
+@media only screen and (min-width: 600px) {
+	.container{
+		padding: 20px 30px 0;
+	}
+	.container .bottomSide{
+		margin-top: 30px;
+		display: flex;
+		flex-direction: row;
+		padding-bottom: 20px;
+		align-items: flex-end;
+		justify-content: space-between;
+		border-bottom: 2px solid #098DDF;
+	}
+	/* .container .bottomSide .deadline{ */
+		/* float: right; */
+	/* } */
+
 }

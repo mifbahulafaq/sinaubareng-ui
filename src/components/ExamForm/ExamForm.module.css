@@ -3,6 +3,7 @@
 	width: 960px;
 	background: #fafafa;
 	overflow-y: auto;
+	border-radius: 5px 5px;
 }
 .formContainer .header{
 	width: 100%;

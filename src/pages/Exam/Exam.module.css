@@ -87,9 +87,12 @@
 .examContainer .exams .singleExam{
 	padding: 0.9375rem 0.625rem;
 	display: flex;
-	justify-content: space-between;
+	justify-content: flex-start;
 	align-items: center;
 	border-bottom: 1px solid #c1d5e4;
+}
+.examContainer .exams .singleExam.teacher{
+	justify-content: space-between;
 }
 .exams .singleExam .answer{
 	font-size: 1rem;
@@ -107,10 +110,13 @@
 }
 .exams .singleExam .quest{
 	position: relative;
-	width: calc(100% - 8rem);
+	width: calc(100% - 5rem);
 	padding-left: 0;
 	display: flex;
 	flex-direction: column;
+}
+.exams .singleExam.teacher .quest{
+	width: calc(100% - 8rem);
 }
 .exams .singleExam .quest .icon{
 	display: none;

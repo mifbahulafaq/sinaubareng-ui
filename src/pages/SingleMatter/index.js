@@ -16,6 +16,8 @@ import PreviousLink from '../../components/PreviousLink';
 import ModalContainer from '../../components/ModalContainer';
 import AssignmentForm from '../../components/AssignmentForm';
 import EditingMatterForm from '../../components/EditingMatterForm';
+import Contenteditable from '../../components/Contenteditable';
+import sanitizeHtml from 'sanitize-html';
 //utils
 import formatDate from '../../utils/id-format-date';
 import getToday from '../../utils/get-today';
@@ -46,23 +48,21 @@ export default React.memo(function SingleMatter() {
 	const rawMattSchedule = new Date(matt.schedule || Date.now())
 	const mattSchedule = getToday(rawMattSchedule, today)
 	
-	const getComments = React.useCallback(()=>{
+	const getComments = React.useCallback((id_matt)=>{
 		
-		discussionApi.getAll(params.id_matt)
+		discussionApi.getAll(id_matt)
 		.then(res=>{
 			const { data: discussions } = res;
 			if(discussions.error) return console.log(discussions);
 			setComments(discussions.data)
 		})
-	}, [params.id_matt])
-	
-	const getAss = React.useCallback(()=>{
-		
+	}, [])
+	const getAss = React.useCallback((id_matt, allAss, isT)=>{
 		let filter = {}
 		if(!allAss) filter.no_answer = 1
-		if(isTeacher) delete filter.no_answer
+		if(isT) delete filter.no_answer;
 		
-		mattAss.getByMatter(params.id_matt, filter)
+		mattAss.getByMatter(id_matt, filter)
 		.then(res=>{
 			const { data: ass } = res;
 			
@@ -70,12 +70,10 @@ export default React.memo(function SingleMatter() {
 			setMattAssignments(ass.data)
 		})
 		
+	}, [])
+	const getSingleMatter = React.useCallback((id_matt)=>{
 		
-	}, [ params.id_matt, allAss, isTeacher])
-	
-	const getSingleMatter = React.useCallback(()=>{
-		
-		matterApi.getSingle(params.id_matt)
+		matterApi.getSingle(id_matt)
 		.then(res=>{
 
 			const { data: matter } = res;
@@ -86,17 +84,18 @@ export default React.memo(function SingleMatter() {
 			
 			setMatt(singleMatt);
 			
-			
 		})
-	}, [params.id_matt])
+	}, [])
+	
+	const fetchEarly = React.useCallback( async ()=>{
+		await getSingleMatter(params.id_matt);
+		await getComments(params.id_matt);
+		await getAss(params.id_matt, allAss, isTeacher);
+	}, [allAss, isTeacher, params.id_matt, getAss, getComments, getSingleMatter])
 	
 	React.useEffect(()=>{
-	
-		getSingleMatter();
-		getComments();
-		getAss();
-
-	}, [getAss, getComments, getSingleMatter])
+		fetchEarly()
+	}, [fetchEarly])
 	
 	React.useEffect(()=>{
 		if(!displayDoc) setDocs([])
@@ -191,8 +190,8 @@ export default React.memo(function SingleMatter() {
 			if(addingResult.error){
 				return console.log(addingResult)
 			}
-			getComments();
-			customInput.current.innerHTML = "";
+			getComments(params.id_matt);
+			setCommentText("");
 		}catch(err){
 			console.log(err)
 		}
@@ -200,21 +199,29 @@ export default React.memo(function SingleMatter() {
 		
 	}
 	function inputCommentText(e){
-		setCommentText(
-			e.target.innerText
-			.replace(/(^\s*)|(\s*$)/g, "")
-		)
+		const config = {
+			allowedTags: ['b', 'i', 'a', 'p'],
+			allowedAttributes: { a: ["href"] }
+		};
+		
+		//the /(^\s*)|(\s*$)/g regex are searches for any whitespace from the beginning and end of the character. if found, then it is replaced by empty string ''
+		///255 chars validation
+		const [ ...arrValue ] = e.target.innerText.replace(/(^\s*)|(\s*$)/g, "");
+		const value = (arrValue.filter((e,i)=>i<255)).join('');
+		
+		setCommentText(sanitizeHtml(value, config));
 	}
 	function displayMatterForm(bool){
 		setMatterForm(bool)
 	}
+	
   return (
 	<div className={style.container}>
 		{
 		matt.id_matter?
 			<>
 			<EditingMatterForm 
-				fetchMatters={()=>getSingleMatter()} 
+				fetchMatters={()=>getSingleMatter(params.id_matt)} 
 				setDisplay={displayMatterForm} 
 				display={matterForm} 
 				singleMatter={matt}
@@ -222,7 +229,7 @@ export default React.memo(function SingleMatter() {
 			<ModalContainer displayed={displayModal} setDisplayed={setDisplayModal}>
 				<AssignmentForm
 					refreshAssignment={()=>{
-						getAss()
+						getAss(params.id_matt, allAss, isTeacher)
 						setDisplayModal(false)
 					}}
 					displayModal={displayModal}
@@ -337,14 +344,10 @@ export default React.memo(function SingleMatter() {
 						</div>
 						<div className={style.send}>
 							<form onSubmit={submitComment} >
-								<div
-									onPaste={e=>e.preventDefault()}
-									onKeyPress={e=>{if(e.target.textContent.length >= 255) e.preventDefault()}}
+								<Contenteditable
 									className={style.divInput} 
-									onInput={inputCommentText} 
-									contentEditable="true" 
-									spellCheck="false"
-									ref={customInput	}
+									onChange={inputCommentText}
+									value={commentText}
 								/>
 								<span className={style.shadowText}>Tulis komentar..</span>
 								<button disabled={!Boolean(commentText)} type="submit" className={style.icon}>

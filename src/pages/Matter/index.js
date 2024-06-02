@@ -130,7 +130,7 @@ export default function Matter() {
 						matters?.map((e,i)=>{
 							
 							const schedule = new Date(e.schedule);
-							const isClosed = !isTeacher && new Date() > schedule;
+							const isClosed = !isTeacher && new Date() < schedule;
 							
 							return <div key={i} className={style.singleMatter}>
 								<div className={style.detail}>

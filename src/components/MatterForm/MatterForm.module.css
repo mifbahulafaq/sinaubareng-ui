@@ -69,7 +69,7 @@
 .form .input:first-child ~ div{
 	margin-top: 20px;
 }
-.form input.input, .form div.input [contenteditable="true"]{
+.form input.input, .form div.input .contentEditable{
 	padding: 15px;
 	width: 100%;
 	border: none;
@@ -81,7 +81,7 @@
 	font-weight: 500;
 	border-bottom: 1px solid #999;
 }
-.form input.input:focus, .form div.input [contenteditable="true"]:focus{
+.form input.input:focus, .form div.input .contentEditable:focus{
 	padding: 15px 15px 14px;
 	border-bottom: 2px solid #098DDF;
 }
@@ -93,7 +93,7 @@
 	font-size: 15px;
 	color: #969494;
 }
-.form div.input span{
+.form div.input .placeholder{
 	display: none;
 	position: absolute;
 	left: 15px;
@@ -103,10 +103,10 @@
 	color: #969494;
 	pointer-events: none;
 }
-.form div.input [contenteditable="true"]{
+.form div.input .contentEditable{
 	min-height: 120px;
 }
-.form div.input [contenteditable="true"]:empty ~ span{
+.form div.input .contentEditable:empty ~ .placeholder{
 	display: initial;
 }
 .form .inputDateContainer{
@@ -150,135 +150,6 @@
 	font-size: 1.2em;
 	transform: rotate(45deg);
 }
-.form .inputDateContainer .inputDate{
-	position: relative;
-	margin-top: 10px;
-}
-.form .inputDateContainer .inputDate .setOption{
-	position: relative;
-	width: 350px;
-	padding: 12px 15px;
-	border-radius: 3px;
-	background: #fafafa;
-	font-size: 14px;
-	font-weight: 600;
-	cursor: pointer;
-}
-.form .inputDateContainer .inputDate .setOption:hover{
-	background: rgba(217, 217, 217, 0.6);
-}
-.form .inputDateContainer .inputDate .setOption.disabled:hover{
-	background: #fafafa;
-}
-.form .inputDateContainer .inputDate .value{
-	color: #5f6368;
-	font-weight: 500;
-}
-.form .inputDateContainer .inputDate .setOption span{
-	pointer-events: none;
-}
-.form .inputDateContainer .inputDate .setOption span:after{
-	position: absolute;
-	top: 50%;
-	right: 15px;
-	transform: translate(0, -50%);
-	display: table;
-	content: "";
-	border-top: 5px solid #5f6368;
-	border-left: 5px solid transparent;
-	border-right: 5px solid transparent;
-}
-.form .inputDateContainer .inputDate .opt{
-	display: none;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 270px;
-	padding-bottom: 20px;
-	border-radius: 3px;
-	box-shadow: 0 0 7px #999;
-	background: #fff;
-	z-index: 2;
-}
-.form .inputDateContainer .inputDate .opt .desc{
-	color: #5f6368;
-	width: 100%;
-	height: 50px;
-	line-height: 50px;
-	text-align: center;
-	border-bottom: 1px solid #ededed;
-}
-.form .inputDateContainer .inputDate .opt .formOpt{
-	padding-top: 20px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-.form .inputDateContainer .inputDate .opt .formOpt .date{
-	position: relative;
-	height: 45px;
-	width: 220px;
-}
-.form .inputDateContainer .inputDate .opt .formOpt .time{
-	position: relative;
-	margin-top: 20px;
-	height: 45px;
-	width: 220px;
-}
-.form .inputDateContainer .inputDate .opt .formOpt .time.hidden{
-	display: none;
-}
-.form .inputDateContainer .inputDate .opt .formOpt .date svg,
-.form .inputDateContainer .inputDate .opt .formOpt .time svg
-{
-	color: #5f6368;
-	position: absolute;
-	top: 50%;
-	transform: translate(0, -50%);
-	left: 10px;
-	font-size: 1.2em;
-	z-index: 2;
-}
-.form .inputDateContainer .inputDate .opt .formOpt .time .content,
-.form .inputDateContainer .inputDate .opt .formOpt .date .content
-{
-	position: absolute;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
-	background: #eee;
-	font-size: 13px;
-	font-weight: 500;
-	color: #5f6368;
-	cursor: pointer;
-	text-align: center;
-	line-height: 45px;
-	z-index: 1;
-	pointer-events: none; 
-}
-.form .inputDateContainer .inputDate .opt .formOpt .time .content:after,
-.form .inputDateContainer .inputDate .opt .formOpt .date .content:after
-{
-	position: absolute;
-	top: 50%;
-	transform: translate(0, -50%);
-	right: 10px;
-	content: "";
-	display: table;
-	border-top: 5px solid #5f6368;
-	border-left: 5px solid transparent;
-	border-right: 5px solid transparent;
-}
-.form .inputDateContainer .inputDate .opt .formOpt .date input,
-.form .inputDateContainer .inputDate .opt .formOpt .time input
-{
-	position: absolute;
-	top: 2px;
-	left: 2px;
-	bottom: 2px;
-	right: 5px;
-}
 .form .fileUpload{
 	position: relative;
 	display: flex;
@@ -312,10 +183,6 @@
 	text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-}
-.form .fileUpload .fileName span{
-	color: #5f6368;
-	font-weight: 500;
 }
 .form .fileUpload .removeFile{
 	position: absolute;
@@ -363,7 +230,7 @@
 	font-size: 1.2em;
 	color: #098DDF;
 }
-.form .inputFile .icon span{
+.form .inputFile .icon .textBtn{
 	font-weight: 600;
 	color: #5f6368;
 }

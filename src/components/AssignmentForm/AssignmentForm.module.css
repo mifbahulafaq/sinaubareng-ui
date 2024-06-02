@@ -73,7 +73,8 @@
 	border:none;
 	border-bottom: 1px solid #999;
 	border-radius: 5px 5px 0 0;
-	font-size: 1.1em;
+	font-size: 0.98rem;
+	font-weight: 500;
 }
 .formContainer form .inputMargin.text:focus{
 	border-bottom: 2px solid #098DDF;

@@ -15,6 +15,7 @@ export default function AddingMatterForm({fetchMatters, setDisplay, display, cod
 		
 		const obj = {
 			name: "",
+			description: "",
 			code_class: codeClass,
 			status: "active",
 			schedule: {

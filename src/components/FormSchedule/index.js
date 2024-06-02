@@ -28,11 +28,9 @@ export default function FormSchedule({
 	React.useEffect(()=>{
 		if(schedule.day || schedule.time){
 			if(!schedule.day) {
-				console.log('no day')
 				register(`schedules.${iSchedule}.day`, val.day)
 			}
 			if(!schedule.time) {
-				console.log('no time')
 				register(`schedules.${iSchedule}.time`, val.time)
 			}
 		}
