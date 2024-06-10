@@ -1,57 +1,32 @@
-.container .answerContainer .answers .answer{
-	width: 180px;
-	padding: 5px 10px;
+/* imported components */
+.answer{
+	font-size: 1rem;
+	width: 11.25em;
+	padding: 0.3125em 0.625em;
 	border: 1px solid #ccc;
 	border-radius: 3px;
 	display: flex;
 	align-items: center;
 	cursor: pointer;
 }
-.container .answerContainer .addFile .input .answer{
-	margin-right: 10px;
+.answer:hover{
+    background: rgba(39, 131, 245, 0.1);
+}
+.answer2{
+	font-size: 1rem;
+	width: 11.25em;
+	padding: 0.3125em 0.625em;
 	border-radius: 3px;
-	/* background: red; */
-	padding: 5px 10px;
 	display: flex;
 	align-items: center;
 	cursor: pointer;
-	border: 1px solid transparent;
 }
-.container .answerContainer .addFile .input .answer.error{
-	border: 1px solid #d40027;
-}
-.container .answerContainer .answers .answer:hover{
+.answer2:hover{
     background: rgba(39, 131, 245, 0.1);
 }
-.container .answerContainer .answers .answer .icon{
-	margin-right: 10px;
-	min-width: 17px;
-	height: 17px;
-	text-align: center;
-	color: #fff;
-	line-height: 17px;
-	font-size: 0.9em;
-	font-weight: 700;
-	border-radius: 2px;
-}
-.container .answerContainer .answers .answer .icon.doc{
-	background: #098DDF;
-}
-.container .answerContainer .answers .answer .icon.docx{
-	background: #098DDF;
-}
-.container .answerContainer .answers .answer .icon.pdf{
-	background: #ff5858;
-}
-.container .answerContainer .answers .answer span{
-	font-size: 0.99em;
-	font-weight: 600;
-	color: #434343;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
 
+
+/* current component */
 .container{
 	padding: 20px 15px 0;
 	height: 100%;
@@ -185,7 +160,23 @@
 .container .answerContainer .exp span:nth-child(2).score .num{
 	color: green;
 }
-
+.container .answerContainer .answers{
+	margin-top: 20px;
+	width: 100%;
+	padding: 20px 10px;
+	display: grid;
+	justify-content: start;
+	grid-template-columns: auto auto auto auto;
+	gap: 10px;
+	border-top: 0.10rem solid rgba(224, 224, 224, 1);
+	border-bottom: 0.06999rem solid rgba(224, 224, 224, 1);
+}
+.container .answerContainer .answers .noAnsw{
+	margin: auto;
+	width: 100%;
+	text-align: center;
+	font-size: 12px;
+}
 .container .answerContainer .commentContainer{
 	margin-top: 10px;
 }
@@ -389,7 +380,7 @@
 	font-size: 0.89em;
 }
 .container .answerContainer .addFile .input .answer{
-	margin-right: 10px;
+	margin: 0 10px 0 15px;
 	border-radius: 3px;
 	/* background: red; */
 	padding: 5px 10px;

@@ -7,11 +7,14 @@ import config from '../../config'
 
 //components
 import Image from '../../components/Image';
+import InputFile from '../../components/InputFile';
+import Answer from '../../components/Answer';
 
 //utils
-import formatDate from '../../utils/id-format-date'
-import uppercase from '../../utils/uppercase'
-import plural from '../../utils/plural'
+import formatDate from '../../utils/id-format-date';
+import uppercase from '../../utils/uppercase';
+import plural from '../../utils/plural';
+import statusList from '../../utils/req-status';
 
 //APIs
 import * as assignmentApi from '../../api/matt-ass' 
@@ -26,11 +29,13 @@ export default React.memo(function SingleAssignment() {
 	const params = useParams()
 	const [ studentData, setStudentData ] = React.useState([])
 	const [ ansFile, setAnsFile ] = React.useState(null)
+	const [ sizeError, setSizeError ] = React.useState(false)
 	const [ assData, setAssData ] = React.useState({})
 	const [ ansData, setAnsData ] = React.useState([])
-	const [ errorServer, setErrorServer ] = React.useState(false)
+	const [ addingFileStatus, setAddingFileStatus ] = React.useState(statusList.idle)
 	const fileAnsw = React.useRef(null)
 	const isTeacher = useIsTeacher(assData.teacher?.user_id);
+	const disableSubmitting = !ansFile || addingFileStatus === statusList.processing || sizeError;
 	
 	const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
 	const assdate = assData.date? new Date(assData.date) : new Date()
@@ -71,17 +76,35 @@ export default React.memo(function SingleAssignment() {
 	function submitAnswer(){
 		if(!ansFile) return
 		
+		setAddingFileStatus(statusList.processing)
+		
 		const payload = new FormData()
 		payload.append('content', ansFile)
 		payload.append('id_matt_ass', params.id_matt_ass)
 		
 		answerApi.add(payload)
 		.then(({ data })=>{
-			if(data.error) return console.log(data)
+
+			if(data.error) return setAddingFileStatus(statusList.error)
+				
 			getAnswer()
 			setAnsFile(null)
+			setAddingFileStatus(statusList.success)
+			
 		})
-		.catch(err=>console.log(err))
+		.catch(err=>setAddingFileStatus(statusList.error))
+	}
+	
+	
+	function validateFile(e){
+		setSizeError(false)
+		for(let key in e.target.files){
+			if( key < e.target.files.length ) {
+				
+				if(e.target.files[key].size > 10000000 ) setSizeError(true)
+			}
+		}
+		setAnsFile(e.target.files[0])
 	}
 	
   return (
@@ -183,11 +206,12 @@ export default React.memo(function SingleAssignment() {
 							ansData[0]?.content && ansData[0].content.length?
 								ansData[0].content.map((e,i)=>{
 									
-									const ext = e[1].split('.')[1].toLowerCase()
-									return <div key={i} className={style.answer}>
-										<div className={`${style.icon} ${style[ext]}`}>{ext === "pdf"?'P':'W'}</div>
-										<span>{e[1]}</span>
-									</div>
+									return <React.Fragment key={i}>
+										<Answer
+											name={e[1]}
+											className={{ container: style.answer}}
+										/>
+									</React.Fragment>
 							})
 							:
 							<div className={style.noAnsw}>Tidak ada jawaban</div>
@@ -200,49 +224,34 @@ export default React.memo(function SingleAssignment() {
 						<div className={style.addFile}>
 							<p className={style.title} >Tambahkan Jawaban</p>
 							<div className={style.input}>
-								<div onClick={e=>e.currentTarget.querySelector("input").click()} className={style.select} >
-									<input 
-										ref={fileAnsw} 
-										onChange={e=>{
-											setAnsFile(e.target.files[0])
-											e.target.value = null
-										}} 
-										type="file" accept=".pdf, .docx, doc, .PDF, .DOCX, DOC" 
-									/>
-									<FontAwesomeIcon icon='arrow-up-from-bracket' />
-									<span>Upload</span>
-								</div>
-								<div className={style.answer}>
-									{
-										ansFile?
-										<>
-											<div 
-												className={`${style.icon} ${style[ansFile.name.split('.')[ansFile.name.split('.').length - 1].toLowerCase()]}`}
-											>
-												{ansFile.name.split('.')[ansFile.name.split('.').length - 1].toLowerCase() === 'pdf'?"P":"W"}
-											</div>
-											<span>{ansFile.name}</span>
-										</>
-										:""
-									}
-								</div>
+								<InputFile 
+									ref={fileAnsw} 
+									onChange={validateFile} 
+								/>
 								{
 									ansFile?
-									
-									<div
-										onClick={()=>{
-											setAnsFile(null)
-											fileAnsw.current.value = null
-										}}
-										className={style.delete}>
-										<FontAwesomeIcon icon='plus' />
-									</div>
+									<>
+										<Answer
+											error={sizeError}
+											name={ansFile.name}
+											className={{container: style.answer2}}
+										/>
+										<div
+											onClick={()=>{
+												setSizeError(false)
+												setAnsFile(null)
+												fileAnsw.current.value = null
+											}}
+											className={style.delete}>
+											<FontAwesomeIcon icon='plus' />
+										</div>
+									</>
 									:""
 								}
 							</div>
 						</div>
 						
-						<div onClick={submitAnswer} className={`${style.submit} ${ansFile?"":style.disabled}`}>Serahkan</div>
+						<div onClick={submitAnswer} className={`${style.submit} ${disableSubmitting?style.disabled: ""}`}>Serahkan</div>
 					</>
 					}
 					

@@ -22,6 +22,7 @@ import sanitizeHtml from 'sanitize-html';
 import formatDate from '../../utils/id-format-date';
 import getToday from '../../utils/get-today';
 import uppercase from '../../utils/uppercase';
+import statusFetching from '../../utils/req-status';
 //hooks
 import useIsTeacher from '../../hooks/useIsTeacher';
 
@@ -30,12 +31,15 @@ export default React.memo(function SingleMatter() {
 	//state
 	const [matt, setMatt] = React.useState({});
 	const [comments, setComments] = React.useState([]);
-	const [mattAssignments, setMattAssignments] = React.useState([]);
+	const [mattAssignments, setMattAssignments] = React.useState({
+		status: statusFetching.idle,
+		data: []
+	});
+	console.log(mattAssignments.data)
 	const [ commentText, setCommentText ] = React.useState("");
 	const [ displayModal, setDisplayModal ] = React.useState(false)
 	const [ displayDoc, setDisplayDoc ] = React.useState(false)
 	const [ matterForm, setMatterForm ] = React.useState(false); 
-	const customInput = React.useRef(null);
 	const [ allAss, setAllAss ] = React.useState(false)
 	const params = useParams()
 	const isTeacher = useIsTeacher(matt.teacher)
@@ -44,7 +48,6 @@ export default React.memo(function SingleMatter() {
 	const today = formatDate(rawToday, "id-ID", {dateStyle:"medium"})
 	const rawYesterDay = new Date((new Date()).setDate(rawToday.getDate() - 1))
 	const yesterday = formatDate(rawYesterDay, "id-ID", {dateStyle:"medium"})
-	
 	const rawMattSchedule = new Date(matt.schedule || Date.now())
 	const mattSchedule = getToday(rawMattSchedule, today)
 	
@@ -58,6 +61,7 @@ export default React.memo(function SingleMatter() {
 		})
 	}, [])
 	const getAss = React.useCallback((id_matt, allAss, isT)=>{
+		
 		let filter = {}
 		if(!allAss) filter.no_answer = 1
 		if(isT) delete filter.no_answer;
@@ -67,7 +71,11 @@ export default React.memo(function SingleMatter() {
 			const { data: ass } = res;
 			
 			if(ass.error) return console.log(ass.message);
-			setMattAssignments(ass.data)
+			
+			setMattAssignments({
+				status: statusFetching.success, 
+				data: ass.data
+			})
 		})
 		
 	}, [])
@@ -87,15 +95,14 @@ export default React.memo(function SingleMatter() {
 		})
 	}, [])
 	
-	const fetchEarly = React.useCallback( async ()=>{
-		await getSingleMatter(params.id_matt);
-		await getComments(params.id_matt);
-		await getAss(params.id_matt, allAss, isTeacher);
-	}, [allAss, isTeacher, params.id_matt, getAss, getComments, getSingleMatter])
+	React.useEffect(()=>{
+		getSingleMatter(params.id_matt);
+		getComments(params.id_matt );
+	}, [ getSingleMatter, getComments, params.id_matt])
 	
 	React.useEffect(()=>{
-		fetchEarly()
-	}, [fetchEarly])
+		if(isTeacher !== undefined) getAss(params.id_matt, allAss, isTeacher);
+	}, [params.id_matt, allAss, isTeacher, getAss])
 	
 	React.useEffect(()=>{
 		if(!displayDoc) setDocs([])
@@ -369,7 +376,7 @@ export default React.memo(function SingleMatter() {
 						}
 					</div>
 					{
-						!isTeacher?
+						!isTeacher && isTeacher !== undefined?
 						<ul className={style.menu}>
 							<li onClick={()=>setAllAss(false)} className={`${!allAss? style.active: ""}`}>Perlu Dikerjakan</li>
 							<li onClick={()=>setAllAss(true)} className={`${allAss? style.active: ""}`}>Semua</li>
@@ -378,67 +385,56 @@ export default React.memo(function SingleMatter() {
 					}
 					<div className={style.assigns}>
 						{
-							mattAssignments.map((e,i)=>{
+							(function(){
 								
-								let additionalClassName = ""
-								let tenggat
+								if(mattAssignments.status === statusFetching.idle) return "";
 								
-								if(e.duration){
-									
-									const rawDuration = new Date((new Date(e.date)).getTime() + e.duration)
-									tenggat = formatDate(rawDuration, "id-ID",{dateStyle:"medium", timeStyle: 'short'})
-									
-									if(!isTeacher){
-										if(new Date() > rawDuration && Number(e.total_answers) > 0){
-											additionalClassName = style.done
-										}else if(new Date() > rawDuration && Number(e.total_answers) < 1){
-											additionalClassName = style.expired
-										}
-									}
-									
+								if(!mattAssignments.data.length){
+									return <div className={`${style.singleAssign} ${style.nodata}`}>
+										<p className={style.textInfo} > Tidak ada tugas diberikan</p>
+									</div>
 								}
 								
-								return <div key={i} className={`${style.singleAssign} ${additionalClassName}`}>
-									<div className={style.cover}/>
-									<Link to={`assignment/${e.id_matt_ass}`} ><h4>{e.title}</h4></Link>
-									<span className={style.duration} >
-										Tenggat: <span>{tenggat? tenggat : "-"}</span>
-									</span>
-									{
-										!isTeacher?
-											Number(e.total_answers) > 0?
-												<span className={style.answered}>
-													Answered 
-													<span>&#10004;</span>
-												</span>
-											:""
-										:""
+								return mattAssignments.data.map((e,i)=>{
+									
+									let additionalClassName = ""
+									let tenggat
+									
+									if(e.duration){
+										
+										const rawDuration = new Date((new Date(e.date)).getTime() + e.duration)
+										tenggat = formatDate(rawDuration, "id-ID",{dateStyle:"medium", timeStyle: 'short'})
+										
+										if(!isTeacher){
+											if(new Date() > rawDuration && Number(e.total_answers) > 0){
+												additionalClassName = style.done
+											}else if(new Date() > rawDuration && Number(e.total_answers) < 1){
+												additionalClassName = style.expired
+											}
+										}
+										
 									}
-								</div>
-							})
-						}
-						{/*
-						<div className={style.singleAssign}>
-							<Link to="assignment/1221" ><h4>tugas membuat function pada php...</h4></Link>
-							<span className={style.duration} >Tenggat: <span>6 Jul 2020 20.45</span></span>
-						</div>
-						<div className={style.singleAssign}>
-							<Link to="assignment/1221" ><h4>tugas membuat function pada php...</h4></Link>
-							<span className={style.duration} >Tenggat: <span className={style.deadline} >6 Jul 2020 20.45</span></span>
-							<span className={style.answered}>
-								Answered 
-								<span>&#10004;</span>
-								<FontAwesomeIcon icon="pencil" />
-							</span>
-						</div>*/
-						}
-						{
-							mattAssignments.length?
-							""
-							:
-							<div className={`${style.singleAssign} ${style.nodata}`}>
-								<p className={style.textInfo} > Tidak ada tugas diberikan</p>
-							</div>
+									
+									return <div key={i} className={`${style.singleAssign} ${additionalClassName}`}>
+										<div className={style.cover}/>
+										<Link to={`assignment/${e.id_matt_ass}`} ><h4>{e.title}</h4></Link>
+										<span className={style.duration} >
+											Tenggat: <span>{tenggat? tenggat : "-"}</span>
+										</span>
+										{
+											!isTeacher?
+												Number(e.total_answers) > 0?
+													<span className={style.answered}>
+														Answered 
+														<span>&#10004;</span>
+													</span>
+												:""
+											:""
+										}
+									</div>
+								})
+								
+							})()
 						}
 					</div>
 				</div>

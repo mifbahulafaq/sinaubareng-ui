@@ -1,3 +1,32 @@
+/* imported components */
+.answer{
+	font-size: 1rem;
+	width: 11.25em;
+	padding: 0.3125em 0.625em;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+.answer:hover{
+    background: rgba(39, 131, 245, 0.1);
+}
+.answer2{
+	font-size: 1rem;
+	width: 11.25em;
+	padding: 0.3125em 0.625em;
+	border-radius: 3px;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+.answer2:hover{
+    background: rgba(39, 131, 245, 0.1);
+}
+
+
+/* current component */
 .container{
 	position: relative;
     /* padding: 0 110px; */
@@ -244,50 +273,6 @@
 	border-top: 0.10rem solid rgba(224, 224, 224, 1);
 	border-bottom: 0.06999rem solid rgba(224, 224, 224, 1);
 }
-.container .mainContent .answerContainer .answers .answer{
-	width: 180px;
-	padding: 5px 10px;
-	border: 1px solid #ccc;
-	border-radius: 3px;
-	display: flex;
-	align-items: center;
-	cursor: pointer;
-}
-.container .mainContent .answerContainer .answers .answer:hover{
-    background: rgba(39, 131, 245, 0.1);
-}
-.container .mainContent .answerContainer .answers .answer svg{
-	margin-right: 10px;
-	font-size: 1.3em;
-}
-.container .mainContent .answerContainer .answers .answer .icon{
-	margin-right: 10px;
-	min-width: 17px;
-	height: 17px;
-	text-align: center;
-	color: #fff;
-	line-height: 17px;
-	font-size: 0.9em;
-	font-weight: 700;
-	border-radius: 2px;
-}
-.container .mainContent .answerContainer .answers .answer .icon.docx{
-	background: #098DDF;
-}
-.container .mainContent .answerContainer .answers .answer .icon.doc{
-	background: #098DDF;
-}
-.container .mainContent .answerContainer .answers .answer .icon.pdf{
-	background: #ff5858;
-}
-.container .mainContent .answerContainer .answers .answer span{
-	font-size: 0.99em;
-	font-weight: 600;
-	color: #434343;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
 .container .mainContent .answerContainer .answers .noAnsw{
 	margin: auto;
 	width: 100%;
@@ -308,6 +293,10 @@
 	margin-top: 30px;
 	display: flex;
 	align-items: center;
+	/* background: red; */
+}
+.container .mainContent .answerContainer .addFile .input > * {
+	margin-right: 0.7rem;
 }
 .container .mainContent .answerContainer .addFile .input .select{
 	position: relative;
@@ -319,50 +308,6 @@
 }
 .container .mainContent .answerContainer .addFile .input .select:hover{
 	background: rgba(217, 217, 217, 0.2);
-}
-.container .mainContent .answerContainer .addFile .input .select input{
-	display: none;
-}
-.container .mainContent .answerContainer .addFile .input .select svg{
-	margin-right: 10px;
-	
-}
-.container .mainContent .answerContainer .addFile .input .select span{
-	font-weight: 600;
-	font-size: 0.89em;
-}
-.container .mainContent .answerContainer .addFile .input .answer{
-	margin-right: 10px;
-	border-radius: 3px;
-	display: flex;
-	align-items: center;
-	cursor: pointer;
-}
-.container .mainContent .answerContainer .addFile .input .answer .icon{
-	margin-right: 10px;
-	min-width: 17px;
-	height: 17px;
-	text-align: center;
-	color: #fff;
-	line-height: 17px;
-	font-size: 0.9em;
-	font-weight: 700;
-	border-radius: 2px;
-}
-.container .mainContent .answerContainer .addFile .icon.docx, .addFile .icon.doc{
-	background: #098DDF;
-}
-.container .mainContent .answerContainer .addFile .input .answer .icon.pdf{
-	background: #ff5858;
-}
-.container .mainContent .answerContainer .addFile .input .answer span{
-	width: 150px;
-	font-size: 0.99em;
-	font-weight: 600;
-	color: #434343;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
 }
 .container .mainContent .answerContainer .addFile .input .delete{
 	height: 19px;

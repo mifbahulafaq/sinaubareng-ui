@@ -6,9 +6,11 @@ import { useForm } from 'react-hook-form'
 import LinearProgress from '@mui/material/LinearProgress';
 
 //components
-import Image from '../Image'
-import ModalContainer from '../ModalContainer'
-import AnsComment from '../AnsComment'
+import Image from '../Image';
+import ModalContainer from '../ModalContainer';
+import AnsComment from '../AnsComment';
+import InputFile from '../InputFile';
+import Answer from '../Answer';
 //APIs
 import * as examApi from "../../api/exam"
 import * as ansApi from "../../api/exam-answer"
@@ -155,16 +157,17 @@ export default React.memo(function ExamQuest(){
 						{parseInt(ansData.score)? <>Nilai: <span className={style.num}>{parseInt(ansData.score)}/100</span></>:"Belum dinilai"}
 					</span>
 				</div>
-				<div className={style.answers}>
+				<div style={{display: ansData.content && ansData.content.length? "grid": "block	"}} className={style.answers}>
 					{
 						ansData.content && ansData.content.length?
 							ansData.content.map((e,i)=>{
 								
-								const ext = e[1].split('.')[e[1].split('.').length - 1].toLowerCase()
-								return <div key={i} className={style.answer}>
-									<div className={`${style.icon} ${style[ext]}`}>{ext === "pdf"?'P':'W'}</div>
-									<span>{e[1]}</span>
-								</div>
+								return <React.Fragment key={i}>
+									<Answer
+										name={e[1]}
+										className={{ container: style.answer }}
+									/>
+								</React.Fragment>
 						})
 						:
 						<div className={style.noAnsw}>Belum ada jawaban</div>
@@ -191,42 +194,28 @@ export default React.memo(function ExamQuest(){
 				<div className={style.addFile}>
 					<p className={style.title} >Tambahkan Jawaban</p>
 					<div className={style.input}>
-						<div onClick={e=>e.currentTarget.querySelector("input").click()} className={style.select} >
-							<input 
-								type="file" 
-								ref={fileInput}
-								onChange={validateFile}
-								onClick={e=>e.target.value = null} 
-								accept=".pdf, .docx, doc, .PDF, .DOCX, DOC" 
-							/>
-							<FontAwesomeIcon className={style.selectIcon} icon='arrow-up-from-bracket' />
-							<span>Upload</span>
-						</div>
-						<div className={`${style.answer} ${sizeError?style.error:""}`}>
-							{
-								fileAns?
-								<>
-									<div 
-										className={`${style.icon} ${style[fileAns.name.split('.')[fileAns.name.split('.').length - 1].toLowerCase()]}`}
-									>
-										{fileAns.name.split('.')[fileAns.name.split('.').length - 1].toLowerCase() === 'pdf'?"P":"W"}
-									</div>
-									<span>{fileAns.name}</span>
-								</>
-								:""
-							}
-						</div>
+						<InputFile
+							onChange={validateFile}
+							ref={fileInput}
+						/>
 						{
 							fileAns?
-							
-							<div
-								onClick={()=>{
-									setSizeError(false)
-									setFileAns(null)
-								}}
-								className={style.delete}>
-								<FontAwesomeIcon className={style.deleteIcon} icon='plus' />
-							</div>
+								<>
+									<Answer
+										error={sizeError}
+										name={fileAns.name}
+										className={{ container: style.answer2 }}
+									/>
+									<div
+										onClick={()=>{
+											setSizeError(false);
+											setFileAns(null);
+											fileInput.current.value = null;
+										}}
+									className={style.delete}>
+										<FontAwesomeIcon className={style.deleteIcon} icon='plus' />
+									</div>
+								</>
 							:""
 						}
 					</div>
@@ -234,7 +223,6 @@ export default React.memo(function ExamQuest(){
 				</div>
 				
 				<div onClick={submitAnswer} className={`${style.submit} ${disableSubmitting?style.disabled:""}`}>Serahkan</div>
-				
 			</div>
 			:""
 			}

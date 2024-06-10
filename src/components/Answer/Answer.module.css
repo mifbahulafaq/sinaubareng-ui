@@ -1,49 +1,42 @@
-container{
-	width: 180px;
-	padding: 5px 10px;
-	border: 1px solid #ccc;
+.container{
+	font-size: 1rem;
+	width: 11.25em;
+	padding: 0.3125em 0.625em;
+	/* border: 1px solid #ccc; */
 	border-radius: 3px;
 	display: flex;
 	align-items: center;
 	cursor: pointer;
+	/* border: 1px solid transparent; */
 }
-container{
-	margin-right: 10px;
-	border-radius: 3px;
-	/* background: red; */
-	padding: 5px 10px;
-	display: flex;
-	align-items: center;
-	cursor: pointer;
-	border: 1px solid transparent;
-}
-container.error{
-	border: 1px solid #d40027;
-}
-container:hover{
+.container:hover{
     background: rgba(39, 131, 245, 0.1);
 }
-container .icon{
-	margin-right: 10px;
-	min-width: 17px;
-	height: 17px;
+.error{
+	border: 1px solid #d40027;
+}
+
+.icon{
+	margin-right: 0.625em;
+	min-width: 1.2em;
+	height: 1.2em;
 	text-align: center;
 	color: #fff;
-	line-height: 17px;
+	line-height: 1.2em;
 	font-size: 0.9em;
 	font-weight: 700;
 	border-radius: 2px;
 }
-container .icon.doc{
+.doc{
 	background: #098DDF;
 }
-container .icon.docx{
+.docx{
 	background: #098DDF;
 }
-container .icon.pdf{
+.pdf{
 	background: #ff5858;
 }
-container span{
+.name{
 	font-size: 0.99em;
 	font-weight: 600;
 	color: #434343;
