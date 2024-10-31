@@ -162,7 +162,10 @@
 .exams .singleExam .quest .detail span:last-child{
 	margin-left: 20px;
 }
-.exams .singleExam .menu{
+.exams .singleExam .menuContainer{
+	position: relative;
+}
+.exams .singleExam .menuContainer .btn{
 	width: 2.5rem;
 	height: 2.5rem;
 	line-height: 2.5rem;
@@ -172,8 +175,32 @@
 	cursor: pointer;
 	color: #393939;
 }
-.exams .singleExam .menu:hover{
+.exams .singleExam .menuContainer .btn:hover{
 	background: rgba(231, 231, 231, 0.6);
+}
+.exams .singleExam .menuContainer .btn .icon{
+	pointer-events: none;
+}
+.exams .singleExam .menuContainer .menu{
+	display: none;
+	font-size: 0.9rem;
+	font-weight: 500;
+	color: var(--primary-font-color);
+	position: absolute;
+	right: 50%;
+	list-style: none;
+	background: #fff;
+	box-shadow: 0 1px 3px #999;
+	border-radius: 3px;
+	padding: 0.3em 0;
+}
+.exams .singleExam .menuContainer .menu .list{
+	padding: 0.2em 2em;
+	cursor: pointer;
+}
+.exams .singleExam .menuContainer .menu .list:hover{
+	background: rgba(232, 232, 232, 0.5);
+	padding: 0.2em 2em;
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */

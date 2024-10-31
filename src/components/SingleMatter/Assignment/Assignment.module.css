@@ -1,0 +1,92 @@
+.container{
+	position: relative;
+	padding:15px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	border-radius: 10px;
+	box-shadow: 0 1px 2px 1px rgba(207, 207, 207, 0.8);
+	transition: all 0.3s ease;
+	overflow: hidden;
+}
+.container.nodata{
+	height: 80px;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.9em;
+	color: #3c4043;
+	font-weight: 400;
+}
+.container:first-child ~ .container{
+	margin-top: 15px;
+}
+.container .cover{
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background: transparent;
+	pointer-events: none;
+}
+.container.done .cover{
+	background: rgba(238, 238, 238, 0.4);
+}
+.container.expired .cover{
+	background: rgba(242, 125, 136, 0.2);
+}
+.container a{
+	color: #505050;
+	text-decoration: none;
+	width: 100%;
+}
+.container a:hover{
+	text-decoration: underline;
+}
+.container a h4{
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+ .container .duration{
+	margin-top: 5px;
+	margin-bottom: 10px;
+	font-size: 12px;
+	font-weight: 600;
+	color: #999;
+}
+ .container .duration span.deadline{
+	font-weight: 700;
+	color: red;
+}
+ .container input{
+	padding: 7px 12px;
+	border: 1px solid #999;
+	border-radius: 15px;
+	outline: none;
+}
+ .container input::placeholder{
+}
+ .container input:focus{
+	border: 2px solid #098DDF;
+	padding: 6px 11px;
+}
+ .container .answered{
+	border-radius: 10px;
+	font-weight: 600;
+	font-size: 0.95em;
+	display: flex;
+	align-items: center;
+}
+ .container .answered span{
+	margin-left: 5px;
+	font-weight: bolder;
+	color: green;
+	font-size: 1.2em;
+	line-height: 100%;
+}
+ .container .answered svg{
+	margin-left: 5px;
+	display: none;
+	font-size: 12px;
+}

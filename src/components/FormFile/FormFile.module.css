@@ -1,0 +1,52 @@
+.container{
+	position: relative;
+	display: flex;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+	border: 1px solid #dcdcdc;
+	border-radius: 5px;
+}
+.container.error{
+	border: 1px solid #d40027;
+}
+.container .icon{
+	margin-right: 10px;
+	display: flex;
+	width: 3.125rem;
+	padding: 5px 0;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	color: #098DDF;
+	font-size: 1.4em;
+	border-right:1px solid #dcdcdc ;
+	float: left;
+}
+.container .icon .img{
+	height: 100%;
+}
+.container .fileName{
+	width: calc(100% - 100px);
+	text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.container .removeFile{
+	position: absolute;
+	right: 10px;
+	height: 37px;
+	width: 37px;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 42px;
+}
+.container .removeFile:hover{
+	background: rgba(249, 249, 249, 1);
+	cursor: pointer;
+}
+.container .removeFile svg{
+	font-size: 1.4em;
+	transform: rotate(45deg);
+	color: #5f6368;
+}

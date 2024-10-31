@@ -1,7 +1,8 @@
 .container{
 	position: relative;
 	height: 95%;
-	width: 600px;
+	width: 100%;
+	max-width: 600px;
 	border-radius: 10px;
 	background: #fff;
 }
@@ -73,7 +74,7 @@
 	color: #999;
 }
 .container .singleCommentContainer .singleComment .rightSide .text{
-	width: 400px;
+	/* width: 400px; */
 	font-size: 0.96em;
 	font-weight: 500;
     word-break:break-all;

@@ -150,57 +150,9 @@
 	font-size: 1.2em;
 	transform: rotate(45deg);
 }
-.form .fileUpload{
-	position: relative;
-	display: flex;
-	align-items: center;
+.form .uploadedFile{
 	height: 50px;
 	width: 100%;
-	border: 1px solid #dcdcdc;
-	border-radius: 5px;
-}
-.form .fileUpload.error{
-	border: 1px solid #d40027;
-}
-.form .fileUpload .icon{
-	margin-right: 10px;
-	display: flex;
-	width: 50px;
-	padding: 5px 0;
-	justify-content: center;
-	align-items: center;
-	height: 100%;
-	color: #098DDF;
-	font-size: 1.4em;
-	border-right:1px solid #dcdcdc ;
-	float: left;
-}
-.form .fileUpload .icon .img{
-	height: 100%;
-}
-.form .fileUpload .fileName{
-	width: calc(100% - 100px);
-	text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-}
-.form .fileUpload .removeFile{
-	position: absolute;
-	right: 10px;
-	height: 37px;
-	width: 37px;
-	border-radius: 50%;
-	text-align: center;
-	line-height: 42px;
-}
-.form .fileUpload .removeFile:hover{
-	background: rgba(249, 249, 249, 1);
-	cursor: pointer;
-}
-.form .fileUpload .removeFile svg{
-	font-size: 1.4em;
-	transform: rotate(45deg);
-	color: #5f6368;
 }
 .form div.inputFile{
 	position: relative;

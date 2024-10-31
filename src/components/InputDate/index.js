@@ -1,3 +1,4 @@
+import React from 'react';
 import style from './InputDate.module.css';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,6 +17,15 @@ export default function InputDate({
 	timeRegistration,
 	active
 }){
+	
+	const minimalDate = React.useMemo(()=>{
+		
+		if(minDate && dateInput){
+			return dateInput<minDate?dateInput:minDate; 
+		}
+		return minDate;
+		
+	}, [minDate, dateInput])
 	
 	
 	return(
@@ -45,7 +55,7 @@ export default function InputDate({
 						</div>
 						<input 
 							type="date"
-							min={minDate}
+							min={minimalDate}
 							{ ...dateRegistration } 
 						/>
 						

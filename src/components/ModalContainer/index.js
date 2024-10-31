@@ -25,4 +25,4 @@ ModalContainer.defaultProps = {
 	overflow: 'visible'
 }
 
-export default React.memo(ModalContainer)
+export default React.memo(ModalContainer);

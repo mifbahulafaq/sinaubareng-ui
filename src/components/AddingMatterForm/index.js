@@ -16,7 +16,7 @@ export default function AddingMatterForm({fetchMatters, setDisplay, display, cod
 		const obj = {
 			name: "",
 			description: "",
-			code_class: codeClass,
+			class: codeClass,
 			status: "active",
 			schedule: {
 				date: "",
@@ -25,7 +25,8 @@ export default function AddingMatterForm({fetchMatters, setDisplay, display, cod
 			duration: {
 				date:"",
 				time : "00:00"
-			}
+			},
+			attachment: []
 		}
 		
 		if(autoSchedule){

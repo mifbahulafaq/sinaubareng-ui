@@ -11,7 +11,8 @@ import * as examApi from '../../api/exam'
 //components
 import PreviousLink from '../../components/PreviousLink';
 import ModalContainer from '../../components/ModalContainer';
-import ExamForm from '../../components/ExamForm';
+import AddingExamForm from '../../components/Exam/AddingExamForm';
+import EditingExamForm from '../../components/Exam/EditingExamForm';
 
 //utils
 import formatDate from '../../utils/id-format-date'
@@ -21,8 +22,10 @@ import useIsTeacher from '../../hooks/useIsTeacher'
 export default React.memo(function Exam() {
 	
 	const params = useParams()
-	const [ examDatas, setExamDatas ] = React.useState([])
-	const [ displayModal, setDisplayModal ] = React.useState(false)
+	const [ examDatas, setExamDatas ] = React.useState([]);
+	const [ singleExam, setSingleExam ] = React.useState({});
+	const [ displayAddForm, setDisplayAddForm ] = React.useState(false)
+	const [ displayEditForm, setDisplayEditForm ] = React.useState(false)
 	const { singleClass } = useContext()
 	const isTeacher = useIsTeacher(singleClass.teacher)
 	
@@ -35,25 +38,37 @@ export default React.memo(function Exam() {
 		})
 		
 	},[params.code_class])
-	
+	// React.useEffect(()=>{
+		// if(!displayEditForm) setSingleExam(null)
+	// }, [displayEditForm])
 	React.useEffect(()=>{
 		getExams();
 	},[getExams])
 	
   return (
 	<div className={style.container}>
-		
-		<ModalContainer displayed={displayModal} setDisplayed={setDisplayModal}>
-			<ExamForm
-				display={displayModal}
-				setDisplay={setDisplayModal}
+		<ModalContainer displayed={displayEditForm} setDisplayed={setDisplayEditForm}>
+			<EditingExamForm
+				display={displayEditForm}
+				setDisplay={setDisplayEditForm}
 				refreshExam={()=>{
 					getExams()
-					setDisplayModal(false)
+				}} 
+				singleExam={singleExam}
+			/>
+		</ ModalContainer>
+		{
+		<ModalContainer displayed={displayAddForm} setDisplayed={setDisplayAddForm}>
+			<AddingExamForm
+				display={displayAddForm}
+				setDisplay={setDisplayAddForm}
+				refreshExam={()=>{
+					getExams()
 				}} 
 				codeClass={parseInt(params.code_class)}
 			/>
 		</ ModalContainer>
+		}
 		
 		
 		<div className={style.examContainer}>
@@ -69,7 +84,7 @@ export default React.memo(function Exam() {
 				</div>
 				{
 					isTeacher?
-					<div onClick={()=>setDisplayModal(true)} className={style.add}>
+					<div onClick={()=>setDisplayAddForm(true)} className={style.add}>
 						<span>+</span>
 						<span>Tambah Ujian</span>
 					</div>
@@ -111,8 +126,19 @@ export default React.memo(function Exam() {
 								{
 									
 									isTeacher?
-									<div className={style.menu}>
-										<FontAwesomeIcon icon="ellipsis-vertical" />
+									<div className={style.menuContainer}>
+										<div className={`${style.btn} setOption`}>
+											<FontAwesomeIcon className={style.icon} icon="ellipsis-vertical" />
+										</div>
+										<ul className={`${style.menu} option`}>
+											<li 
+												onClick={()=>{
+													setDisplayEditForm(true)
+													setSingleExam(e)
+												}} 
+												className={style.list}
+											>Edit</li>
+										</ul>
 									</div>
 									:""
 								}

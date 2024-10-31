@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import style from './ExamAnswers.module.css'
 import config from '../../config'
@@ -21,12 +21,11 @@ import uppercase from '../../utils/uppercase'
 import formatDate from '../../utils/id-format-date'
 
 
-const ExamAnswers = function (){
+const ExamAnswers = function ({ id_exm }){
 	
 	const [ displayModal, setDisplayModal ] = React.useState(false)
 	const [ singleAns, setSingleAns ] = React.useState({})
 	const [ idAns, setIdAns ] = React.useState(null)
-	const params = useParams()
 	const { singleClass } = useContext()
 	const [ ansData, dispatch ] = React.useReducer(ansReducer, [])
 	const [ errScore, setErrScore ] = React.useState("")
@@ -34,13 +33,13 @@ const ExamAnswers = function (){
 	
 	const getAns = React.useCallback(()=>{
 		
-		ansApi.getByExm(params.id_exm)
+		ansApi.getByExm(id_exm)
 		.then(({ data })=>{
 			if(data.error) return setLoading(true)
 			dispatch({ type: 'ADD', data: data.data})
 		})
 		.catch(err=>console.log(err))
-	},[params.id_exm])
+	},[id_exm])
 	
 	React.useEffect(()=>{
 		getAns()
@@ -194,4 +193,4 @@ const ExamAnswers = function (){
 	)
 }
 
-export default ExamAnswers
+export default React.memo(ExamAnswers)

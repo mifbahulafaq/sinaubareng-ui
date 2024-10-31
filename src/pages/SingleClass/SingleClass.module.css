@@ -5,100 +5,15 @@
 	margin: auto;
 	display: grid;
 	/* grid-template-columns: 280px auto; */
-	grid-template-columns: repeat(4, 1fr);
+	grid-template-columns: repeat(2, 1fr);
 	grid-template-areas: 
-		"detail detail detail detail"
-		"task task task task"
-		"chatting chatting chatting chatting"
+		"detail detail"
+		"schedule schedule"
+		"task task"
+		"chatting chatting"
 	;
 	gap: 10px;
 	position: relative;
-}
-.container .scheduleContainer{
-	position: fixed;
-	top: 65px;
-	right: 210px;
-	width: 400px;
-	box-shadow: 0 0 8px rgba(47, 47, 47, 0.2);
-	background: #f3fbff;
-	border-radius: 0px 0px 0 10px;
-	padding: 20px;
-	z-index: 99;
-	font-size: 0.9em;
-	font-weight: 500;
-	color: #3c4043;
-	display: flex;
-	flex-direction: column;
-	transition: all 0.4s ease;
-}
-.container .scheduleContainer .info span{
-	font-weight: 600;
-}
-.container .scheduleContainer .info{
-	font-weight: normal;
-}
-.container .scheduleContainer.off{
-	top: -40px;
-}
-.container .scheduleContainer .nav{
-	margin-top: 20px;
-	display: flex;
-}
-.container .scheduleContainer  .nav .add{
-	text-decoration: none;
-	color: #3c4043;
-	box-shadow: 0 0 2px rgba(47, 47, 47, 0.5);
-	padding: 5px 10px;
-	cursor: pointer;
-	background: #fff;
-	border-radius: 3px;
-}
-.container .scheduleContainer  .nav .add:hover{
-	background: #f3f6f4;
-}
-.container .scheduleContainer .nav .scheduleNav{
-	margin-left: 20px;
-	display: flex;
-	align-items: center;
-	color: #3c4043;
-	text-decoration: none;
-}
-.container .scheduleContainer .nav .scheduleNav:hover p{
-	text-decoration: underline 1px;
-}
-.container .scheduleContainer .nav .scheduleNav svg{
-	margin-left: 5px;
-}
-
-.container .scheduleContainer .hiding{
-	content: "";
-	position: absolute;
-	right: 0;
-	bottom: -18px;
-	background: #f3fbff;
-	width: 30px;
-	height: 20px;
-	border-radius: 0 0 5px 5px;
-	box-shadow: -8px 8px 8px -6px rgba(47, 47, 47, 0.1),
-	8px 8px 8px -6px rgba(47, 47, 47, 0.1),
-	8px 0px 8px -6px rgba(47, 47, 47, 0.1),
-	-8px 0px 8px -6px rgba(47, 47, 47, 0.1);
-	cursor: pointer;
-}
-.container .scheduleContainer .hiding:after{
-	content: "";
-	display: block;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -20%) rotate(225deg);
-	border-right: 2px solid #9999;
-	border-bottom: 2px solid #9999;
-	width: 8px;
-	height: 8px;
-}
-.container .scheduleContainer.off .hiding:after{
-	transform: translate(-50%, -70%) rotate(45deg);
 }
 .container .detail{
 	grid-area: detail;
@@ -254,12 +169,99 @@
 .detail .menu a:hover{
 	text-shadow: 0 0 4px #fff;
 }
+
+.scheduleContainer{
+	grid-area: schedule;
+	font-size: 1rem;
+	box-shadow: 1px 1px 3px 1px rgba(162, 162, 162, 0.3);
+	background: #f3fbff;
+	border-radius: 10px;
+	padding: 1.25em;
+	z-index: 99;
+	font-size: 0.9em;
+	font-weight: 500;
+	color: #3c4043;
+	display: flex;
+	flex-direction: column;
+	transition: all 0.4s ease;
+}
+.scheduleContainer .info span{
+	font-weight: 600;
+}
+.scheduleContainer .info{
+	font-weight: normal;
+}
+.scheduleContainer.off{
+	top: -40px;
+}
+.scheduleContainer .nav{
+	margin-top: 20px;
+	display: flex;
+}
+.scheduleContainer  .nav .add{
+	text-decoration: none;
+	color: #3c4043;
+	box-shadow: 0 0 2px rgba(47, 47, 47, 0.5);
+	padding: 5px 10px;
+	cursor: pointer;
+	background: #fff;
+	border-radius: 3px;
+}
+.scheduleContainer  .nav .add:hover{
+	background: #f3f6f4;
+}
+.scheduleContainer .nav .scheduleNav{
+	margin-left: 20px;
+	display: flex;
+	align-items: center;
+	color: #3c4043;
+	text-decoration: none;
+}
+.scheduleContainer .nav .scheduleNav:hover p{
+	text-decoration: underline 1px;
+}
+.scheduleContainer .nav .scheduleNav svg{
+	margin-left: 5px;
+}
+
+.scheduleContainer .hiding{
+	content: "";
+	position: absolute;
+	right: 0;
+	bottom: -18px;
+	background: #f3fbff;
+	width: 30px;
+	height: 20px;
+	border-radius: 0 0 5px 5px;
+	box-shadow: -8px 8px 8px -6px rgba(47, 47, 47, 0.1),
+	8px 8px 8px -6px rgba(47, 47, 47, 0.1),
+	8px 0px 8px -6px rgba(47, 47, 47, 0.1),
+	-8px 0px 8px -6px rgba(47, 47, 47, 0.1);
+	cursor: pointer;
+}
+.scheduleContainer .hiding:after{
+	content: "";
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -20%) rotate(225deg);
+	border-right: 2px solid #9999;
+	border-bottom: 2px solid #9999;
+	width: 8px;
+	height: 8px;
+}
+.scheduleContainer.off .hiding:after{
+	transform: translate(-50%, -70%) rotate(45deg);
+}
 .task{
+	font-size: 0.95rem;
 	list-style: none;
 	grid-area: task;
 	display: grid;
 	align-content: start;
 	grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+	/* The minmax() CSS function defines a size range greater than or equal to min and less than or equal to max */
 	gap: 10px;
 }
 .chatting{
@@ -501,12 +503,26 @@
 	}
 }
 
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 768px) {
+
+@media only screen and (min-width: 780px) {
+	.container{
+		grid-template-columns: repeat(5, 1fr);	
+		grid-template-areas: 
+			"detail detail detail detail detail"
+			"schedule schedule chatting chatting chatting"
+			"task task chatting chatting chatting"
+		;
+	}
+	.task{
+		font-size: 1rem;
+	}
+}
+@media only screen and (min-width: 992px) {
 	.container{
 		grid-template-columns: repeat(3, 1fr);	
 		grid-template-areas: 
 			"detail detail detail"
+			"schedule chatting chatting"
 			"task chatting chatting"
 		;
 	}

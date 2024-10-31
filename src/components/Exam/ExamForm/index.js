@@ -1,80 +1,37 @@
-import { useEffect, useRef, memo,useMemo } from 'react';
+import { useEffect, useRef, memo } from 'react';
 import style from './ExamForm.module.css';
-import { useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types'
-import * as val from '../../validation';
+import * as val from '../../../validation';
 
 //components
-import Image from '../Image';
-import InputDate from '../InputDate';
+import Image from '../../Image';
+import InputDate from '../../InputDate';
 
-//apis
-import * as examApi from '../../api/exam';
-
- const ExamForm = memo(function ({ refreshExam, codeClass, display, setDisplay }){
-	 
+ const ExamForm = memo(function ({ 
+		defaultValues,
+		useForm,
+		disabledSubmit,
+		submit,
+		display,
+		setDisplay
+	}){
+		
 	const inputDateStyling = {width: "100%", margin: "0.625rem 0 0", fontSize: "0.875rem"};
 	const customInput = useRef(null);
-	const defaultValues = useMemo(()=>{
-		return {
-		schedule: {
-			date: "",
-			time : '00:00'
-		},
-		duration: {
-			date: "",
-			time : '00:00'
-		}
-	}
-	}, [])
 	
-	const { reset, register, setValue, watch, handleSubmit, setError, resetField, formState } = useForm({
-		mode: "onChange",
-		defaultValues
-	})
-	const { isValid, isSubmitSuccessful, errors, isSubmitting} = formState
+	const { reset, register, setValue, watch, handleSubmit, setError, formState } = useForm;
+	const { isSubmitSuccessful, errors } = formState;
 	
 	useEffect(()=>{
-		
 		reset(defaultValues)
-		customInput.current.innerText = ""
+		customInput.current.innerText = defaultValues.text || "";
 		
 	},[reset, display, isSubmitSuccessful, defaultValues])
 	
-	async function submit(input){
-		const payload = input;
-		payload.schedule = payload.schedule.date+ " " + payload.schedule.time;
-		
-		if(payload?.duration?.date.length){
-			
-			const fullScheduleDate = new Date(payload.schedule)
-			const fullDurationDate = new Date(payload.duration.date+" "+payload.duration.time)
-			
-			if(fullDurationDate <= fullScheduleDate){
-				delete payload.duration
-			}else{
-				payload.duration = fullDurationDate.getTime() - fullScheduleDate.getTime()
-			}
-			
-		}else{
-			delete payload.duration
-		}
-		
-		payload.code_class = codeClass
-		payload.attachment = payload.attachment?.["0"]
-		
-		let formData = new FormData()
-		
-		for(let key in payload){
-			formData.append(key, payload[key])
-		}
-		
-		const { data } = await examApi.add(formData)
-		
-		if(data.error) return console.log(data)
-		refreshExam()
-	}
+	useEffect(()=>{
+		register('text')
+	}, [register])
 	
 	function validateFile(e){
 		
@@ -85,15 +42,15 @@ import * as examApi from '../../api/exam';
 			}
 		}
 	}
+	
 	function clickInsertAttachment(e){
 		e.currentTarget.querySelector('input').click()
 	}
 	
 	function tugaskan(e){
+		if(disabledSubmit) return;
 		
-		if(errors.attachment || isSubmitting || !isValid) return;
-		
-		const btn = document.querySelector('.'+style.formContainer).querySelector('[type="submit"]');
+		const btn = e.currentTarget.parentElement.parentElement.parentElement.querySelector('[type="submit"]')
 		
 		btn.click();
 	}
@@ -139,17 +96,18 @@ import * as examApi from '../../api/exam';
 					<div className={style.close}>
 						<FontAwesomeIcon onClick={()=>setDisplay(false)} icon="plus" />
 					</div>
-					<div onClick={tugaskan} className={`${style.submit} ${errors.attachment || !isValid || isSubmitting? style.disabled: ""}`}>Buat</div>
+					<div onClick={tugaskan} className={`${style.submit} ${disabledSubmit? style.disabled: ""}`}>
+						{defaultValues.schedule.date.length?"Edit": "Buat"}
+					</div>
 				</div>
 			</div>
 			<form onSubmit={handleSubmit(submit)} >
 				<div className={style.formSection1}>
 					
 					<div className={style.customInputContainer}>
-						<input style={{display: "none"}} {...register('text')} />
 						<div 
 							ref={customInput}
-							onInput={e=>setValue('text', e.currentTarget.innerText)}
+							onInput={e=>customSetValue('text', e.currentTarget.innerText)}
 							contentEditable="true" 
 							className={`${style.inputMargin} ${style.text}`} 
 						/>
@@ -164,7 +122,7 @@ import * as examApi from '../../api/exam';
 							initialText="Tidak ada jadwal"
 							dateInput={watch('schedule.date')} 
 							timeInput={watch('schedule.time')}
-							dateRegistration={register( 'schedule.date', { ...val.dateNoTimezone, onChange: funcInputDate })}
+							dateRegistration={register('schedule.date', { ...val.dateNoTimezone, onChange: funcInputDate })}
 							timeRegistration={register('schedule.time', { ...val.timeNoTimezone })} 
 							active={true}
 						/>
@@ -178,7 +136,7 @@ import * as examApi from '../../api/exam';
 							initialText="-"
 							dateInput={watch('duration.date')} 
 							timeInput={watch('duration.time')}
-							dateRegistration={register( 'duration.date')}
+							dateRegistration={register('duration.date')}
 							timeRegistration={register('duration.time')} 
 							active={Boolean(watch("schedule.date"))}
 						/>
@@ -193,7 +151,7 @@ import * as examApi from '../../api/exam';
 						<p>*Ukuran file tidak lebih dari 10MB</p>
 					</div>
 					{
-						watch('attachment')?.["0"]?
+						watch('attachment')?.[0]?
 							<div className={`${style.fileUpload} ${errors.attachment?style.error:""}`}>
 								<div className={style.icon}>
 									<div className={style.img}>
@@ -202,7 +160,7 @@ import * as examApi from '../../api/exam';
 								</div>
 								<div className={style.fileName}>{watch('attachment')?.["0"]?.name}</div>
 								<div 
-									onClick={()=>resetField('attachment')} 
+									onClick={()=>customSetValue("attachment", {})} 
 									className={style.removeFile}
 								>
 									<FontAwesomeIcon icon="plus" />
@@ -218,7 +176,8 @@ import * as examApi from '../../api/exam';
 							<FontAwesomeIcon icon="arrow-up-from-bracket" />
 							<input 
 								style={{display: "none"}} 
-								type="file" {...register('attachment', { onChange: validateFile })} 
+								type="file" 
+								{...register('attachment', { onChange: validateFile })} 
 								className={style.inputMargin}
 								accept=".pdf,.docx,.doc,.PDF,.DOCX,.DOC"
 							/>
@@ -233,9 +192,14 @@ import * as examApi from '../../api/exam';
 	)
 })
 
+
 ExamForm.propTypes = {
-	 refreshExam: PropTypes.func, 
-	 codeClass: PropTypes.number
+	defaultValues: PropTypes.object,
+	useForm:  PropTypes.object,
+	disabledSubmit: PropTypes.bool,
+	submit: PropTypes.func,
+	display: PropTypes.bool,
+	setDisplay: PropTypes.func
 }
 
 export default ExamForm;

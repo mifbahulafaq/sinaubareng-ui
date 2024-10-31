@@ -111,7 +111,7 @@ function Element() {
 									element: <Outlet />,
 									children: [
 										{index: true, element: <SingleMatter />},
-										{path: 'assignment/:id_matt_ass', element: <SingleAssignment />}
+										{path: 'assignment/:id_matt_ass/*', element: <SingleAssignment />}
 									]
 								}
 							]

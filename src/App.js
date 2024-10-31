@@ -7,7 +7,7 @@ import Context from './Context';
 
 //icons
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faArrowRightLong, faGear, faSignOut, faExclamation, faUserFriends, faUserPlus, faRepeat, faArrowUpFromBracket, faArrowUp, faMessage, faClipboardQuestion, faComments, faPencil, faPaperPlane, faCirclePlus, faWarning, faXmark, faPlus, faUsers, faCircleExclamation, faBan, faCheck, faBars, faLandmark, faClipboardList, faTableList, faEllipsisVertical, faBookReader, faFileDownload, faExternalLink, faEnvelope, faEnvelopeCircleCheck, faCircleUser, faEye, faEyeSlash, faAngleLeft, faInfo } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightLong, faGear, faSignOut, faExclamation, faUserFriends, faUserPlus, faRepeat, faArrowUpFromBracket, faArrowUp, faMessage, faClipboardQuestion, faComments, faPencil, faPaperPlane, faCirclePlus, faWarning, faXmark, faPlus, faUsers, faCircleExclamation, faBan, faCheck, faBars, faLandmark, faClipboardList, faTableList, faEllipsisVertical, faBookReader, faFileDownload, faExternalLink, faEnvelope, faEnvelopeCircleCheck, faCircleUser, faEye, faEyeSlash, faAngleLeft, faFileWord as faSolidWord,faInfo, faFilePdf as faSolidPdf } from '@fortawesome/free-solid-svg-icons';
 import { faPaperPlane as faPaperPlane2, faUser, faCommentAlt, faCalendarDays, faFile, faFolderOpen, faFileAlt, faCalendar, faClock, faFileLines, faFileWord, faFilePdf } from '@fortawesome/free-regular-svg-icons'
 
 library.add(
@@ -57,6 +57,8 @@ library.add(
 	faFileWord,
 	faFileDownload,
 	faExternalLink,
+	faSolidWord,
+	faSolidPdf ,
 	faFilePdf,
 	faPencil,
 	faComments

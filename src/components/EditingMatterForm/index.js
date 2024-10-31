@@ -29,10 +29,8 @@ export default function EditingMatterForm({fetchMatters, setDisplay, display, si
 		}
 		
 		return {
-			class: singleMatter.class,
 			name: singleMatter.name,
 			description: singleMatter.description || "",
-			id_matter: singleMatter.id_matter,
 			status: singleMatter.status,
 			schedule: {
 				date: formatDate(schedule, 'en-CA',{dateStyle: 'short'}),
@@ -79,29 +77,35 @@ export default function EditingMatterForm({fetchMatters, setDisplay, display, si
 			if(e !== 'attachment') payload.append(e, input[e])
 		})
 	
-		let i = 0;
-				
+		const old_attachments = [];
+		
 		input.attachment.forEach(e=>{
-					
-			if(e.lastModified){
-						
-				payload.append('new_attachment',e);
-				
+			if(e instanceof File){
+				payload.append('attachment',e)
 			}else{
-
-				payload.append(`attachment[${i}][originalname]`,e.name);
-				payload.append(`attachment[${i}][filename]`,e.filename);
-						
-				i++;
+				old_attachments.push(e)
 			}
 		})
 		
+		if(
+			defaultValues.attachment.length
+			&&
+			old_attachments.length  === 0
+		)
+		{
+			payload.append("attachment", 'null');
+		}else{
+			old_attachments.forEach((e,i)=>{
+				payload.append(`attachment[${i}][originalname]`,e.name);
+				payload.append(`attachment[${i}][filename]`,e.filename);
+			})
+		}
+		
 		try{
 			
-			const { data } = await apiMatter.edit(input.id_matter, payload);
+			const { data } = await apiMatter.edit(singleMatter.id_matter, payload);
 			
 			if(data.error){
-				console.log(data)
 				if(data.field){
 					
 					const key = Object.keys(data.field)[0];
@@ -122,7 +126,7 @@ export default function EditingMatterForm({fetchMatters, setDisplay, display, si
 			console.log(err)
 		}
 	}
-	
+	// console.
 	return <MatterForm 
 			fetchMatters={fetchMatters} 
 			setDisplay={setDisplay} 

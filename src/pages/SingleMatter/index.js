@@ -1,15 +1,15 @@
 import React from 'react';
 import style from './SingleMatter.module.css';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import config from '../../config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DocViewer, { DocViewerRenderers  } from "@cyntler/react-doc-viewer";
 import LinearProgress from '@mui/material/LinearProgress';
+import sanitizeHtml from 'sanitize-html';
 //APIs
 import * as matterApi from '../../api/matter';
 import * as discussionApi from '../../api/matter-discussion';
 import * as mattAss from '../../api/matt-ass';
-import fetch from '../../api/fetch';
 //components
 import Image from '../../components/Image';
 import PreviousLink from '../../components/PreviousLink';
@@ -17,7 +17,7 @@ import ModalContainer from '../../components/ModalContainer';
 import AssignmentForm from '../../components/AssignmentForm';
 import EditingMatterForm from '../../components/EditingMatterForm';
 import Contenteditable from '../../components/Contenteditable';
-import sanitizeHtml from 'sanitize-html';
+import Assignment from '../../components/SingleMatter/Assignment';
 //utils
 import formatDate from '../../utils/id-format-date';
 import getToday from '../../utils/get-today';
@@ -25,6 +25,7 @@ import uppercase from '../../utils/uppercase';
 import statusFetching from '../../utils/req-status';
 //hooks
 import useIsTeacher from '../../hooks/useIsTeacher';
+import useDisplayFile from '../../hooks/useDisplayFile';
 
 export default React.memo(function SingleMatter() {
 	
@@ -35,7 +36,7 @@ export default React.memo(function SingleMatter() {
 		status: statusFetching.idle,
 		data: []
 	});
-	console.log(mattAssignments.data)
+	
 	const [ commentText, setCommentText ] = React.useState("");
 	const [ displayModal, setDisplayModal ] = React.useState(false)
 	const [ displayDoc, setDisplayDoc ] = React.useState(false)
@@ -50,6 +51,7 @@ export default React.memo(function SingleMatter() {
 	const yesterday = formatDate(rawYesterDay, "id-ID", {dateStyle:"medium"})
 	const rawMattSchedule = new Date(matt.schedule || Date.now())
 	const mattSchedule = getToday(rawMattSchedule, today)
+	const displayFile = useDisplayFile();
 	
 	const getComments = React.useCallback((id_matt)=>{
 		
@@ -112,70 +114,12 @@ export default React.memo(function SingleMatter() {
 		matterApi.getaDocument(idMatt, filename[0]).then( async ({ data })=>{
 			
 			if(data.error) return console.log(data);
-
-			const ext = data.path.split('.')[1]
-			let url = `${config.api_host}${data.path}`
 			
-			try{
-				
-				const requestConfig =  { responseType: 'blob'};
-				const { data: blob } = await fetch.get(url, requestConfig);
-				
-				// console.log(file.type)
-				// const blob = new Blob([file], {type: headers["content-type"]})
-				url = window.URL.createObjectURL(blob);
-				
-				if(download){
-					
-					const link = document.createElement('a');
-					
-					link.href = url;
-					link.setAttribute('download', filename[1])
-					document.body.appendChild(link);
-					link.click();
-					
-					document.body.removeChild(link);
-					window.URL.revokeObjectURL(url);
-				}else{
-				
-					setDocs([
-						{uri:url, fileName: filename[1], fileType: ext}
-					])
-					setDisplayDoc(true)
-				}
-				
-			}catch(err){
-				console.log(err)
+			if(download){
+				displayFile(data.path, null, null, filename[1]);
+				return
 			}
-			
-			// if(download){
-
-				// const link = document.createElement('a');
-				
-				// link.href = url;
-				// link.setAttribute('download', filename[1])
-				// document.body.appendChild(link);
-				// link.click();
-				// document.body.removeChild(link);
-				
-			// }else{
-				
-				// setDocs([
-					// {uri:url, fileName: filename[1], fileType: ext}
-				// ])
-				// setDisplayDoc(true)
-			// }
-			// fileApi.get(data.path)
-			// .then(({ data })=>{
-				
-				//if(data.error) return console.log(data);
-				//create url
-				// const blob = new Blob([data], {type: data.type});
-				// const url = window.URL.createObjectURL(blob);
-				
-				
-			// })
-			// .catch(err=>console.log(err))
+			displayFile(data.path, setDocs, setDisplayDoc, filename[1]);
 			
 		})
 		.catch(err=>console.log(err))
@@ -390,48 +334,18 @@ export default React.memo(function SingleMatter() {
 								if(mattAssignments.status === statusFetching.idle) return "";
 								
 								if(!mattAssignments.data.length){
-									return <div className={`${style.singleAssign} ${style.nodata}`}>
-										<p className={style.textInfo} > Tidak ada tugas diberikan</p>
-									</div>
+									return <Assignment data={null} isTeacher={null} />
 								}
 								
 								return mattAssignments.data.map((e,i)=>{
 									
-									let additionalClassName = ""
-									let tenggat
 									
-									if(e.duration){
-										
-										const rawDuration = new Date((new Date(e.date)).getTime() + e.duration)
-										tenggat = formatDate(rawDuration, "id-ID",{dateStyle:"medium", timeStyle: 'short'})
-										
-										if(!isTeacher){
-											if(new Date() > rawDuration && Number(e.total_answers) > 0){
-												additionalClassName = style.done
-											}else if(new Date() > rawDuration && Number(e.total_answers) < 1){
-												additionalClassName = style.expired
-											}
-										}
-										
-									}
-									
-									return <div key={i} className={`${style.singleAssign} ${additionalClassName}`}>
-										<div className={style.cover}/>
-										<Link to={`assignment/${e.id_matt_ass}`} ><h4>{e.title}</h4></Link>
-										<span className={style.duration} >
-											Tenggat: <span>{tenggat? tenggat : "-"}</span>
-										</span>
-										{
-											!isTeacher?
-												Number(e.total_answers) > 0?
-													<span className={style.answered}>
-														Answered 
-														<span>&#10004;</span>
-													</span>
-												:""
-											:""
-										}
-									</div>
+									return <React.Fragment key={i}>
+										<Assignment 
+											data={e}
+											isTeacher={isTeacher}
+										/>
+									</React.Fragment>
 								})
 								
 							})()

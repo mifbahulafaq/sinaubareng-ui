@@ -1,0 +1,43 @@
+.container{
+	width: 100%;
+}
+.answs{
+	width: 100%;
+    margin-top: 10px;
+}
+.singleAnsw{
+	padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 90px;
+    border-radius: 10px;
+    transition: all 0.4s ease;
+    cursor: pointer;
+	text-decoration: none;
+}
+.singleAnsw:hover{
+	box-shadow: 0 0 8px rgb(196 196 196 / 50%);
+}
+.singleAnsw .detail{
+	display: flex;
+    align-items: center;
+}
+.singleAnsw .detail .photo{
+	margin-right: 10px;
+    height: 45px;
+    width: 45px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.singleAnsw .detail .status{
+	width: 150px;
+}
+.singleAnsw .detail .status h5{
+	margin-bottom: 10px;
+	color: #3c4043;
+}
+.singleAnsw .detail .status p{
+	font-size: 0.8em;
+	color: #999;
+}

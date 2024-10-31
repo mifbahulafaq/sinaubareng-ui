@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, Fragment } from 'react';
 import style from './MatterForm.module.css';
 import * as val from '../../validation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,12 +6,11 @@ import PropTypes from 'prop-types';
 import sanitizeHtml from 'sanitize-html';
 import ContentEditable from 'react-contenteditable';
 //components
-import Image from '../Image'
-import InputDate from '../InputDate'
+import InputDate from '../InputDate';
+import FormFile from '../FormFile';
 // import Contenteditable from '../Contenteditable'
 
  const MatterForm = function ({
-	fetchMatters, 
 	setDisplay, 
 	display,
 	defaultValues, 
@@ -31,7 +30,7 @@ import InputDate from '../InputDate'
 	useEffect(()=>{
 		reset(defaultValues)
 		
-	},[isSubmitSuccessful, setDisplay, reset, defaultValues])
+	},[isSubmitSuccessful, display, reset, defaultValues])
 	
 	useEffect(()=>{
 		register('description', val.description2)
@@ -61,7 +60,14 @@ import InputDate from '../InputDate'
 		const [ ...arrValue ] = e.currentTarget.innerText;
 		const value = (arrValue.filter((e,i)=>i<255)).join('');
 		
-		setValue('description', sanitizeHtml(value, config), { shouldValidate: true });
+		setValue(
+			'description', 
+			sanitizeHtml(value, config), 
+			{ 
+				shouldValidate: true,
+				shouldDirty: true,
+			}
+		);
 		
 	}, [setValue])
 	
@@ -114,7 +120,7 @@ import InputDate from '../InputDate'
 											
 		if(errors.attachment?.[i]) clearErrors(`attachment.${i}`)
 	}
-	
+
 	return (
 		<div className={`${style.addMatter} ${display?style.open:''}`}>
 			<div className={style.header}>
@@ -138,7 +144,7 @@ import InputDate from '../InputDate'
 						<span className={style.placeholder} >Deskripsi (optional)</span>
 					</div>
 					<div className={style.inputDateContainer}>
-					</div>	
+					</div>
 					<div className={style.inputDateContainer}>
 						<h4>Jadwal</h4>
 						<InputDate 
@@ -156,22 +162,14 @@ import InputDate from '../InputDate'
 							active={true}
 						/>
 					</div>
-					
 					{
 						watch("attachment")?.map((e,i)=>{
-							return <div key={i} className={`${style.fileUpload} ${errors.attachment?.[i]?style.error:""}`}>
-									<div className={style.icon}>
-										<div className={style.img}>
-											<Image src="images/attachment.png" />
-										</div>
-									</div>
-									<div className={style.fileName}>{e.name}</div>
-									<div 
-										onClick={()=>removeFile(i)} 
-										className={style.removeFile}
-									>
-										<FontAwesomeIcon icon="plus" />
-									</div>
+							return  <div key={i} className={style.uploadedFile}>
+								<FormFile 
+									error={errors.attachment?.[i]}
+									data={e}
+									removeFile={()=>removeFile(i)}
+								/>
 							</div>
 						})
 					}
@@ -181,7 +179,9 @@ import InputDate from '../InputDate'
 							<FontAwesomeIcon icon='arrow-up-from-bracket' />
 							<span className={style.textBtn}>Upload</span>
 						</div>
-						
+						{
+							//no register. needed to make easier in managing such as removing and adding files
+						}
 						<input 
 							type="file"
 							onChange={setFile}

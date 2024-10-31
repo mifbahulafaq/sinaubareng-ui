@@ -25,7 +25,6 @@
     background: rgba(39, 131, 245, 0.1);
 }
 
-
 /* current component */
 .container{
 	padding: 20px 15px 0;
@@ -69,71 +68,32 @@
 	word-break: break-all;
 }
 .container .bottomSide{
-	margin-top: 30px;
+	margin-top: 1.875rem;
 	display: flex;
 	flex-direction: column;
-	padding-bottom: 20px;
+	padding-bottom: 1.25rem;
 	align-items: flex-start;
 	justify-content: flex-start;
 	border-bottom: 2px solid #098DDF;
 }
 .container .bottomSide .fileUpload{
-	margin-top: 20px;
-	position: relative;
-	display: flex;
-	align-items: center;
-	height: 60px;
-	width: 320px;
-	border: 1px solid #dcdcdc;
-	border-radius: 5px;
+	font-size: 0.9rem;
+	height: 3.75em;
+	margin-bottom: 1em;
+	width: 100%;
 }
-.container .bottomSide .fileUpload .icon{
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100%;
-	width: 20%;
-	color: #098DDF;
-	font-size: 1.4em;
-	border-right:1px solid #dcdcdc ;
-	float: left;
-}
-.container .bottomSide .fileUpload .icon .img{
-	height: 70%;
-}
-.container .bottomSide .fileUpload .fileName{
-	height: 100%;
-	width: 80%;
-	padding: 10px;
-}
-.container .bottomSide .fileUpload .fileName h3{
-	color: #3c4043;
-	font-weight: 600;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	cursor: pointer;
-}
-.container .bottomSide .fileUpload .fileName h3:hover{
-	color: #2986cc;
-}
-.container .bottomSide .fileUpload .fileName p{
-	font-size: 0.94em;
-	font-weight: 600;
-	color: #5f6368;
-}
+
 .container .bottomSide .deadline{
 	font-weight: 600;
 	font-size: 13px;
-	padding-left: 18px;
 	color: #3c4043;
 }
 .container .bottomSide .btnAnsw:hover{
 	background: #e77676;
 }
 .container .answerContainer{
-	margin-top: 20px;
-	padding: 25px;
+	margin-top: 1.25rem;
+	padding: 1.5625rem;
 	width: 100%;
 	border-radius: 5px;
 	box-shadow: 0 0 4px rgba(184, 184, 184, 1);
@@ -144,6 +104,7 @@
 	clear: left;
 }
 .container .answerContainer .exp{
+	font-size: 0.9rem;
 	display: flex;
 	justify-content: space-between; 
 	font-weight: 600;
@@ -161,15 +122,17 @@
 	color: green;
 }
 .container .answerContainer .answers{
-	margin-top: 20px;
+	margin-top: 1.25rem;
 	width: 100%;
-	padding: 20px 10px;
-	display: grid;
-	justify-content: start;
-	grid-template-columns: auto auto auto auto;
-	gap: 10px;
+	padding: 1.25rem 0 1.25rem 0.625rem;
+	display: flex;
+	/* justify-content: start; */
+	flex-wrap: wrap;
 	border-top: 0.10rem solid rgba(224, 224, 224, 1);
 	border-bottom: 0.06999rem solid rgba(224, 224, 224, 1);
+}
+.container .answerContainer .answers > div{
+	margin: 0 0.7rem 0.5rem 0;
 }
 .container .answerContainer .answers .noAnsw{
 	margin: auto;
@@ -178,10 +141,11 @@
 	font-size: 12px;
 }
 .container .answerContainer .commentContainer{
-	margin-top: 10px;
+	font-size: 0.9rem;
+	margin-top: 0.625rem;
 }
 .container .answerContainer .commentContainer{
-	text-align: right;
+	text-align: left;
 	height: 18px;
 }
 .container .answerContainer .commentContainer .commentIcon{
@@ -345,6 +309,7 @@
 }
 /*send end*/
 .container .answerContainer .addFile{
+	margin-top: 1rem;
 	color: #434343;
 }
 .container .answerContainer .addFile .title{
@@ -355,71 +320,13 @@
 .container .answerContainer .addFile .input{
 	margin-top: 20px;
 	display: flex;
-	align-items: center;
+	flex-direction: column;
+	align-items: flex-start;
 }
-.container .answerContainer .addFile .input .select{
-	position: relative;
-	margin-right: 30px;
-	padding: 7px 13px;
-	box-shadow: 0 0 3px #999;
-	border-radius: 3px;
-	cursor: pointer;
-}
-.container .answerContainer .addFile .input .select:hover{
-	background: rgba(217, 217, 217, 0.2);
-}
-.container .answerContainer .addFile .input .select input{
-	display: none;
-}
-.container .answerContainer .addFile .input .select .selectIcon{
-	margin-right: 10px;
-	
-}
-.container .answerContainer .addFile .input .select span{
-	font-weight: 600;
-	font-size: 0.89em;
-}
-.container .answerContainer .addFile .input .answer{
-	margin: 0 10px 0 15px;
-	border-radius: 3px;
-	/* background: red; */
-	padding: 5px 10px;
+.container .answerContainer .addFile .input .inputtedFile{
+	margin-top: 0.5rem;
 	display: flex;
 	align-items: center;
-	cursor: pointer;
-	border: 1px solid transparent;
-}
-.container .answerContainer .addFile .input .answer.error{
-	border: 1px solid #d40027;
-}
-.container .answerContainer .addFile .input .answer .icon{
-	margin-right: 10px;
-	width: 17px;
-	height: 17px;
-	text-align: center;
-	color: #fff;
-	line-height: 17px;
-	font-size: 0.9em;
-	font-weight: 700;
-	border-radius: 2px;
-}
-.container .answerContainer .addFile .input .answer .icon.doc{
-	background: #098DDF;
-}
-.container .answerContainer .addFile .input .answer .icon.docx{
-	background: #098DDF;
-}
-.container .answerContainer .addFile .input .answer .icon.pdf{
-	background: #ff5858;
-}
-.container .answerContainer .addFile .input .answer span{
-	width: 150px;
-	font-size: 0.99em;
-	font-weight: 600;
-	color: #434343;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
 }
 .container .answerContainer .addFile .input .delete{
 	height: 19px;
@@ -467,19 +374,35 @@
 }
 @media only screen and (min-width: 600px) {
 	.container{
-		padding: 20px 30px 0;
+		padding: 1.25rem 1.875rem 0;
 	}
 	.container .bottomSide{
-		margin-top: 30px;
-		display: flex;
+		margin-top: 1.875rem;
 		flex-direction: row;
-		padding-bottom: 20px;
 		align-items: flex-end;
 		justify-content: space-between;
 		border-bottom: 2px solid #098DDF;
 	}
-	/* .container .bottomSide .deadline{ */
-		/* float: right; */
-	/* } */
-
+	.container .bottomSide .fileUpload{
+		font-size: 1rem;
+		margin-bottom: 0;
+		width: calc(100% - 17rem);
+	}
+	.container .answerContainer .addFile{
+		margin-top: 0;
+	}
+	.container .answerContainer .exp{
+		font-size: 1rem;
+	}
+	.container .answerContainer .commentContainer{
+		text-align: right;
+		font-size: 1rem;
+	}
+	.container .answerContainer .addFile .input{
+		flex-direction: row;
+		align-items: center;
+	}
+	.container .answerContainer .addFile .input .inputtedFile{
+		margin-top: 0;
+	}
 }

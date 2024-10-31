@@ -1,6 +1,6 @@
-import React from 'react';
 import style from './SingleExam.module.css';
 import { useContext } from '../../Context'
+import { useParams } from 'react-router-dom'
 
 import { NavLink, Link, Routes, Route } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,8 +11,9 @@ import ExamAnswers from '../../components/ExamAnswers';
 //hooks
 import useIsTeacher from '../../hooks/useIsTeacher';
 
-export default React.memo(function SingleExam() {
+export default function SingleExam() {
 	
+	const params = useParams()
 	const { singleClass } = useContext()
 	const isTeacher = useIsTeacher(singleClass.teacher)
 	function classActive({ isActive }){
@@ -40,8 +41,8 @@ export default React.memo(function SingleExam() {
 			
 			<div className={style.assignment}>
 				<Routes>
-					<Route path="/" element=<ExamQuest /> />
-					<Route path="/answers" element=<ExamAnswers /> />
+					<Route path="/" element=<ExamQuest id_exm={params.id_exm} /> />
+					<Route path="/answers" element=<ExamAnswers id_exm={params.id_exm} /> />
 				</Routes>
 			</div>
 			
@@ -50,4 +51,4 @@ export default React.memo(function SingleExam() {
 		</div>
 	</div>
   )
-})
+}

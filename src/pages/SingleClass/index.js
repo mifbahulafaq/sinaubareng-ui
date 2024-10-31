@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext } from '../../Context'
 import { useSelector } from 'react-redux'
 import classImage from './class.png';
+import { useForm } from 'react-hook-form';
 
 //APIs
 import * as classDiscuss from '../../api/class-discussion';
@@ -32,6 +33,16 @@ import formatDate from '../../utils/id-format-date'
 import dayDesc from '../../utils/day_desc'
 
 export default React.memo(function SingleClass(props) {
+	
+	const formHandling1 = useForm({
+		mode: "onChange",
+	});
+	const formHandling2 = useForm({
+		mode: "onChange",
+	});
+	
+	// const { reset, register, setValue, watch, handleSubmit, setError, formState } = formHandling1;
+	// const { reset, register, setValue, watch, handleSubmit, setError, formState } = formHandling2;
 	
 	const navigate = useNavigate()
 	const setClasses = useRefreshClass()
@@ -230,41 +241,8 @@ export default React.memo(function SingleClass(props) {
 	
   return (
 	<div className={style.container}>
-	
-		{
-			isTeacher ?
-				scheduleData?
-					<div className={style.scheduleContainer}>
-					
-						<p className={style.info}>
-							Materi Pada Jadwal:
-							<span> {dayDesc[textDay]}, {textDateTime}</span>  belum dibuat
-						</p>
-						<div className={style.nav}>
-							<Link 
-								to="m"
-								className={style.add} 
-								state={{
-									schedule: scheduleData
-								}} 
-							>
-								Buat Materi
-							</Link>
-							<Link className={style.scheduleNav} to="s">
-								<p>Lihat Semua Jadwal </p>
-								<FontAwesomeIcon icon="arrow-right-long" />
-							</Link>
-						</div>
-						<div 
-							className={style.hiding} 
-							onClick={e=>{
-								e.currentTarget.parentElement.classList.toggle(style.off)
-							}}/>
-					</div>
-				:""
-			:""
-		}
 		<div className={style.detail} style={{ background: singleClass.color }} >
+			
 			<div className={style.title}>
 				<h1>
 					{singleClass.class_name}
@@ -322,6 +300,33 @@ export default React.memo(function SingleClass(props) {
 			}
 		</div>
 		
+		{
+			isTeacher ?
+				scheduleData?
+					<div className={style.scheduleContainer}>
+					
+						<p className={style.info}>
+							Materi Pada Jadwal:
+							<span> {dayDesc[textDay]}, {textDateTime}</span>  belum dibuat
+						</p>
+						<div className={style.nav}>
+							<Link 
+								to="m"
+								className={style.add} 
+								state={{
+									schedule: scheduleData
+								}} 
+							>
+								Buat Materi
+							</Link>
+							<Link className={style.scheduleNav} to="s">
+								<p>Lihat Semua Jadwal </p>
+							</Link>
+						</div>
+					</div>
+				:""
+			:""
+		}
 		<ul className={style.task} >
 			<li>
 				<SingleClassCard data={examMatter.matter} matter={true} />

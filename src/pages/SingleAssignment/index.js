@@ -1,37 +1,41 @@
 import React from 'react';
 import style from './SingleAssignment.module.css';
-import { Link, useParams } from 'react-router-dom';
+import { useParams, Link, Routes, Route } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import LinearProgress from '@mui/material/LinearProgress';
-import config from '../../config'
+import DocViewer, { DocViewerRenderers  } from "@cyntler/react-doc-viewer";
 
 //components
 import Image from '../../components/Image';
 import InputFile from '../../components/InputFile';
-import Answer from '../../components/Answer';
+import DocumentAnswer from '../../components/DocumentAnswer';
+import ModalContainer from '../../components/ModalContainer';
+import AllAnswers from '../../components/SingleAssignment/AllAnswers';
+import SingleAnswer from '../../components/SingleAssignment/SingleAnswer';
 
 //utils
 import formatDate from '../../utils/id-format-date';
 import uppercase from '../../utils/uppercase';
-import plural from '../../utils/plural';
 import statusList from '../../utils/req-status';
 
 //APIs
-import * as assignmentApi from '../../api/matt-ass' 
-import * as answerApi from '../../api/ass-answer'
-import * as studentApi from '../../api/class-student'
+import * as assignmentApi from '../../api/matt-ass'; 
+import * as answerApi from '../../api/ass-answer';
+import * as studentApi from '../../api/class-student';
 
 //hooks
 import useIsTeacher from '../../hooks/useIsTeacher'
 
 export default React.memo(function SingleAssignment() {
 	
-	const params = useParams()
-	const [ studentData, setStudentData ] = React.useState([])
+	const params = useParams();
 	const [ ansFile, setAnsFile ] = React.useState(null)
 	const [ sizeError, setSizeError ] = React.useState(false)
 	const [ assData, setAssData ] = React.useState({})
+	const [ studentData, setStudentData ] = React.useState([]);
+	const [ displayDoc, setDisplayDoc ] = React.useState(false)
 	const [ ansData, setAnsData ] = React.useState([])
+	const [ docs, setDocs ] = React.useState([])
 	const [ addingFileStatus, setAddingFileStatus ] = React.useState(statusList.idle)
 	const fileAnsw = React.useRef(null)
 	const isTeacher = useIsTeacher(assData.teacher?.user_id);
@@ -55,15 +59,15 @@ export default React.memo(function SingleAssignment() {
 	React.useEffect(()=>{
 		
 		Promise.all([
-			assignmentApi.readSingle(params.id_matt_ass), 
-			studentApi.getByClass(params.code_class)])
-		
+			assignmentApi.readSingle(params.id_matt_ass),
+			studentApi.getByClass(params.code_class)
+		])
 		.then(([{ data: assData }, { data: studentData }])=>{
 			if(assData.error){
-				return ;
+				throw assData.error ;
 			}
 			if(studentData.error){
-				return ;
+				throw studentData.error ;
 			}
 			setAssData(assData.data[0])
 			setStudentData(studentData.data)
@@ -85,9 +89,8 @@ export default React.memo(function SingleAssignment() {
 		answerApi.add(payload)
 		.then(({ data })=>{
 
-			if(data.error) return setAddingFileStatus(statusList.error)
-				
-			getAnswer()
+			if(data.error) return setAddingFileStatus(statusList.error);
+			
 			setAnsFile(null)
 			setAddingFileStatus(statusList.success)
 			
@@ -109,6 +112,22 @@ export default React.memo(function SingleAssignment() {
 	
   return (
 	<div className={style.container}>
+		<ModalContainer displayed={displayDoc} setDisplayed={setDisplayDoc}>
+			<DocViewer 
+				pluginRenderers={DocViewerRenderers }
+				documents={docs}
+				theme={{
+					primary: "#5296d8",
+					secondary: "#ffffff",
+					tertiary: "#5296d899",
+					textPrimary: "#black",
+					textSecondary: "#5296d8",
+					textTertiary: "#00000099",
+					disableThemeScrollbar: false,
+				}}
+				style={{width: '60vw'}}
+			/>
+		</ ModalContainer>
 		{
 		assData.id_matt_ass?
 		<div className={`${style.mainContent} ${isTeacher? style.teacherAuth: ""}`}>
@@ -156,41 +175,12 @@ export default React.memo(function SingleAssignment() {
 					isTeacher?
 					<div className={style.answContainer}>
 						<div className={style.aboutAnsw}>
-							<h4>{ansData.length} Jawaban dari {studentData.length} Siswa </h4>
+							<h4>{ ansData.length } Jawaban dari { studentData.length } Siswa </h4>
 						</div>
-						<div className={style.answs}>
-							{
-								ansData.map((e,i)=>{
-									
-									let created = Date.now() - (new Date(e.date)).getTime()
-									const days = created / 86400000
-									
-									if(days > 1 && days < 2){
-										created = "Yesterday"
-									}else if( days < 1){
-										const hours = created / 3600000
-										created = `${Math.floor(hours)}hr${plural(hours)} ago `
-									}else{
-										created = formatDate(e.date, "id-ID", {dateStyle: "medium", timeStyle: "short"})
-									}
-									
-									console.log(created)
-									
-									return <div key={i} className={style.singleAnsw}>
-											<div className={style.detail}>
-												<div className={style.photo } >
-													<Image src={e.user.photo?`${config.api_host}/public/photo/${e.user.photo}`:"images/user.png"} />
-												</div>
-												<div className={style.status}>
-													<h5>{uppercase(e.user.name, 0)}</h5>
-													<p>{created}</p>
-												</div>
-											</div>
-										</div>
-								})
-							}
-						
-						</div>
+						<Routes>
+							<Route path="/" element=<AllAnswers /> />
+							<Route path="/a/:id_ass_answer" element=<SingleAnswer /> />
+						</Routes>
 					</div>
 					:""
 				}
@@ -207,7 +197,7 @@ export default React.memo(function SingleAssignment() {
 								ansData[0].content.map((e,i)=>{
 									
 									return <React.Fragment key={i}>
-										<Answer
+										<DocumentAnswer
 											name={e[1]}
 											className={{ container: style.answer}}
 										/>
@@ -231,7 +221,7 @@ export default React.memo(function SingleAssignment() {
 								{
 									ansFile?
 									<>
-										<Answer
+										<DocumentAnswer
 											error={sizeError}
 											name={ansFile.name}
 											className={{container: style.answer2}}

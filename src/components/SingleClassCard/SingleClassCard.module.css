@@ -1,9 +1,10 @@
 .container {
-	padding:10px 20px;
+	font-size: 1em;
+	padding:0.625em 1.25em;
 	border-radius: 10px;
 	border:1px solid #098DDF;
 	/* width: 280px; */
-	height: 140px;
+	height: 8.75rem;
 	box-shadow:1px 1px 5px -2px #999;
 	background: #fff;
 }
@@ -14,28 +15,28 @@
 	font-family: 'Open Sans', sans-serif;
 }
 .container h3{
-	font-size:15px;
+	font-size: 0.9375em;
 }
 .container .detail{
-	margin-top:5px;
+	margin-top:0.3125em;
 	display:flex;
 	justify-content: space-between;
 	align-items: flex-end;
 }
 .detail .icon{
 	list-style: none;
-	font-size:12px;
+	font-size:0.75em;
 }
 .detail .icon li{
-	margin-top: 7px;
+	margin-top: 0.4375em;
 }
 .detail .icon li svg{
-	margin-right: 8px;
-	font-size:14px;
+	margin-right: 0.5em;
+	font-size:0.875em;
 }
 .detail .getin{
-	padding:7px 10px;
-	border-radius: 10px;
+	padding:0.4375 0.625em;
+	border-radius: 0.625em;
 	border: 1px solid #000;
 	font-weight:700;
 	text-decoration: none;
@@ -51,7 +52,7 @@
 	border: 1px solid #098DDF;
 }
 .container .nodata{
-	margin-top: 10px;
+	margin-top: 0.625em;
 	font-size: 0.93em;
 	color: rgba(0,0,0,.549);
 }

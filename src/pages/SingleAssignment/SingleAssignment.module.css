@@ -33,23 +33,25 @@
 	display: flex;
 	justify-content: center;
     background: #eee;
-    min-height: calc(100vh - 65px);
+    min-height: 100%;
 }
 .container .mainContent{
 	background: #fff;
-	min-height: calc(100vh - 65px);
-	padding-bottom: 25px;
+	min-height: 100%;
 	width: 100%;
 	max-width: 850px;
+	--height-of-about: 11rem;
 }
 .container .mainContent.teacherAuth{
 	max-width: 935px;
 }
 .container .mainContent .about{
+	height: var(--height-of-about);
 	padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
+	justify-content: space-between;
     border-bottom: 1px solid rgba(224, 224, 224, 0.8);
 }
 .container .mainContent .about .className{
@@ -73,7 +75,6 @@
     transform: rotate(45deg) translate(0,-50%);
 }
 .container .mainContent .about .icon{
-	margin-top: 15px;
     padding: 3px 10px;
     border: 1px solid rgba(196, 196, 196, 0.5);
     border-radius: 10px;
@@ -81,15 +82,14 @@
     color: #098DDF;
 }
 .container .mainContent .about h3{
-	margin-top: 15px;
 }
 .container .mainContent .assignment{
-	padding-top: 20px;
+	height: calc(100% - var(--height-of-about));
     display: flex;
 	flex-direction: column;
 }
 .container .mainContent.teacherAuth .assignment{
-	padding-top: 20px;
+	/* padding-top: 20px; */
     display: flex;
 	flex-direction: column;
 }
@@ -98,6 +98,7 @@
 	/* width: 100%; */
 /* } */
 .container .mainContent.teacherAuth .assignment .qna{
+	padding-top: 20px;
 	width: 100%;
 	/* background: red; */
 }
@@ -191,59 +192,21 @@
 	background: #e77676;
 }
 .container .mainContent .assignment .answContainer{
-	margin-top: 20px;
-	padding: 0 15px 15px;
+	padding: 20px;
     width: 100%;
-	min-height: 380px;
+	height: 100%;
+    border-left: 1px solid rgba(224, 224, 224, 0.8);
 }
 .container .mainContent .assignment .answContainer .aboutAnsw{
+	margin-bottom: 20px;
 	width: 100%;
     text-align: center;
 	padding-bottom: 15px;
 	color: #434343;
     border-bottom: 1px solid rgba(224, 224, 224, 0.8);
 }
-.container .mainContent .assignment .answContainer .answs{
-	width: 100%;
-    margin-top: 10px;
-}
-.container .mainContent .assignment .answContainer .answs .singleAnsw{
-	padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 90px;
-    border-radius: 10px;
-    transition: all 0.4s ease;
-    cursor: pointer;
-}
-.container .mainContent .assignment .answContainer .answs .singleAnsw:hover{
-	box-shadow: 0 0 8px rgb(196 196 196 / 50%);
-}
-.container .mainContent .assignment .answContainer .answs .singleAnsw .detail{
-	display: flex;
-    align-items: center;
-}
-.container .mainContent .assignment .answContainer .answs .singleAnsw .detail .photo{
-	margin-right: 10px;
-    height: 45px;
-    width: 45px;
-    border-radius: 5px;
-    overflow: hidden;
-}
-.container .mainContent .assignment .answContainer .answs .singleAnsw .detail .status{
-	width: 150px;
-}
-.container .mainContent .assignment .answContainer .answs .singleAnsw .detail .status h5{
-	margin-bottom: 10px;
-	color: #3c4043;
-}
-.container .mainContent .assignment .answContainer .answs .singleAnsw .detail .status p{
-	font-size: 0.8em;
-	color: #999;
-}
 .container .mainContent .answerContainer{
-	padding: 0 25px;
+	padding: 20px 25px 0;
 	width: 100%;
 }
 .container .mainContent .answerContainer::after{
