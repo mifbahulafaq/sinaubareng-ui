@@ -1,4 +1,11 @@
 /* imported components */
+.inputFile{
+	position: relative;
+	padding: 7px 13px;
+	box-shadow: 0 0 3px #999;
+	border-radius: 3px;
+	cursor: pointer;
+}
 .answer{
 	font-size: 1rem;
 	width: 11.25em;
@@ -87,6 +94,9 @@
 	font-weight: 600;
 	font-size: 13px;
 	color: #3c4043;
+}
+.container .bottomSide .deadline.expired span{
+	color: red;
 }
 .container .bottomSide .btnAnsw:hover{
 	background: #e77676;

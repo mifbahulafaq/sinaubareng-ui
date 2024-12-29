@@ -28,9 +28,9 @@ function EditingExamForm({
 			time : "00:00:00"
 		}
 		
-		if(singleExam.duration){
+		if(parseInt(singleExam.duration)){
 
-			const date = new Date(schedule.getTime() + singleExam.duration);
+			const date = new Date(schedule.getTime() + parseInt(singleExam.duration));
 			duration.date = formatDate(date, 'en-CA',{dateStyle: 'short'});
 			duration.time = formatDate(date, 'en-GB',{timeStyle: 'short'}) + ":00";
 		}

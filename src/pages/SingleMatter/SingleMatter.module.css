@@ -175,11 +175,11 @@
 	height: 100%;
 	display: flex;
 	justify-content: space-between;
-	align-items: flex-start;
+	align-items: flex-end;
 }
-.commentContainer .send form [contenteditable="true"]{
+.commentContainer .send form .divInput{
 	width: calc(100% - 50px);
-	min-height: 35px;
+	min-height: 2.4rem;
 	padding: 5px 5px 5px 10px;
 	border: 2px solid #dfdfdf;
 	border-radius: 4px 0 0 4px;
@@ -187,13 +187,13 @@
 	background: #fff;
 	/*white-space: pre-wrap;*/
 }
-.commentContainer .send form [contenteditable="true"]:focus{
+.commentContainer .send form .divInput:focus{
 	outline: none;
 }
-.commentContainer .send form [contenteditable="true"]:empty + .shadowText{
+.commentContainer .send form .divInput:empty + .shadowText{
 	display: initial;
 }
-.commentContainer .send form [contenteditable="true"]::placeholder{
+.commentContainer .send form .divInput::placeholder{
 	font-weight: 500;
 	color: #999;
 }
@@ -211,8 +211,8 @@
 .commentContainer .send form .icon{
 	display: block;
 	padding: 8px 5px;
-	height: 35px;
-	width: 50px;
+	height: 2.4rem;
+	width: 3.125rem;
 	border-radius: 0 4px 4px 0;
 	border: 2px solid #dfdfdf;
 	border-left: none;

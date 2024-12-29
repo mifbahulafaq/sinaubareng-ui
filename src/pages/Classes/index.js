@@ -8,7 +8,7 @@ import bookImage from './book.jpg';
 //components
 import ClassCard from '../../components/ClassCard';
 import ClassCard2 from '../../components/ClassCard2';
-import ModalContainer from '../../components/ModalContainer';
+import { ModalContainer } from '../../components/Modal';
 import CreateClass from '../../components/CreateClass';
 import JoinClass from '../../components/JoinClass';
 import Image from '../../components/Image';
@@ -32,7 +32,7 @@ function Classes({ classData, iconBar }) {
 	
   return (
 	<div className={style.container}>
-		<ModalContainer overflow='auto' displayed={modal} setDisplayed={setModal} >
+		<ModalContainer overflow='auto' displayed={modal} hideModal={setModal} >
 			{content[indexContent]}
 		</ModalContainer>
 		<ul className={style.menu}>

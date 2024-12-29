@@ -5,15 +5,28 @@
 }
 .header{
 	margin-bottom: 10px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
-.header .name{
+.header .detail .name{
 	color: var(--primary-font-color);
 	font-weight: 600;
 }
-.header .total{
+.header .detail .total{
 	font-size: 0.7rem;
 	font-weight: 600;
 	color: #999;
+}
+.header .listIcon{
+	padding: 0 0.2rem;
+	border-radius: 3px;
+	font-size: 1.3rem;
+	color:  var(--primary-font-color);
+	transition: all 0.4s ease;
+}
+.header .listIcon:hover{
+	background: rgba(60, 64, 67, 0.05);
 }
 .answer{
 	padding: 1rem 0;

@@ -125,7 +125,7 @@ export default function GivenAssignment() {
 							return assignmentDatas.data.map((e,i)=>{
 								const status = filterAssignment.status
 								const dateToTime = (new Date(e.date)).getTime()
-								const durationToTime =  (new Date(e.date)).getTime() + e.duration
+								const durationToTime =  (new Date(e.date)).getTime() + parseInt(e.duration)
 								
 								return <div key={i} className={style.singleAssignment} >
 									<Link to={`../c/${e.class.code_class}/m/${e.matter.id_matter}/assignment/${e.id_matt_ass}`} className={style.leftDetail}>

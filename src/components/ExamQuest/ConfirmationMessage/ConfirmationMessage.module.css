@@ -1,0 +1,42 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap'); */
+.container{
+	background: #fff;
+	font-size: 0.9rem;
+	/* font-family: "Mona Sans"; */
+	max-width: 25em;
+	padding: 1.3em;
+	text-align: center;
+	border-radius: 5px;
+}
+.container h2{
+	font-size: 1em;
+	margin-bottom: 0.7em;
+}
+.container p{
+	font-size: 0.9em;
+	margin-bottom: 2em;
+}
+.container .button{
+	display: flex;
+	justify-content: flex-end;
+	font-size: 0.9em;
+	font-weight: bold;
+}
+.container .button > div{
+	padding: 0.5em 0.7em;
+	border-radius: 5px;
+	cursor: pointer;
+}
+.container .button div:first-child{
+	border: solid 0.2em black ;
+}
+.container .button div:last-child{
+	background: #fd3e89;
+	margin-left: 1em;
+	color: #fff;
+}
+@media only screen and (min-width: 600px) {
+	.container{
+		font-size: 1rem;
+	}
+}

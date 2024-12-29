@@ -10,7 +10,7 @@ import * as userApi from '../../api/user'
 
 // components
 import FormControl from '../../components/FormControl'
-import ModalContainer from '../../components/ModalContainer'
+import { ModalContainer } from '../../components/Modal'
 import SuccessAlert2 from '../../components/SuccessAlert2'
 
 export default function Password() {
@@ -71,7 +71,7 @@ export default function Password() {
 	
 	return (
 		<>
-			<ModalContainer displayed={displayAlert} setDisplayed={setDisplayAlert}>
+			<ModalContainer displayed={displayAlert} hideModal={setDisplayAlert}>
 				<SuccessAlert2 msg="Password Changed" />
 			</ModalContainer>
 			<form onSubmit={handleSubmit(submit)} className={style.container}>

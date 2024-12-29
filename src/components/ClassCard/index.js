@@ -11,7 +11,7 @@ import * as fetchStudent from '../../api/class-student'
 import useRefreshClass from '../../hooks/useRefreshClass'
 //components
 import Image from '../Image';
-import ModalContainer from '../../components/ModalContainer';
+import { ModalContainer } from '../../components/Modal';
 //utils
 import strLimit from '../../utils/strLimit';
 import uppercase from '../../utils/uppercase';
@@ -69,7 +69,7 @@ const ClassCard = function ({classStudentData, width}){
 				<li onClick={()=>setModal(true)} >Batal Pendaftaran</li>
 			</ul>
 			
-			<ModalContainer displayed={modal} setDisplayed={setModal} >
+			<ModalContainer displayed={modal} hideModal={setModal} >
 				<div className={style.confirmUnenrol}>
 					<p className={style.textAlert}>Keluar dari kelas {uppercase(classStudentData.class_name, 0)} ?</p>
 					<p className={style.info}>

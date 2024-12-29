@@ -9,7 +9,7 @@ import DocViewer, { DocViewerRenderers  } from "@cyntler/react-doc-viewer";
 import Image from '../../components/Image';
 import InputFile from '../../components/InputFile';
 import DocumentAnswer from '../../components/DocumentAnswer';
-import ModalContainer from '../../components/ModalContainer';
+import { ModalContainer } from '../../components/Modal';
 import AllAnswers from '../../components/SingleAssignment/AllAnswers';
 import SingleAnswer from '../../components/SingleAssignment/SingleAnswer';
 
@@ -43,7 +43,7 @@ export default React.memo(function SingleAssignment() {
 	
 	const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
 	const assdate = assData.date? new Date(assData.date) : new Date()
-	const tenggat = assData.duration? (assdate).getTime() + assData.duration : ""
+	const tenggat = parseInt(assData.duration)? (assdate).getTime() + parseInt(assData.duration) : ""
 	
 	const getAnswer = React.useCallback(()=>{
 		
@@ -109,10 +109,10 @@ export default React.memo(function SingleAssignment() {
 		}
 		setAnsFile(e.target.files[0])
 	}
-	
+
   return (
 	<div className={style.container}>
-		<ModalContainer displayed={displayDoc} setDisplayed={setDisplayDoc}>
+		<ModalContainer displayed={displayDoc} hideModal={setDisplayDoc}>
 			<DocViewer 
 				pluginRenderers={DocViewerRenderers }
 				documents={docs}
@@ -152,7 +152,7 @@ export default React.memo(function SingleAssignment() {
 					
 					<div className={style.bottomSide}>
 						{
-							assData.attachment?
+							assData && assData.attachment?.length?
 							<div className={style.fileUpload}>
 								<div className={style.icon}>
 									<div className={style.img}>
@@ -168,7 +168,7 @@ export default React.memo(function SingleAssignment() {
 							<div />
 						}
 						
-						<h5 className={style.deadline} >Tenggat: {assData.duration?formatDate(tenggat, 'id-ID',{dateStyle: "long", timeStyle: "short"}):"-"}</h5>
+						<h5 className={style.deadline} >Tenggat: {parseInt(assData.duration)?formatDate(tenggat, 'id-ID',{dateStyle: "long", timeStyle: "short"}):"-"}</h5>
 					</div>
 				</div>
 				{
@@ -191,7 +191,7 @@ export default React.memo(function SingleAssignment() {
 					<div className={style.exp}>
 						<span>Jawaban Anda</span>
 					</div>
-					<div style={{display: ansData[0]?.content && ansData[0]?.content.length? "grid": "block	"}} className={style.answers}>
+					<div className={style.answers}>
 						{
 							ansData[0]?.content && ansData[0].content.length?
 								ansData[0].content.map((e,i)=>{
@@ -217,10 +217,11 @@ export default React.memo(function SingleAssignment() {
 								<InputFile 
 									ref={fileAnsw} 
 									onChange={validateFile} 
+									style={{ marginRight: "0.7rem"}}
 								/>
 								{
 									ansFile?
-									<>
+									<div className={style.inputtedFile} >
 										<DocumentAnswer
 											error={sizeError}
 											name={ansFile.name}
@@ -235,7 +236,7 @@ export default React.memo(function SingleAssignment() {
 											className={style.delete}>
 											<FontAwesomeIcon icon='plus' />
 										</div>
-									</>
+									</div>
 									:""
 								}
 							</div>

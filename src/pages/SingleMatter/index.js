@@ -13,7 +13,7 @@ import * as mattAss from '../../api/matt-ass';
 //components
 import Image from '../../components/Image';
 import PreviousLink from '../../components/PreviousLink';
-import ModalContainer from '../../components/ModalContainer';
+import { ModalContainer } from '../../components/Modal';
 import AssignmentForm from '../../components/AssignmentForm';
 import EditingMatterForm from '../../components/EditingMatterForm';
 import Contenteditable from '../../components/Contenteditable';
@@ -23,9 +23,9 @@ import formatDate from '../../utils/id-format-date';
 import getToday from '../../utils/get-today';
 import uppercase from '../../utils/uppercase';
 import statusFetching from '../../utils/req-status';
+import displayFile from '../../utils/displayFile';
 //hooks
 import useIsTeacher from '../../hooks/useIsTeacher';
-import useDisplayFile from '../../hooks/useDisplayFile';
 
 export default React.memo(function SingleMatter() {
 	
@@ -50,8 +50,7 @@ export default React.memo(function SingleMatter() {
 	const rawYesterDay = new Date((new Date()).setDate(rawToday.getDate() - 1))
 	const yesterday = formatDate(rawYesterDay, "id-ID", {dateStyle:"medium"})
 	const rawMattSchedule = new Date(matt.schedule || Date.now())
-	const mattSchedule = getToday(rawMattSchedule, today)
-	const displayFile = useDisplayFile();
+	const mattSchedule = getToday(rawMattSchedule, today);
 	
 	const getComments = React.useCallback((id_matt)=>{
 		
@@ -115,11 +114,14 @@ export default React.memo(function SingleMatter() {
 			
 			if(data.error) return console.log(data);
 			
+			//enter null value in the second and third param to download
 			if(download){
-				displayFile(data.path, null, null, filename[1]);
+				await displayFile(data.path, null, filename[1]);
 				return
 			}
-			displayFile(data.path, setDocs, setDisplayDoc, filename[1]);
+			//enter all the params to display the file
+			const docs = await displayFile(data.path, setDisplayDoc, filename[1]);
+			setDocs(docs)
 			
 		})
 		.catch(err=>console.log(err))
@@ -177,7 +179,7 @@ export default React.memo(function SingleMatter() {
 				display={matterForm} 
 				singleMatter={matt}
 			/>
-			<ModalContainer displayed={displayModal} setDisplayed={setDisplayModal}>
+			<ModalContainer displayed={displayModal} hideModal={setDisplayModal}>
 				<AssignmentForm
 					refreshAssignment={()=>{
 						getAss(params.id_matt, allAss, isTeacher)
@@ -187,7 +189,7 @@ export default React.memo(function SingleMatter() {
 					idMatter={parseInt(params.id_matt)}
 				/>
 			</ ModalContainer>
-			<ModalContainer displayed={displayDoc} setDisplayed={setDisplayDoc}>
+			<ModalContainer displayed={displayDoc} hideModal={setDisplayDoc}>
 				
 				<DocViewer 
 					pluginRenderers={DocViewerRenderers }

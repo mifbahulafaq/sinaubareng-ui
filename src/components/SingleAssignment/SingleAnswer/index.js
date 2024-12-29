@@ -1,23 +1,21 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import style from './SingleAnswer.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DocViewer, { DocViewerRenderers  } from "@cyntler/react-doc-viewer";
 
-import ModalContainer from '../../../components/ModalContainer';
+import { ModalContainer, ModalChild } from '../../../components/Modal';
 
 import * as answerApi from '../../../api/ass-answer';
 
 import getExt from '../../../utils/getExt';
-
-import useDisplayFile from '../../../hooks/useDisplayFile';
+import displayFile from '../../../utils/displayFile';
 
 function SingleAnswer(){
 	
 	const [ displayDoc, setDisplayDoc ] = React.useState(false);
 	const [ docs, setDocs ] = React.useState([]);
 	const [ answer, setAnswer ] = React.useState({});
-	const displayFile = useDisplayFile();
 	const params = useParams();
 	
 	React.useEffect(()=>{
@@ -32,12 +30,12 @@ function SingleAnswer(){
 	
 	function readFile(fileName){
 		answerApi.getaDocument(params.id_ass_answer, fileName[0])
-		.then(({ data })=>{
+		.then( async ({ data })=>{
 			
 			if(data.error) return console.log(data);
 			
-			displayFile(data.path, setDocs, setDisplayDoc, fileName[1]);
-			
+			const docs = await displayFile(data.path, setDisplayDoc, fileName[1]);
+			setDocs(docs);
 		})
 		.catch(err=>console.log(err))
 	}
@@ -64,8 +62,13 @@ function SingleAnswer(){
 		</ ModalContainer>
 		
 		<div className={style.header}>
-			<p className={style.name}>{ answer.user?.name }</p>
-			<p className={style.total}>{ answer.content?.length} files</p>
+			<div className={style.detail}>
+				<p className={style.name}>{ answer.user?.name }</p>
+				<p className={style.total}>{ answer.content?.length} files</p>
+			</div>
+			<Link className={style.listIcon} title="list" to=".." replace={true} >
+				<FontAwesomeIcon icon="list" />
+			</Link>
 		</div>
 		{
 			answer.content?.map((e,i)=>{

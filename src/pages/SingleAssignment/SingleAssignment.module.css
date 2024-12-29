@@ -1,5 +1,6 @@
 /* imported components */
 .answer{
+	margin: 0 0.7rem 0.5rem 0;
 	font-size: 1rem;
 	width: 11.25em;
 	padding: 0.3125em 0.625em;
@@ -84,7 +85,7 @@
 .container .mainContent .about h3{
 }
 .container .mainContent .assignment{
-	height: calc(100% - var(--height-of-about));
+	/* height: calc(100% - var(--height-of-about)); */
     display: flex;
 	flex-direction: column;
 }
@@ -229,10 +230,9 @@
 	margin-top: 20px;
 	width: 100%;
 	padding: 20px 10px;
-	display: grid;
-	justify-content: start;
-	grid-template-columns: auto auto auto auto;
-	gap: 10px;
+	display: flex;
+	justify-content: flex-start;
+	flex-wrap: wrap;
 	border-top: 0.10rem solid rgba(224, 224, 224, 1);
 	border-bottom: 0.06999rem solid rgba(224, 224, 224, 1);
 }
@@ -255,24 +255,26 @@
 .container .mainContent .answerContainer .addFile .input{
 	margin-top: 30px;
 	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+/* .container .mainContent .answerContainer .addFile .input .select{ */
+	/* position: relative; */
+	/* margin-right: 30px; */
+	/* padding: 7px 13px; */
+	/* box-shadow: 0 0 3px #999; */
+	/* border-radius: 3px; */
+	/* cursor: pointer; */
+/* } */
+/* .container .mainContent .answerContainer .addFile .input .select:hover{ */
+	/* background: rgba(217, 217, 217, 0.2); */
+/* } */
+.container .mainContent .answerContainer .addFile .input .inputtedFile{
+	display: flex;
 	align-items: center;
-	/* background: red; */
+	margin-top: 0.5rem;
 }
-.container .mainContent .answerContainer .addFile .input > * {
-	margin-right: 0.7rem;
-}
-.container .mainContent .answerContainer .addFile .input .select{
-	position: relative;
-	margin-right: 30px;
-	padding: 7px 13px;
-	box-shadow: 0 0 3px #999;
-	border-radius: 3px;
-	cursor: pointer;
-}
-.container .mainContent .answerContainer .addFile .input .select:hover{
-	background: rgba(217, 217, 217, 0.2);
-}
-.container .mainContent .answerContainer .addFile .input .delete{
+.container .mainContent .answerContainer .addFile .input .inputtedFile .delete{
 	height: 19px;
 	width: 19px;
 	display: flex;
@@ -282,14 +284,14 @@
 	border-radius: 50%;
 	cursor: pointer;
 }
-.container .mainContent .answerContainer .addFile .input .delete:hover{
+.container .mainContent .answerContainer .addFile .input .inputtedFile .delete:hover{
 	background: rgba(218, 218, 218, 0.6);
 }
-.container .mainContent .answerContainer .addFile .input .delete svg{
+.container .mainContent .answerContainer .addFile .input .inputtedFile .delete svg{
 	transform: rotate(45deg);
 	font-size: 1.1em;
 }
-.container .mainContent .answerContainer .addFile .input .delete:hover{
+.container .mainContent .answerContainer .addFile .input .inputtedFile .delete:hover{
 }
 .container .mainContent .answerContainer .submit{
 	margin-top: 30px;
@@ -326,6 +328,13 @@
 	.container .mainContent .assignment .qna .bottomSide .deadline{
 		margin-top: 0;
 		text-align: right;
+	}
+	.container .mainContent .answerContainer .addFile .input{
+		flex-direction: row;
+		align-items: center;
+	}
+	.container .mainContent .answerContainer .addFile .input .inputtedFile{
+		margin-top: 0;
 	}
 }
 

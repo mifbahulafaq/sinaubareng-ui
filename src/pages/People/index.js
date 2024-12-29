@@ -1,17 +1,15 @@
 import React from 'react'
 import style from './People.module.css'
 import { useParams } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import config from '../../config'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useContext } from '../../Context';
 
 //components
 import Image from '../../components/Image'
-import ModalContainer from '../../components/ModalContainer'
+import { ModalContainer } from '../../components/Modal'
 import FormControl2 from '../../components/FormControl2'
-import PreviousLink from '../../components/PreviousLink'
-import TeacherComponent from '../../components/TeacherComponent'
+import PreviousLink from '../../components/PreviousLink';
 //APIs
-import * as classApi from '../../api/class'
 import * as studentApi from '../../api/class-student'
 //utils
 import uppercase from '../../utils/uppercase'
@@ -23,14 +21,14 @@ import useIsTeacher from '../../hooks/useIsTeacher'
 
 export default React.memo(function People(){
 	
-	const [ teacherData, setTeacherData ] = React.useState({});
+	const { singleClass: teacherData } = useContext();
 	const [ studentDatas, setStudentDatas ] = React.useState([]);
 	const [ addStatus, setAddStatus ] = React.useState(reqStatus.idle)
 	const [ modal, setModal ] = React.useState(false)
 	const [ inputUserId, setInputUserId ] = React.useState("")
 	const [ errInputUser, setErrInputUser ] = React.useState("") 
 	const isTeacher = useIsTeacher(teacherData.teacher)
-	const params = useParams()
+	const params = useParams();
 	
 	const getStudents = React.useCallback(()=>{
 		
@@ -43,15 +41,8 @@ export default React.memo(function People(){
 	}, [params.code_class])
 	
 	React.useEffect(()=>{
-		
-		classApi.getSingle(params.code_class)
-		.then(({ data })=>{
-			if(data.error) return console.log(data)
-			setTeacherData(data.data)
-			getStudents()
-		})
-		
-	}, [params.code_class, getStudents])
+		getStudents()
+	}, [getStudents])
 	
 	React.useEffect(()=>setInputUserId(""), [modal])
 	
@@ -98,7 +89,7 @@ export default React.memo(function People(){
 		<div className={style.previousLink} >
 			<PreviousLink to=".." name={teacherData.class_name || ''}/>
 		</div>
-		<ModalContainer displayed={modal} setDisplayed={setModal}>
+		<ModalContainer displayed={modal} hideModal={setModal}>
 			<div className={style.addStudentContainer}>
 			
 				<h3>Tambahkan Siswa</h3>
@@ -147,11 +138,13 @@ export default React.memo(function People(){
 			<div className={style.studentContainer}>
 				<div className={style.studentTitle}>
 					<p>{studentDatas.length} Siswa {!isTeacher? "lainnya": ""}</p>
-					<TeacherComponent teacherId={teacherData.teacher} >
+					{
+						isTeacher? 
 						<div onClick={()=>setModal(true)} className={style.addIcon}>
 							<FontAwesomeIcon icon="user-plus" />
 						</div>
-					</TeacherComponent>
+						: ""
+					}
 				</div>
 				{
 					studentDatas.map((e,i)=>{

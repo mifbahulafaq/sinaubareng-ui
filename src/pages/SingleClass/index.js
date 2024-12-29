@@ -1,12 +1,10 @@
 import React from 'react';
 import style from './SingleClass.module.css';
-import LinearProgress from '@mui/material/LinearProgress';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useContext } from '../../Context'
-import { useSelector } from 'react-redux'
-import classImage from './class.png';
-import { useForm } from 'react-hook-form';
+import { useContext } from '../../Context';
+import { useSelector } from 'react-redux';
+import sanitizeHtml from 'sanitize-html';
 
 //APIs
 import * as classDiscuss from '../../api/class-discussion';
@@ -18,43 +16,30 @@ import * as fetchSchedule from '../../api/schedule';
 //components
 import Image from '../../components/Image';
 import SingleClassCard from '../../components/SingleClassCard';
-import ModalContainer from '../../components/ModalContainer';
-import ImageWithAttribute from '../../components/ImageWithAttribute'
+import { ModalContainer } from '../../components/Modal';
+import Contenteditable from '../../components/Contenteditable';
 
-//pages
-import ServerError from '../../pages/ServerError'
 //hooks
 import useRefreshClass from '../../hooks/useRefreshClass'
 import useIsTeacher from '../../hooks/useIsTeacher'
 import useDay from '../../hooks/useDay'
 //utils
-import days from '../../utils/days'
 import formatDate from '../../utils/id-format-date'
 import dayDesc from '../../utils/day_desc'
 
 export default React.memo(function SingleClass(props) {
 	
-	const formHandling1 = useForm({
-		mode: "onChange",
-	});
-	const formHandling2 = useForm({
-		mode: "onChange",
-	});
-	
-	// const { reset, register, setValue, watch, handleSubmit, setError, formState } = formHandling1;
-	// const { reset, register, setValue, watch, handleSubmit, setError, formState } = formHandling2;
-	
-	const navigate = useNavigate()
-	const setClasses = useRefreshClass()
+	const navigate = useNavigate();
+	const setClasses = useRefreshClass();
 	const params = useParams();
-	const user = useSelector(s=>s.user)
-	const { singleClass, scheduleClass, setScheduleClass } = useContext()
-	const isTeacher = useIsTeacher(singleClass.teacher)
+	const user = useSelector(s=>s.user);
+	const { singleClass } = useContext();
+	const isTeacher = useIsTeacher(singleClass.teacher);
 	const [ discussData, setDiscussData ] = React.useState([]);
 	const [ scheduleData, setScheduleData ] = React.useState(null);
-	const [ time, setTime ] = React.useState(new Date())
-	const [ classDeletion, setClassDeletion ] = React.useState(false)
-	const [ info, displayInfo ] = React.useState(false)
+	const [ classDeletion, setClassDeletion ] = React.useState(false);
+	const [ info, displayInfo ] = React.useState(false);
+	const [ textInput, setTextInput ] = React.useState('');
 	const [ examMatter, setExamMatter ] = React.useState({
 		matter: {},
 		exam: {}
@@ -74,8 +59,6 @@ export default React.memo(function SingleClass(props) {
 		
 	}, [scheduleData])
 	
-	const [ textInput, setTextInput ] = React.useState('');
-	const textInputElement = React.useRef(null)
 	
 	const fetchDiscuss = React.useCallback( async ()=>{
 		
@@ -177,7 +160,6 @@ export default React.memo(function SingleClass(props) {
 	},[params.code_class, fetchDiscuss])
 	
 	async function discussSubmit(event){
-		
 		event.preventDefault();
 		
 		const d = new Date();
@@ -211,7 +193,7 @@ export default React.memo(function SingleClass(props) {
 			console.log(data)
 		}
 		fetchDiscuss();
-		textInputElement.current.innerHTML = ""
+		setTextInput("");
 	}	
 	
 	function textValid(value){
@@ -237,6 +219,19 @@ export default React.memo(function SingleClass(props) {
 		}catch(err){
 			console.log(err)
 		}
+	}
+	function inputCommentText(e){
+		const config = {
+			allowedTags: ['b', 'i', 'a', 'p'],
+			allowedAttributes: { a: ["href"] }
+		};
+		
+		//the /(^\s*)|(\s*$)/g regex are searches for any whitespace from the beginning and end of the character. if found, then it is replaced by empty string ''
+		///255 chars validation
+		const [ ...arrValue ] = e.target.innerText.replace(/(^\s*)|(\s*$)/g, "");
+		const value = (arrValue.filter((e,i)=>i<255)).join('');
+		
+		setTextInput(sanitizeHtml(value, config));
 	}
 	
   return (
@@ -300,41 +295,43 @@ export default React.memo(function SingleClass(props) {
 			}
 		</div>
 		
-		{
-			isTeacher ?
-				scheduleData?
-					<div className={style.scheduleContainer}>
-					
-						<p className={style.info}>
-							Materi Pada Jadwal:
-							<span> {dayDesc[textDay]}, {textDateTime}</span>  belum dibuat
-						</p>
-						<div className={style.nav}>
-							<Link 
-								to="m"
-								className={style.add} 
-								state={{
-									schedule: scheduleData
-								}} 
-							>
-								Buat Materi
-							</Link>
-							<Link className={style.scheduleNav} to="s">
-								<p>Lihat Semua Jadwal </p>
-							</Link>
+		<div className={style.task} >
+			{
+				isTeacher ?
+					scheduleData?
+						<div className={style.scheduleContainer}>
+						
+							<p className={style.info}>
+								Materi Pada Jadwal:
+								<span> {dayDesc[textDay]}, {textDateTime}</span>  belum dibuat
+							</p>
+							<div className={style.nav}>
+								<Link 
+									to="m"
+									className={style.add} 
+									state={{
+										schedule: scheduleData
+									}} 
+								>
+									Buat Materi
+								</Link>
+								<Link className={style.scheduleNav} to="s">
+									<p>Lihat Semua Jadwal </p>
+								</Link>
+							</div>
 						</div>
-					</div>
+					:""
 				:""
-			:""
-		}
-		<ul className={style.task} >
-			<li>
-				<SingleClassCard data={examMatter.matter} matter={true} />
-			</li>
-			<li>
-				<SingleClassCard data={examMatter.exam} />
-			</li>
-		</ul>
+			}
+			<ul className={style.content}>
+				<li>
+					<SingleClassCard data={examMatter.matter} matter={true} />
+				</li>
+				<li>
+					<SingleClassCard data={examMatter.exam} />
+				</li>
+			</ul>
+		</div>
 		
 		<div className={style.chatting} >
 			<div className={style.words}>
@@ -405,17 +402,23 @@ export default React.memo(function SingleClass(props) {
 				}
 				
 			</div>
-			
 			<div className={style.sender}>
 				<form onSubmit={discussSubmit} >
-					<div 
-						className={style.customInput}
-						contentEditable="true"
-						onPaste={e=>e.preventDefault()}
-						onKeyPress={e=>{if(e.target.textContent.length > 255 ) return e.preventDefault()}}
-						onInput={(e)=>setTextInput(e.target.innerText.replace(/(^\s*)|(\s*$)/g, ""))}
-						ref={textInputElement}
+					<Contenteditable
+						className={style.customInput} 
+						onChange={inputCommentText}
+						value={textInput}
 					/>
+					{
+					// <div 
+						// className={style.customInput}
+						// contentEditable="true"
+						// onPaste={e=>e.preventDefault()}
+						// onKeyPress={e=>{if(e.target.textContent.length > 255 ) return e.preventDefault()}}
+						// onInput={(e)=>setTextInput(e.target.innerText.replace(/(^\s*)|(\s*$)/g, ""))}
+						// ref={textInputElement}
+					// />
+					}
 					<span className={style.placeHolder}>Enter your message here</span>
 					<button disabled={textValid(textInput)} >
 						<span>Send</span>
@@ -425,7 +428,7 @@ export default React.memo(function SingleClass(props) {
 			</div>
 		</div>
 		
-		<ModalContainer displayed={classDeletion} setDisplayed={setClassDeletion} >
+		<ModalContainer displayed={classDeletion} hideModal={setClassDeletion} >
 			<div className={style.confirmDeletion}>
 				<p className={style.textAlert}>Hapus {singleClass.class_name} ?</p>
 				<p className={style.info}>
@@ -437,7 +440,7 @@ export default React.memo(function SingleClass(props) {
 				</ul>
 			</div>
 		</ModalContainer>
-		<ModalContainer displayed={info} setDisplayed={displayInfo} >
+		<ModalContainer displayed={info} hideModal={displayInfo} >
 			<div className={style.desc}>
 				<h3>Description</h3>
 				<div className={style.content}>

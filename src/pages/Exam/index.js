@@ -10,12 +10,13 @@ import * as examApi from '../../api/exam'
 
 //components
 import PreviousLink from '../../components/PreviousLink';
-import ModalContainer from '../../components/ModalContainer';
+import { ModalContainer } from '../../components/Modal';
 import AddingExamForm from '../../components/Exam/AddingExamForm';
 import EditingExamForm from '../../components/Exam/EditingExamForm';
 
 //utils
 import formatDate from '../../utils/id-format-date'
+import reqStatus from '../../utils/req-status'
 //hooks
 import useIsTeacher from '../../hooks/useIsTeacher'
 
@@ -23,6 +24,7 @@ export default React.memo(function Exam() {
 	
 	const params = useParams()
 	const [ examDatas, setExamDatas ] = React.useState([]);
+	const [ examDataStatus, setExamDataStatus ] = React.useState(reqStatus.idle);
 	const [ singleExam, setSingleExam ] = React.useState({});
 	const [ displayAddForm, setDisplayAddForm ] = React.useState(false)
 	const [ displayEditForm, setDisplayEditForm ] = React.useState(false)
@@ -30,24 +32,26 @@ export default React.memo(function Exam() {
 	const isTeacher = useIsTeacher(singleClass.teacher)
 	
 	const getExams = React.useCallback(()=>{
-		
+		setExamDataStatus(reqStatus.processing);
 		examApi.getAll(params.code_class, {latest: 1})
 		.then(({ data })=>{
-			if(data.error) return console.log(data)
-			setExamDatas(data.data)
+			if(data.error){
+				console.log(data);
+				setExamDataStatus(reqStatus.error);
+				return;
+			}
+			setExamDatas(data.data);
+			setExamDataStatus(reqStatus.success);
 		})
 		
 	},[params.code_class])
-	// React.useEffect(()=>{
-		// if(!displayEditForm) setSingleExam(null)
-	// }, [displayEditForm])
 	React.useEffect(()=>{
 		getExams();
 	},[getExams])
 	
   return (
 	<div className={style.container}>
-		<ModalContainer displayed={displayEditForm} setDisplayed={setDisplayEditForm}>
+		<ModalContainer displayed={displayEditForm} hideModal={setDisplayEditForm}>
 			<EditingExamForm
 				display={displayEditForm}
 				setDisplay={setDisplayEditForm}
@@ -58,7 +62,7 @@ export default React.memo(function Exam() {
 			/>
 		</ ModalContainer>
 		{
-		<ModalContainer displayed={displayAddForm} setDisplayed={setDisplayAddForm}>
+		<ModalContainer displayed={displayAddForm} hideModal={setDisplayAddForm}>
 			<AddingExamForm
 				display={displayAddForm}
 				setDisplay={setDisplayAddForm}
@@ -93,65 +97,68 @@ export default React.memo(function Exam() {
 			</div>
 			
 			{
-				examDatas.length?
-				<div className={style.exams}>
-					{
-						examDatas.map((e,i)=>{
-							
-							const classes = `${style.singleExam} ${isTeacher? style.teacher: ''}`
-							
-							return <div className={classes} key={i} >
-								<div className={style.answer}>
-									{isTeacher?
-									<h2>{e.total_answers}</h2>
-									:
-									<h2>{Number(e.total_answers) && <>&#10004;</>}</h2>
-									}
-									<p>answer</p>
-								</div>
-								<div className={style.quest} >
-									<div className={style.icon}> <FontAwesomeIcon icon="clipboard-question" /> </div>
-									<Link to={e.id_exm+""} >
-										<p>
-										{e.teacher_name} memposting ujian baru:
-										{e.text?.trim()}
-										</p>
-									</Link>
-									<div className={style.detail}>
-										<span>
-											{formatDate(new Date(e.schedule), "en-GB",{dateStyle: "short", timeStyle: "short"})}
-										</span>
+				examDataStatus === reqStatus.success?
+				
+					examDatas.length?
+					<div className={style.exams}>
+						{
+							examDatas.map((e,i)=>{
+								
+								const classes = `${style.singleExam} ${isTeacher? style.teacher: ''}`
+								
+								return <div className={classes} key={i} >
+									<div className={style.answer}>
+										{isTeacher?
+										<h2>{e.total_answers}</h2>
+										:
+										<h2>{Number(e.total_answers) && <>&#10004;</>}</h2>
+										}
+										<p>answer</p>
 									</div>
-								</div>
-								{
-									
-									isTeacher?
-									<div className={style.menuContainer}>
-										<div className={`${style.btn} setOption`}>
-											<FontAwesomeIcon className={style.icon} icon="ellipsis-vertical" />
+									<div className={style.quest} >
+										<div className={style.icon}> <FontAwesomeIcon icon="clipboard-question" /> </div>
+										<Link to={e.id_exm+""} >
+											<p>
+											{e.teacher_name} memposting ujian baru:
+											{e.text?.trim()}
+											</p>
+										</Link>
+										<div className={style.detail}>
+											<span>
+												{formatDate(new Date(e.schedule), "en-GB",{dateStyle: "short", timeStyle: "short"})}
+											</span>
 										</div>
-										<ul className={`${style.menu} option`}>
-											<li 
-												onClick={()=>{
-													setDisplayEditForm(true)
-													setSingleExam(e)
-												}} 
-												className={style.list}
-											>Edit</li>
-										</ul>
 									</div>
-									:""
-								}
-							</div>
-						})
-					}
-					
-				</div>
-				:
-				<div className={style.noDatas}>
-					<object className={style.noDataIcon} aria-label="nodata" data={externalSvg} />
-					<p className={style.info}> Belum ada ujian sama sekali.</p>
-				</div>
+									{
+										
+										isTeacher?
+										<div className={style.menuContainer}>
+											<div className={`${style.btn} setOption`}>
+												<FontAwesomeIcon className={style.icon} icon="ellipsis-vertical" />
+											</div>
+											<ul className={`${style.menu} option`}>
+												<li 
+													onClick={()=>{
+														setDisplayEditForm(true)
+														setSingleExam(e)
+													}} 
+													className={style.list}
+												>Edit</li>
+											</ul>
+										</div>
+										:""
+									}
+								</div>
+							})
+						}
+						
+					</div>
+					:
+					<div className={style.noDatas}>
+						<object className={style.noDataIcon} aria-label="nodata" data={externalSvg} />
+						<p className={style.info}> Belum ada ujian sama sekali.</p>
+					</div>
+				:<></>
 			}
 		</div>
 	</div>

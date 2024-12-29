@@ -18,7 +18,7 @@ const AnsComment = function ({idAns, idTeacher, setModal}){
 	const [ commentDatas, setCommentDatas ] = React.useState([])
 	const eAnsComment = React.useRef(null)
 	const [ commentText, setCommentText ] = React.useState("")
-	const [ reqStatus, setReqStatus ] = React.useState(status.idle)
+	const [ reqStatus, setReqStatus ] = React.useState(status.idle);
 	
 	const getComments = React.useCallback(()=>{
 		commentApi.getByAns(idAns)

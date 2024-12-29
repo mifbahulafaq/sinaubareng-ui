@@ -12,7 +12,7 @@ import * as userApi from '../../api/user'
 
 // components
 import FormControl from '../../components/FormControl'
-import ModalContainer from '../../components/ModalContainer'
+import { ModalContainer } from '../../components/Modal'
 import SuccessAlert2 from '../../components/SuccessAlert2'
 
 import toFormData from '../../utils/toFormData';
@@ -119,7 +119,7 @@ export default function Profile() {
 	
 	return (
 		<>
-			<ModalContainer displayed={displayAlert} setDisplayed={setDisplayAlert}>
+			<ModalContainer displayed={displayAlert} hideModal={setDisplayAlert}>
 				<SuccessAlert2 msg="Profil Changed" />
 			</ModalContainer>
 			<form onSubmit={handleSubmit(submit)} className={style.container}>
