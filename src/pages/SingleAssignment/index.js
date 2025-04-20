@@ -42,8 +42,8 @@ export default React.memo(function SingleAssignment() {
 	const disableSubmitting = !ansFile || addingFileStatus === statusList.processing || sizeError;
 	
 	const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
-	const assdate = assData.date? new Date(assData.date) : new Date()
-	const tenggat = parseInt(assData.duration)? (assdate).getTime() + parseInt(assData.duration) : ""
+	const assdate = assData.date? new Date(assData.date) : new Date();
+	const tenggat = parseInt(assData.duration)? assdate.getTime() + parseInt(assData.duration) : 0;
 	
 	const getAnswer = React.useCallback(()=>{
 		
@@ -168,7 +168,7 @@ export default React.memo(function SingleAssignment() {
 							<div />
 						}
 						
-						<h5 className={style.deadline} >Tenggat: {parseInt(assData.duration)?formatDate(tenggat, 'id-ID',{dateStyle: "long", timeStyle: "short"}):"-"}</h5>
+						<h5 className={style.deadline} >Tenggat: {tenggat?formatDate(tenggat, 'id-ID',{dateStyle: "long", timeStyle: "short"}):"-"}</h5>
 					</div>
 				</div>
 				{

@@ -43,7 +43,7 @@ function SingleAnswer(){
 	return <div className={style.container}>
 	
 		
-		<ModalContainer displayed={displayDoc} setDisplayed={setDisplayDoc}>
+		<ModalContainer displayed={displayDoc} hideModal={setDisplayDoc}>
 			
 			<DocViewer 
 				pluginRenderers={DocViewerRenderers }

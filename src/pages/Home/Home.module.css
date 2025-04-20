@@ -28,7 +28,8 @@
 .container .right .content{
 	width:100%;
 	margin-top: 4.1rem;
-	height: calc(100vh - 4.1rem);
+	--height-of-content: calc(100vh - 4.1rem);
+	height: var(--height-of-content);
 	overflow-x: hidden;
 	overflow-y: auto;
 }

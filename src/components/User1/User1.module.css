@@ -1,0 +1,23 @@
+.container{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 10em;
+}
+.container .photo{
+	width: 2.3125em;
+	height: 2.3125em;
+	min-height: 2.3125em;
+	border-radius: 50%;
+	overflow: hidden;
+}
+.container .name{
+	width: calc(100% - 3.2em);
+	font-size: 0.9em;
+	font-weight: 500;
+	color: #3c4043;
+	text-align: left;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}

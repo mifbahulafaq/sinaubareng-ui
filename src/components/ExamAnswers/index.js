@@ -16,6 +16,7 @@ import { ModalContainer, ModalChild } from '../Modal';
 import AnsComment from '../AnsComment';
 import ErrorAlert from '../ErrorAlert';
 import DocumentViewer from '../DocumentViewer';
+import User1 from '../User1';
 //APIs
 import * as ansApi from "../../api/exam-answer"
 //utils
@@ -77,7 +78,7 @@ const ExamAnswers = function ({ id_exm }){
 	}, [])
 	const getFile = React.useCallback((id_exm_ans, filename)=>{
 		
-		ansApi.getaDocument(id_exm_ans, filename).then( async ({ data })=>{
+		ansApi.getaDocument(id_exm_ans, filename[0]).then( async ({ data })=>{
 			
 			if(data.error) return console.log(data);
 		
@@ -128,7 +129,6 @@ const ExamAnswers = function ({ id_exm }){
 				if(data.field){
 					return setErrScore(data.field.score.msg)
 				}
-				console.log(data)
 			}
 			getAns()
 			
@@ -140,93 +140,105 @@ const ExamAnswers = function ({ id_exm }){
 	
 	return (
 		<div className={style.container}>
-			<div className={`${style.errorAlert} ${errScore?style.active:""}`}>
-				<span>{errScore}</span>
-				<span onClick={()=>setErrScore("")}>Tutup</span>
-			</div>
 			<ModalContainer displayed={Boolean(childName)} hideModal={bool=>setChildName(bool || '')}>
 				<ModalChild comp={childName} compOfObjs={childObj} />
 			</ModalContainer>
-			{
-				ansData.map((e,iAns)=>{
-					
-					return <div key={iAns} className={style.singleAns} >
-						<div 
-							onClick={e=>{
-								e.currentTarget.parentElement.classList.toggle(style.active)
-								dispatch({ type: 'CANCEL', index: iAns})
-								e.stopPropagation()
-							}}
-							className={style.topSide} 
-						>
-						
-							<div className={style.leftSide}>
-								<div className={style.user}>
-									<div className={style.photo}>
-										<Image src={e.user.photo?`${config.api_host}/public/photo/${e.user.photo}`:'images/user.png'} />
-									</div>
-									<div className={style.name}>{uppercase(e.user.name, 0)}</div>
-								</div>
-								<div className={style.comments}>
-									<FontAwesomeIcon icon={['far','comment-alt']} /> <span>{e.total_comments}</span>
-								</div>
-							</div>
-							<div className={style.date}>Dibuat: {formatDate(e.date, 'id-ID', {dateStyle: 'medium', timeStyle: 'short'})}</div>
-						</div>
-						<div className={style.detail}>
-							<div className={style.desc}>
-								<div 
-									onClick={()=>displayAnsComment(e.id_exm_ans, singleClass.teacher)} 
-									className={`${style.comment} ${e.total_comments?"": style.none}`}
-								> 
-									<p>{`${e.total_comments} Komentar`}</p>
-								</div>
-								<div 
-									className={style.scoreContainer}
-									onClick={e=>{
-										e.currentTarget.querySelector('input').focus()
-										dispatch({ type: 'ACTIVATE', index: iAns})
-										e.stopPropagation()
-									}}
-								>
-									<div className={style.score}>Nilai:</div>
-									<input 
-										onChange={e=>dispatch({ type: 'UPDATE', index: iAns, inputScore: e.target.value})} 
-										value={e.inputScore} 
+			<div className={style.answered}>
+				<div className={`${style.errorAlert} ${errScore?style.active:""}`}>
+					<span>{errScore}</span>
+					<span onClick={()=>setErrScore("")}>Tutup</span>
+				</div>
+				{
+					ansData.map((e,iAns)=>{
+						return <div key={iAns} className={style.singleAns} >
+							<div 
+								onClick={e=>{
+									e.currentTarget.parentElement.classList.toggle(style.active)
+									dispatch({ type: 'CANCEL', index: iAns})
+									e.stopPropagation()
+								}}
+								className={style.topSide} 
+							>
+							
+								<div className={style.leftSide}>
+									<User1 
+										src={e.user.photo?`${config.api_host}/public/photo/${e.user.photo}`:'images/user.png'} 
+										name={uppercase(e.user.name, 0)} 
 									/>
-									<div className={style.scoreIn}>/100</div>
-									<div className={`${style.width} ${e.active?"":style.none}`} />
-									{e.active?
-										<>
-											<div onClick={submitScore} title="Serahkan" className={style.sendIcon}>
-												<FontAwesomeIcon icon={['far','paper-plane']} />
-											</div>
-											<div 
-												onClick={e=>{
-													dispatch({ type: 'CANCEL', index: iAns})
-													e.stopPropagation()
-												}} 
-												title="Batal" 
-												className={style.cancelIcon}
-											>
-												<FontAwesomeIcon icon="ban" />
-											</div>
-										</>
-									:""
-									}
+									<div className={style.comments}>
+										<FontAwesomeIcon icon={['far','comment-alt']} /> <span>{e.total_comments}</span>
+									</div>
+								</div>
+								<div className={style.date}>Dibuat: {formatDate(e.date, 'id-ID', {dateStyle: 'medium', timeStyle: 'short'})}</div>
+							</div>
+							<div className={style.detail}>
+								<div className={style.desc}>
+									<div 
+										onClick={()=>displayAnsComment(e.id_exm_ans, singleClass.teacher)} 
+										className={`${style.comment} ${e.total_comments?"": style.none}`}
+									> 
+										<p>{`${e.total_comments} Komentar`}</p>
+									</div>
+									<div 
+										className={style.scoreContainer}
+										onClick={e=>{
+											e.currentTarget.querySelector('input').focus()
+											dispatch({ type: 'ACTIVATE', index: iAns})
+											e.stopPropagation()
+										}}
+									>
+										<div className={style.score}>Nilai:</div>
+										<input 
+											onChange={e=>dispatch({ type: 'UPDATE', index: iAns, inputScore: e.target.value})} 
+											value={e.inputScore} 
+										/>
+										<div className={style.scoreIn}>/100</div>
+										<div className={`${style.width} ${e.active?"":style.none}`} />
+										{e.active?
+											<>
+												<div onClick={submitScore} title="Serahkan" className={style.sendIcon}>
+													<FontAwesomeIcon icon={['far','paper-plane']} />
+												</div>
+												<div 
+													onClick={e=>{
+														dispatch({ type: 'CANCEL', index: iAns})
+														e.stopPropagation()
+													}} 
+													title="Batal" 
+													className={style.cancelIcon}
+												>
+													<FontAwesomeIcon icon="ban" />
+												</div>
+											</>
+										:""
+										}
+									</div>
+								</div>
+								<div className={style.ansNav}>
+									<span 
+										onClick={()=>displayDocAns(e.id_exm_ans, e.content)} 
+										className={style.nav}
+									>Lihat Jawaban</span>
 								</div>
 							</div>
-							<div className={style.ansNav}>
-								<span 
-									onClick={()=>displayDocAns(e.id_exm_ans, e.content[0])} 
-									className={style.nav}
-								>Lihat Jawaban</span>
-							</div>
 						</div>
+					})
+				}
+			</div>
+			<div className={style.notAnswered}>
+				<div className={style.title}>Belum ada jawaban</div>
+				<div className={style.students}>
+					<div className={style.user}>
+						<User1 src={'images/user.png'} name={'tiyan'} />
 					</div>
-				})
-			}
-			
+					<div className={style.user}>
+						<User1 src={'images/user.png'} name={'hana'} />
+					</div>
+					<div className={style.user}>
+						<User1 src={'images/user.png'} name={'tiyan2sdasadasdadsadsads'} />
+					</div>
+				</div>
+			</div>
 		</div>
 	)
 }

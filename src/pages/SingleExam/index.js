@@ -23,7 +23,7 @@ export default function SingleExam() {
   return (
 	<div className={style.container}>
 		<div className={style.mainContent}>
-			<div className={style.topNav}>
+			<div className={style.top}>
 				<div className={style.about}>
 					<div className={style.className}><Link to="..">{singleClass.class_name}</Link></div>
 					<div className={style.icon}><FontAwesomeIcon icon="clipboard-question" /></div>	
@@ -39,7 +39,7 @@ export default function SingleExam() {
 				}
 			</div>
 			
-			<div className={style.assignment}>
+			<div className={style.bottom}>
 				<Routes>
 					<Route path="/" element=<ExamQuest id_exm={params.id_exm} /> />
 					<Route path="/answers" element=<ExamAnswers id_exm={params.id_exm} /> />

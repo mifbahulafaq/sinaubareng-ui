@@ -63,7 +63,17 @@ export default React.memo(function ExamQuest({ id_exm }){
 		setChildName(nameChild);
 		
 	}, [])
-
+	
+	React.useEffect(()=>{
+		
+		examApi.getSingle(id_exm)
+		.then(({ data })=>{
+			if(data.error) return console.log(data)
+			setExamData(data.data?.[0])
+		})
+		
+	},[id_exm])
+	
 	const getAns = React.useCallback(()=>{
 		ansApi.getByExm(id_exm)
 		.then(({ data })=>{
@@ -73,18 +83,7 @@ export default React.memo(function ExamQuest({ id_exm }){
 			
 		})
 		.catch(err=>console.log(err))
-	}, [id_exm])
-	
-	React.useEffect(()=>{
-		
-		examApi.getSingle(id_exm)
-		.then(({ data })=>{
-			if(data.error) return console.log(data)
-			setExamData(data.data?.[0])
-			getAns()
-		})
-		
-	},[id_exm, getAns])
+	}, [examData.id_exm])
 	
 	//for student authorization
 	React.useEffect(()=>{

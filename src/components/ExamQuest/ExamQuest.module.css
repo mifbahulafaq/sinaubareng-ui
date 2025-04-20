@@ -35,8 +35,9 @@
 /* current component */
 .container{
 	padding: 20px 15px 0;
-	height: 100%;
+	min-height: var(--height-of-bottom);
 	width: 100%;
+	background: #fff;
 }
 .container .created {
 	margin-bottom: 10px;
