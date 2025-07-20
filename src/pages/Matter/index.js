@@ -116,7 +116,7 @@ export default function Matter() {
 							<div className={style.emptyData} >
 								{
 									date === null?
-									"Anda belum membuat tugas sama sekali."
+									"Tugas belum dibuat sama sekali."
 									:
 									`Tidak ada tugas, pada ${(new Date(date)).toLocaleString("id-ID", {dateStyle:"medium"})}`
 								}

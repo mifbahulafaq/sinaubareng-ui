@@ -2,7 +2,7 @@ import fetch from './fetch';
 
 export function getAll(id_matter){
 	
-	return fetch.get(`/api/matter-discussions/${id_matter}`);
+	return fetch.get(`/api/matter-discussions/by-matter/${id_matter}`);
 	
 }
 export function add(payload){

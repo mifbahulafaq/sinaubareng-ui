@@ -116,7 +116,6 @@ export default function AddingMatterForm({fetchMatters, setDisplay, display, cod
 	}
 	
 	return <MatterForm 
-			fetchMatters={fetchMatters} 
 			setDisplay={setDisplay} 
 			display={display} 
 			defaultValues={defaultValues}
