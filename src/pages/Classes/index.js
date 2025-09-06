@@ -20,7 +20,7 @@ function Classes({ classData, iconBar }) {
 	
 	const [modal, setModal] = React.useState(false); 
 	const [indexContent, setIndexContent] = React.useState(0);
-	const content = [<CreateClass setModal={setModal} modal={modal} />, <JoinClass setModal={setModal} />];
+	const content = [<CreateClass setModal={setModal} modal={modal} />, <JoinClass setModal={setModal} modal={modal} />];
 	const styleContent = {
 		gridTemplateColumns: iconBar? "auto auto auto": "auto auto auto auto"
 	}

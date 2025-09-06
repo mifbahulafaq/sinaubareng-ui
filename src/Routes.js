@@ -73,7 +73,7 @@ function Element() {
 	React.useEffect(()=>{
 		refreshToken()
 	}, [])
-	
+	// console.log('render routes')
 	return useRoutes([
 		{ 
 			path: '/',

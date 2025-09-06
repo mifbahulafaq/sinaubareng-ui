@@ -18,9 +18,13 @@ import reqStatus from '../../utils/req-status';
 import useRefreshClass from '../../hooks/useRefreshClass';
 
 
-export default React.memo(function JoinClass({ setModal }){
+export default React.memo(function JoinClass({ setModal, modal }){
 	
-	const { reset, register, handleSubmit,  setError, formState: {errors} } = useForm();
+	const { reset, register, handleSubmit,  setError, formState: {errors} } = useForm({
+		mode: "onChange",
+		// defaultValues: { singleClass: 12}
+	});
+	// register('test')
 	const [joinStatus, setJoinStatus] = React.useState(reqStatus.idle);
 	const setClasses = useRefreshClass();
 	
@@ -36,7 +40,6 @@ export default React.memo(function JoinClass({ setModal }){
 			}
 			
 			setJoinStatus(reqStatus.success);
-			reset();
 			setClasses();
 			setModal(false)
 			
@@ -45,6 +48,16 @@ export default React.memo(function JoinClass({ setModal }){
 		}
 	}
 	
+	React.useEffect(()=>{
+		reset();
+		console.log('reset join class')
+	}, [reset, modal])
+	
+	React.useEffect(()=>{
+		register('test');
+	}, [register])
+	// const testInput = register('test');
+	console.log('render join class')
 	return (
 		<div className={style.container}>
 		
@@ -62,7 +75,26 @@ export default React.memo(function JoinClass({ setModal }){
 							{...register('singleClass', val.codeClass)} 
 						/>
 					</FormControl2>
-					
+					{
+					// <FormControl2 width="70%">
+						// <input
+							// name={testInput.name}
+							// onChange={testInput.onChange}
+							// onBlur={testInput.onBlur}
+							// inputRef={testInput.ref}
+						// />
+					// </FormControl2>
+					}
+					{
+					// <FormControl2 width="70%">
+						// <input
+							// name={testInput.name}
+							// onChange={testInput.onChange}
+							// onBlur={testInput.onBlur}
+							// inputRef={testInput.ref}
+						// />
+					// </FormControl2>
+					}
 					<div className={style.btnContainer}>
 						<button 
 							type="submit" 

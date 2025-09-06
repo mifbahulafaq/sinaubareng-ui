@@ -33,9 +33,9 @@ import FormFile from '../FormFile';
 	},[isSubmitSuccessful, display, reset, defaultValues])
 	
 	useEffect(()=>{
-		register('description', val.description2)
+		// register('description', val.description2)
 	},[register])
-	
+	register('description', val.description2)
 	const customSetValue = function(field, value){
 
 		setValue(
@@ -70,7 +70,7 @@ import FormFile from '../FormFile';
 		);
 		
 	}, [setValue])
-	
+	console.log(errors)
 	function funcInputDate(e){
 		
 		const value = e.target.value;

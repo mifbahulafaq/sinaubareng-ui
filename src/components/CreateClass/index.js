@@ -3,7 +3,6 @@ import style from './CreateClass.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useForm } from 'react-hook-form';
 import * as val from '../../validation';
-import sanitizeHtml from 'sanitize-html';
 import ContentEditable from 'react-contenteditable';
 
 //components
@@ -27,10 +26,12 @@ export default React.memo(function CreateClass({ setModal, modal }){
 	const [ formClass, setFormClass ] = React.useState(true);
 	const { reset, register, unregister, getValues, watch, setValue, setError, clearErrors, handleSubmit, formState } = useForm({
 		mode: "onChange",
-		defaultValues: {
-			color: '#83d0c9',
-			description: ""
-		}
+		// defaultValues: {
+			// class_name: "",
+			// color: '#83d0c9',
+			// description: "",
+			// schedules: []
+		// }
 	});
 	const {isValid, errors } = formState
 	const errArray = Object.keys(errors);
@@ -38,12 +39,15 @@ export default React.memo(function CreateClass({ setModal, modal }){
 	const setClasses = useRefreshClass();
 	const arrColors = ["#83d0c9",  "#851e3e", "#fe4a49", "#f6cd61", "#009688", "#ee4035",  "#f37736", "#7bc043", "#4b3832", "#854442", "#be9b7b", "#008744", "#f6abb6", "#d62d20", "#ffa700", "#ff3377"]
 	
+	// register('description', val.description);
+	
 	async function submit(input){
 		
 		setFormStatus(reqStatus.processing);
 		
 		let { class_name, description, color, schedules } = input;
 		let schedules2 = []
+		console.log('submit schedules', schedules)
 		schedules.forEach(e=>{
 			if(e.day) schedules2.push({ day: days.indexOf(e.day) + '', time: e.time+':00+07:00'})
 		})
@@ -106,41 +110,16 @@ export default React.memo(function CreateClass({ setModal, modal }){
 		setFormClass(value)
 	}
 	
+	//reset form
 	React.useEffect(()=>{
 
-		reset()
+		reset();
+		// setFormClass(true);
+		console.log('reset create class')
 		
 	}, [modal, reset])
 	
-	React.useEffect(()=>{
-		register('description', val.description)
-	},[register])
-	
-	React.useEffect(()=>{
-		
-		if(formClass === false && errArray.length){
-			
-			if(errArray.length === 1 && errArray.includes('schedules')) return ;
-			setFormClass(true);
-			
-		}
-		
-	},[errArray, errArray.length, formClass])
-	
-	const onContentChange = React.useCallback(e=>{
-		
-		const config = {
-			allowedTags: ['b', 'i', 'a', 'p'],
-			allowedAttributes: { a: ["href"] }
-		};
-		
-		///255 chars validation
-		const [ ...arrValue ] = e.currentTarget.innerText;
-		const value = (arrValue.filter((e,i)=>i<255)).join('');
-		
-		setValue('description', sanitizeHtml(value, config), { shouldValidate: true });
-		
-	}, [setValue])
+	console.log('render create class')
 	
 	return (
 		<div className={style.container}>
@@ -155,20 +134,24 @@ export default React.memo(function CreateClass({ setModal, modal }){
 			<form onSubmit={handleSubmit(submit)} className={style.form}>
 			
 				<div className={`${style.hiding} ${!formClass?style.hiden:''}`}>
-					<FormControl2 error={errors.class_name?.message} margin="0 0 20px 0" width="100%" > 
+					<FormControl2 error={errors.class_name?.message} margin="0 0 20px 0" width="100%" >
 						<input 
 							className={`${style.input} ${errors.class_name?style.error:''}`}
+							spellCheck={false}
 							placeholder="Nama Kelas" 
 							{...register('class_name', val.className)}
 						/>
 					</FormControl2>
 					<FormControl2 error={errors.description?.message} margin="0 0 20px 0" width="100%" > 
 						<div className={style.input}>
+							{
 							<ContentEditable
 								className={style.contentEditable}
-								onChange={onContentChange}
+								onChange={e=>setValue('description', e.currentTarget.innerText, { shouldValidate: true })}
 								html={watch('description')}
+								spellCheck={false}
 							/>
+							}
 							{
 								/*
 								<div
@@ -190,7 +173,15 @@ export default React.memo(function CreateClass({ setModal, modal }){
 							<span className={style.placeholder}>Keterangan</span>
 						</div>
 						{
-						// <textarea rows="5" className={`${style.input} ${errors.description?style.error:''}`} placeholder="Keterangan" {...register('description', val.description)}/>
+							// <textarea 
+								// rows="5" 
+								// className={`${style.input} ${errors.description?style.error:''}`} 
+								// placeholder="Keterangan" 
+								// onChange={e=>{
+									// setValue('description', e.target.value, { shouldValidate: true });
+								// }}
+								// {...register('description', val.description)}
+							// />
 						}
 					</FormControl2> 
 					<div className={style.inputColor}>
@@ -217,10 +208,27 @@ export default React.memo(function CreateClass({ setModal, modal }){
 									watch('schedules')?.map((current_e,current_i)=>{
 										
 										return <React.Fragment key={current_i}>
-											<FormSchedule clearErrors={clearErrors} unregister={unregister} register={register} schedule={current_e} schedules={getValues('schedules')} iSchedule={current_i} setValue={setValue} />
+											<FormSchedule 
+												clearErrors={clearErrors} 
+												unregister={unregister} 
+												register={register}
+												iSchedule={current_i} 
+												day={current_e.day}
+												time={current_e.time}
+												setValue={setValue}
+												setError={setError}
+												error={errors.schedules2?.[current_i]}
+											/>
 										</React.Fragment >
 									})
-								: <FormSchedule clearErrors={clearErrors} unregister={unregister} register={register} schedule={{day: '', time: ''}} schedules={[]} iSchedule={0} setValue={setValue} />
+								: <FormSchedule 
+									clearErrors={clearErrors} 
+									unregister={unregister} 
+									register={register}
+									iSchedule={0}
+									setValue={setValue}
+									setError={setError}
+								/>
 							}
 							
 							<FontAwesomeIcon onClick={addSchedule} className={style.addTime} icon="plus" />
@@ -229,6 +237,15 @@ export default React.memo(function CreateClass({ setModal, modal }){
 				</div>
 				
 				<div className={style.btnContainer}>
+					{
+					// <button 
+						// type="button"
+						// onClick={()=>reset()}
+						// className={style.btn}
+					// >
+						// reset
+					// </button>
+					}
 					<div onClick={()=>setModal(false)} className={style.btn}>Cancel</div>
 					{
 					formClass?
@@ -237,7 +254,7 @@ export default React.memo(function CreateClass({ setModal, modal }){
 					<button 
 						type="submit" 
 						className={style.btn} 
-						disabled={formStatus === reqStatus.processing || !isValid} 
+						disabled={(formStatus === reqStatus.processing) || !isValid || errArray.length} 
 					>
 						Submit
 					</button>

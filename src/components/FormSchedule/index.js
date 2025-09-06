@@ -5,63 +5,106 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import days from '../../utils/days'
 import PropTypes from 'prop-types'
 
-export default function FormSchedule({ 
+//get key by the value
+function getKey(obj, value){
+	
+	for(const key in obj){
+		if(obj[key] === value) return key;
+	}
+	
+}
+
+function FormSchedule({ 
 		fontSize,
 		register, 
-		unregister, 
-		schedule, 
+		unregister,
+		day,
+		time,
 		setValue, 
 		iSchedule,  
-		clearErrors
+		clearErrors,
+		setError,
+		error
 	}){
+		
+	day = day || "";
+	time = time || "";
+	const schedules = { day, time };
 	
-	function funcSetDay(e, index){
-		setValue(`schedules.${index}.day`,e.currentTarget.textContent, { shouldValidate: true })
+	//schedule registration
+	register(`schedules.${iSchedule}.time`);
+	register(`schedules.${iSchedule}.day`);
+	
+	function setScheduleValue(value, index, name){
+		
+		//set schedule value
+		setValue(`schedules.${index}.${name}`,value, { shouldValidate: true });
 	}
 	
 	function removeSchedule(){
+		
+		clearErrors(`schedules2.${iSchedule}`);
 		unregister(`schedules.${iSchedule}`)
 	}
-	function changeDay(e){
-		console.log(e.target.value)
-	}
+	
+	//set and clear error
 	React.useEffect(()=>{
-		if(schedule.day || schedule.time){
-			if(!schedule.day) {
-				register(`schedules.${iSchedule}.day`, val.day)
+		
+		if(Boolean(day) == Boolean(time)){
+			
+			if(error){
+				clearErrors(`schedules2.${iSchedule}`);
 			}
-			if(!schedule.time) {
-				register(`schedules.${iSchedule}.time`, val.time)
-			}
+			
+		}else{
+			
+			const key = getKey(schedules, day && time);
+			
+			setError(`schedules2.${iSchedule}.${key}`, {type: 'required', message: 'required'});
+			
 		}
 		
-	}, [register, schedule.day, schedule.time])
-	
-	React.useEffect(()=>{
-		register(`schedules.${iSchedule}.day`)
-	}, [register, iSchedule])
+	}, [day, time])
 	
 	return <div className={style.container}>
 									
 				<div className={`toggle ${style.input} ${style.dropdown} setOption`}>
 				
-					<span className={style.value}>{schedule.day||'Pilih hari'}</span>
+					<span className={style.value}>{day||'Pilih hari'}</span>
 				
 				</div>
+				{
 				<input 
 					type="time" 
-					className={style.input} 
-					{...register(`schedules.${iSchedule}.time`)} 
+					className={style.input}
+					value={time || ''}
+					onChange={e=>{
+						setScheduleValue(e.target.value, iSchedule, 'time')
+					}}
 				/>
+				}
+				{
+				// <input 
+					// type="time" 
+					// className={style.input}
+					// {...register(`schedules.${iSchedule}.time`)}
+				// />
+				}
 									
 				<FontAwesomeIcon onClick={removeSchedule} className={style.removeTime} icon="xmark" />
 									
 				<ul className={`${style.select} option`}>
+					<li
+						className={day===''?style.active:''} 
+						onClick={(e)=>setScheduleValue(e.currentTarget.textContent, iSchedule, 'day')}
+						>
+						{""}
+					</li>
 					{
 						days.map((e,i)=>{
 							return <li key={i} 
-							className={schedule.day===e?style.active:''} 
-							onClick={(e)=>funcSetDay(e,iSchedule)}
+							className={day===e?style.active:''} 
+							onClick={(e)=>setScheduleValue(e.currentTarget.textContent, iSchedule, 'day')}
 							>
 								{e}
 							</li>
@@ -71,6 +114,8 @@ export default function FormSchedule({
 									
 			</div>
 }
+
+export default React.memo(FormSchedule) 
 
 FormSchedule.propType = {
 	fontSize: PropTypes.string
