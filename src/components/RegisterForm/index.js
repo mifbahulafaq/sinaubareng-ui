@@ -39,7 +39,7 @@ export default function RegisterForm(){
 			const { data : signupData } = await signup(input);
 			
 			if(signupData.error){
-				
+				console.log(signupData)
 				if(signupData.field){
 					
 					const key = Object.keys(signupData.field)[0];
@@ -91,10 +91,10 @@ export default function RegisterForm(){
 					<FormControl width="100%" error={errors.gender?.message} >
 						<div className={style.gender}>
 						
-							<input {...register('gender', val.gender)} id='male' type='radio' value='Male' name='gender'/>
+							<input {...register('gender', val.gender)} id='male' type='radio' value='male' name='gender'/>
 							<label htmlFor='male'>Male</label>
 							
-							<input {...register('gender', val.gender)} id='female' type='radio' value='Female' name='gender'/>
+							<input {...register('gender', val.gender)} id='female' type='radio' value='female' name='gender'/>
 							<label htmlFor='female'>Female</label>
 							
 						</div>
